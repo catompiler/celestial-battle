@@ -639,7 +639,6 @@ unsigned int utf8string::operator[](int n) const
  *	_impl
  */
 
-//����� ������ � ��������
 size_t utf8string::utf8string_impl::length(const char* src)
 {
     size_t i = 0;
@@ -652,13 +651,11 @@ size_t utf8string::utf8string_impl::length(const char* src)
     return len;
 }
 
-//������ ������ � ������
 size_t utf8string::utf8string_impl::size(const char* src)
 {
     return strlen(src);
 }
 
-//������ n-�������� ������ � ������
 size_t utf8string::utf8string_impl::size(const char* src, size_t n)
 {
     size_t i = 0;
@@ -675,7 +672,6 @@ size_t utf8string::utf8string_impl::size(const char* src, size_t n)
     return i;
 }
 
-//���������� ������� n-�� ������� ������
 unsigned int utf8string::utf8string_impl::at(const char* src, int n)
 {
     const char* res_str = src + size(src, n);
@@ -684,7 +680,6 @@ unsigned int utf8string::utf8string_impl::at(const char* src, int n)
     return res;
 }
 
-//���������� n-������ �������� ������
 char* utf8string::utf8string_impl::str_skip(char* src, size_t n)
 {
     char* res = src + size(src, n);
@@ -692,7 +687,6 @@ char* utf8string::utf8string_impl::str_skip(char* src, size_t n)
     return res;
 }
 
-//���� �����, ������ const
 const char* utf8string::utf8string_impl::str_skip(const char* src, size_t n)
 {
     const char* res = src + size(src, n);
@@ -700,7 +694,6 @@ const char* utf8string::utf8string_impl::str_skip(const char* src, size_t n)
     return res;
 }
 
-//�������� ������ ��� ������ ������� s ����
 char* utf8string::utf8string_impl::str_alloc(size_t s)
 {
     char* res = new char[s + 1];
@@ -709,32 +702,27 @@ char* utf8string::utf8string_impl::str_alloc(size_t s)
     return res;
 }
 
-//����������� ������, ������� �������
 void utf8string::utf8string_impl::str_free(char* & src)
 {
     delete[] src;
     src = NULL;
 }
 
-//�������� ���� ������ � ������
 char* utf8string::utf8string_impl::str_copy(char* dst, const char* src)
 {
     return strcpy(dst, src);
 }
 
-//�������� s ���� ����� ������ � ������
 char* utf8string::utf8string_impl::str_copy(char* dst, const char* src, size_t s)
 {
     return strncpy(dst, src, s);
 }
 
-//�������� n �������� ����� ������ � ������
 char* utf8string::utf8string_impl::str_ncopy(char* dst, const char* src, size_t n)
 {
     return strncpy(dst,src,size(src, n));
 }
 
-//������ ����� ������
 char* utf8string::utf8string_impl::str_copy(const char* src)
 {
     size_t s = size(src);
@@ -743,7 +731,6 @@ char* utf8string::utf8string_impl::str_copy(const char* src)
     return str_copy(res, src, s);
 }
 
-//������ ���� ������ �������� s ����, �������� src_s ���� ������� ����������� � �� �� ��������� src_d ���� �� ������
 char* utf8string::utf8string_impl::str_realloc(char*& src, size_t s, size_t src_d, size_t src_s)
 {
     char* res = str_alloc(s);
@@ -758,19 +745,16 @@ char* utf8string::utf8string_impl::str_realloc(char*& src, size_t s, size_t src_
     return res;
 }
 
-//���������� ������
 bool utf8string::utf8string_impl::str_equal(const char* src, const char* dst)
 {
     return strcmp(src, dst) == 0;
 }
 
-//
 bool utf8string::utf8string_impl::str_empty(const char* src)
 {
     return src[0] == 0x0;
 }
 
-//
 char* utf8string::utf8string_impl::str_clear(char*& src)
 {
     if(str_empty(src))  return src;
@@ -780,7 +764,6 @@ char* utf8string::utf8string_impl::str_clear(char*& src)
     return src;
 }
 
-//������ ������ - ����� �����-����������
 char* utf8string::utf8string_impl::str_append(const char* src, const char* dst)
 {
     size_t src_s = size(src);
@@ -794,7 +777,6 @@ char* utf8string::utf8string_impl::str_append(const char* src, const char* dst)
     return res;
 }
 
-//������ ������ - ����� � �������� ������� �����-����������
 char* utf8string::utf8string_impl::str_prepend(const char* src, const char* dst)
 {
     size_t src_s = size(src);
@@ -808,7 +790,6 @@ char* utf8string::utf8string_impl::str_prepend(const char* src, const char* dst)
     return res;
 }
 
-//������� ������ - ����� ������ src � ����������� � �� �� ������� � pos �������� ������ dst
 char* utf8string::utf8string_impl::str_insert(const char* src, const char* dst, size_t npos)
 {
     size_t src_s = size(src);
@@ -824,19 +805,16 @@ char* utf8string::utf8string_impl::str_insert(const char* src, const char* dst, 
     return res;
 }
 
-//���� ���� ������ � ������
 char* utf8string::utf8string_impl::str_find(char* src, const char* dst)
 {
     return strstr(src, dst);
 }
 
-//�� ��, ������ const
 const char* utf8string::utf8string_impl::str_find(const char* src, const char* dst)
 {
     return strstr(src, dst);
 }
 
-//���� ���� ������ � ������
 int utf8string::utf8string_impl::str_indexof(const char* src, const char* dst)
 {
     const char* str = str_find(src, dst);
@@ -845,7 +823,6 @@ int utf8string::utf8string_impl::str_indexof(const char* src, const char* dst)
     return res;
 }
 
-//���� ��������� ��������� ����� ������ � ������
 int utf8string::utf8string_impl::str_lastindexof(const char* src, const char* dst)
 {
     const char* str = str_find(src, dst);
@@ -861,7 +838,6 @@ int utf8string::utf8string_impl::str_lastindexof(const char* src, const char* ds
     return res;
 }
 
-//������ ������ - ��������� ������ � ������ src ������ str ������� dst
 char* utf8string::utf8string_impl::str_replace(const char* src, const char* str, const char* dst)
 {
     const char* find_res = str_find(src, str);
@@ -902,28 +878,18 @@ char* utf8string::utf8string_impl::str_replaceall(const char* src, const char* s
 
 char* utf8string::utf8string_impl::str_remove(const char* src, size_t npos, size_t n)
 {
-    size_t src_s = size(src);//������ � ������
-    size_t src_l = length(src);//� ������
-    //�� ������� �� ������� �� ������� ������
+    size_t src_s = size(src);
+    size_t src_l = length(src);
     size_t dst_npos = src_l >= npos ? npos : src_l;
-    //�� ������� �� ����� �������
     size_t dst_n = src_l >= (npos + n) ? n : src_l >= npos ? src_l - npos : 0;
-    //������ � ������ �����
     const char* src_skip = str_skip(src, dst_npos);
-    //��������� �����
     const char* src_skip_skip = str_skip(src_skip, dst_n);
-    //������ ������
     size_t dst_s_npos = src_skip - src;
-    //������ �����
     size_t dst_s_end  = src + src_s - src_skip_skip;
-    //����� ������ ������ ������
     size_t dst_s = dst_s_npos + dst_s_end;
-    //��������� ������
     char* res = str_alloc(dst_s);
     
-    //������
     str_copy(res, src, dst_s_npos);
-    //�����
     str_copy(res + dst_s_npos, src_skip_skip, dst_s_end);
     
     return res;
@@ -965,7 +931,6 @@ char* utf8string::utf8string_impl::str_removeall(const char* src, const char* ds
     return res;
 }
 
-//������ ������ - n ������� ������ src �����
 char* utf8string::utf8string_impl::str_left(const char* src, size_t n)
 {
     size_t s = size(src,n);
@@ -976,7 +941,6 @@ char* utf8string::utf8string_impl::str_left(const char* src, size_t n)
     return res;
 }
 
-//������ ������ - n �������� ������ src, ������� � ������� npos
 char* utf8string::utf8string_impl::str_mid(const char* src, size_t npos, size_t n)
 {
     const char* skip_src = str_skip(src, npos);
@@ -988,7 +952,6 @@ char* utf8string::utf8string_impl::str_mid(const char* src, size_t npos, size_t 
     return res;
 }
 
-//������ ������ - n �������� ������ src ������
 char* utf8string::utf8string_impl::str_right(const char* src, size_t n)
 {
     size_t l = length(src);
