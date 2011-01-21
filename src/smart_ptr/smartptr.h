@@ -21,6 +21,8 @@ public:
     smart_ptr<T>& operator=(smart_ptr<T>& sptr);
     smart_ptr<T>& operator=(T* ptr);
 
+    void release();
+
 private:
     class Rep{
     public:
@@ -121,13 +123,22 @@ T& smart_ptr<T>::operator*()
     return _rep->operator*();
 }
 
+template <class T>
+void smart_ptr<T>::release()
+{
+    if(!_rep->release()){
+        _rep = new Rep();
+    }else{
+        _rep->operator=(NULL);
+    }
+}
 
 
 template <class T>
 smart_ptr<T>::Rep::Rep()
 {
     _ptr = NULL;
-    _links_count = 0;
+    _links_count = 1;
 }
 
 template <class T>
@@ -148,8 +159,10 @@ bool smart_ptr<T>::Rep::release()
 {
     if(_links_count > 0){
         if(--_links_count == 0){
-            delete _ptr;
-            _ptr = NULL;
+            if(_ptr != NULL){
+                delete _ptr;
+                _ptr = NULL;
+            }
             return true;
         }
     }else{
