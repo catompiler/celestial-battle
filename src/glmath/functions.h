@@ -3,7 +3,7 @@
 
 #include <math.h>
 #include <algorithm>
-/*#include "../exception/exception.h"
+/*#include "exception/exception.h"
 
 #include "vec2.h"
 #include "vec3.h"
@@ -14,6 +14,42 @@ vec4<T> operator*(const U& n, const vec4<T>& _v)
 {
     return _v * n;
 }*/
+
+template <class T>
+vec2<T> abs(const vec2<T>& v)
+{
+    vec2<T> res;
+
+    res.x = abs(v.x);
+    res.y = abs(v.y);
+    
+    return res;
+}
+
+template <class T>
+vec3<T> abs(const vec3<T>& v)
+{
+    vec3<T> res;
+
+    res.x = abs(v.x);
+    res.y = abs(v.y);
+    res.z = abs(v.z);
+
+    return res;
+}
+
+template <class T>
+vec4<T> abs(const vec4<T>& v)
+{
+    vec4<T> res;
+
+    res.x = abs(v.x);
+    res.y = abs(v.y);
+    res.z = abs(v.z);
+    res.w = abs(v.w);
+
+    return res;
+}
 
 template <class T>
 T radians(const T& degr)
@@ -40,7 +76,7 @@ T clamp(const T& x, const T& minVal, const T& maxVal)
 }
 
 template <class T, class U>
-quat<T> lerp(const T& _i1, const T& _i2, const U& t)
+T lerp(const T& _i1, const T& _i2, const U& t)
 {
     T res;
     
