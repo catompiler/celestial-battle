@@ -38,11 +38,13 @@ public:
     vec3<T>& operator+=(const vec3<T>& _v);
     vec3<T>& operator-=(const vec3<T>& _v);
     vec3<T>& operator*=(const vec3<T>& _v);
+    vec3<T>& operator/=(const vec3<T>& _v);
     vec3<T>& operator*=(const T& n);
     vec3<T>& operator/=(const T& n);
     vec3<T> operator+(const vec3<T>& _v) const;
     vec3<T> operator-(const vec3<T>& _v) const;
     vec3<T> operator*(const vec3<T>& _v) const;
+    vec3<T> operator/(const vec3<T>& _v) const;
     vec3<T> operator*(const T& n) const;
     vec3<T> operator/(const T& n) const;
 
@@ -191,6 +193,15 @@ vec3<T>& vec3<T>::operator*=(const vec3<T>& _v)
 }
 
 template <class T>
+vec3<T>& vec3<T>::operator/=(const vec3<T>& _v)
+{
+    x /= _v.x;
+    y /= _v.y;
+    z /= _v.z;
+    return *this;
+}
+
+template <class T>
 vec3<T>& vec3<T>::operator*=(const T& n)
 {
     x *= n;
@@ -229,6 +240,14 @@ vec3<T> vec3<T>::operator*(const vec3<T>& _v) const
 {
     vec3<T> res(*this);
     res *= _v;
+    return res;
+}
+
+template <class T>
+vec3<T> vec3<T>::operator/(const vec3<T>& _v) const
+{
+    vec3<T> res(*this);
+    res /= _v;
     return res;
 }
 

@@ -41,11 +41,13 @@ public:
     vec4<T>& operator+=(const vec4<T>& _v);
     vec4<T>& operator-=(const vec4<T>& _v);
     vec4<T>& operator*=(const vec4<T>& _v);
+    vec4<T>& operator/=(const vec4<T>& _v);
     vec4<T>& operator*=(const T& n);
     vec4<T>& operator/=(const T& n);
     vec4<T> operator+(const vec4<T>& _v) const;
     vec4<T> operator-(const vec4<T>& _v) const;
     vec4<T> operator*(const vec4<T>& _v) const;
+    vec4<T> operator/(const vec4<T>& _v) const;
     vec4<T> operator*(const T& n) const;
     vec4<T> operator/(const T& n) const;
 
@@ -212,6 +214,16 @@ vec4<T>& vec4<T>::operator*=(const vec4<T>& _v)
 }
 
 template <class T>
+vec4<T>& vec4<T>::operator/=(const vec4<T>& _v)
+{
+    x /= _v.x;
+    y /= _v.y;
+    z /= _v.z;
+    w /= _v.w;
+    return *this;
+}
+
+template <class T>
 vec4<T>& vec4<T>::operator*=(const T& n)
 {
     x *= n;
@@ -252,6 +264,14 @@ vec4<T> vec4<T>::operator*(const vec4<T>& _v) const
 {
     vec4<T> res(*this);
     res *= _v;
+    return res;
+}
+
+template <class T>
+vec4<T> vec4<T>::operator/(const vec4<T>& _v) const
+{
+    vec4<T> res(*this);
+    res /= _v;
     return res;
 }
 

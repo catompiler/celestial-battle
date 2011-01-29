@@ -32,11 +32,13 @@ public:
     vec2<T>& operator+=(const vec2<T>& _v);
     vec2<T>& operator-=(const vec2<T>& _v);
     vec2<T>& operator*=(const vec2<T>& _v);
+    vec2<T>& operator/=(const vec2<T>& _v);
     vec2<T>& operator*=(const T& n);
     vec2<T>& operator/=(const T& n);
     vec2<T> operator+(const vec2<T>& _v) const;
     vec2<T> operator-(const vec2<T>& _v) const;
     vec2<T> operator*(const vec2<T>& _v) const;
+    vec2<T> operator/(const vec2<T>& _v) const;
     vec2<T> operator*(const T& n) const;
     vec2<T> operator/(const T& n) const;
 
@@ -167,6 +169,14 @@ vec2<T>& vec2<T>::operator*=(const vec2<T>& _v)
 }
 
 template <class T>
+vec2<T>& vec2<T>::operator/=(const vec2<T>& _v)
+{
+    x /= _v.x;
+    y /= _v.y;
+    return *this;
+}
+
+template <class T>
 vec2<T>& vec2<T>::operator*=(const T& n)
 {
     x *= n;
@@ -203,6 +213,14 @@ vec2<T> vec2<T>::operator*(const vec2<T>& _v) const
 {
     vec2<T> res(*this);
     res *= _v;
+    return res;
+}
+
+template <class T>
+vec2<T> vec2<T>::operator/(const vec2<T>& _v) const
+{
+    vec2<T> res(*this);
+    res /= _v;
     return res;
 }
 
