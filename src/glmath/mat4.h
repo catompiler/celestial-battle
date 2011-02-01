@@ -66,7 +66,7 @@ public:
     static mat4<T> scaling(const vec3<T>& _v);
     static mat4<T> scaling(const T& scalex, const T& scaley, const T& scalez);
     static mat4<T> perspective(const T& fovy, const T& aspect, const T& znear, const T& zfar);
-    static mat4<T> ortho(const T& left, const T& right, const T& bottom, const T& top, const T& near, const T& far);
+    static mat4<T> ortho(const T& left_, const T& right_, const T& bottom_, const T& top_, const T& near_, const T& far_);
     static mat4<T> viewport(const T& x, const T& y, const T& width, const T& height, const T& zmin, const T& zmax);
     static mat4<T> lookat(const vec3<T>& eye, const vec3<T>& center, const vec3<T>& up);
     
@@ -480,15 +480,15 @@ mat4<T> mat4<T>::perspective(const T& fovy, const T& aspect, const T& znear, con
 }
 
 template <class T>
-mat4<T> mat4<T>::ortho(const T& left, const T& right, const T& bottom, const T& top, const T& near, const T& far)
+mat4<T> mat4<T>::ortho(const T& left_, const T& right_, const T& bottom_, const T& top_, const T& near_, const T& far_)
 {
     //http://www.opengl.org/sdk/docs/man/xhtml/glOrtho.xml
     
     mat4<T> res;
 
-    T r_l = right - left;
-    T t_b = top - bottom;
-    T f_n = far - near;
+    T r_l = right_ - left_;
+    T t_b = top_ - bottom_;
+    T f_n = far_ - near_;
 
                    res._12 = 0.0; res._13 = 0.0; res._14 = 0.0;
     res._21 = 0.0;                res._23 = 0.0; res._24 = 0.0;
@@ -499,9 +499,9 @@ mat4<T> mat4<T>::ortho(const T& left, const T& right, const T& bottom, const T& 
     res._22 = 2.0/t_b;
     res._33 = -2.0/f_n;
 
-    res._41 = -(right + left) / r_l;
-    res._42 = -(top + bottom) / t_b;
-    res._43 = -(far + near) / f_n;
+    res._41 = -(right_ + left_) / r_l;
+    res._42 = -(top_ + bottom_) / t_b;
+    res._43 = -(far_ + near_) / f_n;
     
     return res;
 }
