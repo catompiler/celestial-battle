@@ -65,6 +65,8 @@ namespace IO{
         typedef unsigned int openmode_t;
 
         virtual bool open(const ::String& fn, openmode_t om) = 0;
+        virtual bool close() = 0;
+        virtual datasize_t size() = 0;
     };
 
 }
