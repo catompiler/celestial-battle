@@ -67,7 +67,7 @@ namespace IO{
         virtual datasize_t size() = 0;
 
     protected:
-        virtual bool open(const ::String& fn, openmode_t om) = 0;
+        virtual bool open(const String& fn, openmode_t om) = 0;
         virtual bool close() = 0;
     };
 
