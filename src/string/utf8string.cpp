@@ -482,11 +482,11 @@ utf8string& utf8string::removeAll(const char* src)
 utf8string& utf8string::format(const char* fmt, ...)
 {
     char buf[utf8string_impl::max_format_buffer_size];
-    va_list vl;
+    ::va_list vl;
     
-    va_start(vl, fmt);
-    int res = vsprintf(buf, fmt, vl);
-    va_end(vl);
+    ::va_start(vl, fmt);
+    int res = ::vsprintf(buf, fmt, vl);
+    ::va_end(vl);
     if(res){
         if(_rep->release())delete _rep;
         _rep = new utf8string_rep(new utf8string_impl(buf));
@@ -653,7 +653,7 @@ size_t utf8string::utf8string_impl::length(const char* src)
 
 size_t utf8string::utf8string_impl::size(const char* src)
 {
-    return strlen(src);
+    return ::strlen(src);
 }
 
 size_t utf8string::utf8string_impl::size(const char* src, size_t n)
@@ -710,17 +710,17 @@ void utf8string::utf8string_impl::str_free(char* & src)
 
 char* utf8string::utf8string_impl::str_copy(char* dst, const char* src)
 {
-    return strcpy(dst, src);
+    return ::strcpy(dst, src);
 }
 
 char* utf8string::utf8string_impl::str_copy(char* dst, const char* src, size_t s)
 {
-    return strncpy(dst, src, s);
+    return ::strncpy(dst, src, s);
 }
 
 char* utf8string::utf8string_impl::str_ncopy(char* dst, const char* src, size_t n)
 {
-    return strncpy(dst,src,size(src, n));
+    return ::strncpy(dst,src,size(src, n));
 }
 
 char* utf8string::utf8string_impl::str_copy(const char* src)
@@ -1340,11 +1340,11 @@ utf8string::utf8string_impl& utf8string::utf8string_impl::removeAll(const char* 
 utf8string::utf8string_impl& utf8string::utf8string_impl::format(const char* fmt, ...)
 {
     char buf[max_format_buffer_size];
-    va_list vl;
+    ::va_list vl;
     
-    va_start(vl, fmt);
-    int res = vsprintf(buf, fmt, vl);
-    va_end(vl);
+    ::va_start(vl, fmt);
+    int res = ::vsprintf(buf, fmt, vl);
+    ::va_end(vl);
     if(res){
         str_free(_chars);
         _chars = str_alloc(static_cast<size_t>(res));
@@ -1362,7 +1362,7 @@ int utf8string::utf8string_impl::toInt(bool* isOk) const
 int utf8string::utf8string_impl::toInt(int base, bool* isOk) const
 {
     char* endPtr = NULL;
-    int res = static_cast<int>(strtol(_chars, &endPtr, base));
+    int res = static_cast<int>(::strtol(_chars, &endPtr, base));
     if(isOk != NULL){
         *isOk = ((endPtr - _chars) != 0);
     }
@@ -1372,7 +1372,7 @@ int utf8string::utf8string_impl::toInt(int base, bool* isOk) const
 float utf8string::utf8string_impl::toFloat(bool* isOk) const
 {
     char* endPtr = NULL;
-    float res = static_cast<int>(strtof(_chars, &endPtr));
+    float res = static_cast<int>(::strtof(_chars, &endPtr));
     if(isOk != NULL){
         *isOk = ((endPtr - _chars) != 0);
     }
@@ -1382,7 +1382,7 @@ float utf8string::utf8string_impl::toFloat(bool* isOk) const
 double utf8string::utf8string_impl::toDouble(bool* isOk) const
 {
     char* endPtr = NULL;
-    double res = static_cast<int>(strtod(_chars, &endPtr));
+    double res = static_cast<int>(::strtod(_chars, &endPtr));
     if(isOk != NULL){
         *isOk = ((endPtr - _chars) != 0);
     }

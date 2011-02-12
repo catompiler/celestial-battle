@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="src" displayName="src" projectFiles="true">
+      <logicalFolder name="exception" displayName="exception" projectFiles="true">
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glmath" displayName="glmath" projectFiles="true">
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/functions.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/glmath.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/mat2.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/mat3.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/mat4.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/plane.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/quat.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/vec2.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/vec3.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/vec4.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="global" displayName="global" projectFiles="true">
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/global/constants.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="io" displayName="io" projectFiles="true">
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/io/io.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="smart_ptr" displayName="smart_ptr" projectFiles="true">
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/smart_ptr/smartptr.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="string" displayName="string" projectFiles="true">
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.cpp</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.h</itemPath>
+      </logicalFolder>
+      <itemPath>/home/artem/devel/opengl/celestial-battle/src/main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>/home/artem/devel/opengl/celestial-battle/src</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../src/</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+  </confs>
+</configurationDescriptor>
