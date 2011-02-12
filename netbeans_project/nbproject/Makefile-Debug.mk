@@ -33,7 +33,8 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/exception/exception.o \
 	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/main.o \
-	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string/string.o
+	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string/string.o \
+	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.o
 
 # C Compiler Flags
 CFLAGS=
@@ -73,6 +74,11 @@ ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string/string.o: 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string/string.o /home/artem/devel/opengl/celestial-battle/src/string/string.cpp
+
+${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.o: nbproject/Makefile-${CND_CONF}.mk /home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/vfs
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.o /home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp
 
 # Subprojects
 .build-subprojects:
