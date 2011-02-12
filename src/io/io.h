@@ -63,10 +63,12 @@ namespace IO{
             enum value{Read = 1, Write = 2, Append = 4};
         };
         typedef unsigned int openmode_t;
+        
+        virtual datasize_t size() = 0;
 
+    protected:
         virtual bool open(const ::String& fn, openmode_t om) = 0;
         virtual bool close() = 0;
-        virtual datasize_t size() = 0;
     };
 
 }
