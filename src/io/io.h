@@ -10,18 +10,18 @@ namespace IO{
     typedef long int offset_t;
 
     struct SeekOrigin{
-        enum value{SEEK_BEGIN = 0, SEEK_CUR, SEEK_END};
+        enum value{Begin = 0, Current, End};
     };
     typedef SeekOrigin::value seekorigin_t;
 
     class Readable{
     public:
-        virtual bool read(void* data, datasize_t s) = 0;
+        virtual IO::datasize_t read(void* data, datasize_t s) = 0;
     };
 
     class Writable{
     public:
-        virtual bool write(void* data, datasize_t s) = 0;
+        virtual IO::datasize_t write(void* data, datasize_t s) = 0;
     };
 
     class RandomAccess{
@@ -60,7 +60,7 @@ namespace IO{
     {
     public:
         struct OpenMode{
-            enum value{Read = 1, Write = 2, Append = 4};
+            enum value{Read = 1, Write = 2, Append = 4, Truncate = 8, Binary = 16};
         };
         typedef unsigned int openmode_t;
         
