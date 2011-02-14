@@ -13,6 +13,11 @@ namespace IO{
         enum value{Begin = 0, Current, End};
     };
     typedef SeekOrigin::value seekorigin_t;
+    
+    struct OpenMode{
+        enum value{Read = 1, Write = 2, Append = 4, Truncate = 8, Binary = 16};
+    };
+    typedef unsigned int openmode_t;
 
     class Readable{
     public:
@@ -59,10 +64,6 @@ namespace IO{
         :virtual public RandomReadableWritable
     {
     public:
-        struct OpenMode{
-            enum value{Read = 1, Write = 2, Append = 4, Truncate = 8, Binary = 16};
-        };
-        typedef unsigned int openmode_t;
         
         virtual datasize_t size() = 0;
 

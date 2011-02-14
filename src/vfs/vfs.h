@@ -3,8 +3,8 @@
 
 #include "io/io.h"
 #include "string/string.h"
+#include <cstdio>
 
-struct _IO_FILE;
 
 class VFS {
 public:
@@ -16,7 +16,7 @@ public:
         File();
         ~File();
 
-        bool open(const String& fn, IO::File::openmode_t om);
+        bool open(const String& fn, IO::openmode_t om);
         bool close();
 
         IO::datasize_t size();
@@ -28,7 +28,7 @@ public:
         IO::datasize_t write(void* data, IO::datasize_t s);
 
     private:
-        _IO_FILE* _f;
+        FILE* _f;
     };
 
     VFS();

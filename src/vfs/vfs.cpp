@@ -1,6 +1,6 @@
 #include "vfs.h"
 #include "glmath/mat2.h"
-#include <cstdio>
+//#include <cstdio>
 
 /*
  * File
@@ -18,18 +18,19 @@ VFS::File::~File()
     }
 }
 
-bool VFS::File::open(const String& fn, IO::File::openmode_t om)
+bool VFS::File::open(const String& fn, IO::openmode_t om)
 {
     char md[4] = {0};
     int i = 0;
 
-    if(om & IO::File::OpenMode::Append){
+    /*if(om & IO::File::OpenMode::Append){
         md[i++]='a';
         if(om & IO::File::OpenMode::Read){
             md[i++]='+';
         }
     }else{
-        if(om & IO::File::OpenMode::Truncate){
+        if(om & IO::File::OpenMode::Truncate ||
+           om & IO::File::OpenMode::Write){
             md[i++]='w';
             if(om & IO::File::OpenMode::Read){
                 md[i++]='+';
@@ -40,9 +41,31 @@ bool VFS::File::open(const String& fn, IO::File::openmode_t om)
                 md[i++]='+';
             }
         }
+    }*/
+// rwa+
+    
+    if(om & IO::OpenMode::Truncate){
+        md[i++] = 'w';
+        if(om & IO::OpenMode::Read){
+            md[i++] = '+';
+        }
+    }else if(om & IO::OpenMode::Append){
+        md[i++] = 'a';
+        if(om & IO::OpenMode::Read){
+            md[i++] = '+';
+        }
+    }else if(om & IO::OpenMode::Write){
+        if(om & IO::OpenMode::Read){
+            md[i++] = 'r';
+            md[i++] = '+';
+        }else{
+            md[i++] = 'w';
+        }
+    }else{// if(om & IO::OpenMode::Read){
+        md[i++] = 'r';
     }
 
-    if(om & IO::File::OpenMode::Binary){
+    if(om & IO::OpenMode::Binary){
         md[i++]='b';
     }
 
