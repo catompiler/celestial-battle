@@ -1,8 +1,8 @@
 #ifndef _DATASTREAM_H_
 #define _DATASTREAM_H_
 
-#include "stream/datainputstream.h"
-#include "stream/dataoutputstream.h"
+#include "datainputstream.h"
+#include "dataoutputstream.h"
 #include "io/io.h"
 
 class DataStream
