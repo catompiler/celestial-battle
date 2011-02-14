@@ -505,6 +505,16 @@ int utf8string::toInt(int base, bool* isOk) const
     return _rep->_data->toInt(base, isOk);
 }
 
+unsigned int utf8string::toUint(bool* isOk) const
+{
+    return _rep->_data->toUint(isOk);
+}
+
+unsigned int utf8string::toUint(int base, bool* isOk) const
+{
+    return _rep->_data->toUint(base, isOk);
+}
+
 float utf8string::toFloat(bool* isOk) const
 {
     return _rep->_data->toFloat(isOk);
@@ -517,6 +527,14 @@ double utf8string::toDouble(bool* isOk) const
 
 
 utf8string& utf8string::setNum(int n)
+{
+    _modify_rep(_rep);
+    _rep->_data->setNum(n);
+    
+    return *this;
+}
+
+utf8string& utf8string::setNum(unsigned int n)
 {
     _modify_rep(_rep);
     _rep->_data->setNum(n);
@@ -542,6 +560,14 @@ utf8string& utf8string::setNum(double n)
 
 
 utf8string utf8string::number(int n)
+{
+    utf8string_impl* impl = new utf8string_impl(utf8string_impl::number(n));
+    utf8string res(*impl);
+    
+    return res;
+}
+
+utf8string utf8string::number(unsigned int n)
 {
     utf8string_impl* impl = new utf8string_impl(utf8string_impl::number(n));
     utf8string res(*impl);
@@ -1369,6 +1395,21 @@ int utf8string::utf8string_impl::toInt(int base, bool* isOk) const
     return res;
 }
 
+unsigned int utf8string::utf8string_impl::toUint(bool* isOk) const
+{
+    return toUint(10, isOk);
+}
+
+unsigned int utf8string::utf8string_impl::toUint(int base, bool* isOk) const
+{
+    char* endPtr = NULL;
+    unsigned int res = static_cast<unsigned int>(::strtoul(_chars, &endPtr, base));
+    if(isOk != NULL){
+        *isOk = ((endPtr - _chars) != 0);
+    }
+    return res;
+}
+
 float utf8string::utf8string_impl::toFloat(bool* isOk) const
 {
     char* endPtr = NULL;
@@ -1394,6 +1435,11 @@ utf8string::utf8string_impl& utf8string::utf8string_impl::setNum(int n)
     return format("%d",n);
 }
 
+utf8string::utf8string_impl& utf8string::utf8string_impl::setNum(unsigned int n)
+{
+    return format("%u",n);
+}
+
 utf8string::utf8string_impl& utf8string::utf8string_impl::setNum(float n)
 {
     return format("%f",n);
@@ -1405,6 +1451,15 @@ utf8string::utf8string_impl& utf8string::utf8string_impl::setNum(double n)
 }
 
 utf8string::utf8string_impl utf8string::utf8string_impl::number(int n)
+{
+    utf8string_impl res;
+    
+    res.setNum(n);
+    
+    return res;
+}
+
+utf8string::utf8string_impl utf8string::utf8string_impl::number(unsigned int n)
 {
     utf8string_impl res;
     

@@ -2,6 +2,7 @@
 #define	_IO_H
 
 #include <stddef.h>
+#include <stdint.h>
 #include "string/string.h"
 
 namespace IO{
@@ -72,6 +73,32 @@ namespace IO{
         virtual bool close() = 0;
     };
 
+    class InputStream{
+    public:
+        virtual InputStream& operator>>(int8_t& data) = 0;
+        virtual InputStream& operator>>(uint8_t& data) = 0;
+        virtual InputStream& operator>>(int16_t& data) = 0;
+        virtual InputStream& operator>>(uint16_t& data) = 0;
+        virtual InputStream& operator>>(int32_t& data) = 0;
+        virtual InputStream& operator>>(uint32_t& data) = 0;
+        virtual InputStream& operator>>(int64_t& data) = 0;
+        virtual InputStream& operator>>(uint64_t& data) = 0;
+        virtual InputStream& operator>>(float& data) = 0;
+        virtual InputStream& operator>>(double& data) = 0;
+        virtual InputStream& operator>>(char* const data) = 0;
+        virtual InputStream& operator>>(unsigned char* const data) = 0;
+    };
+    
+    class OutputStream{
+    public:
+    };
+    
+    class Stream
+        :virtual public InputStream,
+         virtual public OutputStream
+    {
+    };
+    
 }
 
 #endif	/* _IO_H */

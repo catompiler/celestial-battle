@@ -64,13 +64,17 @@ public:
 
     int toInt(bool* isOk = NULL) const;
     int toInt(int base, bool* isOk = NULL) const;
+    unsigned int toUint(bool* isOk = NULL) const;
+    unsigned int toUint(int base, bool* isOk = NULL) const;
     float toFloat(bool* isOk = NULL) const;
     double toDouble(bool* isOk = NULL) const;
 
     utf8string& setNum(int n);
+    utf8string& setNum(unsigned int n);
     utf8string& setNum(float n);
     utf8string& setNum(double n);
 
+    static utf8string number(unsigned int n);
     static utf8string number(int n);
     static utf8string number(float n);
     static utf8string number(double n);
@@ -228,15 +232,19 @@ private:
         utf8string_impl& format(const char* fmt, ...);
         
         int toInt(bool* isOk = NULL) const;
-        int toInt(int base, bool* isOk = NULL) const;
+        int toInt(int base, bool* isOk = NULL) const;        
+        unsigned int toUint(bool* isOk = NULL) const;
+        unsigned int toUint(int base, bool* isOk = NULL) const;
         float toFloat(bool* isOk = NULL) const;
         double toDouble(bool* isOk = NULL) const;
         
         utf8string_impl& setNum(int n);
+        utf8string_impl& setNum(unsigned int n);
         utf8string_impl& setNum(float n);
         utf8string_impl& setNum(double n);
         
         static utf8string_impl number(int n);
+        static utf8string_impl number(unsigned int n);
         static utf8string_impl number(float n);
         static utf8string_impl number(double n);
         
