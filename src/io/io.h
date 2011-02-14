@@ -91,6 +91,18 @@ namespace IO{
     
     class OutputStream{
     public:
+        virtual OutputStream& operator<<(int8_t& data) = 0;
+        virtual OutputStream& operator<<(uint8_t& data) = 0;
+        virtual OutputStream& operator<<(int16_t& data) = 0;
+        virtual OutputStream& operator<<(uint16_t& data) = 0;
+        virtual OutputStream& operator<<(int32_t& data) = 0;
+        virtual OutputStream& operator<<(uint32_t& data) = 0;
+        virtual OutputStream& operator<<(int64_t& data) = 0;
+        virtual OutputStream& operator<<(uint64_t& data) = 0;
+        virtual OutputStream& operator<<(float& data) = 0;
+        virtual OutputStream& operator<<(double& data) = 0;
+        virtual OutputStream& operator<<(char* const data) = 0;
+        virtual OutputStream& operator<<(unsigned char* const data) = 0;
     };
     
     class Stream
