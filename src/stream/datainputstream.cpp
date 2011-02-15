@@ -10,7 +10,7 @@ DataInputStream::~DataInputStream()
 {
 }
 
-DataInputStream::DataOutputStream& operator>>(int8_t& data)
+DataInputStream& DataInputStream::operator>>(int8_t& data)
 {
     _r->read(&data, sizeof(data));
     return *this;
@@ -72,7 +72,7 @@ DataInputStream& DataInputStream::operator>>(double& data)
 
 DataInputStream& DataInputStream::operator>>(char* const data)
 {
-    return operator>>(static_cast<unsigned char* const>(data));
+    return operator>>(reinterpret_cast<unsigned char* const>(data));
 }
 
 DataInputStream& DataInputStream::operator>>(unsigned char* const data)

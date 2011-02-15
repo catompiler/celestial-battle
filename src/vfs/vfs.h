@@ -25,7 +25,7 @@ public:
         IO::offset_t tell();
         
         IO::datasize_t read(void* data, IO::datasize_t s);
-        IO::datasize_t write(void* data, IO::datasize_t s);
+        IO::datasize_t write(const void* data, IO::datasize_t s);
 
     private:
         FILE* _f;

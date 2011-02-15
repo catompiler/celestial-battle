@@ -84,73 +84,73 @@ DataStream& DataStream::operator>>(unsigned char* const data)
 }
 
 
-DataStream& DataStream::operator<<(int8_t& data)
+DataStream& DataStream::operator<<(const int8_t& data)
 {
     DataOutputStream::operator<<(data);
     return *this;
 }
 
-DataStream& DataStream::operator<<(uint8_t& data)
+DataStream& DataStream::operator<<(const uint8_t& data)
 {
     DataOutputStream::operator<<(data);
     return *this;
 }
 
-DataStream& DataStream::operator<<(int16_t& data)
+DataStream& DataStream::operator<<(const int16_t& data)
 {
     DataOutputStream::operator<<(data);
     return *this;
 }
 
-DataStream& DataStream::operator<<(uint16_t& data)
+DataStream& DataStream::operator<<(const uint16_t& data)
 {
     DataOutputStream::operator<<(data);
     return *this;
 }
 
-DataStream& DataStream::operator<<(int32_t& data)
+DataStream& DataStream::operator<<(const int32_t& data)
 {
     DataOutputStream::operator<<(data);
     return *this;
 }
 
-DataStream& DataStream::operator<<(uint32_t& data)
+DataStream& DataStream::operator<<(const uint32_t& data)
 {
     DataOutputStream::operator<<(data);
     return *this;
 }
 
-DataStream& DataStream::operator<<(int64_t& data)
+DataStream& DataStream::operator<<(const int64_t& data)
 {
     DataOutputStream::operator<<(data);
     return *this;
 }
 
-DataStream& DataStream::operator<<(uint64_t& data)
+DataStream& DataStream::operator<<(const uint64_t& data)
 {
     DataOutputStream::operator<<(data);
     return *this;
 }
 
-DataStream& DataStream::operator<<(float& data)
+DataStream& DataStream::operator<<(const float& data)
 {
     DataOutputStream::operator<<(data);
     return *this;
 }
 
-DataStream& DataStream::operator<<(double& data)
+DataStream& DataStream::operator<<(const double& data)
 {
     DataOutputStream::operator<<(data);
     return *this;
 }
 
-DataStream& DataStream::operator<<(char* const data)
+DataStream& DataStream::operator<<(const char* const data)
 {
     DataOutputStream::operator<<(data);
     return *this;
 }
 
-DataStream& DataStream::operator<<(unsigned char* const data)
+DataStream& DataStream::operator<<(const unsigned char* const data)
 {
     DataOutputStream::operator<<(data);
     return *this;

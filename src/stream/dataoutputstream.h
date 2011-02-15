@@ -10,18 +10,18 @@ public:
     DataOutputStream(IO::Writable* w);
     ~DataOutputStream();
 
-    DataOutputStream& operator<<(int8_t& data);
-    DataOutputStream& operator<<(uint8_t& data);
-    DataOutputStream& operator<<(int16_t& data);
-    DataOutputStream& operator<<(uint16_t& data);
-    DataOutputStream& operator<<(int32_t& data);
-    DataOutputStream& operator<<(uint32_t& data);
-    DataOutputStream& operator<<(int64_t& data);
-    DataOutputStream& operator<<(uint64_t& data);
-    DataOutputStream& operator<<(float& data);
-    DataOutputStream& operator<<(double& data);
-    DataOutputStream& operator<<(char* const data);
-    DataOutputStream& operator<<(unsigned char* const data);
+    DataOutputStream& operator<<(const int8_t& data);
+    DataOutputStream& operator<<(const uint8_t& data);
+    DataOutputStream& operator<<(const int16_t& data);
+    DataOutputStream& operator<<(const uint16_t& data);
+    DataOutputStream& operator<<(const int32_t& data);
+    DataOutputStream& operator<<(const uint32_t& data);
+    DataOutputStream& operator<<(const int64_t& data);
+    DataOutputStream& operator<<(const uint64_t& data);
+    DataOutputStream& operator<<(const float& data);
+    DataOutputStream& operator<<(const double& data);
+    DataOutputStream& operator<<(const char* const data);
+    DataOutputStream& operator<<(const unsigned char* const data);
 
 protected:
     IO::Writable* _w;

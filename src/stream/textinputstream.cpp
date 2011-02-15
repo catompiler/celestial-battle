@@ -10,7 +10,7 @@ TextInputStream::~TextInputStream()
 {
 }
 
-TextInputStream::TextOutputStream& operator>>(int8_t& text)
+TextInputStream& TextInputStream::operator>>(int8_t& text)
 {
     _r->read(&text, sizeof(text));
     return *this;
@@ -72,7 +72,7 @@ TextInputStream& TextInputStream::operator>>(double& text)
 
 TextInputStream& TextInputStream::operator>>(char* const text)
 {
-    return operator>>(static_cast<unsigned char* const>(text));
+    return operator>>(reinterpret_cast<unsigned char* const>(text));
 }
 
 TextInputStream& TextInputStream::operator>>(unsigned char* const text)

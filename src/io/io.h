@@ -27,7 +27,7 @@ namespace IO{
 
     class Writable{
     public:
-        virtual IO::datasize_t write(void* data, datasize_t s) = 0;
+        virtual IO::datasize_t write(const void* data, datasize_t s) = 0;
     };
 
     class RandomAccess{
@@ -91,18 +91,18 @@ namespace IO{
     
     class OutputStream{
     public:
-        virtual OutputStream& operator<<(int8_t& data) = 0;
-        virtual OutputStream& operator<<(uint8_t& data) = 0;
-        virtual OutputStream& operator<<(int16_t& data) = 0;
-        virtual OutputStream& operator<<(uint16_t& data) = 0;
-        virtual OutputStream& operator<<(int32_t& data) = 0;
-        virtual OutputStream& operator<<(uint32_t& data) = 0;
-        virtual OutputStream& operator<<(int64_t& data) = 0;
-        virtual OutputStream& operator<<(uint64_t& data) = 0;
-        virtual OutputStream& operator<<(float& data) = 0;
-        virtual OutputStream& operator<<(double& data) = 0;
-        virtual OutputStream& operator<<(char* const data) = 0;
-        virtual OutputStream& operator<<(unsigned char* const data) = 0;
+        virtual OutputStream& operator<<(const int8_t& data) = 0;
+        virtual OutputStream& operator<<(const uint8_t& data) = 0;
+        virtual OutputStream& operator<<(const int16_t& data) = 0;
+        virtual OutputStream& operator<<(const uint16_t& data) = 0;
+        virtual OutputStream& operator<<(const int32_t& data) = 0;
+        virtual OutputStream& operator<<(const uint32_t& data) = 0;
+        virtual OutputStream& operator<<(const int64_t& data) = 0;
+        virtual OutputStream& operator<<(const uint64_t& data) = 0;
+        virtual OutputStream& operator<<(const float& data) = 0;
+        virtual OutputStream& operator<<(const double& data) = 0;
+        virtual OutputStream& operator<<(const char* const data) = 0;
+        virtual OutputStream& operator<<(const unsigned char* const data) = 0;
     };
     
     class Stream

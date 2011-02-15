@@ -68,7 +68,7 @@ bool VFS::File::open(const String& fn, IO::openmode_t om)
     if(om & IO::OpenMode::Binary){
         md[i++]='b';
     }
-
+    //fprintf(stdout,md);
     _f = fopen(fn.c_str(), md);
 
     return _f != NULL;
@@ -130,7 +130,7 @@ IO::datasize_t VFS::File::read(void* data, IO::datasize_t s)
     return 0;
 }
 
-IO::datasize_t VFS::File::write(void* data, IO::datasize_t s)
+IO::datasize_t VFS::File::write(const void* data, IO::datasize_t s)
 {
     if(fwrite(data, s, 1, _f) == 1){
         return s;

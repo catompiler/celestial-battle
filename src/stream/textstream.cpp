@@ -84,73 +84,73 @@ TextStream& TextStream::operator>>(unsigned char* const text)
 }
 
 
-TextStream& TextStream::operator<<(int8_t& text)
+TextStream& TextStream::operator<<(const int8_t& text)
 {
     TextOutputStream::operator<<(text);
     return *this;
 }
 
-TextStream& TextStream::operator<<(uint8_t& text)
+TextStream& TextStream::operator<<(const uint8_t& text)
 {
     TextOutputStream::operator<<(text);
     return *this;
 }
 
-TextStream& TextStream::operator<<(int16_t& text)
+TextStream& TextStream::operator<<(const int16_t& text)
 {
     TextOutputStream::operator<<(text);
     return *this;
 }
 
-TextStream& TextStream::operator<<(uint16_t& text)
+TextStream& TextStream::operator<<(const uint16_t& text)
 {
     TextOutputStream::operator<<(text);
     return *this;
 }
 
-TextStream& TextStream::operator<<(int32_t& text)
+TextStream& TextStream::operator<<(const int32_t& text)
 {
     TextOutputStream::operator<<(text);
     return *this;
 }
 
-TextStream& TextStream::operator<<(uint32_t& text)
+TextStream& TextStream::operator<<(const uint32_t& text)
 {
     TextOutputStream::operator<<(text);
     return *this;
 }
 
-TextStream& TextStream::operator<<(int64_t& text)
+TextStream& TextStream::operator<<(const int64_t& text)
 {
     TextOutputStream::operator<<(text);
     return *this;
 }
 
-TextStream& TextStream::operator<<(uint64_t& text)
+TextStream& TextStream::operator<<(const uint64_t& text)
 {
     TextOutputStream::operator<<(text);
     return *this;
 }
 
-TextStream& TextStream::operator<<(float& text)
+TextStream& TextStream::operator<<(const float& text)
 {
     TextOutputStream::operator<<(text);
     return *this;
 }
 
-TextStream& TextStream::operator<<(double& text)
+TextStream& TextStream::operator<<(const double& text)
 {
     TextOutputStream::operator<<(text);
     return *this;
 }
 
-TextStream& TextStream::operator<<(char* const text)
+TextStream& TextStream::operator<<(const char* const text)
 {
     TextOutputStream::operator<<(text);
     return *this;
 }
 
-TextStream& TextStream::operator<<(unsigned char* const text)
+TextStream& TextStream::operator<<(const unsigned char* const text)
 {
     TextOutputStream::operator<<(text);
     return *this;
