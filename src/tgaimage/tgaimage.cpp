@@ -28,7 +28,7 @@ int loadTGAImage(const char* fileName, Image* img)
     std::ifstream file(fileName, std::ios::in | std::ios::binary);
 
     if(!file){
-        std::cout << "File not opened: " << fileName << std::cout;
+        //std::cout << "File not opened: " << fileName << std::endl;
         return 0;
     }
 
