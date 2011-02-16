@@ -246,7 +246,7 @@ vec4<T>& vec4<T>::operator/=(const T& n)
 template <class U>
 vec4<U> operator+(const vec4<U>& _v1, const vec4<U>& _v2)
 {
-    vec4<U> res(*_v1);
+    vec4<U> res(_v1);
     res += _v2;
     return res;
 }
@@ -254,7 +254,7 @@ vec4<U> operator+(const vec4<U>& _v1, const vec4<U>& _v2)
 template <class U>
 vec4<U> operator-(const vec4<U>& _v1, const vec4<U>& _v2)
 {
-    vec4<U> res(*_v1);
+    vec4<U> res(_v1);
     res -= _v2;
     return res;
 }
@@ -262,7 +262,7 @@ vec4<U> operator-(const vec4<U>& _v1, const vec4<U>& _v2)
 template <class U>
 vec4<U> operator*(const vec4<U>& _v1, const vec4<U>& _v2)
 {
-    vec4<U> res(*_v1);
+    vec4<U> res(_v1);
     res *= _v2;
     return res;
 }
@@ -270,7 +270,7 @@ vec4<U> operator*(const vec4<U>& _v1, const vec4<U>& _v2)
 template <class U>
 vec4<U> operator/(const vec4<U>& _v1, const vec4<U>& _v2)
 {
-    vec4<U> res(*_v1);
+    vec4<U> res(_v1);
     res /= _v2;
     return res;
 }
@@ -278,7 +278,7 @@ vec4<U> operator/(const vec4<U>& _v1, const vec4<U>& _v2)
 template <class U, class N>
 vec4<U> operator*(const vec4<U>& _v, const N& n)
 {
-    vec4<U> res(*_v);
+    vec4<U> res(_v);
     res *= n;
     return res;
 }
@@ -287,7 +287,7 @@ vec4<U> operator*(const vec4<U>& _v, const N& n)
 template <class U, class N>
 vec4<U> operator/(const vec4<U>& _v, const N& n)
 {
-    vec4<U> res(*_v);
+    vec4<U> res(_v);
     res /= n;
     return res;
 }

@@ -298,7 +298,7 @@ mat4<T>& mat4<T>::operator/=(const T& n)
 template <class U>
 mat4<U> operator+(const mat4<U>& _m1, const mat4<U>& _m2)
 {
-    mat4<U> res(*_m1);
+    mat4<U> res(_m1);
     res += _m2;
     return res;
 }
@@ -306,7 +306,7 @@ mat4<U> operator+(const mat4<U>& _m1, const mat4<U>& _m2)
 template <class U>
 mat4<U> operator-(const mat4<U>& _m1, const mat4<U>& _m2)
 {
-    mat4<U> res(*_m1);
+    mat4<U> res(_m1);
     res -= _m2;
     return res;
 }
@@ -314,7 +314,7 @@ mat4<U> operator-(const mat4<U>& _m1, const mat4<U>& _m2)
 template <class U>
 mat4<U> operator*(const mat4<U>& _m1, const mat4<U>& _m2)
 {
-    mat4<U> res(*_m1);
+    mat4<U> res(_m1);
     res *= _m2;
     return res;
 }
@@ -322,7 +322,7 @@ mat4<U> operator*(const mat4<U>& _m1, const mat4<U>& _m2)
 template <class U, class N>
 mat4<U> operator*(const mat4<U>& _m, const N& n)
 {
-    mat4<U> res(*_m);
+    mat4<U> res(_m);
     res *= n;
     return res;
 }
@@ -330,7 +330,7 @@ mat4<U> operator*(const mat4<U>& _m, const N& n)
 template <class U, class N>
 mat4<U> operator/(const mat4<U>& _m, const N& n)
 {
-    mat4<U> res(*_m);
+    mat4<U> res(_m);
     res /= n;
     return res;
 }

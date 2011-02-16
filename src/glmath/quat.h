@@ -300,7 +300,7 @@ quat<T>& quat<T>::operator/=(const T& n)
 template <class U>
 quat<U> operator+(const quat<U>& _q1, const quat<U>& _q2)
 {
-    quat<U> res(*_q1);
+    quat<U> res(_q1);
     res += _q2;
     return res;
 }
@@ -308,7 +308,7 @@ quat<U> operator+(const quat<U>& _q1, const quat<U>& _q2)
 template <class U>
 quat<U> operator-(const quat<U>& _q1, const quat<U>& _q2)
 {
-    quat<U> res(*_q1);
+    quat<U> res(_q1);
     res -= _q2;
     return res;
 }
@@ -316,7 +316,7 @@ quat<U> operator-(const quat<U>& _q1, const quat<U>& _q2)
 template <class U>
 quat<U> operator*(const quat<U>& _q1, const quat<U>& _q2)
 {
-    quat<U> res(*_q1);
+    quat<U> res(_q1);
     res *= _q2;
     return res;
 }
@@ -324,7 +324,7 @@ quat<U> operator*(const quat<U>& _q1, const quat<U>& _q2)
 template <class U, class N>
 quat<U> operator*(const quat<U>& _q, const N& n)
 {
-    quat<U> res(*_q);
+    quat<U> res(_q);
     res *= n;
     return res;
 }
@@ -332,7 +332,7 @@ quat<U> operator*(const quat<U>& _q, const N& n)
 template <class U, class N>
 quat<U> operator/(const quat<U>& _q, const N& n)
 {
-    quat<U> res(*_q);
+    quat<U> res(_q);
     res /= n;
     return res;
 }
