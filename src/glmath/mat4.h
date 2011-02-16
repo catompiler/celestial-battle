@@ -46,11 +46,11 @@ public:
     mat4<T>& operator*=(const mat4<T>& _m);
     mat4<T>& operator*=(const T& n);
     mat4<T>& operator/=(const T& n);
-    mat4<T> operator+(const mat4<T>& _m) const;
-    mat4<T> operator-(const mat4<T>& _m) const;
-    mat4<T> operator*(const mat4<T>& _m) const;
-    mat4<T> operator*(const T& n) const;
-    mat4<T> operator/(const T& n) const;
+    template <class U> friend mat4<U> operator+(const mat4<U>& _m1, const mat4<U>& _m2);
+    template <class U> friend mat4<U> operator-(const mat4<U>& _m1, const mat4<U>& _m2);
+    template <class U> friend mat4<U> operator*(const mat4<U>& _m1, const mat4<U>& _m2);
+    template <class U, class N> friend mat4<U> operator*(const mat4<U>& _m, const N& n);
+    template <class U, class N> friend mat4<U> operator/(const mat4<U>& _m, const N& n);
     
     template <class U> friend vec4<U>& operator*=(vec4<U>& _v, const mat4<U>& _m);
     template <class U> friend vec4<U> operator*(const vec4<U>& _v, const mat4<U>& _m);
@@ -295,45 +295,46 @@ mat4<T>& mat4<T>::operator/=(const T& n)
     return *this;
 }
 
-template <class T>
-mat4<T> mat4<T>::operator+(const mat4<T>& _m) const
+template <class U>
+mat4<U> operator+(const mat4<U>& _m1, const mat4<U>& _m2)
 {
-    mat4<T> res(*this);
-    res += _m;
+    mat4<U> res(*_m1);
+    res += _m2;
     return res;
 }
 
-template <class T>
-mat4<T> mat4<T>::operator-(const mat4<T>& _m) const
+template <class U>
+mat4<U> operator-(const mat4<U>& _m1, const mat4<U>& _m2)
 {
-    mat4<T> res(*this);
-    res -= _m;
+    mat4<U> res(*_m1);
+    res -= _m2;
     return res;
 }
 
-template <class T>
-mat4<T> mat4<T>::operator*(const mat4<T>& _m) const
+template <class U>
+mat4<U> operator*(const mat4<U>& _m1, const mat4<U>& _m2)
 {
-    mat4<T> res(*this);
-    res *= _m;
+    mat4<U> res(*_m1);
+    res *= _m2;
     return res;
 }
 
-template <class T>
-mat4<T> mat4<T>::operator*(const T& n) const
+template <class U, class N>
+mat4<U> operator*(const mat4<U>& _m, const N& n)
 {
-    mat4<T> res(*this);
+    mat4<U> res(*_m);
     res *= n;
     return res;
 }
 
-template <class T>
-mat4<T> mat4<T>::operator/(const T& n) const
+template <class U, class N>
+mat4<U> operator/(const mat4<U>& _m, const N& n)
 {
-    mat4<T> res(*this);
+    mat4<U> res(*_m);
     res /= n;
     return res;
 }
+
 
 template <class T>
 mat4<T> mat4<T>::identity()

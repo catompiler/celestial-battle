@@ -35,14 +35,14 @@ public:
     vec2<T>& operator/=(const vec2<T>& _v);
     vec2<T>& operator*=(const T& n);
     vec2<T>& operator/=(const T& n);
-    vec2<T> operator+(const vec2<T>& _v) const;
-    vec2<T> operator-(const vec2<T>& _v) const;
-    vec2<T> operator*(const vec2<T>& _v) const;
-    vec2<T> operator/(const vec2<T>& _v) const;
-    vec2<T> operator*(const T& n) const;
-    vec2<T> operator/(const T& n) const;
+    template <class U> friend vec2<U> operator+(const vec2<U>& _v1, const vec2<U>& _v2);
+    template <class U> friend vec2<U> operator-(const vec2<U>& _v1, const vec2<U>& _v2);
+    template <class U> friend vec2<U> operator*(const vec2<U>& _v1, const vec2<U>& _v2);
+    template <class U> friend vec2<U> operator/(const vec2<U>& _v1, const vec2<U>& _v2);
+    template <class U, class N> friend vec2<U> operator*(const vec2<U>& _v, const N& n);
+    template <class U, class N> friend vec2<U> operator/(const vec2<U>& _v, const N& n);
 
-    template <class V, class U> friend vec2<V> operator*(const U& n, const vec2<V>& _v);
+    template <class U, class N> friend vec2<U> operator*(const N& n, const vec2<U>& _v);
 
     union{
         T v[components_count];
@@ -192,51 +192,51 @@ vec2<T>& vec2<T>::operator/=(const T& n)
     return *this;
 }
 
-template <class T>
-vec2<T> vec2<T>::operator+(const vec2<T>& _v) const
+template <class U>
+vec2<U> operator+(const vec2<U>& _v1, const vec2<U>& _v2)
 {
-    vec2<T> res(*this);
-    res += _v;
+    vec2<U> res(*_v1);
+    res += _v2;
     return res;
 }
 
-template <class T>
-vec2<T> vec2<T>::operator-(const vec2<T>& _v) const
+template <class U>
+vec2<U> operator-(const vec2<U>& _v1, const vec2<U>& _v2)
 {
-    vec2<T> res(*this);
-    res -= _v;
+    vec2<U> res(*_v1);
+    res -= _v2;
     return res;
 }
 
-template <class T>
-vec2<T> vec2<T>::operator*(const vec2<T>& _v) const
+template <class U>
+vec2<U> operator*(const vec2<U>& _v1, const vec2<U>& _v2)
 {
-    vec2<T> res(*this);
-    res *= _v;
+    vec2<U> res(*_v1);
+    res *= _v2;
     return res;
 }
 
-template <class T>
-vec2<T> vec2<T>::operator/(const vec2<T>& _v) const
+template <class U>
+vec2<U> operator/(const vec2<U>& _v1, const vec2<U>& _v2)
 {
-    vec2<T> res(*this);
-    res /= _v;
+    vec2<U> res(*_v1);
+    res /= _v2;
     return res;
 }
 
-template <class T>
-vec2<T> vec2<T>::operator*(const T& n) const
+template <class U, class N>
+vec2<U> operator*(const vec2<U>& _v, const N& n)
 {
-    vec2<T> res(*this);
+    vec2<U> res(*_v);
     res *= n;
     return res;
 }
 
 
-template <class T>
-vec2<T> vec2<T>::operator/(const T& n) const
+template <class U, class N>
+vec2<U> operator/(const vec2<U>& _v, const N& n)
 {
-    vec2<T> res(*this);
+    vec2<U> res(*_v);
     res /= n;
     return res;
 }
@@ -294,8 +294,8 @@ vec2<T> clamp(const vec2<T>& _v, const vec2<T>& minVal, const vec2<T>& maxVal)
     return res;
 }
 
-template <class T, class U>
-vec2<T> operator*(const U& n, const vec2<T>& _v)
+template <class U, class N>
+vec2<U> operator*(const N& n, const vec2<U>& _v)
 {
     return _v * n;
 }

@@ -43,11 +43,11 @@ public:
     mat3<T>& operator*=(const mat3<T>& _m);
     mat3<T>& operator*=(const T& n);
     mat3<T>& operator/=(const T& n);
-    mat3<T> operator+(const mat3<T>& _m) const;
-    mat3<T> operator-(const mat3<T>& _m) const;
-    mat3<T> operator*(const mat3<T>& _m) const;
-    mat3<T> operator*(const T& n) const;
-    mat3<T> operator/(const T& n) const;
+    template <class U> friend mat3<U> operator+(const mat3<U>& _m1, const mat3<U>& _m2);
+    template <class U> friend mat3<U> operator-(const mat3<U>& _m1, const mat3<U>& _m2);
+    template <class U> friend mat3<U> operator*(const mat3<U>& _m1, const mat3<U>& _m2);
+    template <class U, class N> friend mat3<U> operator*(const mat3<U>& _m, const N& n);
+    template <class U, class N> friend mat3<U> operator/(const mat3<U>& _m, const N& n);
     
     template <class U> friend vec3<U>& operator*=(vec3<U>& _v, const mat3<U>& _m);
     template <class U> friend vec3<U> operator*(const vec3<U>& _v, const mat3<U>& _m);
@@ -252,42 +252,42 @@ mat3<T>& mat3<T>::operator/=(const T& n)
     return *this;
 }
 
-template <class T>
-mat3<T> mat3<T>::operator+(const mat3<T>& _m) const
+template <class U>
+mat3<U> operator+(const mat3<U>& _m1, const mat3<U>& _m2)
 {
-    mat3<T> res(*this);
-    res += _m;
+    mat3<U> res(*_m1);
+    res += _m2;
     return res;
 }
 
-template <class T>
-mat3<T> mat3<T>::operator-(const mat3<T>& _m) const
+template <class U>
+mat3<U> operator-(const mat3<U>& _m1, const mat3<U>& _m2)
 {
-    mat3<T> res(*this);
-    res -= _m;
+    mat3<U> res(*_m1);
+    res -= _m2;
     return res;
 }
 
-template <class T>
-mat3<T> mat3<T>::operator*(const mat3<T>& _m) const
+template <class U>
+mat3<U> operator*(const mat3<U>& _m1, const mat3<U>& _m2)
 {
-    mat3<T> res(*this);
-    res *= _m;
+    mat3<U> res(*_m1);
+    res *= _m2;
     return res;
 }
 
-template <class T>
-mat3<T> mat3<T>::operator*(const T& n) const
+template <class U, class N>
+mat3<U> operator*(const mat3<U>& _m, const N& n)
 {
-    mat3<T> res(*this);
+    mat3<U> res(*_m);
     res *= n;
     return res;
 }
 
-template <class T>
-mat3<T> mat3<T>::operator/(const T& n) const
+template <class U, class N>
+mat3<U> operator/(const mat3<U>& _m, const N& n)
 {
-    mat3<T> res(*this);
+    mat3<U> res(*_m);
     res /= n;
     return res;
 }

@@ -55,11 +55,11 @@ public:
     quat<T>& operator*=(const quat<T>& _q);
     quat<T>& operator*=(const T& n);
     quat<T>& operator/=(const T& n);
-    quat<T> operator+(const quat<T>& _q) const;
-    quat<T> operator-(const quat<T>& _q) const;
-    quat<T> operator*(const quat<T>& _q) const;
-    quat<T> operator*(const T& n) const;
-    quat<T> operator/(const T& n) const;
+    template<class U> friend quat<U> operator+(const quat<U>& _q1, const quat<U>& _q2);
+    template<class U> friend quat<U> operator-(const quat<U>& _q1, const quat<U>& _q2);
+    template<class U> friend quat<U> operator*(const quat<U>& _q1, const quat<U>& _q2);
+    template<class U, class N> friend quat<U> operator*(const quat<U>& _q, const N& n);
+    template<class U, class N> friend quat<U> operator/(const quat<U>& _q, const N& n);
 
     static quat<T> identity();
     static quat<T> from_matrix(const mat3<T>& _m);
@@ -67,6 +67,9 @@ public:
     static quat<T> rotation(const T& _x, const T& _y, const T& _z, const T& _angle);
     static quat<T> rotation(const vec3<T>& _v, const T& _angle);
     static quat<T> rotation(const vec3<T>& _v1, const vec3<T>& _v2);
+    
+    template<class U> friend vec4<U>& operator*=(vec4<U>& _v, const quat<U>& _q);
+    template<class U> friend vec3<U>& operator*=(vec3<U>& _v, const quat<U>& _q);
     
     template<class U> friend vec4<U> operator*(const vec4<U>& _v, const quat<U>& _q);
     template<class U> friend vec3<U> operator*(const vec3<U>& _v, const quat<U>& _q);
@@ -294,45 +297,46 @@ quat<T>& quat<T>::operator/=(const T& n)
     return *this;
 }
 
-template <class T>
-quat<T> quat<T>::operator+(const quat<T>& _q) const
+template <class U>
+quat<U> operator+(const quat<U>& _q1, const quat<U>& _q2)
 {
-    quat<T> res(*this);
-    res += _q;
+    quat<U> res(*_q1);
+    res += _q2;
     return res;
 }
 
-template <class T>
-quat<T> quat<T>::operator-(const quat<T>& _q) const
+template <class U>
+quat<U> operator-(const quat<U>& _q1, const quat<U>& _q2)
 {
-    quat<T> res(*this);
-    res -= _q;
+    quat<U> res(*_q1);
+    res -= _q2;
     return res;
 }
 
-template <class T>
-quat<T> quat<T>::operator*(const quat<T>& _q) const
+template <class U>
+quat<U> operator*(const quat<U>& _q1, const quat<U>& _q2)
 {
-    quat<T> res(*this);
-    res *= _q;
+    quat<U> res(*_q1);
+    res *= _q2;
     return res;
 }
 
-template <class T>
-quat<T> quat<T>::operator*(const T& n) const
+template <class U, class N>
+quat<U> operator*(const quat<U>& _q, const N& n)
 {
-    quat<T> res(*this);
+    quat<U> res(*_q);
     res *= n;
     return res;
 }
 
-template <class T>
-quat<T> quat<T>::operator/(const T& n) const
+template <class U, class N>
+quat<U> operator/(const quat<U>& _q, const N& n)
 {
-    quat<T> res(*this);
+    quat<U> res(*_q);
     res /= n;
     return res;
 }
+
 
 template <class T>
 quat<T> quat<T>::identity()
@@ -535,6 +539,22 @@ quat<T> slerp(const quat<T>& _q1, const quat<T>& _q2, const T& t)
     res = (_q1 * sin((1.0 - t) * omega) + _q2 * sin(t * omega)) / sin(omega);
     
     return res;
+}
+
+template<class U>
+vec4<U>& operator*=(vec4<U>& _v, const quat<U>& _q)
+{
+    _v = operator*(_v, _q);
+    
+    return _v;
+}
+
+template<class U>
+vec3<U>& operator*=(vec3<U>& _v, const quat<U>& _q)
+{
+    _v = operator*(_v, _q);
+    
+    return _v;
 }
 
 template<class U>
