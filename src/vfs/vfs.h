@@ -26,6 +26,8 @@ public:
         
         IO::datasize_t read(void* data, IO::datasize_t s);
         IO::datasize_t write(const void* data, IO::datasize_t s);
+        
+        bool ungetc(char c);
 
     private:
         FILE* _f;

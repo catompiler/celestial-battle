@@ -69,14 +69,14 @@ bool VFS::File::open(const String& fn, IO::openmode_t om)
         md[i++]='b';
     }
     //fprintf(stdout,md);
-    _f = fopen(fn.c_str(), md);
+    _f = ::fopen(fn.c_str(), md);
 
     return _f != NULL;
 }
 
 bool VFS::File::close()
 {
-    int res = fclose(_f);
+    int res = ::fclose(_f);
     if(res == 0){
         _f = NULL;
         return true;
@@ -114,17 +114,17 @@ bool VFS::File::seek(IO::offset_t p, IO::seekorigin_t o)
             orgn = SEEK_END;
             break;
     }
-    return fseek(_f, p, orgn) == 0;
+    return ::fseek(_f, p, orgn) == 0;
 }
 
 IO::offset_t VFS::File::tell()
 {
-    return ftell(_f);
+    return ::ftell(_f);
 }
 
 IO::datasize_t VFS::File::read(void* data, IO::datasize_t s)
 {
-    if(fread(data, s, 1, _f) == 1){
+    if(::fread(data, s, 1, _f) == 1){
         return s;
     }
     return 0;
@@ -132,10 +132,15 @@ IO::datasize_t VFS::File::read(void* data, IO::datasize_t s)
 
 IO::datasize_t VFS::File::write(const void* data, IO::datasize_t s)
 {
-    if(fwrite(data, s, 1, _f) == 1){
+    if(::fwrite(data, s, 1, _f) == 1){
         return s;
     }
     return 0;
+}
+
+bool VFS::File::ungetc(char c)
+{
+    return ::ungetc(c, _f) == c;
 }
 
 

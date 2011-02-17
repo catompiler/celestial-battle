@@ -80,7 +80,7 @@ TextOutputStream& TextOutputStream::operator<<(const uint64_t& data)
 TextOutputStream& TextOutputStream::operator<<(const float& data)
 {
     char text[FLT_MANT_DIG + 6] = {0}; // xxxxx.yyyy E-zz
-    int s = sprintf(text, "%f", data);
+    int s = sprintf(text, "%g", data);
     if(s > 0) _w->write(text, s);
     return *this;
 }
@@ -88,7 +88,7 @@ TextOutputStream& TextOutputStream::operator<<(const float& data)
 TextOutputStream& TextOutputStream::operator<<(const double& data)
 {
     char text[DBL_MANT_DIG + 6] = {0}; // xxxxx.yyyy E-zz
-    int s = sprintf(text, "%f", data);
+    int s = sprintf(text, "%g", data);
     if(s > 0) _w->write(text, s);
     return *this;
 }

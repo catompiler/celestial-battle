@@ -23,6 +23,7 @@ namespace IO{
     class Readable{
     public:
         virtual IO::datasize_t read(void* data, datasize_t s) = 0;
+        virtual bool ungetc(char c) = 0;
     };
 
     class Writable{

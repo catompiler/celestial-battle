@@ -20,11 +20,13 @@ public:
     TextInputStream& operator>>(uint64_t& data);
     TextInputStream& operator>>(float& data);
     TextInputStream& operator>>(double& data);
-    TextInputStream& operator>>(char* const data);
-    TextInputStream& operator>>(unsigned char* const data);
+    TextInputStream& operator>>(char* const text);
+    TextInputStream& operator>>(unsigned char* const text);
 
 protected:
     IO::Readable* _r;
+    int _readStrNum(char* buf, int max_len);
+    int _readStrNumFp(char* buf, int max_len);
 };
 
 #endif	//_TEXTINPUTSTREAM_H_
