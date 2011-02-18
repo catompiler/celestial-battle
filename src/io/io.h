@@ -22,17 +22,20 @@ namespace IO{
 
     class Readable{
     public:
+        virtual ~Readable(){}
         virtual IO::datasize_t read(void* data, datasize_t s) = 0;
         virtual bool ungetc(char c) = 0;
     };
 
     class Writable{
     public:
+        virtual ~Writable(){}
         virtual IO::datasize_t write(const void* data, datasize_t s) = 0;
     };
 
     class RandomAccess{
     public:
+        virtual ~RandomAccess(){}
         virtual bool seek(offset_t p, seekorigin_t o) = 0;
         virtual offset_t tell() = 0;
     };
