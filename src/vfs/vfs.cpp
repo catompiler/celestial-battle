@@ -13,9 +13,7 @@ VFS::File::File()
 
 VFS::File::~File()
 {
-    if(_f != NULL){
-        close();
-    }
+    close();
 }
 
 bool VFS::File::open(const String& fn, IO::openmode_t om)
@@ -76,10 +74,12 @@ bool VFS::File::open(const String& fn, IO::openmode_t om)
 
 bool VFS::File::close()
 {
-    int res = ::fclose(_f);
-    if(res == 0){
-        _f = NULL;
-        return true;
+    if(_f != NULL){
+        int res = ::fclose(_f);
+        if(res == 0){
+            _f = NULL;
+            return true;
+        }
     }
     return false;
 }
@@ -152,5 +152,24 @@ VFS::VFS() {
 }
 
 VFS::~VFS() {
+}
+
+IO::File* VFS::open(const String& fn, IO::openmode_t om)
+{
+    File* res = new File;
+    if(!res->open(fn, om)){
+        delete res;
+        return NULL;
+    }
+    return res;
+}
+
+bool VFS::close(IO::File* f)
+{
+    bool res = f->close();
+    if(res){
+        delete f;
+    }
+    return res;
 }
 

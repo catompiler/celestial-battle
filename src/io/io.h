@@ -71,8 +71,7 @@ namespace IO{
     public:
         
         virtual datasize_t size() = 0;
-
-    protected:
+        
         virtual bool open(const String& fn, openmode_t om) = 0;
         virtual bool close() = 0;
     };
@@ -108,13 +107,6 @@ namespace IO{
         virtual OutputStream& operator<<(const char* const data) = 0;
         virtual OutputStream& operator<<(const unsigned char* const data) = 0;
     };
-    
-    class Stream
-        :virtual public InputStream,
-         virtual public OutputStream
-    {
-    };
-    
 }
 
 #endif	/* _IO_H */

@@ -35,6 +35,9 @@ public:
 
     VFS();
     ~VFS();
+    
+    IO::File* open(const String& fn, IO::openmode_t om);
+    bool close(IO::File* f);
 private:
 
 };
