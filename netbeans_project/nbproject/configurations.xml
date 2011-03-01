@@ -33,9 +33,6 @@
       <logicalFolder name="global" displayName="global" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/global/constants.h</itemPath>
       </logicalFolder>
-      <logicalFolder name="io" displayName="io" projectFiles="true">
-        <itemPath>/home/artem/devel/opengl/celestial-battle/src/io/io.h</itemPath>
-      </logicalFolder>
       <logicalFolder name="smart_ptr" displayName="smart_ptr" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/smart_ptr/smartptr.h</itemPath>
       </logicalFolder>
