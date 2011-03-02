@@ -7,6 +7,7 @@
 class FSEntryPoint
 {
 public:
+
     virtual ~FSEntryPoint();
     
     virtual std::iostream* open(const String& fn, std::ios_base::openmode om) = 0;
