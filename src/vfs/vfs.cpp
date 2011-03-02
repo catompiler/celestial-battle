@@ -32,6 +32,8 @@ bool VFS::close(std::iostream* iost)
 
 bool VFS::addEntryPoint(FSEntryPoint* entryPoint)
 {
+    if(entryPoint == this) return false;
+    
     FSEntryPoints::iterator it = std::find(_entryPoints->begin(),
                                            _entryPoints->end(), entryPoint);
     if(it == _entryPoints->end()){
