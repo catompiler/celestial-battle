@@ -4,7 +4,7 @@
 #include "string/string.h"
 #include "fsentrypoint.h"
 #include <iostream>
-#include <vector>
+#include <list>
 
 
 class VFS
@@ -22,7 +22,7 @@ public:
     bool delEntryPoint(FSEntryPoint* entryPoint);
 
 private:
-    typedef std::vector<FSEntryPoint*> FSEntryPoints;
+    typedef std::list<FSEntryPoint*> FSEntryPoints;
     FSEntryPoints* _entryPoints;
 };
 

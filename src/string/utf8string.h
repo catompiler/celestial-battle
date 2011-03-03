@@ -87,6 +87,9 @@ public:
 
     bool operator==(const char* src) const;
     bool operator==(const utf8string& src) const;
+
+    bool operator!=(const char* src) const;
+    bool operator!=(const utf8string& src) const;
     
     bool operator<(const char* src) const;
     bool operator<(const utf8string& src) const;

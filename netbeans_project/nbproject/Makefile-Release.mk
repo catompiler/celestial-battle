@@ -34,6 +34,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/exception/exception.o \
 	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/main.o \
 	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string/string.o \
+	${OBJECTDIR}/_ext/_DOTDOT/src/vfs/fsentrypoint.o \
+	${OBJECTDIR}/_ext/_DOTDOT/src/vfs/localfsentrypoint.o \
 	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.o
 
 # C Compiler Flags
@@ -74,6 +76,16 @@ ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string/string.o: 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string/string.o /home/artem/devel/opengl/celestial-battle/src/string/string.cpp
+
+${OBJECTDIR}/_ext/_DOTDOT/src/vfs/fsentrypoint.o: nbproject/Makefile-${CND_CONF}.mk ../src/vfs/fsentrypoint.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/src/vfs
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/vfs/fsentrypoint.o ../src/vfs/fsentrypoint.cpp
+
+${OBJECTDIR}/_ext/_DOTDOT/src/vfs/localfsentrypoint.o: nbproject/Makefile-${CND_CONF}.mk ../src/vfs/localfsentrypoint.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/src/vfs
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/vfs/localfsentrypoint.o ../src/vfs/localfsentrypoint.cpp
 
 ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.o: nbproject/Makefile-${CND_CONF}.mk /home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/vfs

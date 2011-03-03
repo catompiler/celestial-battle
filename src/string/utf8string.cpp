@@ -630,6 +630,17 @@ bool utf8string::operator==(const utf8string& src) const
 }
 
 
+bool utf8string::operator!=(const char* src) const
+{
+    return !_rep->_data->operator==(src);
+}
+
+bool utf8string::operator!=(const utf8string& src) const
+{
+    return !_rep->_data->operator==(*src._rep->_data);
+}
+
+
 bool utf8string::operator<(const char* src) const
 {
     return _rep->_data->operator<(src);

@@ -41,6 +41,10 @@
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.h</itemPath>
       </logicalFolder>
       <logicalFolder name="vfs" displayName="vfs" projectFiles="true">
+        <itemPath>../src/vfs/fsentrypoint.cpp</itemPath>
+        <itemPath>../src/vfs/fsentrypoint.h</itemPath>
+        <itemPath>../src/vfs/localfsentrypoint.cpp</itemPath>
+        <itemPath>../src/vfs/localfsentrypoint.h</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.h</itemPath>
       </logicalFolder>
