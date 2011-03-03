@@ -257,6 +257,16 @@ bool utf8string::equal(const char* src) const
     return _rep->_data->equal(src);
 }
 
+bool utf8string::less(const utf8string& src) const
+{
+    return _rep->_data->less(*src._rep->_data);
+}
+
+bool utf8string::less(const char* src) const
+{
+    return _rep->_data->less(src);
+}
+
 bool utf8string::empty() const
 {
     return _rep->_data->empty();
@@ -620,6 +630,17 @@ bool utf8string::operator==(const utf8string& src) const
 }
 
 
+bool utf8string::operator<(const char* src) const
+{
+    return _rep->_data->operator<(src);
+}
+
+bool utf8string::operator<(const utf8string& src) const
+{
+    return _rep->_data->operator<(*src._rep->_data);
+}
+
+
 utf8string& utf8string::operator+=(const char* src)
 {
     _modify_rep(_rep);
@@ -779,6 +800,14 @@ bool utf8string::utf8string_impl::str_equal(const char* src, const char* dst)
 bool utf8string::utf8string_impl::str_empty(const char* src)
 {
     return src[0] == 0x0;
+}
+
+bool utf8string::utf8string_impl::str_less(const char* src, const char* dst)
+{
+    for(;*src != 0 && *dst != 0; ++src, ++dst){
+        if(*src < *dst) return true;
+    }
+    return (*src == 0 && *dst != 0);
 }
 
 char* utf8string::utf8string_impl::str_clear(char*& src)
@@ -1117,6 +1146,16 @@ bool utf8string::utf8string_impl::equal(const char* src) const
 bool utf8string::utf8string_impl::empty() const
 {
     return str_empty(_chars);
+}
+
+bool utf8string::utf8string_impl::less(const utf8string_impl& src) const
+{
+    return str_less(_chars, src._chars);
+}
+
+bool utf8string::utf8string_impl::less(const char* src) const
+{
+    return str_less(_chars, src);
 }
 
 utf8string::utf8string_impl& utf8string::utf8string_impl::clear()
@@ -1504,6 +1543,16 @@ bool utf8string::utf8string_impl::operator==(const char* src) const
 bool utf8string::utf8string_impl::operator==(const utf8string_impl& src) const
 {
     return equal(src);
+}
+
+bool utf8string::utf8string_impl::operator<(const char* src) const
+{
+    return less(src);
+}
+
+bool utf8string::utf8string_impl::operator<(const utf8string_impl& src) const
+{
+    return less(src);
 }
 
 utf8string::utf8string_impl& utf8string::utf8string_impl::operator+=(const char* src)

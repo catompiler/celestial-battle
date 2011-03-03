@@ -24,6 +24,9 @@ public:
     bool equal(const utf8string& src) const;
     bool equal(const char* src) const;
 
+    bool less(const utf8string& src) const;
+    bool less(const char* src) const;
+
     bool empty() const;
 
     utf8string& clear();
@@ -84,6 +87,9 @@ public:
 
     bool operator==(const char* src) const;
     bool operator==(const utf8string& src) const;
+    
+    bool operator<(const char* src) const;
+    bool operator<(const utf8string& src) const;
 
     utf8string& operator+=(const char* src);
     utf8string& operator+=(const utf8string& src);
@@ -153,6 +159,7 @@ private:
     
         static bool str_equal(const char* src, const char* dst);
         static bool str_empty(const char* src);
+        static bool str_less(const char* src, const char* dst);
 
         static char* str_clear(char*& src);
     
@@ -191,6 +198,9 @@ private:
         
         bool equal(const utf8string_impl& src) const;
         bool equal(const char* src) const;
+        
+        bool less(const utf8string_impl& src) const;
+        bool less(const char* src) const;
 
         bool empty() const;
 
@@ -253,6 +263,9 @@ private:
 
         bool operator==(const char* src) const;
         bool operator==(const utf8string_impl& src) const;
+        
+        bool operator<(const char* src) const;
+        bool operator<(const utf8string_impl& src) const;
 
         utf8string_impl& operator+=(const char* src);
         utf8string_impl& operator+=(const utf8string_impl& src);
