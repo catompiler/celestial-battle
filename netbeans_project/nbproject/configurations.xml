@@ -14,6 +14,10 @@
                    projectFiles="true">
     </logicalFolder>
     <logicalFolder name="src" displayName="src" projectFiles="true">
+      <logicalFolder name="config" displayName="config" projectFiles="true">
+        <itemPath>../src/config/config.cpp</itemPath>
+        <itemPath>../src/config/config.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="exception" displayName="exception" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.h</itemPath>
@@ -39,6 +43,10 @@
       <logicalFolder name="string" displayName="string" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.cpp</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="utils" displayName="utils" projectFiles="true">
+        <itemPath>../src/utils/utils.cpp</itemPath>
+        <itemPath>../src/utils/utils.h</itemPath>
       </logicalFolder>
       <logicalFolder name="vfs" displayName="vfs" projectFiles="true">
         <itemPath>../src/vfs/fsentrypoint.cpp</itemPath>

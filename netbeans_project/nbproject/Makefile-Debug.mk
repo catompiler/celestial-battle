@@ -31,8 +31,10 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/_ext/_DOTDOT/src/utils/utils.o \
 	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/exception/exception.o \
 	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/main.o \
+	${OBJECTDIR}/_ext/_DOTDOT/src/config/config.o \
 	${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string/string.o \
 	${OBJECTDIR}/_ext/_DOTDOT/src/vfs/fsentrypoint.o \
 	${OBJECTDIR}/_ext/_DOTDOT/src/vfs/localfsentrypoint.o \
@@ -62,6 +64,11 @@ dist/Debug/GNU-Linux-x86/netbeans_project: ${OBJECTFILES}
 	${MKDIR} -p dist/Debug/GNU-Linux-x86
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/netbeans_project ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
+${OBJECTDIR}/_ext/_DOTDOT/src/utils/utils.o: nbproject/Makefile-${CND_CONF}.mk ../src/utils/utils.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/src/utils
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/utils/utils.o ../src/utils/utils.cpp
+
 ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/exception/exception.o: nbproject/Makefile-${CND_CONF}.mk /home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/exception
 	${RM} $@.d
@@ -71,6 +78,11 @@ ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/main.o: nbproject
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/main.o /home/artem/devel/opengl/celestial-battle/src/main.cpp
+
+${OBJECTDIR}/_ext/_DOTDOT/src/config/config.o: nbproject/Makefile-${CND_CONF}.mk ../src/config/config.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/src/config
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/config/config.o ../src/config/config.cpp
 
 ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string/string.o: nbproject/Makefile-${CND_CONF}.mk /home/artem/devel/opengl/celestial-battle/src/string/string.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/artem/devel/opengl/celestial-battle/src/string
