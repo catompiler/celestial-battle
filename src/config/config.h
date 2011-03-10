@@ -10,20 +10,6 @@ protected:
     typedef element_type::value element_type_t;
 };
 
-class ConfigParameter
-    :public ConfigElement
-{
-public:
-    ~ConfigParameter(){};
-};
-
-class ConfigGroup
-    :public ConfigElement
-{
-public:
-    ~ConfigGroup(){};
-};
-
 class ConfigValue
     :public ConfigElement
 {
@@ -55,9 +41,21 @@ public:
     ~ConfigValueVector(){};
 };
 
+class ConfigParameter
+    :public ConfigElement
+{
+public:
+    ~ConfigParameter(){};
+};
+
+class ConfigGroup
+    :public ConfigElement
+{
+public:
+    ~ConfigGroup(){};
+};
 
 class Config
-    :public ConfigGroup
 {
 public:
     Config();
