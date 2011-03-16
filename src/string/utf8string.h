@@ -145,47 +145,47 @@ private:
     class utf8string_impl
     {
     public:
-        static size_t length(const char* src);
-        static size_t size(const char* src);
-        static size_t size(const char* src, size_t n);
-        static unsigned int at(const char* src, int n);
-        static char* str_skip(char* src, size_t n);
-        static const char* str_skip(const char* src, size_t n);
+        static inline size_t length(const char* src);
+        static inline size_t size(const char* src);
+        static inline size_t size(const char* src, size_t n);
+        static inline unsigned int at(const char* src, int n);
+        static inline char* str_skip(char* src, size_t n);
+        static inline const char* str_skip(const char* src, size_t n);
     
-        static char* str_alloc(size_t s);
-        static void str_free(char* & src);
-        static char* str_copy(char* dst, const char* src);
-        static char* str_copy(char* dst, const char* src, size_t s);
-        static char* str_ncopy(char* dst, const char* src, size_t n);
-        static char* str_copy(const char* src);
-        static char* str_realloc(char*& src, size_t s, size_t src_d  = 0, size_t src_s = 0);
+        static inline char* str_alloc(size_t s);
+        static inline void str_free(char* & src);
+        static inline char* str_copy(char* dst, const char* src);
+        static inline char* str_copy(char* dst, const char* src, size_t s);
+        static inline char* str_ncopy(char* dst, const char* src, size_t n);
+        static inline char* str_copy(const char* src);
+        static inline char* str_realloc(char*& src, size_t s, size_t src_d  = 0, size_t src_s = 0);
     
-        static bool str_equal(const char* src, const char* dst);
-        static bool str_empty(const char* src);
-        static bool str_less(const char* src, const char* dst);
+        static inline bool str_equal(const char* src, const char* dst);
+        static inline bool str_empty(const char* src);
+        static inline bool str_less(const char* src, const char* dst);
 
-        static char* str_clear(char*& src);
+        static inline char* str_clear(char*& src);
     
-        static char* str_append(const char* src, const char* dst);
-        static char* str_prepend(const char* src, const char* dst);
-        static char* str_insert(const char* src, const char* dst, size_t npos);
+        static inline char* str_append(const char* src, const char* dst);
+        static inline char* str_prepend(const char* src, const char* dst);
+        static inline char* str_insert(const char* src, const char* dst, size_t npos);
     
-        static char* str_find(char* src, const char* dst);
-        static const char* str_find(const char* src, const char* dst);
-        static int str_indexof(const char* src, const char* dst);
-        static int str_lastindexof(const char* src, const char* dst);
-        static char* str_replace(const char* src, const char* str, const char* dst);
-        static char* str_replaceall(const char* src, const char* str, const char* dst);
-        static char* str_remove(const char* src, size_t npos, size_t n);
-        static char* str_remove(const char* src, const char* dst);
-        static char* str_removeall(const char* src, const char* dst);
+        static inline char* str_find(char* src, const char* dst);
+        static inline const char* str_find(const char* src, const char* dst);
+        static inline int str_indexof(const char* src, const char* dst);
+        static inline int str_lastindexof(const char* src, const char* dst);
+        static inline char* str_replace(const char* src, const char* str, const char* dst);
+        static inline char* str_replaceall(const char* src, const char* str, const char* dst);
+        static inline char* str_remove(const char* src, size_t npos, size_t n);
+        static inline char* str_remove(const char* src, const char* dst);
+        static inline char* str_removeall(const char* src, const char* dst);
     
-        static char* str_left(const char* src, size_t n);
-        static char* str_mid(const char* src, size_t npos, size_t n);
-        static char* str_right(const char* src, size_t n);
+        static inline char* str_left(const char* src, size_t n);
+        static inline char* str_mid(const char* src, size_t npos, size_t n);
+        static inline char* str_right(const char* src, size_t n);
         
-        static char* str_toupper(char* src);
-        static char* str_tolower(char* src);
+        static inline char* str_toupper(char* src);
+        static inline char* str_tolower(char* src);
     
         utf8string_impl();
         utf8string_impl(const utf8string_impl& src);
