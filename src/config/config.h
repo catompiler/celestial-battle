@@ -22,7 +22,7 @@ private:
     
 class BaseElement{
 public:
-    virtual ~Element(){}
+    virtual ~BaseElement(){}
 protected:
 };
 
@@ -57,7 +57,7 @@ protected:
 
 class BaseValue{
 public:
-    virtual ~Value(){}
+    virtual ~BaseValue(){}
 protected:
 };
 
