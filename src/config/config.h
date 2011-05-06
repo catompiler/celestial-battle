@@ -1,102 +1,58 @@
 #ifndef _CONFIG_H
 #define	_CONFIG_H
 
+#include <string>
 #include <vector>
-#include "string/string.h"
 
-struct element_type{enum value{Parameter=0, Group};};
-typedef element_type::value element_type_t;
 
-struct value_type{enum value{Number=0, String, Vector};};
-typedef value_type::value value_type_t;
+class Element{
+public:
+};
 
-class Value;
-typedef std::vector<Value*> Vector;
+class NamedElement
+    :public Element
+{
+public:
+    const std::string& name() const;
+};
+
+class Value
+    :public Element
+{
+public:
+    int getInt() const;
+    bool getBool() const;
+    double getDouble() const;
+    std::string getString() const;
+    std::vector<Value> getVector() const;
+
+    void set(int val_);
+    void set(bool val_);
+    void set(double val_);
+    void set(const std::string& val_);
+    void set(const std::vector<Value>& val_);
+};
+
+class Parameter
+    :public NamedElement
+{
+public:
+    Value& value();
+};
+
+class Group
+    :public NamedElement
+{
+public:
+    Group& getGroup(const std::string& group_);
+    Parameter& getParameter(const std::string& param_);
+};
 
 class Config
 {
 public:
     Config();
     ~Config();
-private:
-    
-class BaseElement{
-public:
-    virtual ~BaseElement(){}
-protected:
-};
-
-class Element
-    :public BaseElement
-{
-public:
-    virtual ~Element(){}
-protected:
-    BaseElement* _element;
-};
-
-class Group
-    :public BaseElement
-{
-public:
-    virtual ~Group(){}
-protected:
-    typedef std::vector<Element*> Elements;
-    Elements* _elements;
-};
-
-class Parameter
-    :public BaseElement
-{
-public:
-    virtual ~Parameter(){}
-protected:
-    Value* _value;
-};
-
-
-class BaseValue{
-public:
-    virtual ~BaseValue(){}
-protected:
-};
-
-class Value
-    :public BaseValue
-{
-public:
-    virtual ~Value(){}
-protected:
-    BaseValue* _value;
-};
-
-class ValueNumber
-    :public BaseValue
-{
-public:
-    virtual ~ValueNumber(){}
-protected:
-    double _value;
-};
-
-class ValueString
-    :public BaseValue
-{
-public:
-    virtual ~ValueString(){}
-protected:
-    String _value;
-};
-
-class ValueVector
-    :public BaseValue
-{
-public:
-    virtual ~ValueVector(){}
-protected:
-    Vector _value;
-};
-
 };
 
 #endif	/* _CONFIG_H */
