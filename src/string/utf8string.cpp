@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-size_t utf8string::utf8char::size(const char* c)
+size_t utf8string::utf8string_impl::utf8char::size(const char* c)
 {
     size_t res = 0;
     unsigned char _c = c[0];
@@ -18,7 +18,7 @@ size_t utf8string::utf8char::size(const char* c)
     return res == 0 ? 1 : res;
 }
 
-size_t utf8string::utf8char::size(unsigned int c)
+size_t utf8string::utf8string_impl::utf8char::size(unsigned int c)
 {
     if(c > 0x001fffff) return 0;
     
@@ -34,7 +34,7 @@ size_t utf8string::utf8char::size(unsigned int c)
    0000 0800-0000 FFFF   1110xxxx 10xxxxxx 10xxxxxx
    0001 0000-001F FFFF   11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
  */
-unsigned int utf8string::utf8char::decode(const char* c)
+unsigned int utf8string::utf8string_impl::utf8char::decode(const char* c)
 {
     unsigned int res = 0;
     size_t s = size(c);
@@ -64,7 +64,7 @@ unsigned int utf8string::utf8char::decode(const char* c)
     return res;
 }
 
-size_t utf8string::utf8char::encode(char* uc, unsigned int c)
+size_t utf8string::utf8string_impl::utf8char::encode(char* uc, unsigned int c)
 {
     size_t s = size(c);
     
@@ -93,7 +93,7 @@ size_t utf8string::utf8char::encode(char* uc, unsigned int c)
     return s;
 }
 
-bool utf8string::utf8char::validate(const char* c)
+bool utf8string::utf8string_impl::utf8char::validate(const char* c)
 {
     size_t s = size(c);
     
@@ -123,6 +123,93 @@ bool utf8string::utf8char::validate(const char* c)
     }
     
     return true;
+}
+
+size_t utf8string::utf8string_impl::utf8char::size() const
+{
+    return utf8char::size(_str->c_str() + _offset);
+}
+
+unsigned int utf8string::utf8string_impl::utf8char::decode() const
+{
+    return utf8char::decode(_str->c_str() + _offset);
+}
+
+size_t utf8string::utf8string_impl::utf8char::encode(char* c_) const
+{
+    return utf8char::encode(c_, utf8char::decode(_str->c_str() + _offset));
+}
+
+utf8string::utf8string_impl::utf8char::operator unsigned int() const
+{
+    return decode();
+}
+
+utf8string::utf8string_impl::utf8char& utf8string::utf8string_impl::utf8char::operator= (const utf8char& c_)
+{
+    size_t dst_s = c_.size();
+    size_t src_s = size();
+    
+    if(src_s == dst_s){
+        str_copy(_str->c_str() + _offset, c_._str->c_str() + c_._offset, src_s);
+    }else{
+        _str->replace(_offset, src_s, c_._str->c_str() + c_._offset);
+    }
+    return *this;
+}
+
+utf8string::utf8string_impl::utf8char& utf8string::utf8string_impl::utf8char::operator= (unsigned int c_)
+{
+    char c[max_size + 1];
+    memset(c, 0x0, max_size + 1);
+    
+    utf8char::encode(c, c_);
+    
+    size_t dst_s = size(c_);
+    size_t src_s = size();
+    
+    if(src_s == dst_s){
+        str_copy(_str->c_str() + _offset, c, src_s);
+    }else{
+        _str->replace(_offset, src_s, c);
+    }
+    return *this;
+}
+
+bool utf8string::utf8string_impl::utf8char::operator< (const utf8char& c_) const
+{
+    return decode() < c_.decode();
+}
+
+bool utf8string::utf8string_impl::utf8char::operator< (unsigned int c_) const
+{
+    return decode() < c_;
+}
+
+bool utf8string::utf8string_impl::utf8char::operator> (const utf8char& c_) const
+{
+    return decode() > c_.decode();
+}
+
+bool utf8string::utf8string_impl::utf8char::operator> (unsigned int c_) const
+{
+    return decode() > c_;
+}
+
+bool utf8string::utf8string_impl::utf8char::operator==(const utf8char& c_) const
+{
+    return decode() == c_.decode();
+}
+
+bool utf8string::utf8string_impl::utf8char::operator==(unsigned int c_) const
+{
+    return decode() == c_;
+}
+
+utf8string::utf8string_impl::utf8char::utf8char(utf8string_impl* str_, size_t offset_)
+{
+    _str = str_;
+    _offset = offset_;
 }
 
 
@@ -371,6 +458,22 @@ int utf8string::lastindexOf(const utf8string& src) const
 int utf8string::lastindexOf(const char* src) const
 {
     return _rep->_data->lastindexOf(src);
+}
+
+utf8string& utf8string::replace(size_t pos, size_t n, const utf8string& dst)
+{
+    _modify_rep(_rep);
+    _rep->_data->replace(pos, n, *dst._rep->_data);
+    
+    return *this;
+}
+
+utf8string& utf8string::replace(size_t pos, size_t n, const char* dst)
+{
+    _modify_rep(_rep);
+    _rep->_data->replace(pos, n, dst);
+    
+    return *this;
 }
 
 utf8string& utf8string::replace(const utf8string& str, const utf8string& dst)
@@ -904,6 +1007,21 @@ int utf8string::utf8string_impl::str_lastindexof(const char* src, const char* ds
     return res;
 }
 
+char* utf8string::utf8string_impl::str_replace(const char* src, size_t pos, size_t n, const char* dst)
+{
+    size_t src_s = size(src);
+    size_t dst_s = size(dst);
+    size_t str_s = n;
+    
+    char* res = str_alloc(src_s - str_s + dst_s);
+    
+    str_copy(res, src, pos);
+    str_copy(res + pos, dst);
+    str_copy(res + pos + dst_s, src + pos + str_s);
+    
+    return res;
+}
+
 char* utf8string::utf8string_impl::str_replace(const char* src, const char* str, const char* dst)
 {
     const char* find_res = str_find(src, str);
@@ -1124,6 +1242,11 @@ utf8string::utf8string_impl::~utf8string_impl()
     str_free(_chars);
 }
 
+char* utf8string::utf8string_impl::c_str()
+{
+    return _chars;
+}
+
 const char* utf8string::utf8string_impl::c_str() const
 {
     return _chars;
@@ -1270,6 +1393,26 @@ int utf8string::utf8string_impl::lastindexOf(const utf8string_impl& src) const
 int utf8string::utf8string_impl::lastindexOf(const char* src) const
 {
     return str_lastindexof(_chars, src);
+}
+
+utf8string::utf8string_impl& utf8string::utf8string_impl::replace(size_t pos, size_t n, const utf8string_impl& dst)
+{
+    char* res = str_replace(_chars, pos, n, dst._chars);
+    
+    str_free(_chars);
+    _chars = res;
+    
+    return *this;
+}
+
+utf8string::utf8string_impl& utf8string::utf8string_impl::replace(size_t pos, size_t n, const char* dst)
+{
+    char* res = str_replace(_chars, pos, n, dst);
+    
+    str_free(_chars);
+    _chars = res;
+    
+    return *this;
 }
 
 utf8string::utf8string_impl& utf8string::utf8string_impl::replace(const utf8string_impl& str, const utf8string_impl& dst)

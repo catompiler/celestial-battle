@@ -14,6 +14,7 @@ public:
     utf8string(const char* src);
     ~utf8string();
 
+    //char* c_str();
     const char* c_str() const;
 
     size_t length() const;
@@ -45,6 +46,8 @@ public:
     int indexOf(const char* src) const;
     int lastindexOf(const utf8string& src) const;
     int lastindexOf(const char* src) const;
+    utf8string& replace(size_t pos, size_t n, const utf8string& dst);
+    utf8string& replace(size_t pos, size_t n, const char* dst);
     utf8string& replace(const utf8string& str, const utf8string& dst);
     utf8string& replace(const char* str, const char* dst);
     utf8string& replaceAll(const utf8string& str, const utf8string& dst);
@@ -102,21 +105,6 @@ public:
 
     unsigned int operator[](int n) const;
 
-
-    class utf8char
-    {
-    public:
-        static const size_t max_size = 4;
-
-        static size_t size(const char* c);
-        static size_t size(unsigned int c);
-        static unsigned int decode(const char* c);
-        static size_t encode(char* uc, unsigned int c);
-    
-        static bool validate(const char* c);
-        
-    private:
-    };
 private:
     class utf8string_rep;
     class utf8string_impl;
@@ -174,6 +162,7 @@ private:
         static inline const char* str_find(const char* src, const char* dst);
         static inline int str_indexof(const char* src, const char* dst);
         static inline int str_lastindexof(const char* src, const char* dst);
+        static inline char* str_replace(const char* src, size_t pos, size_t n, const char* dst);
         static inline char* str_replace(const char* src, const char* str, const char* dst);
         static inline char* str_replaceall(const char* src, const char* str, const char* dst);
         static inline char* str_remove(const char* src, size_t npos, size_t n);
@@ -187,11 +176,51 @@ private:
         static inline char* str_toupper(char* src);
         static inline char* str_tolower(char* src);
     
+        
+        class utf8char
+        {
+        public:
+        
+            friend class utf8string_impl;
+        
+            static const size_t max_size = 4;
+
+            static size_t size(const char* c);
+            static size_t size(unsigned int c);
+            static unsigned int decode(const char* c);
+            static size_t encode(char* uc, unsigned int c);
+        
+            static bool validate(const char* c);
+        
+            size_t size() const;
+            unsigned int decode() const;
+            size_t encode(char* c_) const;
+        
+            operator unsigned int() const;
+            utf8char& operator= (const utf8char& c_);
+            utf8char& operator= (unsigned int c_);
+            bool operator< (const utf8char& c_) const;
+            bool operator< (unsigned int c_) const;
+            bool operator> (const utf8char& c_) const;
+            bool operator> (unsigned int c_) const;
+            bool operator==(const utf8char& c_) const;
+            bool operator==(unsigned int c_) const;
+            
+        private:
+            
+            utf8char(utf8string_impl* str_, size_t offset_);
+            
+            utf8string_impl* _str;
+            size_t _offset;
+            
+        };
+    
         utf8string_impl();
         utf8string_impl(const utf8string_impl& src);
         utf8string_impl(const char* src);
         ~utf8string_impl();
         
+        char* c_str();
         const char* c_str() const;
     
         size_t length() const;
@@ -222,6 +251,8 @@ private:
         int indexOf(const char* src) const;
         int lastindexOf(const utf8string_impl& src) const;
         int lastindexOf(const char* src) const;
+        utf8string_impl& replace(size_t pos, size_t n, const utf8string_impl& dst);
+        utf8string_impl& replace(size_t pos, size_t n, const char* dst);
         utf8string_impl& replace(const utf8string_impl& str, const utf8string_impl& dst);
         utf8string_impl& replace(const char* str, const char* dst);
         utf8string_impl& replaceAll(const utf8string_impl& str, const utf8string_impl& dst);
