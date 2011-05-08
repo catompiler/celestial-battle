@@ -1,12 +1,28 @@
 #include <stdlib.h>
+#include <sstream>
 #include <iostream>
-#include "utils/utils.h"
+#include "config/config.h"
+
+const char* config_data =
+" // test config\n\
+ /* some comment */ \n\
+ group1 //{ \n\
+/* { */ { \n\
+    param1 = -0.10e+2 ; \n\
+    group2 { \n\
+        param2 = \"/*\\\"*/\" ; \n\
+    }\n\
+}\n\
+param0 = value0 ;\n";
 
 int main(int argc, char** argv)
 {
-    const char* str = "12345";
+    std::string config_str(config_data);
+    std::istringstream istrst(config_str);
     
-    std::cout << utils::casts::number_cast<int>(str) << std::endl;
+    Config config;
+    
+    config.read(istrst);
     
     return (EXIT_SUCCESS);
 }
