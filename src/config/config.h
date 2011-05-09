@@ -131,6 +131,7 @@ private:
     
     static const std::string _valid_number_chars;
     static const std::string _only_double_chars;
+    static const std::string _single_chars;
     
     static bool isnumberchar(value_t c);
     
@@ -159,6 +160,10 @@ public:
     static bool isit(iterator_t config_begin, iterator_t config_end);
 
 private:
+    
+    static const std::string _str_true;
+    static const std::string _str_false;
+    
     bool _value;
 };
 

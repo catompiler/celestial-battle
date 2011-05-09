@@ -25,7 +25,7 @@ iterator_t skip_comment(const std::string& comment_begin,
                         const std::string comment_end,
                         iterator_t begin, iterator_t end)
 {
-    if(comment_begin.length() > end - begin) return begin;
+    if(comment_begin.length() > std::distance(end,begin)) return begin;
     if(std::equal(comment_begin.begin(), comment_begin.end(), begin)){
         begin = std::search(begin, end, comment_end.begin(), comment_end.end());
         if(end - begin >= comment_end.length()) std::advance(begin, comment_end.length());
@@ -91,7 +91,7 @@ bool isit(const std::string& sign, iterator_t begin, iterator_t end)
                             std::bind2nd(
                             std::ptr_fun(isnamechar), false)));
     begin = skip_trash(begin, end);
-    if(sign.length() > end - begin) return false;
+    if(sign.length() > std::distance(end, begin)) return false;
     return std::equal(sign.begin(), sign.end(), begin);
 }
 
@@ -326,9 +326,44 @@ bool Value::set(const std::vector<Value>& val_)
     return true;
 }
 
+iterator_t Value::parse(iterator_t config_begin, iterator_t config_end)
+{
+    iterator_t current = skip_trash(config_begin, config_end);
+    
+    if(ValueNumber::isit(current, config_end)){
+        _value = new ValueNumber;
+        iterator_t parse_res = _value->parse(current, config_end);
+        if(parse_res == current) return config_begin;
+        return current;
+    }else if(ValueString::isit(current, config_end)){
+        _value = new ValueString;
+        iterator_t parse_res = _value->parse(current, config_end);
+        if(parse_res == current) return config_begin;
+        return current;
+    }else if(ValueVector::isit(current, config_end)){
+        _value = new ValueVector;
+        iterator_t parse_res = _value->parse(current, config_end);
+        if(parse_res == current) return config_begin;
+        return current;
+    }else if(ValueBool::isit(current, config_end)){
+        _value = new ValueBool;
+        iterator_t parse_res = _value->parse(current, config_end);
+        if(parse_res == current) return config_begin;
+        return current;
+    }else if(ValueRaw::isit(current, config_end)){
+        _value = new ValueRaw;
+        iterator_t parse_res = _value->parse(current, config_end);
+        if(parse_res == current) return config_begin;
+        return current;
+    }
+    
+    return config_begin;
+}
+
 
 const std::string ValueNumber::_valid_number_chars = "xXeE-+.0123456789aAbBcCdDeEfF";
 const std::string ValueNumber::_only_double_chars = ".eE";
+const std::string ValueNumber::_single_chars = "-+eExX.";
 
 ValueNumber::ValueNumber()
 {
@@ -385,28 +420,23 @@ iterator_t ValueNumber::parse(iterator_t config_begin, iterator_t config_end)
     
     if(number_end == number_begin) return config_begin;
     
-    iterator_t end_element = skip_trash(number_end, config_end);
-    
-    if(Element::line_sep.length() > config_end - end_element) return config_begin;
-    if(std::equal(Element::line_sep.begin(), Element::line_sep.end(), end_element)){
-        //add std::count("-+eExX.") <= 1
-        
-        std::string str_number(number_begin, number_end);
-        
-        if(std::find_first_of(number_begin, number_end,
-                _only_double_chars.begin(), _only_double_chars.end()) != number_end){
-            //number is double
-            _is_double = true;
-            _valued = strtod(str_number.c_str(), NULL);
-        }else{
-            _is_double = false;
-            _valuei = strtol(str_number.c_str(), NULL, 0);
-        }
-        
-        std::advance(end_element, Element::line_sep.length());
-        return end_element;
+    for(std::string::const_iterator it = _single_chars.begin(); it != _single_chars.end(); it ++){
+        if(std::count(number_begin, number_end, *it) > 1) return config_begin;
     }
-    return config_begin;
+
+    std::string str_number(number_begin, number_end);
+
+    if(std::find_first_of(number_begin, number_end,
+            _only_double_chars.begin(), _only_double_chars.end()) != number_end){
+        //number is double
+        _is_double = true;
+        _valued = strtod(str_number.c_str(), NULL);
+    }else{
+        _is_double = false;
+        _valuei = strtol(str_number.c_str(), NULL, 0);
+    }
+
+    return number_end;
 }
 
 bool ValueNumber::isit(iterator_t config_begin, iterator_t config_end)
@@ -418,14 +448,11 @@ bool ValueNumber::isit(iterator_t config_begin, iterator_t config_end)
     
     if(not_number == current) return false;
     
-    current = skip_trash(not_number, config_end);
-    
-    if(Element::line_sep.length() > config_end - current) return false;
-    if(std::equal(Element::line_sep.begin(), Element::line_sep.end(), current)){
-        //add std::count("-+eExX.") <= 1
-        return true;
+    for(std::string::const_iterator it = _single_chars.begin(); it != _single_chars.end(); it ++){
+        if(std::count(current, not_number, *it) > 1) return false;
     }
-    return false;
+    
+    return true;
 }
 
 bool ValueNumber::isnumberchar(value_t c)
@@ -434,38 +461,66 @@ bool ValueNumber::isnumberchar(value_t c)
             != _valid_number_chars.end();
 }
 
-iterator_t Value::parse(iterator_t config_begin, iterator_t config_end)
+
+
+const std::string ValueBool::_str_true = "true";
+const std::string ValueBool::_str_false = "false";
+
+ValueBool::ValueBool()
+{
+    _value = false;
+}
+
+ValueBool::ValueBool(bool val_)
+{
+    _value = val_;
+}
+
+ValueBool::~ValueBool()
+{
+}
+
+bool ValueBool::getBool(bool* isOk) const
+{
+    if(isOk) *isOk == true;
+    return _value;
+}
+
+bool ValueBool::set(bool val_)
+{
+    _value = val_;
+}
+
+iterator_t ValueBool::parse(iterator_t config_begin, iterator_t config_end)
 {
     iterator_t current = skip_trash(config_begin, config_end);
-    
-    if(ValueNumber::isit(current, config_end)){
-        _value = new ValueNumber;
-        iterator_t parse_res = _value->parse(current, config_end);
-        if(parse_res == current) return config_begin;
-        return current;
-    }else if(ValueString::isit(current, config_end)){
-        _value = new ValueString;
-        iterator_t parse_res = _value->parse(current, config_end);
-        if(parse_res == current) return config_begin;
-        return current;
-    }else if(ValueVector::isit(current, config_end)){
-        _value = new ValueVector;
-        iterator_t parse_res = _value->parse(current, config_end);
-        if(parse_res == current) return config_begin;
-        return current;
-    }else if(ValueBool::isit(current, config_end)){
-        _value = new ValueBool;
-        iterator_t parse_res = _value->parse(current, config_end);
-        if(parse_res == current) return config_begin;
-        return current;
-    }else if(ValueRaw::isit(current, config_end)){
-        _value = new ValueRaw;
-        iterator_t parse_res = _value->parse(current, config_end);
-        if(parse_res == current) return config_begin;
+    if(_str_true.length() > std::distance(config_end, current)) return config_begin;
+    if(std::equal(_str_true.begin(), _str_true.end(), current)){
+        _value = true;
+        std::advance(current, _str_true.length());
         return current;
     }
-    
+    if(_str_false.length() > std::distance(config_end, current)) return config_begin;
+    if(std::equal(_str_false.begin(), _str_false.end(), current)){
+        _value = false;
+        std::advance(current, _str_false.length());
+        return current;
+    }
     return config_begin;
+}
+
+bool ValueBool::isit(iterator_t config_begin, iterator_t config_end)
+{
+    iterator_t current = skip_trash(config_begin, config_end);
+    if(_str_true.length() > std::distance(config_end, current)) return false;
+    if(std::equal(_str_true.begin(), _str_true.end(), current)){
+        return true;
+    }
+    if(_str_false.length() > std::distance(config_end, current)) return false;
+    if(std::equal(_str_false.begin(), _str_false.end(), current)){
+        return true;
+    }
+    return false;
 }
 
 
@@ -495,7 +550,7 @@ bool Parameter::isit(iterator_t begin, iterator_t end)
 iterator_t Parameter::parse(iterator_t config_begin, iterator_t config_end)
 {
     iterator_t current = skip_trash(config_begin, config_end);
-    if(_parameter_sign.length() > config_end - current) return config_begin;
+    if(_parameter_sign.length() > std::distance(config_end, current)) return config_begin;
     
     if(!std::equal(_parameter_sign.begin(), _parameter_sign.end(), current)) {
         return config_begin;
@@ -508,8 +563,9 @@ iterator_t Parameter::parse(iterator_t config_begin, iterator_t config_end)
     iterator_t parse_res = _value->parse(current, config_end);
     
     if(parse_res == current) return config_begin;
+    
     current = skip_trash(parse_res, config_end);
-    if(Element::line_sep.length() > config_end - current) return config_begin;
+    if(Element::line_sep.length() > std::distance(config_end, current)) return config_begin;
     if(!std::equal(Element::line_sep.begin(), Element::line_sep.end(), current)) return config_begin;
     
     std::advance(current, Element::line_sep.length());
@@ -571,7 +627,7 @@ bool Group::isit(iterator_t begin, iterator_t end)
 iterator_t Group::parse(iterator_t config_begin, iterator_t config_end)
 {
     iterator_t current = skip_trash(config_begin, config_end);
-    if(_group_begin.length() > config_end - current) return config_begin;
+    if(_group_begin.length() > std::distance(config_end, current)) return config_begin;
     
     if(!std::equal(_group_begin.begin(), _group_begin.end(), current)) {
         return config_begin;
@@ -585,7 +641,7 @@ iterator_t Group::parse(iterator_t config_begin, iterator_t config_end)
         debug_print(current, config_end);
         
         if(_is_root == false){
-            if(_group_end.length() <= config_end - current){
+            if(_group_end.length() <= std::distance(config_end, current)){
                 if(std::equal(_group_end.begin(), _group_end.end(), current)){
                     std::advance(current, _group_end.length());
                     break;
