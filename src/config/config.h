@@ -267,7 +267,7 @@ public:
     Parameter(const std::string& name_);
     ~Parameter();
     
-    Value& value();
+    Value* value();
     
     static bool isit(iterator_t begin, iterator_t end);
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
@@ -287,8 +287,8 @@ public:
     Group(const std::string& name_);
     ~Group();
     
-    Group& getGroup(const std::string& group_);
-    Parameter& getParameter(const std::string& param_);
+    Group* getGroup(const std::string& group_);
+    Parameter* getParameter(const std::string& param_);
     
     static bool isit(iterator_t begin, iterator_t end);
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
@@ -303,6 +303,8 @@ private:
     typedef std::list<Parameter*> Parameters;
     
     void _def_ctor();
+
+    void _clear();
     
     bool _is_root;
     

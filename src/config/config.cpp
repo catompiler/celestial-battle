@@ -289,7 +289,7 @@ std::vector<Value> Value::getVector(bool* isOk) const
 bool Value::set(int val_)
 {
     if(_value == NULL){
-        return ValueBase::set(val_);
+        _value = new ValueNumber(val_);
     }else if(!_value->set(val_)){
         delete _value;
         _value = new ValueNumber(val_);
@@ -300,7 +300,7 @@ bool Value::set(int val_)
 bool Value::set(bool val_)
 {
     if(_value == NULL){
-        return ValueBase::set(val_);
+        _value = new ValueBool(val_);
     }else if(!_value->set(val_)){
         delete _value;
         _value = new ValueBool(val_);
@@ -311,7 +311,7 @@ bool Value::set(bool val_)
 bool Value::set(double val_)
 {
     if(_value == NULL){
-        return ValueBase::set(val_);
+        _value = new ValueNumber(val_);
     }else if(!_value->set(val_)){
         delete _value;
         _value = new ValueNumber(val_);
@@ -322,7 +322,7 @@ bool Value::set(double val_)
 bool Value::setConstant(const std::string& val_)
 {
     if(_value == NULL){
-        return ValueBase::setConstant(val_);
+        _value = new ValueConstant(val_);
     }else if(!_value->setConstant(val_)){
         delete _value;
         _value = new ValueConstant(val_);
@@ -333,7 +333,7 @@ bool Value::setConstant(const std::string& val_)
 bool Value::set(const std::string& val_)
 {
     if(_value == NULL){
-        return ValueBase::set(val_);
+        _value = new ValueString(val_);
     }else if(!_value->set(val_)){
         delete _value;
         _value = new ValueString(val_);
@@ -344,7 +344,7 @@ bool Value::set(const std::string& val_)
 bool Value::set(const std::vector<Value>& val_)
 {
     if(_value == NULL){
-        return ValueBase::set(val_);
+        _value = new ValueVector(val_);
     }else if(!_value->set(val_)){
         delete _value;
         _value = new ValueVector(val_);
@@ -354,6 +354,8 @@ bool Value::set(const std::vector<Value>& val_)
 
 iterator_t Value::parse(iterator_t config_begin, iterator_t config_end)
 {
+    delete _value; _value = NULL;
+    
     iterator_t current = skip_trash(config_begin, config_end);
     
     if(ValueNumber::isit(current, config_end)){
@@ -836,6 +838,8 @@ bool ValueVector::set(const std::vector<Value>& val_)
 
 iterator_t ValueVector::parse(iterator_t config_begin, iterator_t config_end)
 {
+    delete _value; _value = NULL;
+    
     iterator_t current = skip_trash(config_begin, config_end);
     
     if(_vector_begin.length() > static_cast<unsigned int>(std::distance(current, config_end))){
@@ -934,10 +938,9 @@ Parameter::~Parameter()
     delete _value;
 }
 
-Value& Parameter::value()
+Value* Parameter::value()
 {
-    if(_value == NULL) _value = new Value;
-    return *_value;
+    return _value;
 }
 
 bool Parameter::isit(iterator_t begin, iterator_t end)
@@ -947,6 +950,8 @@ bool Parameter::isit(iterator_t begin, iterator_t end)
 
 iterator_t Parameter::parse(iterator_t config_begin, iterator_t config_end)
 {
+    delete _value; _value = NULL;
+    
     iterator_t current = skip_trash(config_begin, config_end);
     if(_parameter_sign.length() > static_cast<unsigned int>(std::distance(current, config_end))){
         debug_msg("Parameter::Error bad length");
@@ -1013,21 +1018,35 @@ void Group::_def_ctor()
 
 Group::~Group()
 {
-    std::for_each(_groups->begin(), _groups->end(), utils::functors::delete_single());
-    std::for_each(_parameters->begin(), _parameters->end(), utils::functors::delete_single());
+    _clear();
     
     delete _groups;
     delete _parameters;
 }
 
-Group& Group::getGroup(const std::string& group_)
+void Group::_clear()
 {
+    std::for_each(_groups->begin(), _groups->end(), utils::functors::delete_single());
+    std::for_each(_parameters->begin(), _parameters->end(), utils::functors::delete_single());
     
+    _groups->clear();
+    _parameters->clear();
 }
 
-Parameter& Group::getParameter(const std::string& param_)
+Group* Group::getGroup(const std::string& group_)
 {
-    
+    for(Groups::iterator it = _groups->begin(); it != _groups->end(); ++it){
+        if((*it)->name() == group_) return *it;
+    }
+    return NULL;
+}
+
+Parameter* Group::getParameter(const std::string& param_)
+{
+    for(Parameters::iterator it = _parameters->begin(); it != _parameters->end(); ++it){
+        if((*it)->name() == param_) return *it;
+    }
+    return NULL;
 }
 
 bool Group::isit(iterator_t begin, iterator_t end)
@@ -1037,6 +1056,8 @@ bool Group::isit(iterator_t begin, iterator_t end)
 
 iterator_t Group::parse(iterator_t config_begin, iterator_t config_end)
 {
+    _clear();
+    
     iterator_t current = config_begin;
     
     if(_is_root == false){
@@ -1153,6 +1174,7 @@ bool Config::read(std::istream& ist_)
 
 iterator_t Config::parse(iterator_t config_begin, iterator_t config_end)
 {
+    delete _root;
     _root = new Group();
     
     iterator_t parse_res = _root->parse(config_begin, config_end);
