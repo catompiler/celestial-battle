@@ -64,14 +64,14 @@ public:
     virtual int getInt(bool* isOk = NULL) const;
     virtual bool getBool(bool* isOk = NULL) const;
     virtual double getDouble(bool* isOk = NULL) const;
-    virtual std::string getRaw(bool* isOk = NULL) const;
+    virtual std::string getConstant(bool* isOk = NULL) const;
     virtual std::string getString(bool* isOk = NULL) const;
     virtual std::vector<Value> getVector(bool* isOk = NULL) const;
 
     virtual bool set(int val_);
     virtual bool set(bool val_);
     virtual bool set(double val_);
-    virtual bool setRaw(const std::string& val_);
+    virtual bool setConstant(const std::string& val_);
     virtual bool set(const std::string& val_);
     virtual bool set(const std::vector<Value>& val_);
     
@@ -89,14 +89,14 @@ public:
     int getInt(bool* isOk = NULL) const;
     bool getBool(bool* isOk = NULL) const;
     double getDouble(bool* isOk = NULL) const;
-    std::string getRaw(bool* isOk = NULL) const;
+    std::string getConstant(bool* isOk = NULL) const;
     std::string getString(bool* isOk = NULL) const;
     std::vector<Value> getVector(bool* isOk = NULL) const;
 
     bool set(int val_);
     bool set(bool val_);
     bool set(double val_);
-    bool setRaw(const std::string& val_);
+    bool setConstant(const std::string& val_);
     bool set(const std::string& val_);
     bool set(const std::vector<Value>& val_);
     
@@ -167,18 +167,18 @@ private:
     bool _value;
 };
 
-class ValueRaw
+class ValueConstant
     :public ValueBase
 {
 public:
     
-    ValueRaw();
-    ValueRaw(const std::string& val_);
-    ~ValueRaw();
+    ValueConstant();
+    ValueConstant(const std::string& val_);
+    ~ValueConstant();
     
-    std::string getRaw(bool* isOk = NULL) const;
+    std::string getConstant(bool* isOk = NULL) const;
 
-    bool setRaw(const std::string& val_);
+    bool setConstant(const std::string& val_);
     
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
     

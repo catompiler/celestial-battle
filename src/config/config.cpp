@@ -159,7 +159,7 @@ double ValueBase::getDouble(bool* isOk) const
     return 0.0;
 }
 
-std::string ValueBase::getRaw(bool* isOk) const
+std::string ValueBase::getConstant(bool* isOk) const
 {
     if(isOk) *isOk = false;
     return std::string();
@@ -192,7 +192,7 @@ bool ValueBase::set(double)
     return false;
 }
 
-bool ValueBase::setRaw(const std::string&)
+bool ValueBase::setConstant(const std::string&)
 {
     return false;
 }
@@ -241,10 +241,10 @@ double Value::getDouble(bool* isOk) const
     return _value->getDouble(isOk);
 }
 
-std::string Value::getRaw(bool* isOk) const
+std::string Value::getConstant(bool* isOk) const
 {
-    if(_value == NULL) return ValueBase::getRaw(isOk);
-    return _value->getRaw(isOk);
+    if(_value == NULL) return ValueBase::getConstant(isOk);
+    return _value->getConstant(isOk);
 }
 
 std::string Value::getString(bool* isOk) const
@@ -293,13 +293,13 @@ bool Value::set(double val_)
     return true;
 }
 
-bool Value::setRaw(const std::string& val_)
+bool Value::setConstant(const std::string& val_)
 {
     if(_value == NULL){
-        return ValueBase::setRaw(val_);
-    }else if(!_value->setRaw(val_)){
+        return ValueBase::setConstant(val_);
+    }else if(!_value->setConstant(val_)){
         delete _value;
-        _value = new ValueRaw(val_);
+        _value = new ValueConstant(val_);
     }
     return true;
 }
@@ -350,8 +350,8 @@ iterator_t Value::parse(iterator_t config_begin, iterator_t config_end)
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current) return config_begin;
         return current;
-    }else if(ValueRaw::isit(current, config_end)){
-        _value = new ValueRaw;
+    }else if(ValueConstant::isit(current, config_end)){
+        _value = new ValueConstant;
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current) return config_begin;
         return current;
