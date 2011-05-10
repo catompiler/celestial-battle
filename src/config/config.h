@@ -11,6 +11,7 @@ typedef std::string::iterator iterator_t;
 typedef std::string::value_type value_t;
 
 void debug_print(iterator_t begin, iterator_t end);
+void debug_msg(const char* msg);
 
 //! skip white-spaces
 iterator_t skip_ws(iterator_t begin, iterator_t end);
@@ -59,7 +60,10 @@ class ValueBase
 public:
     
     ValueBase();
+    ValueBase(const ValueBase& value_);
     ~ValueBase();
+
+    virtual ValueBase* clone() const;
     
     virtual int getInt(bool* isOk = NULL) const;
     virtual bool getBool(bool* isOk = NULL) const;
@@ -84,7 +88,10 @@ class Value
 public:
     
     Value();
+    Value(const Value& value_);
     ~Value();
+
+    Value* clone() const;
     
     int getInt(bool* isOk = NULL) const;
     bool getBool(bool* isOk = NULL) const;
@@ -113,9 +120,12 @@ class ValueNumber
 public:
     
     ValueNumber();
+    ValueNumber(const ValueNumber& value_);
     ValueNumber(int val_);
     ValueNumber(double val_);
     ~ValueNumber();
+
+    ValueNumber* clone() const;
     
     int getInt(bool* isOk = NULL) const;
     double getDouble(bool* isOk = NULL) const;
@@ -148,8 +158,11 @@ class ValueBool
 public:
     
     ValueBool();
+    ValueBool(const ValueBool& value_);
     ValueBool(bool val_);
     ~ValueBool();
+
+    ValueBool* clone() const;
     
     bool getBool(bool* isOk = NULL) const;
     
@@ -173,8 +186,11 @@ class ValueConstant
 public:
     
     ValueConstant();
+    ValueConstant(const ValueConstant& value_);
     ValueConstant(const std::string& val_);
     ~ValueConstant();
+
+    ValueConstant* clone() const;
     
     std::string getConstant(bool* isOk = NULL) const;
 
@@ -194,8 +210,11 @@ class ValueString
 public:
     
     ValueString();
+    ValueString(const ValueString& value_);
     ValueString(const std::string& val_);
     ~ValueString();
+
+    ValueString* clone() const;
     
     std::string getString(bool* isOk = NULL) const;
 
@@ -206,6 +225,8 @@ public:
     static bool isit(iterator_t config_begin, iterator_t config_end);
     
 private:
+    static const std::string _string_begin_end;
+
     std::string _value;
 };
 
@@ -215,8 +236,11 @@ class ValueVector
 public:
     
     ValueVector();
+    ValueVector(const ValueVector& value_);
     ValueVector(const std::vector<Value>& val_);
     ~ValueVector();
+
+    ValueVector* clone() const;
     
     std::vector<Value> getVector(bool* isOk = NULL) const;
 
@@ -227,7 +251,11 @@ public:
     static bool isit(iterator_t config_begin, iterator_t config_end);
     
 private:
-    std::vector<Value> _value;
+    static const std::string _vector_begin;
+    static const std::string _vector_end;
+    static const std::string _vector_sep;
+
+    std::vector<Value>* _value;
 };
 
 
