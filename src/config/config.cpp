@@ -33,7 +33,9 @@ iterator_t skip_comment(const std::string& comment_begin,
     if(comment_begin.length() > static_cast<unsigned int>(std::distance(begin, end))) return begin;
     if(std::equal(comment_begin.begin(), comment_begin.end(), begin)){
         begin = std::search(begin, end, comment_end.begin(), comment_end.end());
-        if(static_cast<unsigned int>(std::distance(begin, end)) >= comment_end.length()) std::advance(begin, comment_end.length());
+        if(static_cast<unsigned int>(std::distance(begin, end)) >= comment_end.length()){
+            std::advance(begin, comment_end.length());
+        }
     }
     return begin;
 }
@@ -359,7 +361,7 @@ iterator_t Value::parse(iterator_t config_begin, iterator_t config_end)
     iterator_t current = skip_trash(config_begin, config_end);
     
     if(ValueNumber::isit(current, config_end)){
-        debug_msg("Value::Info parsing number");
+        //debug_msg("Value::Info parsing number");
         _value = new ValueNumber;
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current){
@@ -368,7 +370,7 @@ iterator_t Value::parse(iterator_t config_begin, iterator_t config_end)
         }
         return parse_res;
     }else if(ValueString::isit(current, config_end)){
-        debug_msg("Value::Info parsing string");
+        //debug_msg("Value::Info parsing string");
         _value = new ValueString;
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current){
@@ -377,7 +379,7 @@ iterator_t Value::parse(iterator_t config_begin, iterator_t config_end)
         }
         return parse_res;
     }else if(ValueVector::isit(current, config_end)){
-        debug_msg("Value::Info parsing vector");
+        //debug_msg("Value::Info parsing vector");
         _value = new ValueVector;
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current){
@@ -386,7 +388,7 @@ iterator_t Value::parse(iterator_t config_begin, iterator_t config_end)
         }
         return parse_res;
     }else if(ValueBool::isit(current, config_end)){
-        debug_msg("Value::Info parsing boolean");
+        //debug_msg("Value::Info parsing boolean");
         _value = new ValueBool;
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current){
@@ -395,7 +397,7 @@ iterator_t Value::parse(iterator_t config_begin, iterator_t config_end)
         }
         return parse_res;
     }else if(ValueConstant::isit(current, config_end)){
-        debug_msg("Value::Info parsing constant");
+        //debug_msg("Value::Info parsing constant");
         _value = new ValueConstant;
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current){
@@ -475,6 +477,9 @@ bool ValueNumber::set(double val_)
 
 iterator_t ValueNumber::parse(iterator_t config_begin, iterator_t config_end)
 {
+    _is_double = false;
+    _valuei = 0;
+    
     iterator_t number_begin = skip_trash(config_begin, config_end);
     
     iterator_t number_end = std::find_if(number_begin, config_end,
@@ -572,6 +577,8 @@ bool ValueBool::set(bool val_)
 
 iterator_t ValueBool::parse(iterator_t config_begin, iterator_t config_end)
 {
+    _value = false;
+    
     iterator_t current = skip_trash(config_begin, config_end);
     if(_str_true.length() > static_cast<unsigned int>(std::distance(current, config_end))){
         debug_msg("ValueBool::Error bad length");
@@ -646,6 +653,8 @@ bool ValueConstant::setConstant(const std::string& val_)
 
 iterator_t ValueConstant::parse(iterator_t config_begin, iterator_t config_end)
 {
+    _value.clear();
+    
     iterator_t current = skip_trash(config_begin, config_end);
     
     if(current == config_end){
@@ -714,6 +723,8 @@ bool ValueString::set(const std::string& val_)
 
 iterator_t ValueString::parse(iterator_t config_begin, iterator_t config_end)
 {
+    _value.clear();
+    
     iterator_t current = skip_trash(config_begin, config_end);
     
     if(_string_begin_end.length() > static_cast<unsigned int>(std::distance(current, config_end))){
@@ -994,6 +1005,8 @@ const std::string Group::_group_begin  = "{";
 const std::string Group::_group_end    = "}";
 const std::string Group::_group_sign   = Group::_group_begin;
 
+const std::string Group::_group_sep = ".";
+
 Group::Group()
         :NamedElement(std::string())
 {
@@ -1148,6 +1161,33 @@ iterator_t Group::parse(iterator_t config_begin, iterator_t config_end)
     return current;
 }
 
+Value* Group::getValue(const std::string& parameter_)
+{
+    if(parameter_.empty()) return NULL;
+    
+    if(_group_sep.length() < parameter_.length()){
+        std::string::const_iterator it =
+                std::search(parameter_.begin(), parameter_.end(),
+                            _group_sep.begin(), _group_sep.end());
+        if(it != parameter_.end()){
+            std::string group_name(parameter_.begin(), it);
+            Group* group = getGroup(group_name);
+            if(group != NULL){
+                std::advance(it, _group_sep.length());
+                std::string parameter_name(it, parameter_.end());
+                return group->getValue(parameter_name);
+            }else{
+                return NULL;
+            }
+        }
+    }
+    
+    Parameter* parameter = getParameter(parameter_);
+    if(parameter != NULL) return parameter->value();
+    
+    return NULL;
+}
+
 Config::Config()
 {
     _root = NULL;
@@ -1182,3 +1222,10 @@ iterator_t Config::parse(iterator_t config_begin, iterator_t config_end)
     return parse_res;
 }
 
+Value* Config::getValue(const std::string& parameter_)
+{
+    if(_root != NULL){
+        return _root->getValue(parameter_);
+    }
+    return NULL;
+}

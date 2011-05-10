@@ -293,11 +293,15 @@ public:
     static bool isit(iterator_t begin, iterator_t end);
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
     
+    Value* getValue(const std::string& parameter_);
+    
 private:
     
     static const std::string _group_begin;
     static const std::string _group_end;
     static const std::string _group_sign;
+    
+    static const std::string _group_sep;
     
     typedef std::list<Group*> Groups;
     typedef std::list<Parameter*> Parameters;
@@ -320,6 +324,8 @@ public:
     
     bool read(std::istream& ist_);
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    
+    Value* getValue(const std::string& parameter_);
     
 private:
     Group* _root;

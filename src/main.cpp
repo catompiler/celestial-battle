@@ -10,7 +10,7 @@ const char* config_data =
 /* { */ { \n\
     param1 = -0.10e+2 ; \n\
     group2 { \n\
-        param2 = \"/*\\\"*/\" ; \n\
+        param2 = \"string\" ; \n\
     }\n\
 }\n\
 param0 = value0 ;\n";
@@ -23,6 +23,8 @@ int main(int argc, char** argv)
     Config config;
     
     config.read(istrst);
+    
+    std::cout << config.getValue("group1.group2.param2")->getString() << std::endl;
     
     return (EXIT_SUCCESS);
 }
