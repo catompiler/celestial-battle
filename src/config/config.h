@@ -348,12 +348,10 @@ class Config
 public:
     Config();
     ~Config();
-    
-    bool read(std::istream& ist_);
-    iterator_t parse(iterator_t config_begin, iterator_t config_end);
 
     void clear();
-
+    
+    bool read(std::istream& ist_);
     bool write(std::ostream& ost_) const;
     
     int getInt(const std::string& parameter_, bool* isOk = NULL) const;
@@ -374,6 +372,8 @@ public:
     friend std::ostream& operator<<(std::ostream& ost, const Config& config);
 
 private:
+    iterator_t parse(iterator_t config_begin, iterator_t config_end);
+
     Value* getValue(const std::string& parameter_) const;
     bool setValue(const std::string& parameter_, const Value& value_);
     
