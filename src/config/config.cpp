@@ -1430,7 +1430,7 @@ bool Config::read(std::istream& ist_)
     
     //std::cout << config_str;
     
-    if(parse(config_begin, config_end) == config_end){
+    if(parse(config_begin, config_end) != config_end){
         clear();
         return false;
     }
