@@ -3,11 +3,11 @@
 
 #include <string>
 #include <vector>
-#include <istream>
+#include <iostream>
 #include <list>
 
 
-typedef std::string::iterator iterator_t;
+typedef std::string::const_iterator iterator_t;
 typedef std::string::value_type value_t;
 
 void debug_print(iterator_t begin, iterator_t end);
@@ -41,6 +41,8 @@ public:
     virtual iterator_t parse(iterator_t config_begin, iterator_t config_end) = 0;
     
     static const std::string line_sep;
+    static const std::string align_space;
+    static const std::string line_end;
 };
 
 class NamedElement
@@ -54,6 +56,7 @@ protected:
 };
 
 class Value;
+
 class ValueBase
     :public Element
 {
@@ -72,14 +75,16 @@ public:
     virtual std::string getString(bool* isOk = NULL) const;
     virtual std::vector<Value> getVector(bool* isOk = NULL) const;
 
-    virtual bool set(int val_);
-    virtual bool set(bool val_);
-    virtual bool set(double val_);
+    virtual bool setInt(int val_);
+    virtual bool setBool(bool val_);
+    virtual bool setDouble(double val_);
     virtual bool setConstant(const std::string& val_);
-    virtual bool set(const std::string& val_);
-    virtual bool set(const std::vector<Value>& val_);
+    virtual bool setString(const std::string& val_);
+    virtual bool setVector(const std::vector<Value>& val_);
     
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    
+    virtual bool write(std::ostream& ost_) const;
 };
 
 class Value
@@ -100,14 +105,16 @@ public:
     std::string getString(bool* isOk = NULL) const;
     std::vector<Value> getVector(bool* isOk = NULL) const;
 
-    bool set(int val_);
-    bool set(bool val_);
-    bool set(double val_);
+    bool setInt(int val_);
+    bool setBool(bool val_);
+    bool setDouble(double val_);
     bool setConstant(const std::string& val_);
-    bool set(const std::string& val_);
-    bool set(const std::vector<Value>& val_);
+    bool setString(const std::string& val_);
+    bool setVector(const std::vector<Value>& val_);
     
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    
+    bool write(std::ostream& ost_) const;
     
 private:
     
@@ -130,12 +137,14 @@ public:
     int getInt(bool* isOk = NULL) const;
     double getDouble(bool* isOk = NULL) const;
 
-    bool set(int val_);
-    bool set(double val_);
+    bool setInt(int val_);
+    bool setDouble(double val_);
     
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
     
     static bool isit(iterator_t config_begin, iterator_t config_end);
+
+    bool write(std::ostream& ost_) const;
     
 private:
     
@@ -166,11 +175,13 @@ public:
     
     bool getBool(bool* isOk = NULL) const;
     
-    bool set(bool val_);
+    bool setBool(bool val_);
     
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
     
     static bool isit(iterator_t config_begin, iterator_t config_end);
+
+    bool write(std::ostream& ost_) const;
 
 private:
     
@@ -200,6 +211,8 @@ public:
     
     static bool isit(iterator_t config_begin, iterator_t config_end);
     
+    bool write(std::ostream& ost_) const;
+
 private:
     std::string _value;
 };
@@ -218,11 +231,13 @@ public:
     
     std::string getString(bool* isOk = NULL) const;
 
-    bool set(const std::string& val_);
+    bool setString(const std::string& val_);
     
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
     
     static bool isit(iterator_t config_begin, iterator_t config_end);
+
+    bool write(std::ostream& ost_) const;
     
 private:
     static const std::string _string_begin_end;
@@ -244,11 +259,13 @@ public:
     
     std::vector<Value> getVector(bool* isOk = NULL) const;
 
-    bool set(const std::vector<Value>& val_);
+    bool setVector(const std::vector<Value>& val_);
     
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
     
     static bool isit(iterator_t config_begin, iterator_t config_end);
+
+    bool write(std::ostream& ost_) const;
     
 private:
     static const std::string _vector_begin;
@@ -267,11 +284,14 @@ public:
     Parameter(const std::string& name_);
     ~Parameter();
     
-    Value* value();
+    Value* getValue();
+    void setValue(const Value* value_);
     
     static bool isit(iterator_t begin, iterator_t end);
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
     
+    bool write(std::ostream& ost_) const;
+
 private:
     static const std::string _parameter_sign;
     
@@ -287,6 +307,9 @@ public:
     Group(const std::string& name_);
     ~Group();
     
+    Group* addGroup(const std::string& name);
+    Parameter* addParameter(const std::string& name);
+
     Group* getGroup(const std::string& group_);
     Parameter* getParameter(const std::string& param_);
     
@@ -294,7 +317,10 @@ public:
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
     
     Value* getValue(const std::string& parameter_);
+    bool setValue(const std::string& parameter_, const Value* value_);
     
+    bool write(std::ostream& ost_, size_t lvl = 0) const;
+
 private:
     
     static const std::string _group_begin;
@@ -324,12 +350,37 @@ public:
     
     bool read(std::istream& ist_);
     iterator_t parse(iterator_t config_begin, iterator_t config_end);
+
+    void clear();
+
+    bool write(std::ostream& ost_) const;
     
-    Value* getValue(const std::string& parameter_);
+    int getInt(const std::string& parameter_, bool* isOk = NULL) const;
+    bool getBool(const std::string& parameter_, bool* isOk = NULL) const;
+    double getDouble(const std::string& parameter_, bool* isOk = NULL) const;
+    std::string getConstant(const std::string& parameter_, bool* isOk = NULL) const;
+    std::string getString(const std::string& parameter_, bool* isOk = NULL) const;
+    std::vector<Value> getVector(const std::string& parameter_, bool* isOk = NULL) const;
+
+    bool setInt(const std::string& parameter_, int value_);
+    bool setBool(const std::string& parameter_, bool value_);
+    bool setDouble(const std::string& parameter_, double value_);
+    bool setConstant(const std::string& parameter_, const std::string& value_);
+    bool setString(const std::string& parameter_, const std::string& value_);
+    bool setVector(const std::string& parameter_, const std::vector<Value>& value_);
     
+    friend std::istream& operator>>(std::istream& ist, Config& config);
+    friend std::ostream& operator<<(std::ostream& ost, const Config& config);
+
 private:
+    Value* getValue(const std::string& parameter_) const;
+    bool setValue(const std::string& parameter_, const Value& value_);
+    
     Group* _root;
 };
+
+std::istream& operator>>(std::istream& ist, Config& config);
+std::ostream& operator<<(std::ostream& ost, const Config& config);
 
 #endif	/* _CONFIG_H */
 

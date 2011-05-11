@@ -1,6 +1,6 @@
 #include "config.h"
+#include <sstream>
 #include <iterator>
-#include <iostream>
 #include <functional>
 #include <algorithm>
 #include <ctype.h>
@@ -121,6 +121,8 @@ iterator_t get_name(std::string& name, iterator_t begin, iterator_t end)
 
 
 const std::string Element::line_sep = ";";
+const std::string Element::align_space = "    ";
+const std::string Element::line_end = "\n";
 
 Element::~Element()
 {
@@ -193,17 +195,17 @@ std::vector<Value> ValueBase::getVector(bool* isOk) const
     return std::vector<Value>();
 }
 
-bool ValueBase::set(int)
+bool ValueBase::setInt(int)
 {
     return false;
 }
 
-bool ValueBase::set(bool)
+bool ValueBase::setBool(bool)
 {
     return false;
 }
 
-bool ValueBase::set(double)
+bool ValueBase::setDouble(double)
 {
     return false;
 }
@@ -213,22 +215,27 @@ bool ValueBase::setConstant(const std::string&)
     return false;
 }
 
-bool ValueBase::set(const std::string&)
+bool ValueBase::setString(const std::string&)
 {
     return false;
 }
 
-bool ValueBase::set(const std::vector<Value>&)
+bool ValueBase::setVector(const std::vector<Value>&)
 {
     return false;
 }
 
-iterator_t ValueBase::parse(iterator_t config_begin, iterator_t config_end)
+iterator_t ValueBase::parse(iterator_t config_begin, iterator_t /*config_end*/)
 {
     debug_msg("ValueBase::parse()");
     return config_begin;
 }
 
+bool ValueBase::write(std::ostream& /*ost_*/) const
+{
+    debug_msg("ValueBase::write()");
+    return false;
+}
 
 Value::Value()
 {
@@ -288,33 +295,33 @@ std::vector<Value> Value::getVector(bool* isOk) const
 }
 
 
-bool Value::set(int val_)
-{
+bool Value::setInt(int val_)
+{//debug_msg("Value::set int");
     if(_value == NULL){
         _value = new ValueNumber(val_);
-    }else if(!_value->set(val_)){
+    }else if(!_value->setInt(val_)){
         delete _value;
         _value = new ValueNumber(val_);
     }
     return true;
 }
 
-bool Value::set(bool val_)
-{
+bool Value::setBool(bool val_)
+{//debug_msg("Value::set bool");
     if(_value == NULL){
         _value = new ValueBool(val_);
-    }else if(!_value->set(val_)){
+    }else if(!_value->setBool(val_)){
         delete _value;
         _value = new ValueBool(val_);
     }
     return true;
 }
 
-bool Value::set(double val_)
-{
+bool Value::setDouble(double val_)
+{//debug_msg("Value::set double");
     if(_value == NULL){
         _value = new ValueNumber(val_);
-    }else if(!_value->set(val_)){
+    }else if(!_value->setDouble(val_)){
         delete _value;
         _value = new ValueNumber(val_);
     }
@@ -322,7 +329,7 @@ bool Value::set(double val_)
 }
 
 bool Value::setConstant(const std::string& val_)
-{
+{//debug_msg("Value::set constant");
     if(_value == NULL){
         _value = new ValueConstant(val_);
     }else if(!_value->setConstant(val_)){
@@ -332,22 +339,22 @@ bool Value::setConstant(const std::string& val_)
     return true;
 }
 
-bool Value::set(const std::string& val_)
-{
+bool Value::setString(const std::string& val_)
+{//debug_msg("Value::set string");
     if(_value == NULL){
         _value = new ValueString(val_);
-    }else if(!_value->set(val_)){
+    }else if(!_value->setString(val_)){
         delete _value;
         _value = new ValueString(val_);
     }
     return true;
 }
 
-bool Value::set(const std::vector<Value>& val_)
-{
+bool Value::setVector(const std::vector<Value>& val_)
+{//debug_msg("Value::set vector");
     if(_value == NULL){
         _value = new ValueVector(val_);
-    }else if(!_value->set(val_)){
+    }else if(!_value->setVector(val_)){
         delete _value;
         _value = new ValueVector(val_);
     }
@@ -410,6 +417,12 @@ iterator_t Value::parse(iterator_t config_begin, iterator_t config_end)
     return config_begin;
 }
 
+bool Value::write(std::ostream& ost_) const
+{
+    if(_value == NULL) return false;
+    return _value->write(ost_);
+}
+
 
 const std::string ValueNumber::_valid_number_chars = "xXeE-+.0123456789aAbBcCdDeEfF";
 const std::string ValueNumber::_only_double_chars = ".eE";
@@ -461,14 +474,14 @@ double ValueNumber::getDouble(bool* isOk) const
     return _is_double ? _valued : static_cast<double>(_valuei);
 }
 
-bool ValueNumber::set(int val_)
+bool ValueNumber::setInt(int val_)
 {
     _valuei = val_;
     _is_double = false;
     return true;
 }
 
-bool ValueNumber::set(double val_)
+bool ValueNumber::setDouble(double val_)
 {
     _valued = val_;
     _is_double = true;
@@ -528,6 +541,13 @@ bool ValueNumber::isit(iterator_t config_begin, iterator_t config_end)
     return true;
 }
 
+bool ValueNumber::write(std::ostream& ost_) const
+{
+    if(_is_double) ost_ << _valued;
+    else ost_ << _valuei;
+    return true;
+}
+
 bool ValueNumber::isnumberchar(value_t c)
 {
     return std::find(_valid_number_chars.begin(), _valid_number_chars.end(), c)
@@ -569,7 +589,7 @@ bool ValueBool::getBool(bool* isOk) const
     return _value;
 }
 
-bool ValueBool::set(bool val_)
+bool ValueBool::setBool(bool val_)
 {
     _value = val_;
     return true;
@@ -613,6 +633,12 @@ bool ValueBool::isit(iterator_t config_begin, iterator_t config_end)
     return false;
 }
 
+bool ValueBool::write(std::ostream& ost_) const
+{
+    if(_value) ost_ << _str_true;
+    else ost_ << _str_false;
+    return true;
+}
 
 
 ValueConstant::ValueConstant()
@@ -681,6 +707,13 @@ bool ValueConstant::isit(iterator_t config_begin, iterator_t config_end)
     return isnamechar(*current, true);
 }
 
+bool ValueConstant::write(std::ostream& ost_) const
+{
+    if(_value.empty()) return false;
+    ost_ << _value;
+    return true;
+}
+
 
 
 const std::string ValueString::_string_begin_end = "\"";
@@ -715,7 +748,7 @@ std::string ValueString::getString(bool* isOk) const
     return _value;
 }
 
-bool ValueString::set(const std::string& val_)
+bool ValueString::setString(const std::string& val_)
 {
     _value = val_;
     return true;
@@ -800,6 +833,38 @@ bool ValueString::isit(iterator_t config_begin, iterator_t config_end)
     return false;
 }
 
+bool ValueString::write(std::ostream& ost_) const
+{
+    //std::ostreambuf_iterator<char> out_it(ost_);
+    ost_ << _string_begin_end;
+    for(iterator_t it = _value.begin(); it != _value.end(); ++it){
+        switch(*it){
+            case '\n':
+                ost_ << "\\n";
+                break;
+            case '\r':
+                ost_ << "\\r";
+                break;
+            case '\v':
+                ost_ << "\\v";
+                break;
+            case '\t':
+                ost_ << "\\t";
+                break;
+            case '"':
+                ost_ << "\\\"";
+                break;
+            case '\\':
+                ost_ << "\\\\";
+                break;
+            default:
+                ost_ << *it;
+        }
+    }
+    ost_ << _string_begin_end;
+    return true;
+}
+
 
 const std::string ValueVector::_vector_begin = "(";
 const std::string ValueVector::_vector_end   = ")";
@@ -840,7 +905,7 @@ std::vector<Value> ValueVector::getVector(bool* isOk) const
     return *_value;
 }
 
-bool ValueVector::set(const std::vector<Value>& val_)
+bool ValueVector::setVector(const std::vector<Value>& val_)
 {
     delete _value;
     _value = new std::vector<Value>(val_.begin(), val_.end());
@@ -934,7 +999,21 @@ bool ValueVector::isit(iterator_t config_begin, iterator_t config_end)
     return false;
 }
 
-
+bool ValueVector::write(std::ostream& ost_) const
+{
+    if(_value == NULL) return false;
+    
+    ost_ << _vector_begin;
+    
+    for(std::vector<Value>::iterator it = _value->begin(); it != _value->end(); ++it){
+        (*it).write(ost_);
+        if(std::distance(it, _value->end()) > 1) ost_ << _vector_sep;
+    }
+    
+    ost_ << _vector_end;
+    
+    return true;
+}
 
 const std::string Parameter::_parameter_sign = "=";
 
@@ -949,9 +1028,15 @@ Parameter::~Parameter()
     delete _value;
 }
 
-Value* Parameter::value()
+Value* Parameter::getValue()
 {
     return _value;
+}
+
+void Parameter::setValue(const Value* value_)
+{
+    delete _value;
+    _value = value_->clone();
 }
 
 bool Parameter::isit(iterator_t begin, iterator_t end)
@@ -1000,6 +1085,18 @@ iterator_t Parameter::parse(iterator_t config_begin, iterator_t config_end)
     return current;
 }
 
+bool Parameter::write(std::ostream& ost_) const
+{
+    if(_value == NULL) return true;//false;
+    
+    ost_ << _name << _parameter_sign;
+    
+    if(!_value->write(ost_)) return false;
+    
+    ost_ << Element::line_sep;
+    
+    return true;
+}
 
 const std::string Group::_group_begin  = "{";
 const std::string Group::_group_end    = "}";
@@ -1044,6 +1141,22 @@ void Group::_clear()
     
     _groups->clear();
     _parameters->clear();
+}
+
+Group* Group::addGroup(const std::string& name)
+{
+    Group* res = new Group(name);
+    _groups->push_back(res);
+    
+    return res;
+}
+
+Parameter* Group::addParameter(const std::string& name)
+{
+    Parameter* res = new Parameter(name);
+    _parameters->push_back(res);
+    
+    return res;
 }
 
 Group* Group::getGroup(const std::string& group_)
@@ -1117,8 +1230,10 @@ iterator_t Group::parse(iterator_t config_begin, iterator_t config_end)
                 return config_begin;
             }
             
-            Parameter* param = new Parameter(readed_name);
-            _parameters->push_back(param);
+            Parameter* param = getParameter(readed_name);
+            if(param == NULL) param = addParameter(readed_name);
+            else debug_msg("Group::Warning replacing parameter");
+            //_parameters->push_back(param);
             
             iterator_t parse_res = param->parse(current, config_end);
             
@@ -1139,8 +1254,10 @@ iterator_t Group::parse(iterator_t config_begin, iterator_t config_end)
                 return config_begin;
             }
             
-            Group* grp = new Group(readed_name);
-            _groups->push_back(grp);
+            Group* grp = getGroup(readed_name);
+            if(grp == NULL) grp = addGroup(readed_name);
+            else debug_msg("Group::Warning replacing group");
+            //_groups->push_back(grp);
             
             iterator_t parse_res = grp->parse(current, config_end);
             
@@ -1161,31 +1278,128 @@ iterator_t Group::parse(iterator_t config_begin, iterator_t config_end)
     return current;
 }
 
+bool Group::write(std::ostream& ost_, size_t lvl) const
+{
+    size_t cur_lvl = lvl;
+    
+    //if this is not root node
+    if(_is_root == false){
+        //inc current lvl
+        cur_lvl ++;
+        //write align spaces
+        for(size_t i = 0; i < lvl; i++) ost_ << Element::align_space;
+        //write group name and begin symbol
+        ost_ << _name << _group_begin << Element::line_end;
+    }
+    
+    //groups
+    for(Groups::iterator it = _groups->begin(); it != _groups->end(); ++it){
+        //write group
+        if(!(*it)->write(ost_, cur_lvl)) return false;
+        //wrute endl
+        ost_ << Element::line_end;
+    }
+    
+    //parameters
+    for(Parameters::iterator it = _parameters->begin(); it != _parameters->end(); ++it){
+        //write align spaces
+        for(size_t i = 0; i < cur_lvl; i++) ost_ << Element::align_space;
+        //write parameter
+        if(!(*it)->write(ost_)) return false;
+        //write endl
+        ost_ << Element::line_end;
+    }
+    
+    //if not root
+    if(_is_root == false){
+        //write align
+        for(size_t i = 0; i < lvl; i++) ost_ << Element::align_space;
+        //write group end symbol
+        ost_ << _group_end;// << Element::line_end;
+    }else{
+        //else write eof-endl
+        ost_ << Element::line_end;
+    }
+    
+    return true;
+}
+
 Value* Group::getValue(const std::string& parameter_)
 {
     if(parameter_.empty()) return NULL;
     
-    if(_group_sep.length() < parameter_.length()){
-        std::string::const_iterator it =
-                std::search(parameter_.begin(), parameter_.end(),
-                            _group_sep.begin(), _group_sep.end());
-        if(it != parameter_.end()){
-            std::string group_name(parameter_.begin(), it);
-            Group* group = getGroup(group_name);
-            if(group != NULL){
-                std::advance(it, _group_sep.length());
-                std::string parameter_name(it, parameter_.end());
-                return group->getValue(parameter_name);
-            }else{
-                return NULL;
-            }
+    std::string group_name;
+    
+    iterator_t end_name = get_name(group_name, parameter_.begin(), parameter_.end());
+    
+    if(end_name == parameter_.end()){
+        Parameter* parameter = getParameter(parameter_);
+        if(parameter != NULL){
+            return parameter->getValue();
         }
+        return NULL;
     }
     
-    Parameter* parameter = getParameter(parameter_);
-    if(parameter != NULL) return parameter->value();
+    if(_group_sep.length() > static_cast<unsigned int>(std::distance(end_name, parameter_.end()))){
+        debug_msg("Group::getValue::Error bad length");
+        return NULL;
+    }
     
-    return NULL;
+    if(!std::equal(_group_sep.begin(), _group_sep.end(), end_name)){
+        debug_msg("Group::getValue::Error invalid separator");
+        return NULL;
+    }
+    
+    
+    Group* group = getGroup(group_name);
+    
+    if(group == NULL){
+        //debug_msg("Group::getValue::Error group not found");
+        return NULL;
+    }
+    
+    std::advance(end_name, _group_sep.length());
+    
+    std::string parameter_name(end_name, parameter_.end());
+    return group->getValue(parameter_name);
+}
+
+bool Group::setValue(const std::string& parameter_, const Value* value_)
+{
+    if(parameter_.empty()) return false;
+    
+    std::string group_name;
+    
+    iterator_t end_name = get_name(group_name, parameter_.begin(), parameter_.end());
+    
+    if(end_name == parameter_.end()){
+        Parameter* parameter = getParameter(parameter_);
+        if(parameter == NULL) parameter = addParameter(group_name);
+        parameter->setValue(value_);
+        return true;
+    }
+    
+    if(_group_sep.length() > static_cast<unsigned int>(std::distance(end_name, parameter_.end()))){
+        debug_msg("Group::setValue::Error bad length");
+        return false;
+    }
+    
+    if(!std::equal(_group_sep.begin(), _group_sep.end(), end_name)){
+        debug_msg("Group::setValue::Error invalid separator");
+        return false;
+    }
+    
+    
+    Group* group = getGroup(group_name);
+    if(group == NULL) group = addGroup(group_name);
+    
+    std::advance(end_name, _group_sep.length());
+    
+    std::string parameter_name(end_name, parameter_.end());
+    
+    group->setValue(parameter_name, value_);
+    
+    return true;
 }
 
 Config::Config()
@@ -1212,6 +1426,20 @@ bool Config::read(std::istream& ist_)
     return parse(config_begin, config_end) == config_end;
 }
 
+void Config::clear()
+{
+    delete _root;
+    _root = NULL;
+}
+
+bool Config::write(std::ostream& ost_) const
+{
+    if(_root != NULL){
+        return _root->write(ost_);
+    }
+    return false;
+}
+
 iterator_t Config::parse(iterator_t config_begin, iterator_t config_end)
 {
     delete _root;
@@ -1222,10 +1450,168 @@ iterator_t Config::parse(iterator_t config_begin, iterator_t config_end)
     return parse_res;
 }
 
-Value* Config::getValue(const std::string& parameter_)
+int Config::getInt(const std::string& parameter_, bool* isOk) const
+{
+    Value* value = getValue(parameter_);
+    if(value){
+        return value->getInt(isOk);
+    }
+    if(isOk) *isOk = false;
+    return int();
+}
+
+bool Config::getBool(const std::string& parameter_, bool* isOk) const
+{
+    Value* value = getValue(parameter_);
+    if(value){
+        return value->getBool(isOk);
+    }
+    if(isOk) *isOk = false;
+    return bool();
+}
+
+double Config::getDouble(const std::string& parameter_, bool* isOk) const
+{
+    Value* value = getValue(parameter_);
+    if(value){
+        return value->getDouble(isOk);
+    }
+    if(isOk) *isOk = false;
+    return double();
+}
+
+std::string Config::getConstant(const std::string& parameter_, bool* isOk) const
+{
+    Value* value = getValue(parameter_);
+    if(value){
+        return value->getConstant(isOk);
+    }
+    if(isOk) *isOk = false;
+    return std::string();
+}
+
+std::string Config::getString(const std::string& parameter_, bool* isOk) const
+{
+    Value* value = getValue(parameter_);
+    if(value){
+        return value->getString(isOk);
+    }
+    if(isOk) *isOk = false;
+    return std::string();
+}
+
+std::vector<Value> Config::getVector(const std::string& parameter_, bool* isOk) const
+{
+    Value* value = getValue(parameter_);
+    if(value){
+        return value->getVector(isOk);
+    }
+    if(isOk) *isOk = false;
+    return std::vector<Value>();
+}
+
+
+bool Config::setInt(const std::string& parameter_, int value_)
+{
+    Value* pvalue = getValue(parameter_);
+    if(pvalue){
+        return pvalue->setInt(value_);
+    }
+
+    Value value;
+    value.setInt(value_);
+
+    return setValue(parameter_, value);;
+}
+
+bool Config::setBool(const std::string& parameter_, bool value_)
+{
+    Value* pvalue = getValue(parameter_);
+    if(pvalue){
+        return pvalue->setBool(value_);
+    }
+    
+    Value value;
+    value.setBool(value_);
+
+    return setValue(parameter_, value);
+}
+
+bool Config::setDouble(const std::string& parameter_, double value_)
+{
+    Value* pvalue = getValue(parameter_);
+    if(pvalue){
+        return pvalue->setDouble(value_);
+    }
+    
+    Value value;
+    value.setDouble(value_);
+    
+    return setValue(parameter_, value);
+}
+
+bool Config::setConstant(const std::string& parameter_, const std::string& value_)
+{
+    Value* pvalue = getValue(parameter_);
+    if(pvalue){
+        return pvalue->setConstant(value_);
+    }
+    
+    Value value;
+    value.setConstant(value_);
+    
+    return setValue(parameter_, value);
+}
+
+bool Config::setString(const std::string& parameter_, const std::string& value_)
+{
+    Value* pvalue = getValue(parameter_);
+    if(pvalue){
+        return pvalue->setString(value_);
+    }
+    
+    Value value;
+    value.setString(value_);
+    
+    return setValue(parameter_, value);
+}
+
+bool Config::setVector(const std::string& parameter_, const std::vector<Value>& value_)
+{
+    Value* pvalue = getValue(parameter_);
+    if(pvalue){
+        return pvalue->setVector(value_);
+    }
+    
+    Value value;
+    value.setVector(value_);
+    
+    return setValue(parameter_, value);
+}
+
+Value* Config::getValue(const std::string& parameter_) const
 {
     if(_root != NULL){
         return _root->getValue(parameter_);
     }
     return NULL;
+}
+
+bool Config::setValue(const std::string& parameter_, const Value& value_)
+{
+    if(_root == NULL) _root = new Group;
+    return _root->setValue(parameter_, &value_);
+}
+
+
+std::istream& operator>>(std::istream& ist, Config& config)
+{
+    config.read(ist);
+    return ist;
+}
+
+std::ostream& operator<<(std::ostream& ost, const Config& config)
+{
+    config.write(ost);
+    return ost;
 }
