@@ -43,6 +43,7 @@ public:
     static const std::string line_sep;
     static const std::string align_space;
     static const std::string line_end;
+    static const std::string white_space;
 };
 
 class NamedElement

@@ -123,6 +123,7 @@ iterator_t get_name(std::string& name, iterator_t begin, iterator_t end)
 const std::string Element::line_sep = ";";
 const std::string Element::align_space = "    ";
 const std::string Element::line_end = "\n";
+const std::string Element::white_space = " ";
 
 Element::~Element()
 {
@@ -782,9 +783,9 @@ iterator_t ValueString::parse(iterator_t config_begin, iterator_t config_end)
                 case '"':
                     return ++current;
                 default:
+                    _value.push_back(*current);
                     break;
             }
-            _value.push_back(*current);
         }else{
             switch(*current){
                 case 'n':
@@ -1007,7 +1008,7 @@ bool ValueVector::write(std::ostream& ost_) const
     
     for(std::vector<Value>::iterator it = _value->begin(); it != _value->end(); ++it){
         (*it).write(ost_);
-        if(std::distance(it, _value->end()) > 1) ost_ << _vector_sep;
+        if(std::distance(it, _value->end()) > 1) ost_ << _vector_sep << Element::white_space;
     }
     
     ost_ << _vector_end;
@@ -1089,7 +1090,7 @@ bool Parameter::write(std::ostream& ost_) const
 {
     if(_value == NULL) return true;//false;
     
-    ost_ << _name << _parameter_sign;
+    ost_ << _name << Element::white_space << _parameter_sign << Element::white_space;
     
     if(!_value->write(ost_)) return false;
     
@@ -1292,14 +1293,6 @@ bool Group::write(std::ostream& ost_, size_t lvl) const
         ost_ << _name << _group_begin << Element::line_end;
     }
     
-    //groups
-    for(Groups::iterator it = _groups->begin(); it != _groups->end(); ++it){
-        //write group
-        if(!(*it)->write(ost_, cur_lvl)) return false;
-        //wrute endl
-        ost_ << Element::line_end;
-    }
-    
     //parameters
     for(Parameters::iterator it = _parameters->begin(); it != _parameters->end(); ++it){
         //write align spaces
@@ -1310,15 +1303,29 @@ bool Group::write(std::ostream& ost_, size_t lvl) const
         ost_ << Element::line_end;
     }
     
+    if(!_parameters->empty() && !_groups->empty()){
+        //write endl (parameters - groups separator)
+        ost_ << Element::line_end;
+    }
+    
+    //groups
+    for(Groups::iterator it = _groups->begin(); it != _groups->end(); ++it){
+        //write group
+        if(!(*it)->write(ost_, cur_lvl)) return false;
+        //wrute endl
+        ost_ << Element::line_end;
+        //write endl between neighboring groups
+        if(std::distance(it, _groups->end()) > 1){
+            ost_ << Element::line_end;
+        }
+    }
+    
     //if not root
     if(_is_root == false){
         //write align
         for(size_t i = 0; i < lvl; i++) ost_ << Element::align_space;
         //write group end symbol
         ost_ << _group_end;// << Element::line_end;
-    }else{
-        //else write eof-endl
-        ost_ << Element::line_end;
     }
     
     return true;
