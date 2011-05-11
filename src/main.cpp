@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     
     config.read(istrst);
     
-    std::cout << config.getValue("group1.group2.param2")->getString() << std::endl;
+    std::cout << config.getString("group1.group2.param2") << std::endl;
     
     return (EXIT_SUCCESS);
 }
