@@ -2,7 +2,7 @@
 #define _FS_ENTRYPOINT_H_
 
 #include <iostream>
-#include "string/string.h"
+#include <string>
 
 class FSEntryPoint
 {
@@ -10,7 +10,7 @@ public:
 
     virtual ~FSEntryPoint();
     
-    virtual std::iostream* open(const String& fn, std::ios_base::openmode om) = 0;
+    virtual std::iostream* open(const std::string& fn, std::ios_base::openmode om) const = 0;
     //virtual bool close(std::iostream* iost);
 };
 

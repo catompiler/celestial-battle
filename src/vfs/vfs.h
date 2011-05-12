@@ -1,10 +1,10 @@
 #ifndef _VFS_H
 #define _VFS_H
 
-#include "string/string.h"
 #include "fsentrypoint.h"
 #include <iostream>
 #include <list>
+#include <string>
 
 
 class VFS
@@ -15,8 +15,8 @@ public:
     VFS();
     ~VFS();
     
-    std::iostream* open(const String& fn, std::ios_base::openmode om);
-    bool close(std::iostream* iost);
+    std::iostream* open(const std::string& fn, std::ios_base::openmode om) const;
+    bool close(std::iostream* iost) const;
 
     bool addEntryPoint(FSEntryPoint* entryPoint);
     bool delEntryPoint(FSEntryPoint* entryPoint);

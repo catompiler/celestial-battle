@@ -3,30 +3,31 @@
 
 #include <iostream>
 #include "fsentrypoint.h"
-#include "string/string.h"
+#include <string>
 
 class LocalFSEntryPoint
     :public FSEntryPoint
 {
 public:
 
-    static String separator();
+    static const std::string& separator();
 
     LocalFSEntryPoint();
-    LocalFSEntryPoint(const String& path_);
+    LocalFSEntryPoint(const std::string& path_);
     ~LocalFSEntryPoint();
 
-    std::iostream* open(const String& fn, std::ios_base::openmode om);
+    std::iostream* open(const std::string& fn, std::ios_base::openmode om) const;
 
-    void setPath(const String& path_);
-    const String& path();
+    void setPath(const std::string& path_);
+    const std::string& path() const;
 
 protected:
+    static const std::string _separator;
 
-    String _path;
+    std::string _path;
 
-    void _setPath(const String& path_);
-    String _getSumPath(const String& path1_, const String& path2_);
+    void _setPath(const std::string& path_);
+    std::string _addToPath(const std::string& fn) const;
 
 };
 

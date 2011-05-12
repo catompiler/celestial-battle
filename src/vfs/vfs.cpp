@@ -13,7 +13,7 @@ VFS::~VFS() {
     delete _entryPoints;
 }
 
-std::iostream* VFS::open(const String& fn, std::ios_base::openmode om)
+std::iostream* VFS::open(const std::string& fn, std::ios_base::openmode om) const
 {
     std::iostream* res = NULL;
     for(FSEntryPoints::iterator it = _entryPoints->begin();
@@ -24,7 +24,7 @@ std::iostream* VFS::open(const String& fn, std::ios_base::openmode om)
     return res;
 }
 
-bool VFS::close(std::iostream* iost)
+bool VFS::close(std::iostream* iost) const
 {
     delete iost;
     return true;
