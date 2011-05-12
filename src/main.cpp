@@ -1,30 +1,29 @@
 #include <stdlib.h>
-#include <sstream>
 #include <iostream>
-#include "config/config.h"
+#include <algorithm>
+#include "log/log.h"
+#include "delegate/delegate.h"
 
-const char* config_data =
-" // test config\n\
- /* some comment */ \n\
- group1 //{ \n\
-/* { */ { \n\
-    param1 = -0.10e+2 ; \n\
-    group2 { \n\
-        param2 = \"string\" ; \n\
-    }\n\
-}\n\
-param0 = value0 ;\n";
+class Foo{
+public:
+    void func(){
+        std::cout << "Foo::func()" << std::endl;
+    }
+    void ufunc(int a1){
+        std::cout << "Foo::func(" << a1 << ")" << std::endl;
+    }
+    void bfunc(int a1, float a2){
+        std::cout << "Foo::func(" << a1 << ", " << a2 << ")" << std::endl;
+    }
+};
 
 int main(int argc, char** argv)
 {
-    std::string config_str(config_data);
-    std::istringstream istrst(config_str);
+    log(Log::Information) << "Hello, Log!" << std::endl;
     
-    Config config;
-    
-    config.read(istrst);
-    
-    std::cout << config.getString("group1.group2.param2") << std::endl;
+    int array[]={12,23,56,34,45};
+    Foo f;
+    std::for_each(array, array + 5, make_delegate(&f, &Foo::ufunc));
     
     return (EXIT_SUCCESS);
 }

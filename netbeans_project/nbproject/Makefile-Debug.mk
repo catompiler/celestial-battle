@@ -39,6 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/897345942/string.o \
 	${OBJECTDIR}/_ext/1667457878/exception.o \
 	${OBJECTDIR}/_ext/659870665/fsentrypoint.o \
+	${OBJECTDIR}/_ext/659861322/log.o \
 	${OBJECTDIR}/_ext/1029917654/main.o \
 	${OBJECTDIR}/_ext/659870665/localfsentrypoint.o \
 	${OBJECTDIR}/_ext/394022532/config.o
@@ -92,6 +93,11 @@ ${OBJECTDIR}/_ext/659870665/fsentrypoint.o: ../src/vfs/fsentrypoint.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/659870665
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659870665/fsentrypoint.o ../src/vfs/fsentrypoint.cpp
+
+${OBJECTDIR}/_ext/659861322/log.o: ../src/log/log.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/659861322
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659861322/log.o ../src/log/log.cpp
 
 ${OBJECTDIR}/_ext/1029917654/main.o: /home/artem/devel/opengl/celestial-battle/src/main.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1029917654
