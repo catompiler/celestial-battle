@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "log/log.h"
 #include "delegate/delegate.h"
+#include <functional>
 
 class Foo{
 public:
