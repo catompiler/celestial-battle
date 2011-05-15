@@ -1,21 +1,9 @@
 #include "localfsentrypoint.h"
+#include "osal/osal.h"
 #include <fstream>
 #include <algorithm>
 #include <iterator>
 //#include <iostream>
-
-const std::string LocalFSEntryPoint::_separator = std::string(
-#ifdef WIN32
-    "\\"
-#else
-    "/"
-#endif
-);//end
-
-const std::string& LocalFSEntryPoint::separator()
-{
-    return _separator;
-}
 
 LocalFSEntryPoint::LocalFSEntryPoint()
 {
@@ -58,6 +46,7 @@ const std::string& LocalFSEntryPoint::path() const
 
 void LocalFSEntryPoint::_setPath(const std::string& path_)
 {
+    std::string _separator = osal::fs::separator();
     //if path_ can contain separator
     if(path_.length() >= _separator.length()){
         //find it
@@ -78,7 +67,7 @@ void LocalFSEntryPoint::_setPath(const std::string& path_)
 std::string LocalFSEntryPoint::_addToPath(const std::string& fn) const
 {
     std::string res = _path;
-    
+    std::string _separator = osal::fs::separator();
     //if fn beginning from separator
     if(fn.length() >= _separator.length() &&
             std::equal(_separator.begin(), _separator.end(), fn.begin())){

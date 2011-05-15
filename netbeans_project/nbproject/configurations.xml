@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="79">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
-    <logicalFolder name="delegate" displayName="delegate" projectFiles="true">
-      <itemPath>../src/delegate/delegate.h</itemPath>
-    </logicalFolder>
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
@@ -21,9 +18,20 @@
         <itemPath>../src/config/config.cpp</itemPath>
         <itemPath>../src/config/config.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="delegate" displayName="delegate" projectFiles="true">
+        <itemPath>../src/delegate/delegate.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="event" displayName="event" projectFiles="true">
+        <itemPath>../src/event/event.cpp</itemPath>
+        <itemPath>../src/event/event.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="exception" displayName="exception" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glcontext" displayName="glcontext" projectFiles="true">
+        <itemPath>../src/glcontext/glcontext.cpp</itemPath>
+        <itemPath>../src/glcontext/glcontext.h</itemPath>
       </logicalFolder>
       <logicalFolder name="glmath" displayName="glmath" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/functions.h</itemPath>
@@ -44,6 +52,11 @@
         <itemPath>../src/log/log.cpp</itemPath>
         <itemPath>../src/log/log.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="osal" displayName="osal" projectFiles="true">
+        <itemPath>../src/osal/osal.cpp</itemPath>
+        <itemPath>../src/osal/osal.h</itemPath>
+        <itemPath>../src/osal/osdef.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="smart_ptr" displayName="smart_ptr" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/smart_ptr/smartptr.h</itemPath>
       </logicalFolder>
@@ -62,6 +75,10 @@
         <itemPath>../src/vfs/localfsentrypoint.h</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="window" displayName="window" projectFiles="true">
+        <itemPath>../src/window/window.cpp</itemPath>
+        <itemPath>../src/window/window.h</itemPath>
       </logicalFolder>
       <itemPath>/home/artem/devel/opengl/celestial-battle/src/main.cpp</itemPath>
     </logicalFolder>

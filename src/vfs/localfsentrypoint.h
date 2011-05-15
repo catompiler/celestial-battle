@@ -10,8 +10,6 @@ class LocalFSEntryPoint
 {
 public:
 
-    static const std::string& separator();
-
     LocalFSEntryPoint();
     LocalFSEntryPoint(const std::string& path_);
     ~LocalFSEntryPoint();
@@ -22,7 +20,6 @@ public:
     const std::string& path() const;
 
 protected:
-    static const std::string _separator;
 
     std::string _path;
 

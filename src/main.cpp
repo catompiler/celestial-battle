@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "log/log.h"
 #include "delegate/delegate.h"
+#include "event/event.h"
 #include <functional>
 
 class Foo{
@@ -25,6 +26,13 @@ int main(int argc, char** argv)
     int array[]={12,23,56,34,45};
     Foo f;
     std::for_each(array, array + 5, make_delegate(&f, &Foo::ufunc));
+    
+    BinaryEvent<int, float> event;
+    event.addHandler(make_delegate(&f, &Foo::bfunc));
+    
+    event(10, 3.14);
+    
+    event.removeHandler(&f);
     
     return (EXIT_SUCCESS);
 }
