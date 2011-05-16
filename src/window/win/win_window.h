@@ -53,6 +53,10 @@ protected:
 
     static LRESULT CALLBACK _WndProc(HWND  hWnd, UINT  uMsg, WPARAM  wParam, LPARAM  lParam);
 
+    static WinWindow* getWindow(HWND hWnd_);
+    static bool addWindow(HWND hWnd_, WinWindow* window_);
+    static bool removeWindow(HWND hWnd_);
+
     HWND _hWnd;
 
 };

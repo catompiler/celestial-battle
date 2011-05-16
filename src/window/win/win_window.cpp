@@ -231,62 +231,41 @@ LRESULT CALLBACK WinWindow::_WndProc(HWND  hWnd, UINT  uMsg, WPARAM  wParam, LPA
 {
     CREATESTRUCT* createStruct = NULL;
     WinWindow* window = NULL;
-    WindowsMap::iterator it;
     
     switch(uMsg){
         case WM_CREATE:
             createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
+            window = reinterpret_cast<WinWindow*>(createStruct->lpCreateParams);
         
-            it = _windowsMap.find(hWnd);
-            if(it == _windowsMap.end()){
-                window = reinterpret_cast<WinWindow*>(createStruct->lpCreateParams);
-                //set handle value!
-                window->_hWnd = hWnd;
-                _windowsMap[hWnd] = window;
-            }else{
-                window = (*it).second;
-            }
+            addWindow(hWnd, window);
             
             { CreateEvent e(window);
             window->_onCreate(&e); }
             break;
             
         case WM_CLOSE:
-            it = _windowsMap.find(hWnd);
-            if(it == _windowsMap.end()){
-                break;
-            }
-            window = (*it).second;
+            window = getWindow(hWnd);
+            if(window == NULL) break;
             
             { CloseEvent e(window);
             window->_onClose(&e); }
             break;
             
         case WM_DESTROY:
-            it = _windowsMap.find(hWnd);
-            if(it == _windowsMap.end()){
-                break;
-            }
-            _windowsMap.erase(it);
+            removeWindow(hWnd);
             break;
             
         case WM_PAINT:
-            it = _windowsMap.find(hWnd);
-            if(it == _windowsMap.end()){
-                break;
-            }
-            window = (*it).second;
+            window = getWindow(hWnd);
+            if(window == NULL) break;
             
             { PaintEvent e(window);
             window->_onPaint(&e); }
             break;
             
         case WM_SIZE:
-            it = _windowsMap.find(hWnd);
-            if(it == _windowsMap.end()){
-                break;
-            }
-            window = (*it).second;
+            window = getWindow(hWnd);
+            if(window == NULL) break;
             
             { ResizeEvent e(window , LOWORD(lParam), HIWORD(lParam));
             window ->_onResize(&e); }
@@ -297,5 +276,36 @@ LRESULT CALLBACK WinWindow::_WndProc(HWND  hWnd, UINT  uMsg, WPARAM  wParam, LPA
     }
     
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
+WinWindow* WinWindow::getWindow(HWND hWnd_)
+{
+    WindowsMap::iterator it = _windowsMap.find(hWnd_);
+    if(it == _windowsMap.end()){
+        return NULL;
+    }
+    return (*it).second;
+}
+
+bool WinWindow::addWindow(HWND hWnd_, WinWindow* window_)
+{
+    WindowsMap::iterator it = _windowsMap.find(hWnd_);
+    if(it == _windowsMap.end()){
+        //set handle value!
+        window_->_hWnd = hWnd_;
+        _windowsMap[hWnd_] = window_;
+        return true;
+    }
+    return false;
+}
+
+bool WinWindow::removeWindow(HWND hWnd_)
+{
+    WindowsMap::iterator it = _windowsMap.find(hWnd_);
+    if(it == _windowsMap.end()){
+        return false;
+    }
+    _windowsMap.erase(it);
+    return true;
 }
 
