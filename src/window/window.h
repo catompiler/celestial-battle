@@ -2,8 +2,11 @@
 #define	WINDOW_H
 
 #include <string>
+#include <map>
 #include "event/event.h"
 #include "object/object.h"
+#include "window_types.h"
+
 
 class GLContext;
 
@@ -73,9 +76,10 @@ public:
     OnResizeEvent::Base& onResize();
     
     
+    Window();
     virtual ~Window();
     
-    
+
     virtual int left() const = 0;
     virtual void setLeft(int left_) = 0;
     
@@ -101,6 +105,9 @@ public:
     virtual void swapBuffers() /* const */ = 0;
     
     
+    virtual windowid_t id();
+    
+    
     static Window* create(const std::string& title_,
                           int left_, int top_,
                           int width_, int height_,
@@ -111,11 +118,20 @@ public:
     static int processEvents();
     
 protected:
+    
+    typedef std::map<windowid_t, Window*> WindowsMap;
+    static WindowsMap _windowsMap;
+    static Window* getWindow(windowid_t id_);
+    static bool addWindow(windowid_t id_, Window* window_);
+    static bool removeWindow(windowid_t id_);
+    
 
     OnCreateEvent _onCreate;
     OnCloseEvent _onClose;
     OnPaintEvent _onPaint;
     OnResizeEvent _onResize;
+    
+    windowid_t _id;
 };
 
 #endif	/* WINDOW_H */

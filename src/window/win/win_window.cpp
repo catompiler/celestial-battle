@@ -1,22 +1,21 @@
 #include "win_window.h"
+#include "win_window_types.h"
 
-
+#ifdef OS_WINDOWS
 
 const char* WinWindow::_winClassName = "_WINDOW_";
-
-WinWindow::WindowsMap WinWindow::_windowsMap;
 
 int WinWindow::_regclass_count = 0;
 
 
 WinWindow::WinWindow()
+        :Window()
 {
-    _hWnd = 0;
 }
 
 WinWindow::~WinWindow()
 {
-    if(_hWnd != 0) DestroyWindow(_hWnd);
+    if(_id != 0) DestroyWindow(_id);
     if(_regclass_count != 0){
         if(--_regclass_count == 0){
             UnregisterClass(_winClassName, GetModuleHandle(NULL));
@@ -27,7 +26,7 @@ WinWindow::~WinWindow()
 int WinWindow::left() const
 {
     RECT r;
-    GetWindowRect(_hWnd, &r);
+    GetWindowRect(_id, &r);
     return r.left;
 }
 
@@ -35,13 +34,13 @@ void WinWindow::setLeft(int left_)
 {
     RECT r;
     //get current rect
-    GetWindowRect(_hWnd, &r);
+    GetWindowRect(_id, &r);
     //calc width
     int w = r.right - r.left;
     r.left = left_;
     r.right = left_ + w;
     //set
-    SetWindowPos(_hWnd, 0,
+    SetWindowPos(_id, 0,
                  r.left, r.right,
                  r.right - r.left, r.bottom - r.top,
                  0);
@@ -50,7 +49,7 @@ void WinWindow::setLeft(int left_)
 int WinWindow::top() const
 {
     RECT r;
-    GetWindowRect(_hWnd, &r);
+    GetWindowRect(_id, &r);
     return r.top;
 }
 
@@ -58,13 +57,13 @@ void WinWindow::setTop(int top_)
 {
     RECT r;
     //get current rect
-    GetWindowRect(_hWnd, &r);
+    GetWindowRect(_id, &r);
     //calc width
     int h = r.bottom - r.top;
     r.top = top_;
     r.bottom = top_ + h;
     //set
-    SetWindowPos(_hWnd, 0,
+    SetWindowPos(_id, 0,
                  r.left, r.right,
                  r.right - r.left, r.bottom - r.top,
                  0);
@@ -73,7 +72,7 @@ void WinWindow::setTop(int top_)
 unsigned int WinWindow::width() const
 {
     RECT r;
-    GetWindowRect(_hWnd, &r);
+    GetWindowRect(_id, &r);
     return r.right - r.left;
 }
 
@@ -81,10 +80,10 @@ void WinWindow::setWidth(unsigned int width_)
 {
     RECT r;
     //get current rect
-    GetWindowRect(_hWnd, &r);
+    GetWindowRect(_id, &r);
     r.right = r.left + width_;
     //set
-    SetWindowPos(_hWnd, 0,
+    SetWindowPos(_id, 0,
                  r.left, r.right,
                  r.right - r.left, r.bottom - r.top,
                  0);
@@ -93,7 +92,7 @@ void WinWindow::setWidth(unsigned int width_)
 unsigned int WinWindow::height() const
 {
     RECT r;
-    GetWindowRect(_hWnd, &r);
+    GetWindowRect(_id, &r);
     return r.bottom - r.top;
 }
 
@@ -101,10 +100,10 @@ void WinWindow::setHeight(unsigned int height_)
 {
     RECT r;
     //get current rect
-    GetWindowRect(_hWnd, &r);
+    GetWindowRect(_id, &r);
     r.bottom = r.top + height_;
     //set
-    SetWindowPos(_hWnd, 0,
+    SetWindowPos(_id, 0,
                  r.left, r.right,
                  r.right - r.left, r.bottom - r.top,
                  0);
@@ -112,11 +111,11 @@ void WinWindow::setHeight(unsigned int height_)
 
 std::string WinWindow::title() const
 {
-    int title_len = GetWindowTextLength(_hWnd);
+    int title_len = GetWindowTextLength(_id);
     
     char title_buf[title_len + 1];
     
-    int count = GetWindowText(_hWnd, title_buf, title_len);
+    int count = GetWindowText(_id, title_buf, title_len);
     title_buf[count] = 0x0;
     
     return std::string(title_buf);
@@ -124,7 +123,7 @@ std::string WinWindow::title() const
 
 void WinWindow::setTitle(const std::string& title_)
 {
-    SetWindowText(_hWnd, title_.c_str());
+    SetWindowText(_id, title_.c_str());
 }
 
 bool WinWindow::active() const
@@ -133,7 +132,7 @@ bool WinWindow::active() const
 
     activeWin = GetActiveWindow();
 
-    return activeWin == _hWnd;
+    return activeWin == _id;
 }
 
 bool WinWindow::showCursor(bool show_)
@@ -144,20 +143,20 @@ bool WinWindow::showCursor(bool show_)
 
 bool WinWindow::makeCurrent(const GLContext& glcxt_) /* const */
 {
-    //return wglMakeCurrent(GetDC(_hWnd),glcxt_.contextId());
+    //return wglMakeCurrent(GetDC(_id),glcxt_.contextId());
     return false;
 }
 
 void WinWindow::swapBuffers() /* const */
 {
-    SwapBuffers(GetDC(_hWnd));
+    SwapBuffers(GetDC(_id));
 }
 
 
 WinWindow* WinWindow::create(const std::string& title_,
                       int left_, int top_,
                       int width_, int height_,
-                      const PixelAttribs& pixelAttribs_)
+                      const Window::PixelAttribs& pixelAttribs_)
 {
     HINSTANCE hInst = GetModuleHandle(NULL);
     HWND hwnd;
@@ -244,7 +243,7 @@ LRESULT CALLBACK WinWindow::_WndProc(HWND  hWnd, UINT  uMsg, WPARAM  wParam, LPA
             break;
             
         case WM_CLOSE:
-            window = getWindow(hWnd);
+            window = static_cast<WinWindow*>(getWindow(hWnd));
             if(window == NULL) break;
             
             { CloseEvent e(window);
@@ -256,7 +255,7 @@ LRESULT CALLBACK WinWindow::_WndProc(HWND  hWnd, UINT  uMsg, WPARAM  wParam, LPA
             break;
             
         case WM_PAINT:
-            window = getWindow(hWnd);
+            window = static_cast<WinWindow*>(getWindow(hWnd));
             if(window == NULL) break;
             
             { PaintEvent e(window);
@@ -264,7 +263,7 @@ LRESULT CALLBACK WinWindow::_WndProc(HWND  hWnd, UINT  uMsg, WPARAM  wParam, LPA
             break;
             
         case WM_SIZE:
-            window = getWindow(hWnd);
+            window = static_cast<WinWindow*>(getWindow(hWnd));
             if(window == NULL) break;
             
             { ResizeEvent e(window , LOWORD(lParam), HIWORD(lParam));
@@ -278,34 +277,4 @@ LRESULT CALLBACK WinWindow::_WndProc(HWND  hWnd, UINT  uMsg, WPARAM  wParam, LPA
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-WinWindow* WinWindow::getWindow(HWND hWnd_)
-{
-    WindowsMap::iterator it = _windowsMap.find(hWnd_);
-    if(it == _windowsMap.end()){
-        return NULL;
-    }
-    return (*it).second;
-}
-
-bool WinWindow::addWindow(HWND hWnd_, WinWindow* window_)
-{
-    WindowsMap::iterator it = _windowsMap.find(hWnd_);
-    if(it == _windowsMap.end()){
-        //set handle value!
-        window_->_hWnd = hWnd_;
-        _windowsMap[hWnd_] = window_;
-        return true;
-    }
-    return false;
-}
-
-bool WinWindow::removeWindow(HWND hWnd_)
-{
-    WindowsMap::iterator it = _windowsMap.find(hWnd_);
-    if(it == _windowsMap.end()){
-        return false;
-    }
-    _windowsMap.erase(it);
-    return true;
-}
-
+#endif  //OS_WINDOWS

@@ -1,19 +1,24 @@
-#ifndef _WIN_WINDOW_H
-#define _WIN_WINDOW_H
+#ifndef _X11_WINDOW_H
+#define _X11_WINDOW_H
 
 #include "osal/osdef.h"
 
-#ifdef OS_WINDOWS
+#ifdef OS_LINUX
 
-#include <windows.h>
 #include "window/window.h"
+namespace X{
+#include <X11/X.h>
+#include <X11/Xatom.h>
+#include <X11/Xlib.h>
+}
 
-class WinWindow
+
+class X11Window
     :public Window
 {
 public:
-    WinWindow();
-    ~WinWindow();
+    X11Window();
+    ~X11Window();
 
     int left() const;
     void setLeft(int left_);
@@ -40,7 +45,7 @@ public:
     void swapBuffers() /* const */;
     
     
-    static WinWindow* create(const std::string& title_,
+    static X11Window* create(const std::string& title_,
                           int left_, int top_,
                           int width_, int height_,
                           const Window::PixelAttribs& pixelAttribs_);
@@ -49,15 +54,16 @@ public:
 
 protected:
     
-    static const char* _winClassName;
-    static int _regclass_count;
-
-    static LRESULT CALLBACK _WndProc(HWND  hWnd, UINT  uMsg, WPARAM  wParam, LPARAM  lParam);
-
-    HWND _id;
-
+    static int _counter;
+    
+    static X::Display* _display;
+    static X::Atom _atom_del_win;
+    static X::Cursor _nullCursor;
+    
+    static bool _init_x11();
+    static void _term_x11();
 };
 
-#endif  //OS_WINDOWS
+#endif  //OS_LINUX
 
-#endif  //_WIN_WINDOW_H
+#endif  //_X11_WINDOW_H

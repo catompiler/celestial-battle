@@ -1,38 +1,60 @@
 #include <stdlib.h>
 #include <iostream>
-#include <algorithm>
 #include "log/log.h"
-#include "delegate/delegate.h"
-#include "event/event.h"
-#include <functional>
+#include "window/window.h"
 
-class Foo{
+class WindowedApp{
 public:
-    void func(){
-        std::cout << "Foo::func()" << std::endl;
+    WindowedApp(){
+        closed = false;
     }
-    void ufunc(int a1){
-        std::cout << "Foo::func(" << a1 << ")" << std::endl;
+    void onClose(Window::CloseEvent* e){
+        std::cout << "onClose()" << std::endl;
+        closed = true;
     }
-    void bfunc(int a1, float a2){
-        std::cout << "Foo::func(" << a1 << ", " << a2 << ")" << std::endl;
+    void onResize(Window::ResizeEvent* e){
+        std::cout << e->width() << "x" << e->height() << std::endl;
     }
+    void onCreate(Window::CreateEvent* e){
+        std::cout << "onCreate()" << std::endl;
+    }
+    bool closed;
 };
 
 int main(int argc, char** argv)
 {
     log(Log::Information) << "Hello, Log!" << std::endl;
     
-    int array[]={12,23,56,34,45};
-    Foo f;
-    std::for_each(array, array + 5, make_delegate(&f, &Foo::ufunc));
+    WindowedApp wapp;
     
-    BinaryEvent<int, float> event;
-    event.addHandler(make_delegate(&f, &Foo::bfunc));
+    Window::PixelAttribs pa;
+    pa.alphaSize = 8;
+    pa.blueSize = 8;
+    pa.depthSize = 24;
+    pa.doubleBuffer = true;
+    pa.greenSize = 8;
+    pa.redSize = 8;
+    pa.sampleBuffers = 0;
+    pa.samples = 0;
+    pa.stencilSize = 0;
+    Window* w = Window::create("X11 Window", 100, 100, 250, 250, pa);
     
-    event(10, 3.14);
+    if(w == NULL){
+        log(Log::Error) << "Error creating window" << std::endl;
+        return 1;
+    }
     
-    event.removeHandler(&f);
+    w->onClose().addHandler(make_delegate(&wapp, &WindowedApp::onClose));
+    w->onCreate().addHandler(make_delegate(&wapp, &WindowedApp::onCreate));
+    w->onResize().addHandler(make_delegate(&wapp, &WindowedApp::onResize));
+    
+    while(wapp.closed == false){
+        Window::processEvents();
+    }
+    
+    w->onClose().removeHandler(&wapp);
+    w->onCreate().removeHandler(&wapp);
+    w->onResize().removeHandler(&wapp);
     
     return (EXIT_SUCCESS);
 }

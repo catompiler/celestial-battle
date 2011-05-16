@@ -1,6 +1,13 @@
 #include "window.h"
 #include "osal/osdef.h"
+
+#ifdef OS_WINDOWS
 #include "win/win_window.h"
+#endif
+
+#ifdef OS_LINUX
+#include "x11/x11_window.h"
+#endif
 
 
 
@@ -62,8 +69,22 @@ Window::OnResizeEvent::Base& Window::onResize()
 
 
 
+Window::WindowsMap Window::_windowsMap;
+
+
+Window::Window()
+{
+    _id = 0;
+}
+
+
 Window::~Window()
 {
+}
+
+windowid_t Window::id()
+{
+    return _id;
 }
 
 Window* Window::create(const std::string& title_,
@@ -75,7 +96,11 @@ Window* Window::create(const std::string& title_,
     #ifdef OS_WINDOWS
         WinWindow::create(title_, left_, top_, width_, height_, pixelAttribs_)
     #else
+    #ifdef OS_LINUX
+        X11Window::create(title_, left_, top_, width_, height_, pixelAttribs_)
+    #else
         NULL
+    #endif
     #endif
     ; // return
 }
@@ -91,8 +116,43 @@ int Window::processEvents()
     #ifdef OS_WINDOWS
         WinWindow::processEvents()
     #else
+    #ifdef OS_LINUX
+        X11Window::processEvents()
+    #else
         0
     #endif
+    #endif
     ; // return
+}
+
+Window* Window::getWindow(windowid_t id_)
+{
+    WindowsMap::iterator it = _windowsMap.find(id_);
+    if(it == _windowsMap.end()){
+        return NULL;
+    }
+    return (*it).second;
+}
+
+bool Window::addWindow(windowid_t id_, Window* window_)
+{
+    WindowsMap::iterator it = _windowsMap.find(id_);
+    if(it == _windowsMap.end()){
+        //set handle value!
+        window_->_id = id_;
+        _windowsMap[id_] = window_;
+        return true;
+    }
+    return false;
+}
+
+bool Window::removeWindow(windowid_t id_)
+{
+    WindowsMap::iterator it = _windowsMap.find(id_);
+    if(it == _windowsMap.end()){
+        return false;
+    }
+    _windowsMap.erase(it);
+    return true;
 }
 

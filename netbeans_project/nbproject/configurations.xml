@@ -52,6 +52,10 @@
         <itemPath>../src/log/log.cpp</itemPath>
         <itemPath>../src/log/log.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="object" displayName="object" projectFiles="true">
+        <itemPath>../src/object/object.cpp</itemPath>
+        <itemPath>../src/object/object.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="osal" displayName="osal" projectFiles="true">
         <itemPath>../src/osal/osal.cpp</itemPath>
         <itemPath>../src/osal/osal.h</itemPath>
@@ -77,8 +81,19 @@
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.h</itemPath>
       </logicalFolder>
       <logicalFolder name="window" displayName="window" projectFiles="true">
+        <logicalFolder name="win" displayName="win" projectFiles="true">
+          <itemPath>../src/window/win/win_window.cpp</itemPath>
+          <itemPath>../src/window/win/win_window.h</itemPath>
+          <itemPath>../src/window/win/win_window_types.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="x11" displayName="x11" projectFiles="true">
+          <itemPath>../src/window/x11/x11_window.cpp</itemPath>
+          <itemPath>../src/window/x11/x11_window.h</itemPath>
+          <itemPath>../src/window/x11/x11_window_types.h</itemPath>
+        </logicalFolder>
         <itemPath>../src/window/window.cpp</itemPath>
         <itemPath>../src/window/window.h</itemPath>
+        <itemPath>../src/window/window_types.h</itemPath>
       </logicalFolder>
       <itemPath>/home/artem/devel/opengl/celestial-battle/src/main.cpp</itemPath>
     </logicalFolder>
@@ -104,6 +119,12 @@
             <pElem>../src/</pElem>
           </incDir>
         </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>X11</linkerLibLibItem>
+            <linkerLibLibItem>GL</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
     </conf>
     <conf name="Release" type="1">
