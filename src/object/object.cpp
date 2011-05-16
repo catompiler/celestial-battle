@@ -1,11 +1,30 @@
 #include "object.h"
 
-Object::DestroyEvent::Base& Object::destroyEvent()
+
+
+ObjectEvent::ObjectEvent(Object* object_)
+    :_object(object_)
 {
-    return _destroyEvent;
+}
+
+ObjectEvent::~ObjectEvent()
+{
+}
+
+Object* ObjectEvent::object() const
+{
+    return _object;
+}
+
+
+
+Object::OnDestroyEvent::Base& Object::onDestroy()
+{
+    return _onDestroy;
 }
 
 Object::~Object()
 {
-    _destroyEvent(this);
+    DestroyEvent e(this);
+    _onDestroy(&e);
 }

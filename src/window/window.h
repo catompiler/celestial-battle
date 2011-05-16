@@ -3,22 +3,74 @@
 
 #include <string>
 #include "event/event.h"
+#include "object/object.h"
 
 class GLContext;
 
-class Window {
+
+class Window;
+
+class WindowEvent
+    :public ObjectEvent
+{
+public:
+    WindowEvent(Window* window_);
+    ~WindowEvent();
+
+    Window* window() const;
+
+protected:
+    Window* _window;
+};
+
+
+class Window
+    :public Object
+{
 public:
     
-    typedef Event CreateEvent;
-    typedef Event CloseEvent;
-    typedef Event PaintEvent;
-    typedef BinaryEvent<int, int> ResizeEvent;
+    struct PixelAttribs{
+        bool doubleBuffer;
+        int redSize;
+        int greenSize;
+        int blueSize;
+        int alphaSize;
+        int depthSize;
+        int stencilSize;
+        int sampleBuffers;
+        int samples;
+    };
+
+    
+    typedef WindowEvent CreateEvent;
+    typedef WindowEvent CloseEvent;
+    typedef WindowEvent PaintEvent;
+
+    class ResizeEvent
+        :public WindowEvent
+    {
+    public:
+        ResizeEvent(Window* window_, int width_, int height_);
+        ~ResizeEvent();
+    
+        int width() const;
+        int height() const;
+    
+    protected:
+        int _width;
+        int _height;
+    };
+    
+    typedef UnaryEvent<CreateEvent*> OnCreateEvent;
+    typedef UnaryEvent<CloseEvent*> OnCloseEvent;
+    typedef UnaryEvent<PaintEvent*> OnPaintEvent;
+    typedef UnaryEvent<ResizeEvent*> OnResizeEvent;
     
     
-    CreateEvent::Base& createEvent();
-    CloseEvent::Base& closeEvent();
-    PaintEvent::Base& paintEvent();
-    ResizeEvent::Base& resizeEvent();
+    OnCreateEvent::Base& onCreate();
+    OnCloseEvent::Base& onClose();
+    OnPaintEvent::Base& onPaint();
+    OnResizeEvent::Base& onResize();
     
     
     virtual ~Window();
@@ -48,12 +100,22 @@ public:
     
     virtual void swapBuffers() /* const */ = 0;
     
+    
+    static Window* create(const std::string& title_,
+                          int left_, int top_,
+                          int width_, int height_,
+                          const PixelAttribs& pixelAttribs_);
+    
+    static void destroy(Window* window_);
+    
+    static int processEvents();
+    
 protected:
 
-    CreateEvent _createEvent;
-    CloseEvent _closeEvent;
-    PaintEvent _paintEvent;
-    ResizeEvent _resizeEvent;
+    OnCreateEvent _onCreate;
+    OnCloseEvent _onClose;
+    OnPaintEvent _onPaint;
+    OnResizeEvent _onResize;
 };
 
 #endif	/* WINDOW_H */

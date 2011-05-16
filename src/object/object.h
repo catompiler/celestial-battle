@@ -4,17 +4,33 @@
 #include "delegate/delegate.h"
 #include "event/event.h"
 
+
+class Object;
+
+class ObjectEvent
+{
+public:
+    ObjectEvent(Object* object_);
+    virtual ~ObjectEvent();
+
+    Object* object() const;
+
+protected:
+    Object* _object;
+};
+
 class Object
 {
 public:
-    typedef UnaryEvent<Object*> DestroyEvent;
+    typedef ObjectEvent DestroyEvent;
+    typedef UnaryEvent<DestroyEvent*> OnDestroyEvent;
 
-    DestroyEvent::Base& destroyEvent();
+    OnDestroyEvent::Base& onDestroy();
 
     virtual ~Object();
 
 protected:
-    DestroyEvent _destroyEvent;
+    OnDestroyEvent _onDestroy;
 };
 
 #endif	//_OBJECT_H
