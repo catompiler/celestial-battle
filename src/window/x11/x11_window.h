@@ -15,7 +15,7 @@
 
 
 class X11Window
-    :public Window
+    :public GLWindow
 {
 public:
     ~X11Window();
@@ -48,7 +48,7 @@ public:
     static X11Window* create(const std::string& title_,
                           int left_, int top_,
                           int width_, int height_,
-                          const Window::PixelAttribs& pixelAttribs_);
+                          const GLWindow::PixelAttribs& pixelAttribs_);
     
     static void destroy(X11Window* window_);
     

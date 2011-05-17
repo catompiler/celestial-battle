@@ -33,7 +33,7 @@ GLContext* GLContext::create(const GLWindow* window_, const Version& version_)
     WGLContext::create(window_, version_)
 #else
 #ifdef OS_LINUX
-    GLXContext::create(window_, version_)
+    X11GLContext::create(window_, version_)
 #else
     NULL
 #endif
@@ -49,7 +49,7 @@ GLContext* GLContext::create(const GLWindow* window_, const Version& version_,
     WGLContext::create(window_, version_, glcxt_)
 #else
 #ifdef OS_LINUX
-    GLXContext::create(window_, version_, glcxt_)
+    X11GLContext::create(window_, version_, glcxt_)
 #else
     NULL
 #endif
@@ -64,7 +64,7 @@ GLContext* GLContext::current()
     WGLContext::current()
 #else
 #ifdef OS_LINUX
-    GLXContext::current()
+    X11GLContext::current()
 #else
     NULL
 #endif
@@ -78,7 +78,7 @@ void GLContext::destroy(GLContext* glcxt_)
     WGLContext::destroy(glcxt_);
 #else
 #ifdef OS_LINUX
-    GLXContext::destroy(glcxt_);
+    X11GLContext::destroy(glcxt_);
 #else
 #endif
 #endif

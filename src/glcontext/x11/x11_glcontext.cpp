@@ -16,47 +16,49 @@
 #define GL_CONTEXT_MINOR_VERSION 0x2092
 #endif
 
-PFNGLXCREATECONTEXTATTRIBSARBPROC GLXContext::glXCreateContextAttribsARB = NULL;
-PFNGLXGETFBCONFIGFROMVISUALSGIXPROC GLXContext::glXGetFBConfigFromVisualSGIX = NULL;
+PFNGLXCREATECONTEXTATTRIBSARBPROC X11GLContext::glXCreateContextAttribsARB = NULL;
+PFNGLXGETFBCONFIGFROMVISUALSGIXPROC X11GLContext::glXGetFBConfigFromVisualSGIX = NULL;
 
 
 
-GLXContext::GLXContext()
+X11GLContext::X11GLContext()
     :GLContext()
 {
 }
 
-GLXContext::~GLXContext()
+X11GLContext::~X11GLContext()
 {
-    if(_id != 0 && _not_destroy == false) glXDestroyContext(X11Window::display(), _id);
+    if(_id != 0 && _not_destroy == false){
+        glXDestroyContext(X11Window::display(), static_cast<GLXContext>(_id));
+    }
 }
 
-GLContext* GLXContext::create(const GLWindow* window_, const Version& version_)
+GLContext* X11GLContext::create(const GLWindow* window_, const Version& version_)
 {
     return create(window_, version_, NULL);
 }
 
-GLContext* GLXContext::create(const GLWindow* window_, const Version& version_,
+GLContext* X11GLContext::create(const GLWindow* window_, const Version& version_,
                               const GLContext* glcxt_)//not copy - share!
 {
-    glcontext_t res_glcxt = 0;
+    GLXContext res_glcxt = 0;
 
-    glcontext_t origcxt = 0;
-    winid_t origDrawWindow = 0;
+    GLXContext origcxt = 0;
+    Window origDrawWindow = 0;
     //winid_t origReadWindow = 0;
     Display* origDisplay = NULL;
 
-    glcontext_t tmpglcxt = 0;
-    glcontext_t shared = 0;
+    GLXContext tmpglcxt = 0;
+    GLXContext shared = 0;
     
     XVisualInfo visualinfo = {0};
     GLXFBConfig fbconfig = NULL;
     XWindowAttributes winattribs = {0};
 
-    Window window = window_->id()
+    Window window = window_->id();
     
     
-    if(glcxt_ != NULL) shared = glcxt_->id();
+    if(glcxt_ != NULL) shared = static_cast<GLXContext>(glcxt_->id());
     
     XGetWindowAttributes(X11Window::display(), window, &winattribs);
     
@@ -150,18 +152,18 @@ GLContext* GLXContext::create(const GLWindow* window_, const Version& version_,
 
     glXMakeCurrent(X11Window::display(), origDrawWindow, origcxt);
 
-    GLXContext* res = new GLXContext();
-    res->_id = res_glcxt;
+    X11GLContext* res = new X11GLContext();
+    res->_id = static_cast<glcontext_t>(res_glcxt);
     
     return res;
 }
 
-GLContext* GLXContext::current()
+GLContext* X11GLContext::current()
 {
     glcontext_t cur_glcxt = glXGetCurrentContext();
     if(cur_glcxt == 0) return NULL;
     
-    GLXContext* res = new GLXContext();
+    X11GLContext* res = new X11GLContext();
     
     res->_id = cur_glcxt;
     res->_not_destroy = true;
@@ -169,7 +171,7 @@ GLContext* GLXContext::current()
     return res;
 }
 
-void GLXContext::destroy(GLContext* glcxt_)
+void X11GLContext::destroy(GLContext* glcxt_)
 {
     delete glcxt_;
 }

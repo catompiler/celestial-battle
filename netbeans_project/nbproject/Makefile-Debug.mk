@@ -44,10 +44,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/897345942/string.o \
 	${OBJECTDIR}/_ext/173017642/window.o \
 	${OBJECTDIR}/_ext/1667457878/exception.o \
+	${OBJECTDIR}/_ext/1060664647/x11_glcontext.o \
 	${OBJECTDIR}/_ext/659870665/fsentrypoint.o \
 	${OBJECTDIR}/_ext/659861322/log.o \
 	${OBJECTDIR}/_ext/662815568/glcontext.o \
 	${OBJECTDIR}/_ext/1029917654/main.o \
+	${OBJECTDIR}/_ext/1060663811/win_glcontext.o \
 	${OBJECTDIR}/_ext/659870665/localfsentrypoint.o \
 	${OBJECTDIR}/_ext/394022532/config.o
 
@@ -126,6 +128,11 @@ ${OBJECTDIR}/_ext/1667457878/exception.o: /home/artem/devel/opengl/celestial-bat
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1667457878/exception.o /home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp
 
+${OBJECTDIR}/_ext/1060664647/x11_glcontext.o: ../src/glcontext/x11/x11_glcontext.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1060664647
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1060664647/x11_glcontext.o ../src/glcontext/x11/x11_glcontext.cpp
+
 ${OBJECTDIR}/_ext/659870665/fsentrypoint.o: ../src/vfs/fsentrypoint.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/659870665
 	${RM} $@.d
@@ -145,6 +152,11 @@ ${OBJECTDIR}/_ext/1029917654/main.o: /home/artem/devel/opengl/celestial-battle/s
 	${MKDIR} -p ${OBJECTDIR}/_ext/1029917654
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1029917654/main.o /home/artem/devel/opengl/celestial-battle/src/main.cpp
+
+${OBJECTDIR}/_ext/1060663811/win_glcontext.o: ../src/glcontext/win/win_glcontext.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1060663811
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1060663811/win_glcontext.o ../src/glcontext/win/win_glcontext.cpp
 
 ${OBJECTDIR}/_ext/659870665/localfsentrypoint.o: ../src/vfs/localfsentrypoint.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/659870665

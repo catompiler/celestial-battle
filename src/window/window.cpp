@@ -113,7 +113,7 @@ void GLWindow::destroy(GLWindow* window_)
         WinWindow::destroy(static_cast<WinWindow*>(window_));
     #endif
     #ifdef OS_LINUX
-        X11Window::destroy(static_cast<X11Window*>(window_))
+        X11Window::destroy(static_cast<X11Window*>(window_));
     #endif
 }
 

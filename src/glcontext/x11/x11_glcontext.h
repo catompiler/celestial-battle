@@ -12,11 +12,11 @@
 #include <GL/glxext.h>
 
 
-class GLXContext
+class X11GLContext
     :public GLContext
 {
 public:
-    ~GLXContext();
+    ~X11GLContext();
 
     static GLContext* create(const GLWindow* window_, const Version& version_);
     static GLContext* create(const GLWindow* window_, const Version& version_,
@@ -25,7 +25,7 @@ public:
     static void destroy(GLContext* glcxt_);
 
 protected:
-    GLXContext();
+    X11GLContext();
 
     static PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB;
     static PFNGLXGETFBCONFIGFROMVISUALSGIXPROC glXGetFBConfigFromVisualSGIX;

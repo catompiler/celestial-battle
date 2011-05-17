@@ -30,8 +30,19 @@
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.h</itemPath>
       </logicalFolder>
       <logicalFolder name="glcontext" displayName="glcontext" projectFiles="true">
+        <logicalFolder name="win" displayName="win" projectFiles="true">
+          <itemPath>../src/glcontext/win/win_glcontext.cpp</itemPath>
+          <itemPath>../src/glcontext/win/win_glcontext.h</itemPath>
+          <itemPath>../src/glcontext/win/win_glcontext_types.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="x11" displayName="x11" projectFiles="true">
+          <itemPath>../src/glcontext/x11/x11_glcontext.cpp</itemPath>
+          <itemPath>../src/glcontext/x11/x11_glcontext.h</itemPath>
+          <itemPath>../src/glcontext/x11/x11_glcontext_types.h</itemPath>
+        </logicalFolder>
         <itemPath>../src/glcontext/glcontext.cpp</itemPath>
         <itemPath>../src/glcontext/glcontext.h</itemPath>
+        <itemPath>../src/glcontext/glcontext_types.h</itemPath>
       </logicalFolder>
       <logicalFolder name="glmath" displayName="glmath" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/functions.h</itemPath>

@@ -1,6 +1,6 @@
 #include "x11_window.h"
-#include "x11_window_types.h"
 #include "glcontext/glcontext.h"
+#include "glcontext/x11/x11_glcontext.h"
 
 #ifdef OS_LINUX
 
@@ -16,7 +16,7 @@ Cursor X11Window::_nullCursor = None;
 
 
 X11Window::X11Window()
-        :Window()
+        :GLWindow()
 {
 }
 
@@ -170,7 +170,9 @@ bool X11Window::showCursor(bool show_)
 
 bool X11Window::makeCurrent(GLContext* glcxt_) /* const */
 {
-    return glXMakeCurrent(X11Window::display(), _id, glcxt_ == NULL ? 0 : glcxt_->id()) != 0;
+    return glXMakeCurrent(X11Window::display(), _id,
+                glcxt_ == NULL ? 0 : static_cast<GLXContext>(glcxt_->id()))
+            != 0;
 }
 
 void X11Window::swapBuffers() /* const */
@@ -182,7 +184,7 @@ void X11Window::swapBuffers() /* const */
 X11Window* X11Window::create(const std::string& title_,
                       int left_, int top_,
                       int width_, int height_,
-                      const Window::PixelAttribs& pixelAttribs_)
+                      const GLWindow::PixelAttribs& pixelAttribs_)
 {
     X11Window* window;
     
