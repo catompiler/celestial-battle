@@ -1,4 +1,6 @@
 #include "window.h"
+#include "glcontext/glcontext.h"
+
 #include "osal/osdef.h"
 
 #ifdef OS_WINDOWS
@@ -11,7 +13,7 @@
 
 
 
-WindowEvent::WindowEvent(Window* window_)
+WindowEvent::WindowEvent(GLWindow* window_)
     :ObjectEvent(window_), _window(window_)
 {
 }
@@ -21,73 +23,73 @@ WindowEvent::~WindowEvent()
     //_onClose();
 }
 
-Window* WindowEvent::window() const
+GLWindow* WindowEvent::window() const
 {
     return _window;
 }
 
 
-Window::ResizeEvent::ResizeEvent(Window* window_, int width_, int height_)
+GLWindow::ResizeEvent::ResizeEvent(GLWindow* window_, int width_, int height_)
     :WindowEvent(window_), _width(width_), _height(height_)
 {
 }
 
-Window::ResizeEvent::~ResizeEvent()
+GLWindow::ResizeEvent::~ResizeEvent()
 {
 }
 
-int Window::ResizeEvent::width() const
+int GLWindow::ResizeEvent::width() const
 {
     return _width;
 }
 
-int Window::ResizeEvent::height() const
+int GLWindow::ResizeEvent::height() const
 {
     return _height;
 }
 
 
-Window::OnCreateEvent::Base& Window::onCreate()
+GLWindow::OnCreateEvent::Base& GLWindow::onCreate()
 {
     return _onCreate;
 }
 
-Window::OnCloseEvent::Base& Window::onClose()
+GLWindow::OnCloseEvent::Base& GLWindow::onClose()
 {
     return _onClose;
 }
 
-Window::OnPaintEvent::Base& Window::onPaint()
+GLWindow::OnPaintEvent::Base& GLWindow::onPaint()
 {
     return _onPaint;
 }
 
-Window::OnResizeEvent::Base& Window::onResize()
+GLWindow::OnResizeEvent::Base& GLWindow::onResize()
 {
     return _onResize;
 }
 
 
 
-Window::WindowsMap Window::_windowsMap;
+GLWindow::WindowsMap GLWindow::_windowsMap;
 
 
-Window::Window()
+GLWindow::GLWindow()
 {
     _id = 0;
 }
 
-
-Window::~Window()
+GLWindow::~GLWindow()
 {
+    if(_id) removeWindow(_id);
 }
 
-windowid_t Window::id()
+windowid_t GLWindow::id() const
 {
     return _id;
 }
 
-Window* Window::create(const std::string& title_,
+GLWindow* GLWindow::create(const std::string& title_,
                       int left_, int top_,
                       int width_, int height_,
                       const PixelAttribs& pixelAttribs_)
@@ -105,12 +107,17 @@ Window* Window::create(const std::string& title_,
     ; // return
 }
 
-void Window::destroy(Window* window_)
+void GLWindow::destroy(GLWindow* window_)
 {
-    delete window_;
+    #ifdef OS_WINDOWS
+        WinWindow::destroy(static_cast<WinWindow*>(window_));
+    #endif
+    #ifdef OS_LINUX
+        X11Window::destroy(static_cast<X11Window*>(window_))
+    #endif
 }
 
-int Window::processEvents()
+int GLWindow::processEvents()
 {
     return
     #ifdef OS_WINDOWS
@@ -125,7 +132,7 @@ int Window::processEvents()
     ; // return
 }
 
-Window* Window::getWindow(windowid_t id_)
+GLWindow* GLWindow::getWindow(windowid_t id_)
 {
     WindowsMap::iterator it = _windowsMap.find(id_);
     if(it == _windowsMap.end()){
@@ -134,19 +141,17 @@ Window* Window::getWindow(windowid_t id_)
     return (*it).second;
 }
 
-bool Window::addWindow(windowid_t id_, Window* window_)
+bool GLWindow::addWindow(windowid_t id_, GLWindow* window_)
 {
     WindowsMap::iterator it = _windowsMap.find(id_);
     if(it == _windowsMap.end()){
-        //set handle value!
-        window_->_id = id_;
         _windowsMap[id_] = window_;
         return true;
     }
     return false;
 }
 
-bool Window::removeWindow(windowid_t id_)
+bool GLWindow::removeWindow(windowid_t id_)
 {
     WindowsMap::iterator it = _windowsMap.find(id_);
     if(it == _windowsMap.end()){

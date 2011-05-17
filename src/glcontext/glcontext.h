@@ -3,16 +3,26 @@
 
 #include "glcontext_types.h"
 
-class Window;
+class GLWindow;
 
 class GLContext {
 public:
+
+    struct Version{
+        Version(int major_, int minor_){
+            major = major_; minor = minor_;
+        }
+        int major;
+        int minor;
+    };
+
     virtual ~GLContext();
 
-    glcontext_t id();
+    glcontext_t id() const;
 
-    static GLContext* create(const Window* window_, );
-    static GLContext* create(const Window* window_, const GLContext* orig);//not copy - share!
+    static GLContext* create(const GLWindow* window_, const Version& version_);
+    static GLContext* create(const GLWindow* window_, const Version& version_,
+                             const GLContext* glcxt_);//not copy - share!
     static GLContext* current();
     static void destroy(GLContext* glcxt_);
 

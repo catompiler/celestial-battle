@@ -7,27 +7,26 @@
 #include "object/object.h"
 #include "window_types.h"
 
-
 class GLContext;
 
 
-class Window;
+class GLWindow;
 
 class WindowEvent
     :public ObjectEvent
 {
 public:
-    WindowEvent(Window* window_);
+    WindowEvent(GLWindow* window_);
     ~WindowEvent();
 
-    Window* window() const;
+    GLWindow* window() const;
 
 protected:
-    Window* _window;
+    GLWindow* _window;
 };
 
 
-class Window
+class GLWindow
     :public Object
 {
 public:
@@ -53,7 +52,7 @@ public:
         :public WindowEvent
     {
     public:
-        ResizeEvent(Window* window_, int width_, int height_);
+        ResizeEvent(GLWindow* window_, int width_, int height_);
         ~ResizeEvent();
     
         int width() const;
@@ -76,8 +75,8 @@ public:
     OnResizeEvent::Base& onResize();
     
     
-    Window();
-    virtual ~Window();
+    GLWindow();
+    virtual ~GLWindow();
     
 
     virtual int left() const = 0;
@@ -105,24 +104,24 @@ public:
     virtual void swapBuffers() /* const */ = 0;
     
     
-    virtual windowid_t id();
+    windowid_t id() const;
     
     
-    static Window* create(const std::string& title_,
+    static GLWindow* create(const std::string& title_,
                           int left_, int top_,
                           int width_, int height_,
                           const PixelAttribs& pixelAttribs_);
     
-    static void destroy(Window* window_);
+    static void destroy(GLWindow* window_);
     
     static int processEvents();
     
 protected:
     
-    typedef std::map<windowid_t, Window*> WindowsMap;
+    typedef std::map<windowid_t, GLWindow*> WindowsMap;
     static WindowsMap _windowsMap;
-    static Window* getWindow(windowid_t id_);
-    static bool addWindow(windowid_t id_, Window* window_);
+    static GLWindow* getWindow(windowid_t id_);
+    static bool addWindow(windowid_t id_, GLWindow* window_);
     static bool removeWindow(windowid_t id_);
     
 

@@ -1,19 +1,18 @@
 #include "x11_window.h"
 #include "x11_window_types.h"
+#include "glcontext/glcontext.h"
 
 #ifdef OS_LINUX
 
-namespace X{
 #include <X11/Xutil.h>
 #include <GL/glx.h>
-}
 #include <stdlib.h>
 
 
 int X11Window::_counter = 0;
-X::Display* X11Window::_display = NULL;
-X::Atom X11Window::_atom_del_win = 0;
-X::Cursor X11Window::_nullCursor = None;
+Display* X11Window::_display = NULL;
+Atom X11Window::_atom_del_win = 0;
+Cursor X11Window::_nullCursor = None;
 
 
 X11Window::X11Window()
@@ -37,7 +36,7 @@ int X11Window::left() const
     int x, y;
     unsigned int w, h, tmp;
     
-    X::XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
     return x;
 }
@@ -48,9 +47,9 @@ void X11Window::setLeft(int left_)
     int x, y;
     unsigned int w, h, tmp;
     
-    X::XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
-    X::XMoveWindow(_display, _id, left_, y);
+    XMoveWindow(_display, _id, left_, y);
 }
 
 int X11Window::top() const
@@ -59,7 +58,7 @@ int X11Window::top() const
     int x, y;
     unsigned int w, h, tmp;
     
-    X::XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
     return y;
 }
@@ -70,9 +69,9 @@ void X11Window::setTop(int top_)
     int x, y;
     unsigned int w, h, tmp;
     
-    X::XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
-    X::XMoveWindow(_display, _id, x, top_);
+    XMoveWindow(_display, _id, x, top_);
 }
 
 unsigned int X11Window::width() const
@@ -81,7 +80,7 @@ unsigned int X11Window::width() const
     int x, y;
     unsigned int w, h, tmp;
     
-    X::XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
     return w;
 }
@@ -92,9 +91,9 @@ void X11Window::setWidth(unsigned int width_)
     int x, y;
     unsigned int w, h, tmp;
     
-    X::XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
-    X::XResizeWindow(_display, _id, width_, h);
+    XResizeWindow(_display, _id, width_, h);
 }
 
 unsigned int X11Window::height() const
@@ -103,7 +102,7 @@ unsigned int X11Window::height() const
     int x, y;
     unsigned int w, h, tmp;
     
-    X::XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
     return h;
 }
@@ -114,18 +113,18 @@ void X11Window::setHeight(unsigned int height_)
     int x, y;
     unsigned int w, h, tmp;
     
-    X::XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(_display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
-    X::XResizeWindow(_display, _id, w, height_);
+    XResizeWindow(_display, _id, w, height_);
 }
 
 std::string X11Window::title() const
 {
     char* name;
     std::string res;
-    if(X::XFetchName(_display, _id, &name) != 0){
+    if(XFetchName(_display, _id, &name) != 0){
         res = name;
-        X::XFree(name);
+        XFree(name);
     }
     
     return res;
@@ -133,7 +132,7 @@ std::string X11Window::title() const
 
 void X11Window::setTitle(const std::string& title_)
 {
-    X::XStoreName(_display, _id, title_.c_str());
+    XStoreName(_display, _id, title_.c_str());
 }
 
 bool X11Window::active() const
@@ -141,7 +140,7 @@ bool X11Window::active() const
     windowid_t activeWin;
     int focusState;
     
-    X::XGetInputFocus(_display, &activeWin, &focusState);
+    XGetInputFocus(_display, &activeWin, &focusState);
 
     return activeWin == _id;
 }
@@ -152,31 +151,31 @@ bool X11Window::showCursor(bool show_)
         if(_nullCursor == None){
             //create a null cursor
             char bm[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-            X::Pixmap pix = XCreateBitmapFromData(_display, _id, bm, 8, 8);
+            Pixmap pix = XCreateBitmapFromData(_display, _id, bm, 8, 8);
 
-            X::XColor black = {0};
+            XColor black = {0};
             //memset(&black, 0, sizeof(XColor));
             black.flags = DoRed | DoGreen | DoBlue;
 
-            _nullCursor = X::XCreatePixmapCursor(_display, pix, pix, &black, &black, 0, 0);
-            X::XFreePixmap(_display, pix);
+            _nullCursor = XCreatePixmapCursor(_display, pix, pix, &black, &black, 0, 0);
+            XFreePixmap(_display, pix);
         }
-        X::XDefineCursor(_display, _id, _nullCursor);
+        XDefineCursor(_display, _id, _nullCursor);
     }
     else{
-        X::XUndefineCursor(_display, _id);
+        XUndefineCursor(_display, _id);
     }
     return show_;
 }
 
 bool X11Window::makeCurrent(GLContext* glcxt_) /* const */
 {
-    return false;
+    return glXMakeCurrent(X11Window::display(), _id, glcxt_ == NULL ? 0 : glcxt_->id()) != 0;
 }
 
 void X11Window::swapBuffers() /* const */
 {
-    X::glXSwapBuffers(_display, _id);
+    glXSwapBuffers(_display, _id);
 }
 
 
@@ -188,15 +187,15 @@ X11Window* X11Window::create(const std::string& title_,
     X11Window* window;
     
     windowid_t winid;
-    X::XVisualInfo *visualinfo;//visual info
+    XVisualInfo *visualinfo;//visual info
     int nfbconfigs;//framebuffer configs count
     int best_fbc = 0; // selected fbconfig
     int sample_buffers;// samble buffers count
     int samples; // samples count
     int best_sample_buffers = 0; //most appropriate sample buffers count
     int best_samples = 0; //most appropriate samples
-    X::GLXFBConfig* fbconfigs;//framebuffer config
-    X::Colormap colormap;//color map
+    GLXFBConfig* fbconfigs;//framebuffer config
+    Colormap colormap;//color map
     //gl attribs
     int attribs[]={GLX_RENDER_TYPE,GLX_RGBA_BIT,
         GLX_DRAWABLE_TYPE,GLX_WINDOW_BIT,
@@ -212,7 +211,7 @@ X11Window* X11Window::create(const std::string& title_,
     };
 
     //win attribs
-    X::XSetWindowAttributes winattribs = {0};
+    XSetWindowAttributes winattribs = {0};
     
     //register class
     if(_counter++ == 0){
@@ -231,7 +230,7 @@ X11Window* X11Window::create(const std::string& title_,
     attribs[19] = pixelAttribs_.stencilSize;
     
     //get framebuffer configs
-    fbconfigs = X::glXChooseFBConfig(_display, XDefaultScreen(_display),
+    fbconfigs = glXChooseFBConfig(_display, XDefaultScreen(_display),
                                   attribs, &nfbconfigs);
     if(fbconfigs == NULL){
         return NULL;
@@ -241,11 +240,11 @@ X11Window* X11Window::create(const std::string& title_,
 
     for(int i=0;i<nfbconfigs;i++){
         //get visual info
-        visualinfo = X::glXGetVisualFromFBConfig(_display,fbconfigs[i]);
+        visualinfo = glXGetVisualFromFBConfig(_display,fbconfigs[i]);
         if(visualinfo != NULL){
             //get sample buffer and samples count from fbconfig
-            X::glXGetFBConfigAttrib(_display,fbconfigs[i],GLX_SAMPLE_BUFFERS,&sample_buffers);
-            X::glXGetFBConfigAttrib(_display,fbconfigs[i],GLX_SAMPLES,&samples);
+            glXGetFBConfigAttrib(_display,fbconfigs[i],GLX_SAMPLE_BUFFERS,&sample_buffers);
+            glXGetFBConfigAttrib(_display,fbconfigs[i],GLX_SAMPLES,&samples);
             //Log::instance()->log(Log::LOG_ERROR,"FBConfig %d; SAMPLE_BUFFERS %d; SAMPLES %d",i,sample_buffers,samples);
             //if values less requested
             if(sample_buffers <= pixelAttribs_.sampleBuffers &&
@@ -258,7 +257,7 @@ X11Window* X11Window::create(const std::string& title_,
                 }
             }
             //free visualinfo
-            X::XFree(visualinfo);
+            XFree(visualinfo);
             //if values is requested
             if(best_sample_buffers == pixelAttribs_.sampleBuffers &&
                     best_samples == pixelAttribs_.samples){
@@ -270,11 +269,11 @@ X11Window* X11Window::create(const std::string& title_,
     //"Selected framebuffer config with %d sample buffers and %d samples.",best_sample_buffers,best_samples);
     
     //get visual info
-    visualinfo = X::glXGetVisualFromFBConfig(_display,fbconfigs[best_fbc]);
+    visualinfo = glXGetVisualFromFBConfig(_display,fbconfigs[best_fbc]);
 
     //create color map
-    colormap = X::XCreateColormap(_display,
-            X::XRootWindow(_display, X::XDefaultScreen(_display)),
+    colormap = XCreateColormap(_display,
+            XRootWindow(_display, XDefaultScreen(_display)),
             visualinfo->visual, AllocNone);
 
     winattribs.colormap = colormap;
@@ -289,8 +288,8 @@ X11Window* X11Window::create(const std::string& title_,
     winattribs.border_pixel = 0;
 
     //create window
-    winid = X::XCreateWindow(_display, //display
-                X::XRootWindow(_display, X::XDefaultScreen(_display)), //parent
+    winid = XCreateWindow(_display, //display
+                XRootWindow(_display, XDefaultScreen(_display)), //parent
                 left_, //left
                 top_, //top
                 width_,    //width
@@ -307,23 +306,28 @@ X11Window* X11Window::create(const std::string& title_,
     
     window = new X11Window();
     window->_id = winid;
-    _windowsMap[winid] = window;
+    addWindow(winid, window);
 
     if(_atom_del_win){
-        X::XSetWMProtocols(_display, winid, &_atom_del_win, True);
+        XSetWMProtocols(_display, winid, &_atom_del_win, True);
     }
 
     //set window text
-    X::XStoreName(_display, winid, title_.c_str());
+    XStoreName(_display, winid, title_.c_str());
     //map|show window
-    X::XMapWindow(_display, winid);
+    XMapWindow(_display, winid);
 
     //free visualinfo
-    X::XFree(visualinfo);
+    XFree(visualinfo);
     //free fbconfig
-    X::XFree(fbconfigs);
+    XFree(fbconfigs);
     
     return window;
+}
+
+void X11Window::destroy(X11Window* window_)
+{
+    delete window_;
 }
 
 int X11Window::processEvents()
@@ -333,10 +337,10 @@ int X11Window::processEvents()
     X11Window* window;
     windowid_t wid;
     //message
-    X::XEvent event;
-    while(X::XPending(_display) > 0){
+    XEvent event;
+    while(XPending(_display) > 0){
         //if(XPeekEvent(display,&event)){
-        X::XNextEvent(_display,&event);
+        XNextEvent(_display,&event);
         
         wid = event.xany.window;
         window = static_cast<X11Window*>(getWindow(wid));
@@ -353,7 +357,7 @@ int X11Window::processEvents()
             case ClientMessage:
                 //close window
                 //onClose();
-                if(static_cast<X::Atom>(event.xclient.data.l[0]) == _atom_del_win){
+                if(static_cast<Atom>(event.xclient.data.l[0]) == _atom_del_win){
                     //_done = true;
                     CloseEvent e(window);
                     window->_onClose(&e);
@@ -394,7 +398,6 @@ int X11Window::processEvents()
             case ReparentNotify:
                 break;
             default:
-                //Log::instance()->log(Log::LOG_NORMAL,"event: %d",event.type);
                 break;
         }
     }
@@ -404,21 +407,21 @@ int X11Window::processEvents()
 bool X11Window::_init_x11()
 {
     //open display
-    _display = X::XOpenDisplay(getenv("DISPLAY"));
+    _display = XOpenDisplay(getenv("DISPLAY"));
     if(_display == NULL){
         return false;
     }
 
     //test connection to X
-    if(!X::XNoOp(_display)){
+    if(!XNoOp(_display)){
         return false;
     }
     
-    /*#define _XPrivDisplay X::_XPrivDisplay
-    X::XSelectInput(_display, DefaultRootWindow(_display), SubstructureNotifyMask);*/
+    /*#define _XPrivDisplay _XPrivDisplay
+    XSelectInput(_display, DefaultRootWindow(_display), SubstructureNotifyMask);*/
     
     //get DEL_WIN atom
-    _atom_del_win = X::XInternAtom(_display, "WM_DELETE_WINDOW", False);
+    _atom_del_win = XInternAtom(_display, "WM_DELETE_WINDOW", False);
     
     return true;
 }
@@ -427,14 +430,19 @@ void X11Window::_term_x11()
 {
     //free cursor
     if(_nullCursor != None) {
-        X::XFreeCursor(_display, _nullCursor);
+        XFreeCursor(_display, _nullCursor);
         _nullCursor = None;
     }
     //close display
     if(_display != NULL){
-        X::XCloseDisplay(_display);
+        XCloseDisplay(_display);
         _display = NULL;
     }
+}
+
+Display* X11Window::display()
+{
+    return _display;
 }
 
 

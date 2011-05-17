@@ -1,16 +1,17 @@
 #ifndef _X11_WINDOW_H
 #define _X11_WINDOW_H
 
+#include "window/window.h"
+
+
 #include "osal/osdef.h"
 
 #ifdef OS_LINUX
 
-#include "window/window.h"
-namespace X{
+
 #include <X11/X.h>
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
-}
 
 
 class X11Window
@@ -49,16 +50,20 @@ public:
                           int width_, int height_,
                           const Window::PixelAttribs& pixelAttribs_);
     
+    static void destroy(X11Window* window_);
+    
     static int processEvents();
+    
+    static Display* display();
 
 protected:
     X11Window();
     
     static int _counter;
     
-    static X::Display* _display;
-    static X::Atom _atom_del_win;
-    static X::Cursor _nullCursor;
+    static Display* _display;
+    static Atom _atom_del_win;
+    static Cursor _nullCursor;
     
     static bool _init_x11();
     static void _term_x11();

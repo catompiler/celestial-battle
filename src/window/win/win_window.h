@@ -1,15 +1,19 @@
 #ifndef _WIN_WINDOW_H
 #define _WIN_WINDOW_H
 
+#include "window/window.h"
+
+
 #include "osal/osdef.h"
 
 #ifdef OS_WINDOWS
 
+
 #include <windows.h>
-#include "window/window.h"
+
 
 class WinWindow
-    :public Window
+    :public GLWindow
 {
 public:
     ~WinWindow();
@@ -42,7 +46,9 @@ public:
     static WinWindow* create(const std::string& title_,
                           int left_, int top_,
                           int width_, int height_,
-                          const Window::PixelAttribs& pixelAttribs_);
+                          const GLWindow::PixelAttribs& pixelAttribs_);
+    
+    static void destroy(WinWindow* window_);
     
     static int processEvents();
 
@@ -53,9 +59,6 @@ protected:
     static int _regclass_count;
 
     static LRESULT CALLBACK _WndProc(HWND  hWnd, UINT  uMsg, WPARAM  wParam, LPARAM  lParam);
-
-    HWND _id;
-
 };
 
 #endif  //OS_WINDOWS
