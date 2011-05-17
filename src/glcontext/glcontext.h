@@ -6,7 +6,7 @@ class Window;
 class GLContext {
 public:
     GLContext(const Window* window_);
-    GLContext(const GLContext& orig);
+    GLContext(const GLContext& orig);//not copy - share!
     virtual ~GLContext();
 private:
 

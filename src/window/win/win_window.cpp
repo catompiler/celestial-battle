@@ -160,11 +160,10 @@ WinWindow* WinWindow::create(const std::string& title_,
 {
     HINSTANCE hInst = GetModuleHandle(NULL);
     HWND hwnd;
-    //PIXELFORMATDESCRIPTOR pfd={0};
-    //HDC dc;
+    PIXELFORMATDESCRIPTOR pfd={0};
+    int pf;
+    HDC dc;
     WinWindow* window;
-    
-    
     
     //register class
     if(_regclass_count++ == 0){
@@ -202,6 +201,29 @@ WinWindow* WinWindow::create(const std::string& title_,
         delete window;
         window = NULL;
     }
+    
+    //setup PFD structure
+    pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+    if(pixelAttribs_.doubleBuffer) pfd.dwFlags |= PFD_DOUBLEBUFFER;
+    pfd.iLayerType = PFD_MAIN_PLANE;
+    pfd.cRedBits = pixelAttribs_.redSize;
+    pfd.cGreenBits = pixelAttribs_.greenSize;
+    pfd.cBlueBits = pixelAttribs_.blueSize;
+    pfd.cAlphaBits = pixelAttribs_.alphaSize;
+    pfd.cDepthBits = pixelAttribs_.depthSize;
+    pfd.cStencilBits = pixelAttribs_.stencilSize;
+    pfd.iPixelType = PFD_TYPE_RGBA;
+    
+    #warning ignoring multisempling settings
+    
+    //get HDC
+    dc = GetDC(hwnd);
+    //choose pixel format
+    pf = ChoosePixelFormat(dc, &pfd);
+    //set pixel format
+    SetPixelFormat(dc, pf, &pfd);
+    
     
     ShowWindow(hwnd, SW_SHOW);
     UpdateWindow(hwnd);
