@@ -78,9 +78,16 @@ int main(int argc, char** argv)
         GLWindow::processEvents();
     }
     
+    w->makeCurrent(NULL);
+    
+    GLContext::destroy(cxt);
+    
     w->onClose().removeHandler(&wapp);
     w->onCreate().removeHandler(&wapp);
     w->onResize().removeHandler(&wapp);
+    w->onPaint().removeHandler(&wapp);
+    
+    GLWindow::destroy(w);
     
     return (EXIT_SUCCESS);
 }

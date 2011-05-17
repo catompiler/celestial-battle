@@ -170,9 +170,11 @@ bool X11Window::showCursor(bool show_)
 
 bool X11Window::makeCurrent(GLContext* glcxt_) /* const */
 {
-    return glXMakeCurrent(X11Window::display(), _id,
-                glcxt_ == NULL ? 0 : static_cast<GLXContext>(glcxt_->id()))
-            != 0;
+    if(glcxt_ == NULL){
+        return glXMakeCurrent(_display, 0, 0);
+    }
+    return glXMakeCurrent(_display, _id,
+            static_cast<GLXContext>(glcxt_->id()));
 }
 
 void X11Window::swapBuffers() /* const */
