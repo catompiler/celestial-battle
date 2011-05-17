@@ -67,6 +67,10 @@ protected:
     
     static bool _init_x11();
     static void _term_x11();
+    
+    typedef int (*X11ErrorHandler)(Display *, XErrorEvent *);
+    static X11ErrorHandler _orig_handler;
+    static int _errorHandler(Display *, XErrorEvent *);
 };
 
 #endif  //OS_LINUX

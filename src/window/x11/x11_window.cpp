@@ -1,6 +1,7 @@
 #include "x11_window.h"
 #include "glcontext/glcontext.h"
 #include "glcontext/x11/x11_glcontext.h"
+#include "log/log.h"
 
 #ifdef OS_LINUX
 
@@ -13,6 +14,7 @@ int X11Window::_counter = 0;
 Display* X11Window::_display = NULL;
 Atom X11Window::_atom_del_win = 0;
 Cursor X11Window::_nullCursor = None;
+X11Window::X11ErrorHandler X11Window::_orig_handler = NULL;
 
 
 X11Window::X11Window()
@@ -421,6 +423,8 @@ bool X11Window::_init_x11()
         return false;
     }
     
+    _orig_handler = static_cast<X11ErrorHandler>(XSetErrorHandler(_errorHandler));
+    
     /*#define _XPrivDisplay _XPrivDisplay
     XSelectInput(_display, DefaultRootWindow(_display), SubstructureNotifyMask);*/
     
@@ -442,6 +446,26 @@ void X11Window::_term_x11()
         XCloseDisplay(_display);
         _display = NULL;
     }
+    
+    XSetErrorHandler(_orig_handler);
+}
+
+int X11Window::_errorHandler(Display* display_, XErrorEvent* e)
+{
+    #define MAX_ERROR_TEXT_LEN 31
+    #define MAX_ERROR_DB_TEXT_LEN 255
+    char error_text_buf[MAX_ERROR_TEXT_LEN + 1];
+    char error_db_text_buf[MAX_ERROR_DB_TEXT_LEN + 1];
+    
+    XGetErrorText(display_, e->error_code, error_text_buf, MAX_ERROR_TEXT_LEN);
+    error_text_buf[0] = e->request_code;
+    std::cout << "e->request_code == " << e->request_code << std::endl;
+    XGetErrorDatabaseText(display_, "XRequest", error_text_buf,
+            "Unknown error", error_db_text_buf, MAX_ERROR_DB_TEXT_LEN);
+    
+    log(Log::Error) << "X11 Error:" << std::endl << error_db_text_buf << std::endl;
+    
+    return 0;
 }
 
 Display* X11Window::display()

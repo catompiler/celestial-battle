@@ -64,7 +64,7 @@ int main(int argc, char** argv)
         return 1;
     }
     
-    w->makeCurrent(cxt);
+    //w->makeCurrent(cxt);
     
     w->onClose().addHandler(make_delegate(&wapp, &WindowedApp::onClose));
     w->onCreate().addHandler(make_delegate(&wapp, &WindowedApp::onCreate));
