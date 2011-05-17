@@ -23,6 +23,7 @@ X11Window::X11Window()
 
 X11Window::~X11Window()
 {
+    if(_id != 0) XDestroyWindow(_display, _id);
     if(_counter != 0){
         if(--_counter == 0){
             _term_x11();
@@ -168,7 +169,7 @@ bool X11Window::showCursor(bool show_)
     return show_;
 }
 
-bool X11Window::makeCurrent(const GLContext& glcxt_) /* const */
+bool X11Window::makeCurrent(GLContext* glcxt_) /* const */
 {
     return false;
 }

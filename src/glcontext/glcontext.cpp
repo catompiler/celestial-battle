@@ -1,11 +1,16 @@
 #include "glcontext.h"
 
-GLContext::GLContext(const Window* window_) {
+GLContext::GLContext()
+{
+    _id = 0;
 }
 
-GLContext::GLContext(const GLContext& orig) {
+GLContext::~GLContext()
+{
 }
 
-GLContext::~GLContext() {
+glcontext_t GLContext::id()
+{
+    return _id;
 }
 

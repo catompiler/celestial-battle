@@ -12,7 +12,6 @@ class WinWindow
     :public Window
 {
 public:
-    WinWindow();
     ~WinWindow();
 
     int left() const;
@@ -35,7 +34,7 @@ public:
     bool showCursor(bool show_);
     
     
-    bool makeCurrent(const GLContext& glcxt_) /* const */;
+    bool makeCurrent(GLContext* glcxt_) /* const */;
     
     void swapBuffers() /* const */;
     
@@ -48,6 +47,7 @@ public:
     static int processEvents();
 
 protected:
+    WinWindow();
     
     static const char* _winClassName;
     static int _regclass_count;

@@ -17,7 +17,6 @@ class X11Window
     :public Window
 {
 public:
-    X11Window();
     ~X11Window();
 
     int left() const;
@@ -40,7 +39,7 @@ public:
     bool showCursor(bool show_);
     
     
-    bool makeCurrent(const GLContext& glcxt_) /* const */;
+    bool makeCurrent(GLContext* glcxt_) /* const */;
     
     void swapBuffers() /* const */;
     
@@ -53,6 +52,7 @@ public:
     static int processEvents();
 
 protected:
+    X11Window();
     
     static int _counter;
     

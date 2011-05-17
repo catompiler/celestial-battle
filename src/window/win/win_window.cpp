@@ -141,7 +141,7 @@ bool WinWindow::showCursor(bool show_)
     return show_;
 }
 
-bool WinWindow::makeCurrent(const GLContext& glcxt_) /* const */
+bool WinWindow::makeCurrent(GLContext* glcxt_) /* const */
 {
     //return wglMakeCurrent(GetDC(_id),glcxt_.contextId());
     return false;
@@ -215,7 +215,7 @@ WinWindow* WinWindow::create(const std::string& title_,
     pfd.cStencilBits = pixelAttribs_.stencilSize;
     pfd.iPixelType = PFD_TYPE_RGBA;
     
-    #warning ignoring multisempling settings
+    #warning ignoring multisampling settings
     
     //get HDC
     dc = GetDC(hwnd);

@@ -100,7 +100,7 @@ public:
     virtual bool showCursor(bool show_) = 0;
     
     
-    virtual bool makeCurrent(const GLContext& glcxt_) /* const */ = 0;
+    virtual bool makeCurrent(GLContext* glcxt_) /* const */ = 0;
     
     virtual void swapBuffers() /* const */ = 0;
     
