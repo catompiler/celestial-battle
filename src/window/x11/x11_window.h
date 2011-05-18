@@ -61,7 +61,7 @@ protected:
     
     static int _counter;
     
-    static Display* _display;
+    
     static Atom _atom_del_win;
     static Cursor _nullCursor;
     
@@ -71,6 +71,15 @@ protected:
     typedef int (*X11ErrorHandler)(Display *, XErrorEvent *);
     static X11ErrorHandler _orig_handler;
     static int _errorHandler(Display *, XErrorEvent *);
+
+    struct DisplayOpener{
+        DisplayOpener();
+        ~DisplayOpener();
+        static Display* display;
+        static int _counter;
+    };
+    
+    static DisplayOpener _displayOpener;
 };
 
 #endif  //OS_LINUX
