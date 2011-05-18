@@ -1,10 +1,11 @@
-#include "input.h"
-
 #include "osal/osdef.h"
 #ifdef OS_LINUX
 
+
+#include "x11_input.h"
+
 #include <X11/Xlib.h>
-#include "window/x11/x11_window.h"
+#include "display/x11/x11_display.h"
 
 
 namespace input{
@@ -19,9 +20,9 @@ state_t* x11_state()
     int tmp;//returned child coordinates
     unsigned int bm;
     
-    XQueryPointer(X11Window::display(), //display
-                XRootWindow(X11Window::display(),
-                        XDefaultScreen(X11Window::display())), //window
+    XQueryPointer(display::get_x11_display(), //display
+                XRootWindow(display::get_x11_display(),
+                        XDefaultScreen(display::get_x11_display())), //window
                 &tmpwin, &tmpwin, //root & child windows
                 &_state.x, &_state.y, //root return
                 &tmp, &tmp,//child return
@@ -41,9 +42,9 @@ state_t* x11_state()
 
 void x11_setpos(int x, int y)
 {
-    Window rootwin = XRootWindow(X11Window::display(),
-                        XDefaultScreen(X11Window::display()));
-    XWarpPointer(X11Window::display(),
+    Window rootwin = XRootWindow(display::get_x11_display(),
+                        XDefaultScreen(display::get_x11_display()));
+    XWarpPointer(display::get_x11_display(),
             rootwin,
             rootwin,
             0,0,

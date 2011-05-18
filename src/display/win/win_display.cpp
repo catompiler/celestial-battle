@@ -1,5 +1,10 @@
+#include "osal/osdef.h"
+#ifdef OS_WINDOWS
+
+
 #include "win_display.h"
 #include <windows.h>
+
 
 namespace display{
 
@@ -14,3 +19,5 @@ int win_height()
 }
 
 }//display
+
+#endif //OS_WINDOWS

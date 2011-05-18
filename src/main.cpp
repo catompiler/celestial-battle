@@ -3,6 +3,7 @@
 #include "log/log.h"
 #include "window/window.h"
 #include "glcontext/glcontext.h"
+#include "input/input.h"
 #include <GL/gl.h>
 
 
@@ -76,6 +77,8 @@ int main(int argc, char** argv)
     
     while(wapp.closed == false){
         GLWindow::processEvents();
+        //input::mouse::state_t* state = input::mouse::state();
+        //std::cout << state->x << "x" << state->y << std::endl;
     }
     
     w->makeCurrent(NULL);

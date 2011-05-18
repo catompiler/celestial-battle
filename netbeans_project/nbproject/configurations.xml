@@ -21,6 +21,18 @@
       <logicalFolder name="delegate" displayName="delegate" projectFiles="true">
         <itemPath>../src/delegate/delegate.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="display" displayName="display" projectFiles="true">
+        <logicalFolder name="win" displayName="win" projectFiles="true">
+          <itemPath>../src/display/win/win_display.cpp</itemPath>
+          <itemPath>../src/display/win/win_display.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="x11" displayName="x11" projectFiles="true">
+          <itemPath>../src/display/x11/x11_display.cpp</itemPath>
+          <itemPath>../src/display/x11/x11_display.h</itemPath>
+        </logicalFolder>
+        <itemPath>../src/display/display.cpp</itemPath>
+        <itemPath>../src/display/display.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="event" displayName="event" projectFiles="true">
         <itemPath>../src/event/event.cpp</itemPath>
         <itemPath>../src/event/event.h</itemPath>
@@ -58,6 +70,18 @@
       </logicalFolder>
       <logicalFolder name="global" displayName="global" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/global/constants.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="input" displayName="input" projectFiles="true">
+        <logicalFolder name="win" displayName="win" projectFiles="true">
+          <itemPath>../src/input/win/win_input.cpp</itemPath>
+          <itemPath>../src/input/win/win_input.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="x11" displayName="x11" projectFiles="true">
+          <itemPath>../src/input/x11/x11_input.cpp</itemPath>
+          <itemPath>../src/input/x11/x11_input.h</itemPath>
+        </logicalFolder>
+        <itemPath>../src/input/input.cpp</itemPath>
+        <itemPath>../src/input/input.h</itemPath>
       </logicalFolder>
       <logicalFolder name="log" displayName="log" projectFiles="true">
         <itemPath>../src/log/log.cpp</itemPath>

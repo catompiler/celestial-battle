@@ -1,11 +1,15 @@
+#include "osal/osdef.h"
+#ifdef OS_LINUX
+
 #include "x11_display.h"
 #include <stdlib.h>
+
 
 namespace display{
 
 struct Opener{
     
-    Opener::Opener()
+    Opener()
     {
         if(_counter++ == 0){
             //open display
@@ -21,7 +25,7 @@ struct Opener{
         }
     }
 
-    Opener::~Opener()
+    ~Opener()
     {
         if(_counter != 0){
             if(--_counter == 0){
@@ -51,12 +55,14 @@ Display* get_x11_display()
 
 int x11_width()
 {
-    return XDisplayWidth(_display,XDefaultScreen(Opener::display));
+    return XDisplayWidth(Opener::display,XDefaultScreen(Opener::display));
 }
 
 int x11_height()
 {
-    return XDisplayHeight(_display,XDefaultScreen(Opener::display));
+    return XDisplayHeight(Opener::display,XDefaultScreen(Opener::display));
 }
 
 }//display
+
+#endif  //OS_LINUX

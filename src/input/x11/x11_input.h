@@ -1,11 +1,10 @@
 #ifndef _X11_INPUT_H
 #define _X11_INPUT_H
 
-#include "input/input.h"
-
-
 #include "osal/osdef.h"
 #ifdef OS_LINUX
+
+#include "input/input.h"
 
 namespace input{
 
