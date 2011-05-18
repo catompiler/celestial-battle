@@ -1,57 +1,19 @@
 #include "x11_window.h"
+
 #include "glcontext/glcontext.h"
-#include "glcontext/x11/x11_glcontext.h"
 #include "log/log.h"
 
 #ifdef OS_LINUX
 
 #include <X11/Xutil.h>
 #include <GL/glx.h>
-#include <stdlib.h>
-
+#include "glcontext/x11/x11_glcontext.h"
+#include "display/x11/x11_display.h"
 
 int X11Window::_counter = 0;
 Atom X11Window::_atom_del_win = 0;
 Cursor X11Window::_nullCursor = None;
 X11Window::X11ErrorHandler X11Window::_orig_handler = NULL;
-
-X11Window::DisplayOpener X11Window::_displayOpener;
-
-
-Display* X11Window::DisplayOpener::display = NULL;
-int X11Window::DisplayOpener::_counter = 0;
-
-X11Window::DisplayOpener::DisplayOpener()
-{
-    if(_counter++ == 0){
-        //open display
-        display = XOpenDisplay(getenv("DISPLAY"));
-        if(display == NULL){
-            return;
-        }
-
-        //test connection to X
-        if(!XNoOp(display)){
-            XCloseDisplay(display);
-            display = NULL;
-        }
-    }
-}
-
-X11Window::DisplayOpener::~DisplayOpener()
-{
-    if(_counter != 0){
-        if(--_counter == 0){
-            //close display
-            if(display != NULL){
-                XCloseDisplay(display);
-                display = NULL;
-            }
-        }
-    }
-}
-
-
 
 
 
@@ -62,7 +24,7 @@ X11Window::X11Window()
 
 X11Window::~X11Window()
 {
-    if(_id != 0) XDestroyWindow(DisplayOpener::display, _id);
+    if(_id != 0) XDestroyWindow(display::get_x11_display(), _id);
     if(_counter != 0){
         if(--_counter == 0){
             _term_x11();
@@ -76,7 +38,7 @@ int X11Window::left() const
     int x, y;
     unsigned int w, h, tmp;
     
-    XGetGeometry(DisplayOpener::display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(display::get_x11_display(), _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
     return x;
 }
@@ -87,9 +49,9 @@ void X11Window::setLeft(int left_)
     int x, y;
     unsigned int w, h, tmp;
     
-    XGetGeometry(DisplayOpener::display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(display::get_x11_display(), _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
-    XMoveWindow(DisplayOpener::display, _id, left_, y);
+    XMoveWindow(display::get_x11_display(), _id, left_, y);
 }
 
 int X11Window::top() const
@@ -98,7 +60,7 @@ int X11Window::top() const
     int x, y;
     unsigned int w, h, tmp;
     
-    XGetGeometry(DisplayOpener::display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(display::get_x11_display(), _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
     return y;
 }
@@ -109,9 +71,9 @@ void X11Window::setTop(int top_)
     int x, y;
     unsigned int w, h, tmp;
     
-    XGetGeometry(DisplayOpener::display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(display::get_x11_display(), _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
-    XMoveWindow(DisplayOpener::display, _id, x, top_);
+    XMoveWindow(display::get_x11_display(), _id, x, top_);
 }
 
 unsigned int X11Window::width() const
@@ -120,7 +82,7 @@ unsigned int X11Window::width() const
     int x, y;
     unsigned int w, h, tmp;
     
-    XGetGeometry(DisplayOpener::display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(display::get_x11_display(), _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
     return w;
 }
@@ -131,9 +93,9 @@ void X11Window::setWidth(unsigned int width_)
     int x, y;
     unsigned int w, h, tmp;
     
-    XGetGeometry(DisplayOpener::display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(display::get_x11_display(), _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
-    XResizeWindow(DisplayOpener::display, _id, width_, h);
+    XResizeWindow(display::get_x11_display(), _id, width_, h);
 }
 
 unsigned int X11Window::height() const
@@ -142,7 +104,7 @@ unsigned int X11Window::height() const
     int x, y;
     unsigned int w, h, tmp;
     
-    XGetGeometry(DisplayOpener::display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(display::get_x11_display(), _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
     return h;
 }
@@ -153,16 +115,16 @@ void X11Window::setHeight(unsigned int height_)
     int x, y;
     unsigned int w, h, tmp;
     
-    XGetGeometry(DisplayOpener::display, _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
+    XGetGeometry(display::get_x11_display(), _id, &rootwin, &x, &y, &w, &h, &tmp, &tmp);
     
-    XResizeWindow(DisplayOpener::display, _id, w, height_);
+    XResizeWindow(display::get_x11_display(), _id, w, height_);
 }
 
 std::string X11Window::title() const
 {
     char* name;
     std::string res;
-    if(XFetchName(DisplayOpener::display, _id, &name) != 0){
+    if(XFetchName(display::get_x11_display(), _id, &name) != 0){
         res = name;
         XFree(name);
     }
@@ -172,7 +134,7 @@ std::string X11Window::title() const
 
 void X11Window::setTitle(const std::string& title_)
 {
-    XStoreName(DisplayOpener::display, _id, title_.c_str());
+    XStoreName(display::get_x11_display(), _id, title_.c_str());
 }
 
 bool X11Window::active() const
@@ -180,7 +142,7 @@ bool X11Window::active() const
     windowid_t activeWin;
     int focusState;
     
-    XGetInputFocus(DisplayOpener::display, &activeWin, &focusState);
+    XGetInputFocus(display::get_x11_display(), &activeWin, &focusState);
 
     return activeWin == _id;
 }
@@ -191,19 +153,19 @@ bool X11Window::showCursor(bool show_)
         if(_nullCursor == None){
             //create a null cursor
             char bm[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-            Pixmap pix = XCreateBitmapFromData(DisplayOpener::display, _id, bm, 8, 8);
+            Pixmap pix = XCreateBitmapFromData(display::get_x11_display(), _id, bm, 8, 8);
 
             XColor black = {0};
             //memset(&black, 0, sizeof(XColor));
             black.flags = DoRed | DoGreen | DoBlue;
 
-            _nullCursor = XCreatePixmapCursor(DisplayOpener::display, pix, pix, &black, &black, 0, 0);
-            XFreePixmap(DisplayOpener::display, pix);
+            _nullCursor = XCreatePixmapCursor(display::get_x11_display(), pix, pix, &black, &black, 0, 0);
+            XFreePixmap(display::get_x11_display(), pix);
         }
-        XDefineCursor(DisplayOpener::display, _id, _nullCursor);
+        XDefineCursor(display::get_x11_display(), _id, _nullCursor);
     }
     else{
-        XUndefineCursor(DisplayOpener::display, _id);
+        XUndefineCursor(display::get_x11_display(), _id);
     }
     return show_;
 }
@@ -211,15 +173,15 @@ bool X11Window::showCursor(bool show_)
 bool X11Window::makeCurrent(GLContext* glcxt_) /* const */
 {
     if(glcxt_ == NULL){
-        return glXMakeCurrent(DisplayOpener::display, 0, 0);
+        return glXMakeCurrent(display::get_x11_display(), 0, 0);
     }
-    return glXMakeCurrent(DisplayOpener::display, _id,
+    return glXMakeCurrent(display::get_x11_display(), _id,
             static_cast<GLXContext>(glcxt_->id()));
 }
 
 void X11Window::swapBuffers() /* const */
 {
-    glXSwapBuffers(DisplayOpener::display, _id);
+    glXSwapBuffers(display::get_x11_display(), _id);
 }
 
 
@@ -258,7 +220,7 @@ X11Window* X11Window::create(const std::string& title_,
     XSetWindowAttributes winattribs = {0};
     
     //if display not opened
-    if(DisplayOpener::display == NULL){
+    if(display::get_x11_display() == NULL){
         return NULL;
     }
     //init x11
@@ -278,7 +240,7 @@ X11Window* X11Window::create(const std::string& title_,
     attribs[19] = pixelAttribs_.stencilSize;
     
     //get framebuffer configs
-    fbconfigs = glXChooseFBConfig(DisplayOpener::display, XDefaultScreen(DisplayOpener::display),
+    fbconfigs = glXChooseFBConfig(display::get_x11_display(), XDefaultScreen(display::get_x11_display()),
                                   attribs, &nfbconfigs);
     if(fbconfigs == NULL){
         return NULL;
@@ -288,11 +250,11 @@ X11Window* X11Window::create(const std::string& title_,
 
     for(int i=0;i<nfbconfigs;i++){
         //get visual info
-        visualinfo = glXGetVisualFromFBConfig(DisplayOpener::display,fbconfigs[i]);
+        visualinfo = glXGetVisualFromFBConfig(display::get_x11_display(),fbconfigs[i]);
         if(visualinfo != NULL){
             //get sample buffer and samples count from fbconfig
-            glXGetFBConfigAttrib(DisplayOpener::display,fbconfigs[i],GLX_SAMPLE_BUFFERS,&sample_buffers);
-            glXGetFBConfigAttrib(DisplayOpener::display,fbconfigs[i],GLX_SAMPLES,&samples);
+            glXGetFBConfigAttrib(display::get_x11_display(),fbconfigs[i],GLX_SAMPLE_BUFFERS,&sample_buffers);
+            glXGetFBConfigAttrib(display::get_x11_display(),fbconfigs[i],GLX_SAMPLES,&samples);
             //Log::instance()->log(Log::LOG_ERROR,"FBConfig %d; SAMPLE_BUFFERS %d; SAMPLES %d",i,sample_buffers,samples);
             //if values less requested
             if(sample_buffers <= pixelAttribs_.sampleBuffers &&
@@ -317,11 +279,11 @@ X11Window* X11Window::create(const std::string& title_,
     //"Selected framebuffer config with %d sample buffers and %d samples.",best_sample_buffers,best_samples);
     
     //get visual info
-    visualinfo = glXGetVisualFromFBConfig(DisplayOpener::display,fbconfigs[best_fbc]);
+    visualinfo = glXGetVisualFromFBConfig(display::get_x11_display(),fbconfigs[best_fbc]);
 
     //create color map
-    colormap = XCreateColormap(DisplayOpener::display,
-            XRootWindow(DisplayOpener::display, XDefaultScreen(DisplayOpener::display)),
+    colormap = XCreateColormap(display::get_x11_display(),
+            XRootWindow(display::get_x11_display(), XDefaultScreen(display::get_x11_display())),
             visualinfo->visual, AllocNone);
 
     winattribs.colormap = colormap;
@@ -336,8 +298,8 @@ X11Window* X11Window::create(const std::string& title_,
     winattribs.border_pixel = 0;
 
     //create window
-    winid = XCreateWindow(DisplayOpener::display, //display
-                XRootWindow(DisplayOpener::display, XDefaultScreen(DisplayOpener::display)), //parent
+    winid = XCreateWindow(display::get_x11_display(), //display
+                XRootWindow(display::get_x11_display(), XDefaultScreen(display::get_x11_display())), //parent
                 left_, //left
                 top_, //top
                 width_,    //width
@@ -357,13 +319,13 @@ X11Window* X11Window::create(const std::string& title_,
     addWindow(winid, window);
 
     if(_atom_del_win){
-        XSetWMProtocols(DisplayOpener::display, winid, &_atom_del_win, True);
+        XSetWMProtocols(display::get_x11_display(), winid, &_atom_del_win, True);
     }
 
     //set window text
-    XStoreName(DisplayOpener::display, winid, title_.c_str());
+    XStoreName(display::get_x11_display(), winid, title_.c_str());
     //map|show window
-    XMapWindow(DisplayOpener::display, winid);
+    XMapWindow(display::get_x11_display(), winid);
 
     //free visualinfo
     XFree(visualinfo);
@@ -386,9 +348,9 @@ int X11Window::processEvents()
     windowid_t wid;
     //message
     XEvent event;
-    while(XPending(DisplayOpener::display) > 0){
+    while(XPending(display::get_x11_display()) > 0){
         //if(XPeekEvent(display,&event)){
-        XNextEvent(DisplayOpener::display,&event);
+        XNextEvent(display::get_x11_display(),&event);
         
         wid = event.xany.window;
         window = static_cast<X11Window*>(getWindow(wid));
@@ -457,10 +419,10 @@ bool X11Window::_init_x11()
     _orig_handler = static_cast<X11ErrorHandler>(XSetErrorHandler(_errorHandler));
     
     /*#define _XPrivDisplay _XPrivDisplay
-    XSelectInput(DisplayOpener::display, DefaultRootWindow(DisplayOpener::display), SubstructureNotifyMask);*/
+    XSelectInput(display::get_x11_display(), DefaultRootWindow(display::get_x11_display()), SubstructureNotifyMask);*/
     
     //get DEL_WIN atom
-    _atom_del_win = XInternAtom(DisplayOpener::display, "WM_DELETE_WINDOW", False);
+    _atom_del_win = XInternAtom(display::get_x11_display(), "WM_DELETE_WINDOW", False);
     
     return true;
 }
@@ -469,7 +431,7 @@ void X11Window::_term_x11()
 {
     //free cursor
     if(_nullCursor != None) {
-        XFreeCursor(DisplayOpener::display, _nullCursor);
+        XFreeCursor(display::get_x11_display(), _nullCursor);
         _nullCursor = None;
     }
     
@@ -490,8 +452,8 @@ int X11Window::_errorHandler(Display* display_, XErrorEvent* e)
     /*XGetErrorDatabaseText(display_, "XlibMessage", "XRequest",
             "Unknown error", error_db_text_buf, MAX_ERROR_DB_TEXT_LEN);*/
     
-    log(Log::Error) << "X11 Error: " << error_text_buf << "; "
-        << "Major reques opcode: " << static_cast<unsigned int>(e->request_code)
+    log(Log::Error) << "X11 Error: " << error_text_buf
+        << "; Major reques opcode: " << static_cast<unsigned int>(e->request_code)
         << "; Minor reques opcode: " << static_cast<unsigned int>(e->minor_code)
         << std::endl;
     
@@ -500,7 +462,7 @@ int X11Window::_errorHandler(Display* display_, XErrorEvent* e)
 
 Display* X11Window::display()
 {
-    return DisplayOpener::display;
+    return display::get_x11_display();
 }
 
 
