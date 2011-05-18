@@ -1,10 +1,10 @@
+#include "osal/osdef.h"
+#ifdef OS_WINDOWS
+
 #include "win_window.h"
 #include "glcontext/glcontext.h"
 
 
-#include "osal/osdef.h"
-
-#ifdef OS_WINDOWS
 
 const char* WinWindow::_winClassName = "_WINDOW_";
 
@@ -18,7 +18,7 @@ WinWindow::WinWindow()
 
 WinWindow::~WinWindow()
 {
-    if(_id != 0) DestroyWindow(static_cast<HWND>(_id));
+    if(_id != 0) DestroyWindow(_id);
     if(_regclass_count != 0){
         if(--_regclass_count == 0){
             UnregisterClass(_winClassName, GetModuleHandle(NULL));
@@ -29,7 +29,7 @@ WinWindow::~WinWindow()
 int WinWindow::left() const
 {
     RECT r;
-    GetWindowRect(static_cast<HWND>(_id), &r);
+    GetWindowRect(_id, &r);
     return r.left;
 }
 
@@ -37,13 +37,13 @@ void WinWindow::setLeft(int left_)
 {
     RECT r;
     //get current rect
-    GetWindowRect(static_cast<HWND>(_id), &r);
+    GetWindowRect(_id, &r);
     //calc width
     int w = r.right - r.left;
     r.left = left_;
     r.right = left_ + w;
     //set
-    SetWindowPos(static_cast<HWND>(_id), 0,
+    SetWindowPos(_id, 0,
                  r.left, r.right,
                  r.right - r.left, r.bottom - r.top,
                  0);
@@ -52,7 +52,7 @@ void WinWindow::setLeft(int left_)
 int WinWindow::top() const
 {
     RECT r;
-    GetWindowRect(static_cast<HWND>(_id), &r);
+    GetWindowRect(_id, &r);
     return r.top;
 }
 
@@ -60,13 +60,13 @@ void WinWindow::setTop(int top_)
 {
     RECT r;
     //get current rect
-    GetWindowRect(static_cast<HWND>(_id), &r);
+    GetWindowRect(_id, &r);
     //calc width
     int h = r.bottom - r.top;
     r.top = top_;
     r.bottom = top_ + h;
     //set
-    SetWindowPos(static_cast<HWND>(_id), 0,
+    SetWindowPos(_id, 0,
                  r.left, r.right,
                  r.right - r.left, r.bottom - r.top,
                  0);
@@ -75,7 +75,7 @@ void WinWindow::setTop(int top_)
 unsigned int WinWindow::width() const
 {
     RECT r;
-    GetWindowRect(static_cast<HWND>(_id), &r);
+    GetWindowRect(_id, &r);
     return r.right - r.left;
 }
 
@@ -83,10 +83,10 @@ void WinWindow::setWidth(unsigned int width_)
 {
     RECT r;
     //get current rect
-    GetWindowRect(static_cast<HWND>(_id), &r);
+    GetWindowRect(_id, &r);
     r.right = r.left + width_;
     //set
-    SetWindowPos(static_cast<HWND>(_id), 0,
+    SetWindowPos(_id, 0,
                  r.left, r.right,
                  r.right - r.left, r.bottom - r.top,
                  0);
@@ -95,7 +95,7 @@ void WinWindow::setWidth(unsigned int width_)
 unsigned int WinWindow::height() const
 {
     RECT r;
-    GetWindowRect(static_cast<HWND>(_id), &r);
+    GetWindowRect(_id, &r);
     return r.bottom - r.top;
 }
 
@@ -103,10 +103,10 @@ void WinWindow::setHeight(unsigned int height_)
 {
     RECT r;
     //get current rect
-    GetWindowRect(static_cast<HWND>(_id), &r);
+    GetWindowRect(_id, &r);
     r.bottom = r.top + height_;
     //set
-    SetWindowPos(static_cast<HWND>(_id), 0,
+    SetWindowPos(_id, 0,
                  r.left, r.right,
                  r.right - r.left, r.bottom - r.top,
                  0);
@@ -114,11 +114,11 @@ void WinWindow::setHeight(unsigned int height_)
 
 std::string WinWindow::title() const
 {
-    int title_len = GetWindowTextLength(static_cast<HWND>(_id));
+    int title_len = GetWindowTextLength(_id);
     
     char title_buf[title_len + 1];
     
-    int count = GetWindowText(static_cast<HWND>(_id), title_buf, title_len);
+    int count = GetWindowText(_id, title_buf, title_len);
     title_buf[count] = 0x0;
     
     return std::string(title_buf);
@@ -126,7 +126,7 @@ std::string WinWindow::title() const
 
 void WinWindow::setTitle(const std::string& title_)
 {
-    SetWindowText(static_cast<HWND>(_id), title_.c_str());
+    SetWindowText(_id, title_.c_str());
 }
 
 bool WinWindow::active() const
@@ -135,7 +135,7 @@ bool WinWindow::active() const
 
     activeWin = GetActiveWindow();
 
-    return activeWin == static_cast<HWND>(_id);
+    return activeWin == _id;
 }
 
 bool WinWindow::showCursor(bool show_)
@@ -146,12 +146,12 @@ bool WinWindow::showCursor(bool show_)
 
 bool WinWindow::makeCurrent(GLContext* glcxt_) /* const */
 {
-    return wglMakeCurrent(GetDC(static_cast<HWND>(_id)), glcxt_ == NULL ? 0 : static_cast<HGLRC>(glcxt_->id()));
+    return wglMakeCurrent(GetDC(_id), glcxt_ == NULL ? 0 : static_cast<HGLRC>(glcxt_->id()));
 }
 
 void WinWindow::swapBuffers() /* const */
 {
-    SwapBuffers(GetDC(static_cast<HWND>(_id)));
+    SwapBuffers(GetDC(_id));
 }
 
 
@@ -268,7 +268,6 @@ LRESULT CALLBACK WinWindow::_WndProc(HWND  hWnd, UINT  uMsg, WPARAM  wParam, LPA
             window->_id = hWnd;
             addWindow(hWnd, window);
         
-            #define CreateEventA CreateEvent
             { GLWindow::CreateEvent e(window);
             window->_onCreate(&e); }
             break;

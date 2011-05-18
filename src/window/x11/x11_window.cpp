@@ -1,14 +1,16 @@
-#include "x11_window.h"
-
-#include "glcontext/glcontext.h"
-#include "log/log.h"
-
+#include "osal/osdef.h"
 #ifdef OS_LINUX
+
+
+#include "x11_window.h"
+#include "glcontext/glcontext.h"
+#include "display/x11/x11_display.h"
+#include "log/log.h"
 
 #include <X11/Xutil.h>
 #include <GL/glx.h>
-#include "glcontext/x11/x11_glcontext.h"
-#include "display/x11/x11_display.h"
+
+
 
 int X11Window::_counter = 0;
 Atom X11Window::_atom_del_win = 0;
@@ -192,7 +194,7 @@ X11Window* X11Window::create(const std::string& title_,
 {
     X11Window* window;
     
-    windowid_t winid;
+    Window winid;
     XVisualInfo *visualinfo;//visual info
     int nfbconfigs;//framebuffer configs count
     int best_fbc = 0; // selected fbconfig

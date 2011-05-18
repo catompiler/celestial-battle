@@ -1,14 +1,10 @@
 #ifndef _WIN_WINDOW_H
 #define _WIN_WINDOW_H
 
-#include "window/window.h"
-
-
 #include "osal/osdef.h"
-
 #ifdef OS_WINDOWS
 
-
+#include "window/window.h"
 #include <windows.h>
 
 

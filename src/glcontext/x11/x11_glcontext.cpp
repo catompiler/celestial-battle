@@ -1,12 +1,10 @@
-#include "x11_glcontext.h"
-#include "window/window.h"
-
 #include "osal/osdef.h"
-
-
 #ifdef OS_LINUX
 
+
+#include "x11_glcontext.h"
 #include "display/x11/x11_display.h"
+#include "window/window.h"
 
 
 #ifndef GL_CONTEXT_MAJOR_VERSION
@@ -15,6 +13,7 @@
 #ifndef GL_CONTEXT_MINOR_VERSION
 #define GL_CONTEXT_MINOR_VERSION 0x2092
 #endif
+
 
 PFNGLXCREATECONTEXTATTRIBSARBPROC X11GLContext::glXCreateContextAttribsARB = NULL;
 PFNGLXGETFBCONFIGFROMVISUALSGIXPROC X11GLContext::glXGetFBConfigFromVisualSGIX = NULL;
@@ -29,7 +28,7 @@ X11GLContext::X11GLContext()
 X11GLContext::~X11GLContext()
 {
     if(_id != 0 && _not_destroy == false){
-        glXDestroyContext(display::get_x11_display(), static_cast<GLXContext>(_id));
+        glXDestroyContext(display::get_x11_display(), _id);
     }
 }
 
@@ -58,7 +57,7 @@ GLContext* X11GLContext::create(const GLWindow* window_, const Version& version_
     Window window = window_->id();
     
     
-    if(glcxt_ != NULL) shared = static_cast<GLXContext>(glcxt_->id());
+    if(glcxt_ != NULL) shared = glcxt_->id();
     
     XGetWindowAttributes(display::get_x11_display(), window, &winattribs);
     
@@ -153,7 +152,7 @@ GLContext* X11GLContext::create(const GLWindow* window_, const Version& version_
     glXMakeCurrent(display::get_x11_display(), origDrawWindow, origcxt);
 
     X11GLContext* res = new X11GLContext();
-    res->_id = static_cast<glcontext_t>(res_glcxt);
+    res->_id = res_glcxt;
     
     return res;
 }

@@ -1,10 +1,8 @@
+#include "osal/osdef.h"
+#ifdef OS_WINDOWS
+
 #include "win_glcontext.h"
 #include "window/window.h"
-
-#include "osal/osdef.h"
-
-
-#ifdef OS_WINDOWS
 
 #include <windows.h>
 
@@ -27,7 +25,7 @@ WGLContext::WGLContext()
 
 WGLContext::~WGLContext()
 {
-    if(_id != 0 && _not_destroy == false) wglDeleteContext(reinterpret_cast<HGLRC>(_id));
+    if(_id != 0 && _not_destroy == false) wglDeleteContext(_id);
 }
 
 GLContext* WGLContext::create(const GLWindow* window_, const Version& version_)
@@ -51,7 +49,7 @@ GLContext* WGLContext::create(const GLWindow* window_, const Version& version_,
     origDc = wglGetCurrentDC();
     origcxt = wglGetCurrentContext();
     
-    window_dc = GetDC(static_cast<HWND>(window_->id()));
+    window_dc = GetDC(window_->id());
     
     if(glcxt_ != NULL) shared = static_cast<HGLRC>(glcxt_->id());
 

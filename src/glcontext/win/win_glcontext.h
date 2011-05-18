@@ -2,11 +2,11 @@
 #define _WIN_GLCONTEXT_H
 
 #include "osal/osdef.h"
-
 #ifdef OS_WINDOWS
 
+
 #include "glcontext/glcontext.h"
-#include "win_glcontext_types.h"
+
 
 class WGLContext
     :public GLContext

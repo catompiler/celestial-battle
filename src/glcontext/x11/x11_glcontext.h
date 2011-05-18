@@ -2,11 +2,9 @@
 #define _X11_GLCONTEXT_H
 
 #include "osal/osdef.h"
-
 #ifdef OS_LINUX
 
 #include "glcontext/glcontext.h"
-#include "x11_glcontext_types.h"
 
 #include <GL/glx.h>
 #include <GL/glxext.h>

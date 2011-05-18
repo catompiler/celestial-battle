@@ -1,13 +1,11 @@
 #ifndef _X11_WINDOW_H
 #define _X11_WINDOW_H
 
-#include "window/window.h"
-
-
 #include "osal/osdef.h"
-
 #ifdef OS_LINUX
 
+
+#include "window/window.h"
 
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
