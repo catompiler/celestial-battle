@@ -460,10 +460,10 @@ int X11Window::_errorHandler(Display* display_, XErrorEvent* e)
     return 0;
 }
 
-Display* X11Window::display()
+/*Display* X11Window::display()
 {
     return display::get_x11_display();
-}
+}*/
 
 
 #endif  //OS_LINUX

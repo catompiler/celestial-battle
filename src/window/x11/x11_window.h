@@ -53,7 +53,7 @@ public:
     
     static int processEvents();
     
-    static Display* display();
+    //static Display* display();
 
 protected:
     X11Window();

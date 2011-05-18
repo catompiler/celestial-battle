@@ -6,7 +6,7 @@
 
 #ifdef OS_LINUX
 
-#include "window/x11/x11_window.h"
+#include "display/x11/x11_display.h"
 
 
 #ifndef GL_CONTEXT_MAJOR_VERSION
@@ -29,7 +29,7 @@ X11GLContext::X11GLContext()
 X11GLContext::~X11GLContext()
 {
     if(_id != 0 && _not_destroy == false){
-        glXDestroyContext(X11Window::display(), static_cast<GLXContext>(_id));
+        glXDestroyContext(display::get_x11_display(), static_cast<GLXContext>(_id));
     }
 }
 
@@ -60,7 +60,7 @@ GLContext* X11GLContext::create(const GLWindow* window_, const Version& version_
     
     if(glcxt_ != NULL) shared = static_cast<GLXContext>(glcxt_->id());
     
-    XGetWindowAttributes(X11Window::display(), window, &winattribs);
+    XGetWindowAttributes(display::get_x11_display(), window, &winattribs);
     
     visualinfo.visual = winattribs.visual;
     visualinfo.visualid = XVisualIDFromVisual(winattribs.visual);
@@ -72,19 +72,19 @@ GLContext* X11GLContext::create(const GLWindow* window_, const Version& version_
     origDrawWindow = glXGetCurrentDrawable();
     //origReadWindow = glXGetCurrentReadDrawable();
     origDisplay = glXGetCurrentDisplay();
-
+    
     
     //if need CreateContextAttribs
     if(version_.major > 2){
         //if current context == NULL
         if(origcxt == NULL){
             //create context
-            tmpglcxt = glXCreateContext(X11Window::display(), &visualinfo, 0, True);
+            tmpglcxt = glXCreateContext(display::get_x11_display(), &visualinfo, 0, True);
             if(tmpglcxt == 0){
                 return NULL;
             }
-            if(!glXMakeCurrent(X11Window::display(), window, tmpglcxt)){
-                glXDestroyContext(X11Window::display(), tmpglcxt);
+            if(!glXMakeCurrent(display::get_x11_display(), window, tmpglcxt)){
+                glXDestroyContext(display::get_x11_display(), tmpglcxt);
                 return NULL;
             }
         }
@@ -97,7 +97,7 @@ GLContext* X11GLContext::create(const GLWindow* window_, const Version& version_
                         reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")
             )))){
                 //OpenGL 3.0 is not supported
-                glXMakeCurrent(X11Window::display(), origDrawWindow, origcxt);
+                glXMakeCurrent(display::get_x11_display(), origDrawWindow, origcxt);
                 return NULL;
             }
         }
@@ -108,15 +108,15 @@ GLContext* X11GLContext::create(const GLWindow* window_, const Version& version_
                     glXGetProcAddress(
                         reinterpret_cast<const GLubyte*>("glXGetFBConfigFromVisualSGIX")
             )))){
-                glXMakeCurrent(X11Window::display(), origDrawWindow, origcxt);
+                glXMakeCurrent(display::get_x11_display(), origDrawWindow, origcxt);
                 return NULL;
             }
         }
         
-        fbconfig = glXGetFBConfigFromVisualSGIX(X11Window::display(), &visualinfo);
+        fbconfig = glXGetFBConfigFromVisualSGIX(display::get_x11_display(), &visualinfo);
         
         if(fbconfig == NULL){
-            glXMakeCurrent(X11Window::display(), origDrawWindow, origcxt);
+            glXMakeCurrent(display::get_x11_display(), origDrawWindow, origcxt);
             return NULL;
         }
 
@@ -130,27 +130,27 @@ GLContext* X11GLContext::create(const GLWindow* window_, const Version& version_
         //if tmpglcxt created
         if(tmpglcxt != 0){
             //destroy tmp context
-            glXMakeCurrent(X11Window::display(), 0, 0);
-            glXDestroyContext(X11Window::display(), tmpglcxt);
+            glXMakeCurrent(display::get_x11_display(), 0, 0);
+            glXDestroyContext(display::get_x11_display(), tmpglcxt);
         }
 
         //create new, gl3 context
-        res_glcxt = glXCreateContextAttribsARB(X11Window::display(),
+        res_glcxt = glXCreateContextAttribsARB(display::get_x11_display(),
                                 fbconfig, shared, True, context_attribs);
         if(!res_glcxt){
-            glXMakeCurrent(X11Window::display(), origDrawWindow, origcxt);
+            glXMakeCurrent(display::get_x11_display(), origDrawWindow, origcxt);
             return NULL;
         }
         //
     }else{
         //create context
-        res_glcxt = glXCreateContext(X11Window::display(), &visualinfo, shared, True);
+        res_glcxt = glXCreateContext(display::get_x11_display(), &visualinfo, shared, True);
         if(res_glcxt == NULL){
             return NULL;
         }
     }
 
-    glXMakeCurrent(X11Window::display(), origDrawWindow, origcxt);
+    glXMakeCurrent(display::get_x11_display(), origDrawWindow, origcxt);
 
     X11GLContext* res = new X11GLContext();
     res->_id = static_cast<glcontext_t>(res_glcxt);
