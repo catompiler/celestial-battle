@@ -9,7 +9,7 @@ class smart_ptr
 public:
     smart_ptr();
     smart_ptr(T* ptr);
-    smart_ptr(smart_ptr<T>& sptr);
+    smart_ptr(const smart_ptr<T>& sptr);
     ~smart_ptr();
 
     T& operator*();
@@ -18,7 +18,7 @@ public:
     
     bool operator==(T* ptr);
 
-    smart_ptr<T>& operator=(smart_ptr<T>& sptr);
+    smart_ptr<T>& operator=(const smart_ptr<T>& sptr);
     smart_ptr<T>& operator=(T* ptr);
 
     void release();
@@ -43,7 +43,7 @@ private:
         size_t _links_count;
     };
 
-    Rep* _rep;
+    mutable Rep* _rep;
 
 };
 
@@ -61,7 +61,7 @@ smart_ptr<T>::smart_ptr(T* ptr)
 }
 
 template <class T>
-smart_ptr<T>::smart_ptr(smart_ptr<T>& sptr)
+smart_ptr<T>::smart_ptr(const smart_ptr<T>& sptr)
 {
     sptr._rep->_links_count ++;
     _rep = sptr._rep;
@@ -94,7 +94,7 @@ bool smart_ptr<T>::operator==(T* ptr)
 }
 
 template <class T>
-smart_ptr<T>& smart_ptr<T>::operator=(smart_ptr<T>& sptr)
+smart_ptr<T>& smart_ptr<T>::operator=(const smart_ptr<T>& sptr)
 {
     if(_rep->release()){
         delete _rep;
