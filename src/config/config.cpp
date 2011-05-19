@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include "utils/utils.h"
 
-
+/*
 void debug_print(iterator_t begin, iterator_t end)
 {
     std::ostreambuf_iterator<char> out_it(std::cout);
@@ -19,7 +19,7 @@ void debug_msg(const char* msg)
 {
     std::cout << msg << std::endl;
 }
-
+*/
 
 iterator_t skip_ws(iterator_t begin, iterator_t end)
 {
@@ -118,6 +118,29 @@ iterator_t get_name(std::string& name, iterator_t begin, iterator_t end)
     
     return end_name;
 }
+
+
+ConfigException::ConfigException(const char* who_, const char* what_, iterator_t where_)
+    :Exception(what_)
+{
+    _who = who_;
+    _where = where_;
+}
+
+ConfigException::~ConfigException() throw()
+{
+}
+
+const char* ConfigException::who() const throw()
+{
+    return _who.c_str();
+}
+
+iterator_t ConfigException::where() const throw()
+{
+    return _where;
+}
+
 
 
 const std::string Element::line_sep = ";";
@@ -226,15 +249,14 @@ bool ValueBase::setVector(const std::vector<Value>&)
     return false;
 }
 
-iterator_t ValueBase::parse(iterator_t config_begin, iterator_t /*config_end*/)
+iterator_t ValueBase::parse(iterator_t config_begin, iterator_t /*config_end*/) throw(ConfigException&)
 {
-    debug_msg("ValueBase::parse()");
-    return config_begin;
+    ConfigException ce("ValueBase", "called parse() stub", config_begin);
+    throw(ce);
 }
 
 bool ValueBase::write(std::ostream& /*ost_*/) const
 {
-    debug_msg("ValueBase::write()");
     return false;
 }
 
@@ -297,7 +319,7 @@ std::vector<Value> Value::getVector(bool* isOk) const
 
 
 bool Value::setInt(int val_)
-{//debug_msg("Value::set int");
+{
     if(_value == NULL){
         _value = new ValueNumber(val_);
     }else if(!_value->setInt(val_)){
@@ -308,7 +330,7 @@ bool Value::setInt(int val_)
 }
 
 bool Value::setBool(bool val_)
-{//debug_msg("Value::set bool");
+{
     if(_value == NULL){
         _value = new ValueBool(val_);
     }else if(!_value->setBool(val_)){
@@ -319,7 +341,7 @@ bool Value::setBool(bool val_)
 }
 
 bool Value::setDouble(double val_)
-{//debug_msg("Value::set double");
+{
     if(_value == NULL){
         _value = new ValueNumber(val_);
     }else if(!_value->setDouble(val_)){
@@ -330,7 +352,7 @@ bool Value::setDouble(double val_)
 }
 
 bool Value::setConstant(const std::string& val_)
-{//debug_msg("Value::set constant");
+{
     if(_value == NULL){
         _value = new ValueConstant(val_);
     }else if(!_value->setConstant(val_)){
@@ -341,7 +363,7 @@ bool Value::setConstant(const std::string& val_)
 }
 
 bool Value::setString(const std::string& val_)
-{//debug_msg("Value::set string");
+{
     if(_value == NULL){
         _value = new ValueString(val_);
     }else if(!_value->setString(val_)){
@@ -352,7 +374,7 @@ bool Value::setString(const std::string& val_)
 }
 
 bool Value::setVector(const std::vector<Value>& val_)
-{//debug_msg("Value::set vector");
+{
     if(_value == NULL){
         _value = new ValueVector(val_);
     }else if(!_value->setVector(val_)){
@@ -362,60 +384,55 @@ bool Value::setVector(const std::vector<Value>& val_)
     return true;
 }
 
-iterator_t Value::parse(iterator_t config_begin, iterator_t config_end)
+iterator_t Value::parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&)
 {
     delete _value; _value = NULL;
     
     iterator_t current = skip_trash(config_begin, config_end);
     
     if(ValueNumber::isit(current, config_end)){
-        //debug_msg("Value::Info parsing number");
         _value = new ValueNumber;
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current){
-            debug_msg("Value::Error in ValueNumber::parse()");
-            return config_begin;
+            ConfigException ce("Value", "error in ValueNumber::parse()", current);
+            throw(ce);
         }
         return parse_res;
     }else if(ValueString::isit(current, config_end)){
-        //debug_msg("Value::Info parsing string");
         _value = new ValueString;
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current){
-            debug_msg("Value::Error in ValueString::parse()");
-            return config_begin;
+            ConfigException ce("Value", "error in ValueString::parse()", current);
+            throw(ce);
         }
         return parse_res;
     }else if(ValueVector::isit(current, config_end)){
-        //debug_msg("Value::Info parsing vector");
         _value = new ValueVector;
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current){
-            debug_msg("Value::Error in ValueVector::parse()");
-            return config_begin;
+            ConfigException ce("Value", "error in ValueVector::parse()", current);
+            throw(ce);
         }
         return parse_res;
     }else if(ValueBool::isit(current, config_end)){
-        //debug_msg("Value::Info parsing boolean");
         _value = new ValueBool;
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current){
-            debug_msg("Value::Error in ValueBool::parse()");
-            return config_begin;
+            ConfigException ce("Value", "error in ValueBool::parse()", current);
+            throw(ce);
         }
         return parse_res;
     }else if(ValueConstant::isit(current, config_end)){
-        //debug_msg("Value::Info parsing constant");
         _value = new ValueConstant;
         iterator_t parse_res = _value->parse(current, config_end);
         if(parse_res == current){
-            debug_msg("Value::Error in ValueConstant::parse()");
-            return config_begin;
+            ConfigException ce("Value", "error in ValueConstant::parse()", current);
+            throw(ce);
         }
         return parse_res;
     }
-    debug_msg("Value::Error Unknown value type");
-    return config_begin;
+    ConfigException ce("Value", "unknown value type", current);
+    throw(ce);
 }
 
 bool Value::write(std::ostream& ost_) const
@@ -489,7 +506,7 @@ bool ValueNumber::setDouble(double val_)
     return true;
 }
 
-iterator_t ValueNumber::parse(iterator_t config_begin, iterator_t config_end)
+iterator_t ValueNumber::parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&)
 {
     _is_double = false;
     _valuei = 0;
@@ -500,14 +517,14 @@ iterator_t ValueNumber::parse(iterator_t config_begin, iterator_t config_end)
                                         std::not1(std::ptr_fun(isnumberchar)));
     
     if(number_end == number_begin){
-        debug_msg("ValueNumber::Error length is equal to zero");
-        return config_begin;
+        ConfigException ce("ValueNumber", "length of value is equal to zero", number_begin);
+        throw(ce);
     }
     
     for(std::string::const_iterator it = _single_chars.begin(); it != _single_chars.end(); it ++){
         if(std::count(number_begin, number_end, *it) > 1){
-            debug_msg("ValueNumber::Error bad number");
-            return config_begin;
+            ConfigException ce("ValueNumber", "bad number", number_begin);
+            throw(ce);
         }
     }
 
@@ -596,14 +613,14 @@ bool ValueBool::setBool(bool val_)
     return true;
 }
 
-iterator_t ValueBool::parse(iterator_t config_begin, iterator_t config_end)
+iterator_t ValueBool::parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&)
 {
     _value = false;
     
     iterator_t current = skip_trash(config_begin, config_end);
     if(_str_true.length() > static_cast<unsigned int>(std::distance(current, config_end))){
-        debug_msg("ValueBool::Error bad length");
-        return config_begin;
+        ConfigException ce("ValueBool", "bad value length", current);
+        throw(ce);
     }
     if(std::equal(_str_true.begin(), _str_true.end(), current)){
         _value = true;
@@ -616,8 +633,8 @@ iterator_t ValueBool::parse(iterator_t config_begin, iterator_t config_end)
         std::advance(current, _str_false.length());
         return current;
     }
-    debug_msg("ValueBool::Error string \"true\" or \"false\" not found");
-    return config_begin;
+    ConfigException ce("ValueBool", "string \"true\" or \"false\" not found", current);
+    throw(ce);
 }
 
 bool ValueBool::isit(iterator_t config_begin, iterator_t config_end)
@@ -678,22 +695,22 @@ bool ValueConstant::setConstant(const std::string& val_)
     return true;
 }
 
-iterator_t ValueConstant::parse(iterator_t config_begin, iterator_t config_end)
+iterator_t ValueConstant::parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&)
 {
     _value.clear();
     
     iterator_t current = skip_trash(config_begin, config_end);
     
     if(current == config_end){
-        debug_msg("ValueConstant::Error length is equal to zero");
-        return config_begin;
+        ConfigException ce("ValueConstant", "length of value is equal to zero", current);
+        throw(ce);
     }
     
     iterator_t end_name = get_name(_value, current, config_end);
     
     if(end_name == current){
-        debug_msg("ValueConstant::Error bad constant name");
-        return config_begin;
+        ConfigException ce("ValueConstant", "bad constant name", current);
+        throw(ce);
     }
     
     return end_name;
@@ -755,20 +772,20 @@ bool ValueString::setString(const std::string& val_)
     return true;
 }
 
-iterator_t ValueString::parse(iterator_t config_begin, iterator_t config_end)
+iterator_t ValueString::parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&)
 {
     _value.clear();
     
     iterator_t current = skip_trash(config_begin, config_end);
     
-    if(_string_begin_end.length() > static_cast<unsigned int>(std::distance(current, config_end))){
-        debug_msg("ValueString::Error bad length");
-        return config_begin;
+    if((_string_begin_end.length() << 1) > static_cast<unsigned int>(std::distance(current, config_end))){
+        ConfigException ce("ValueString", "bad length", current);
+        throw(ce);
     }
     
     if(!std::equal(_string_begin_end.begin(), _string_begin_end.end(), current)){
-        debug_msg("ValueString::Error string begin symbol not found");
-        return config_begin;
+        ConfigException ce("ValueString", "string begin symbol not found", current);
+        throw(ce);
     }
     
     std::advance(current, _string_begin_end.length());
@@ -810,15 +827,15 @@ iterator_t ValueString::parse(iterator_t config_begin, iterator_t config_end)
                     _value.push_back('\\');
                     break;
                 default:
-                    std::cout << "warning: unknown escape-character \"\\" << *current << "\"" << std::endl;
+                    //std::cout << "warning: unknown escape-character \"\\" << *current << "\"" << std::endl;
                     _value.push_back(*current);
                     break;
             }
             after_bslash = false;
         }
     }
-    debug_msg("ValueString::Error string end symbol not found");
-    return config_begin;
+    ConfigException ce("ValueString", "string end symbol not found", current);
+    throw(ce);
 }
 
 bool ValueString::isit(iterator_t config_begin, iterator_t config_end)
@@ -913,20 +930,21 @@ bool ValueVector::setVector(const std::vector<Value>& val_)
     return true;
 }
 
-iterator_t ValueVector::parse(iterator_t config_begin, iterator_t config_end)
+iterator_t ValueVector::parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&)
 {
     delete _value; _value = NULL;
     
     iterator_t current = skip_trash(config_begin, config_end);
     
-    if(_vector_begin.length() > static_cast<unsigned int>(std::distance(current, config_end))){
-        debug_msg("ValueVector::Error bad length");
-        return config_begin;
+    if((_vector_begin.length() + _vector_end.length()) >
+            static_cast<unsigned int>(std::distance(current, config_end))){
+        ConfigException ce("ValueVector", "bad length", current);
+        throw(ce);
     }
     
     if(!std::equal(_vector_begin.begin(), _vector_begin.end(), current)){
-        debug_msg("ValueVector::Error vector begin symbol not found");
-        return config_begin;
+        ConfigException ce("ValueVector", "vector begin symbol not found", current);
+        throw(ce);
     }
     
     std::advance(current, _vector_begin.length());
@@ -936,8 +954,8 @@ iterator_t ValueVector::parse(iterator_t config_begin, iterator_t config_end)
     current = skip_trash(current, config_end);
     
     if(_vector_end.length() > static_cast<unsigned int>(std::distance(current, config_end))){
-        debug_msg("ValueVector::Error bad length for vector end symbol");
-        return config_begin;
+        ConfigException ce("ValueVector", "bad length for vector end symbol", current);
+        throw(ce);
     }
     
     //if end of vector
@@ -954,8 +972,8 @@ iterator_t ValueVector::parse(iterator_t config_begin, iterator_t config_end)
         
         iterator_t parse_res = value.parse(current, config_end);
         if(parse_res == current){
-            debug_msg("ValueVector::Error Value::parse() error");
-            return config_begin;
+            ConfigException ce("ValueVector", "Value::parse() error", current);
+            throw(ce);
         }
         
         _value->push_back(value);
@@ -971,20 +989,20 @@ iterator_t ValueVector::parse(iterator_t config_begin, iterator_t config_end)
         }
         
         if(_vector_sep.length() > static_cast<unsigned int>(std::distance(current, config_end))){
-            debug_msg("ValueVector::Error bad length for separator");
-            return config_begin;
+            ConfigException ce("ValueVector", "bad length for separator", current);
+            throw(ce);
         }
         
         if(!std::equal(_vector_sep.begin(), _vector_sep.end(), current)){
-            debug_msg("ValueVector::Error bad separator in vector");
-            return config_begin;
+            ConfigException ce("ValueVector", "bad separator in vector", current);
+            throw(ce);
         }
         
         std::advance(current, _vector_sep.length());
     }
     
-    //!!
-    return config_begin;
+    ConfigException ce("ValueVector", "vector end symbol not found", current);
+    throw(ce);
 }
 
 bool ValueVector::isit(iterator_t config_begin, iterator_t config_end)
@@ -1045,19 +1063,19 @@ bool Parameter::isit(iterator_t begin, iterator_t end)
     return ::isit(_parameter_sign, begin, end);
 }
 
-iterator_t Parameter::parse(iterator_t config_begin, iterator_t config_end)
+iterator_t Parameter::parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&)
 {
     delete _value; _value = NULL;
     
     iterator_t current = skip_trash(config_begin, config_end);
     if(_parameter_sign.length() > static_cast<unsigned int>(std::distance(current, config_end))){
-        debug_msg("Parameter::Error bad length");
-        return config_begin;
+        ConfigException ce("Parameter", "bad length", current);
+        throw(ce);
     }
     
     if(!std::equal(_parameter_sign.begin(), _parameter_sign.end(), current)) {
-        debug_msg("Parameter::Error bad signature");
-        return config_begin;
+        ConfigException ce("Parameter", "bad signature", current);
+        throw(ce);
     }
     
     std::advance(current, _parameter_sign.length());
@@ -1067,18 +1085,18 @@ iterator_t Parameter::parse(iterator_t config_begin, iterator_t config_end)
     iterator_t parse_res = _value->parse(current, config_end);
     
     if(parse_res == current){
-        debug_msg("Parameter::Error Value::parse() error");
-        return config_begin;
+        ConfigException ce("Parameter", "Value::parse() error", current);
+        throw(ce);
     }
     
     current = skip_trash(parse_res, config_end);
     if(Element::line_sep.length() > static_cast<unsigned int>(std::distance(current, config_end))){
-        debug_msg("Parameter::Error error length for parameter end");
-        return config_begin;
+        ConfigException ce("Parameter", "bad length for parameter end", current);
+        throw(ce);
     }
     if(!std::equal(Element::line_sep.begin(), Element::line_sep.end(), current)){
-        debug_msg("Parameter::Error parameter end symbol not found");
-        return config_begin;
+        ConfigException ce("Parameter", "parameter end symbol not found", current);
+        throw(ce);
     }
     
     std::advance(current, Element::line_sep.length());
@@ -1181,7 +1199,7 @@ bool Group::isit(iterator_t begin, iterator_t end)
     return ::isit(_group_sign, begin, end);
 }
 
-iterator_t Group::parse(iterator_t config_begin, iterator_t config_end)
+iterator_t Group::parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&)
 {
     _clear();
     
@@ -1192,13 +1210,13 @@ iterator_t Group::parse(iterator_t config_begin, iterator_t config_end)
         current = skip_trash(current, config_end);
         
         if(_group_begin.length() > static_cast<unsigned int>(std::distance(current, config_end))){
-            debug_msg("Group::Error bad length");
-            return config_begin;
+            ConfigException ce("Group", "bad length", current);
+            throw(ce);
         }
         
         if(!std::equal(_group_begin.begin(), _group_begin.end(), current)) {
-            debug_msg("Group::Error group begin symbol not found");
-            return config_begin;
+            ConfigException ce("Group", "group begin symbol not found", current);
+            throw(ce);
         }
         
         std::advance(current, _group_begin.length());
@@ -1227,20 +1245,20 @@ iterator_t Group::parse(iterator_t config_begin, iterator_t config_end)
 
             current = get_name(readed_name, current, config_end);
             if(readed_name.empty()){
-                debug_msg("Group::Error invalid parameter name");
-                return config_begin;
+                ConfigException ce("Group", "invalid parameter name", current);
+                throw(ce);
             }
             
             Parameter* param = getParameter(readed_name);
             if(param == NULL) param = addParameter(readed_name);
-            else debug_msg("Group::Warning replacing parameter");
+            //else debug_msg("Group::Warning replacing parameter");
             //_parameters->push_back(param);
             
             iterator_t parse_res = param->parse(current, config_end);
             
             if(parse_res == current){
-                debug_msg("Group::Error Parameter::parse() error");
-                return config_begin;
+                ConfigException ce("Group", "Parameter::parse() error", current);
+                throw(ce);
             }
             
             current = parse_res;
@@ -1251,28 +1269,27 @@ iterator_t Group::parse(iterator_t config_begin, iterator_t config_end)
 
             current = get_name(readed_name, current, config_end);
             if(readed_name.empty()){
-                debug_msg("Group::Error invalid group name");
-                return config_begin;
+                ConfigException ce("Group", "invalid group name", current);
+                throw(ce);
             }
             
             Group* grp = getGroup(readed_name);
             if(grp == NULL) grp = addGroup(readed_name);
-            else debug_msg("Group::Warning replacing group");
+            //else debug_msg("Group::Warning replacing group");
             //_groups->push_back(grp);
             
             iterator_t parse_res = grp->parse(current, config_end);
             
             if(parse_res == current){
-                debug_msg("Group::Error Group::parse() error");
-                return config_begin;
+                ConfigException ce("Group", "Group::parse() error", current);
+                throw(ce);
             }
             
             current = parse_res;
             
         }else{
-            debug_msg("Group::Error unknown element type");
-            //current ++;
-            return config_begin;
+            ConfigException ce("Group", "bad character or unknown element type", current);
+            throw(ce);
         }
     }
     
@@ -1348,12 +1365,12 @@ Value* Group::getValue(const std::string& parameter_)
     }
     
     if(_group_sep.length() > static_cast<unsigned int>(std::distance(end_name, parameter_.end()))){
-        debug_msg("Group::getValue::Error bad length");
+        //debug_msg("Group::getValue::Error bad length");
         return NULL;
     }
     
     if(!std::equal(_group_sep.begin(), _group_sep.end(), end_name)){
-        debug_msg("Group::getValue::Error invalid separator");
+        //debug_msg("Group::getValue::Error invalid separator");
         return NULL;
     }
     
@@ -1387,12 +1404,12 @@ bool Group::setValue(const std::string& parameter_, const Value* value_)
     }
     
     if(_group_sep.length() > static_cast<unsigned int>(std::distance(end_name, parameter_.end()))){
-        debug_msg("Group::setValue::Error bad length");
+        //debug_msg("Group::setValue::Error bad length");
         return false;
     }
     
     if(!std::equal(_group_sep.begin(), _group_sep.end(), end_name)){
-        debug_msg("Group::setValue::Error invalid separator");
+        //debug_msg("Group::setValue::Error invalid separator");
         return false;
     }
     
@@ -1430,11 +1447,37 @@ bool Config::read(std::istream& ist_)
     
     //std::cout << config_str;
     
-    if(parse(config_begin, config_end) != config_end){
+    /*if(parse(config_begin, config_end) != config_end){
         clear();
         return false;
+    }*/
+    try
+    {
+        if(parse(config_begin, config_end) == config_end){
+            return true;
+        }
     }
-    return true;
+    catch (ConfigException& ce)
+    {
+        //calc lines count
+        int line = std::count(config_begin, ce.where(), Element::line_end.c_str()[0]);
+        //find last line
+        iterator_t last_line = std::find_end(config_begin, ce.where(),
+                            Element::line_end.begin(), Element::line_end.end());
+        if(last_line == ce.where()){
+            last_line = config_begin;
+        }
+        //calc position
+        int pos = std::distance(last_line, ce.where());
+        
+        std::cout << "line " << line + 1
+                  << " position " << pos +1
+                  << ": " <<  ce.who() << ": " << ce.what() << std::endl;
+    }
+    
+    clear();
+    
+    return false;
 }
 
 void Config::clear()

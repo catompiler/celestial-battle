@@ -5,13 +5,11 @@
 #include <vector>
 #include <iostream>
 #include <list>
+#include "exception/exception.h"
 
 
 typedef std::string::const_iterator iterator_t;
 typedef std::string::value_type value_t;
-
-void debug_print(iterator_t begin, iterator_t end);
-void debug_msg(const char* msg);
 
 //! skip white-spaces
 iterator_t skip_ws(iterator_t begin, iterator_t end);
@@ -35,10 +33,31 @@ bool isit(const std::string& sign, iterator_t begin, iterator_t end);
 //! read name
 iterator_t get_name(std::string& name, iterator_t begin, iterator_t end);
 
+
+class ConfigException
+    :public Exception
+{
+public:
+    ConfigException(const char* who_, const char* what_, iterator_t where_);
+    ~ConfigException() throw();
+
+    const char* who() const throw();
+    iterator_t where() const throw();
+private:
+    std::string _who;
+    iterator_t _where;
+};
+
+/*
+ConfigException ce("", "", current);
+throw(ce);
+ */
+
 class Element{
 public:
     virtual ~Element();
-    virtual iterator_t parse(iterator_t config_begin, iterator_t config_end) = 0;
+    virtual iterator_t parse(iterator_t config_begin,
+                iterator_t config_end) throw(ConfigException&) = 0;
     
     static const std::string line_sep;
     static const std::string align_space;
@@ -83,7 +102,7 @@ public:
     virtual bool setString(const std::string& val_);
     virtual bool setVector(const std::vector<Value>& val_);
     
-    iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
     
     virtual bool write(std::ostream& ost_) const;
 };
@@ -113,7 +132,7 @@ public:
     bool setString(const std::string& val_);
     bool setVector(const std::vector<Value>& val_);
     
-    iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
     
     bool write(std::ostream& ost_) const;
     
@@ -141,7 +160,7 @@ public:
     bool setInt(int val_);
     bool setDouble(double val_);
     
-    iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
     
     static bool isit(iterator_t config_begin, iterator_t config_end);
 
@@ -178,7 +197,7 @@ public:
     
     bool setBool(bool val_);
     
-    iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
     
     static bool isit(iterator_t config_begin, iterator_t config_end);
 
@@ -208,7 +227,7 @@ public:
 
     bool setConstant(const std::string& val_);
     
-    iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
     
     static bool isit(iterator_t config_begin, iterator_t config_end);
     
@@ -234,7 +253,7 @@ public:
 
     bool setString(const std::string& val_);
     
-    iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
     
     static bool isit(iterator_t config_begin, iterator_t config_end);
 
@@ -262,7 +281,7 @@ public:
 
     bool setVector(const std::vector<Value>& val_);
     
-    iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
     
     static bool isit(iterator_t config_begin, iterator_t config_end);
 
@@ -289,7 +308,7 @@ public:
     void setValue(const Value* value_);
     
     static bool isit(iterator_t begin, iterator_t end);
-    iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
     
     bool write(std::ostream& ost_) const;
 
@@ -315,7 +334,7 @@ public:
     Parameter* getParameter(const std::string& param_);
     
     static bool isit(iterator_t begin, iterator_t end);
-    iterator_t parse(iterator_t config_begin, iterator_t config_end);
+    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
     
     Value* getValue(const std::string& parameter_);
     bool setValue(const std::string& parameter_, const Value* value_);

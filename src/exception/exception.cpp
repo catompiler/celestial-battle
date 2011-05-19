@@ -1,9 +1,9 @@
 #include "exception.h"
 
-Exception::Exception(const char* str)
+Exception::Exception(const char* what_)
     :std::exception()
 {
-    _what = str;
+    _what = what_;
 }
 
 Exception::~Exception() throw()

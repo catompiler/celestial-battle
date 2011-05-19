@@ -8,7 +8,7 @@ class Exception:
     public std::exception
 {
 public:
-    Exception(const char* str);
+    Exception(const char* what_);
     virtual ~Exception() throw();
 
     virtual const char* what() const throw();
