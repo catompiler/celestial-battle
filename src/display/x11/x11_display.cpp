@@ -7,9 +7,9 @@
 
 namespace display{
 
-struct Opener{
+struct DisplayOpener{
     
-    Opener()
+    DisplayOpener()
     {
         if(_counter++ == 0){
             //open display
@@ -25,7 +25,7 @@ struct Opener{
         }
     }
 
-    ~Opener()
+    ~DisplayOpener()
     {
         if(_counter != 0){
             if(--_counter == 0){
@@ -42,25 +42,25 @@ struct Opener{
     static int _counter;
 };
 
-Display* Opener::display = NULL;
-int Opener::_counter = 0;
+Display* DisplayOpener::display = NULL;
+int DisplayOpener::_counter = 0;
 
-static Opener _opener;
+static DisplayOpener _opener;
 
 Display* get_x11_display()
 {
-    return Opener::display;
+    return DisplayOpener::display;
 }
 
 
 int x11_width()
 {
-    return XDisplayWidth(Opener::display,XDefaultScreen(Opener::display));
+    return XDisplayWidth(DisplayOpener::display,XDefaultScreen(DisplayOpener::display));
 }
 
 int x11_height()
 {
-    return XDisplayHeight(Opener::display,XDefaultScreen(Opener::display));
+    return XDisplayHeight(DisplayOpener::display,XDefaultScreen(DisplayOpener::display));
 }
 
 }//display

@@ -177,8 +177,7 @@ bool X11Window::makeCurrent(GLContext* glcxt_) /* const */
     if(glcxt_ == NULL){
         return glXMakeCurrent(display::get_x11_display(), 0, 0);
     }
-    return glXMakeCurrent(display::get_x11_display(), _id,
-            static_cast<GLXContext>(glcxt_->id()));
+    return glXMakeCurrent(display::get_x11_display(), _id, glcxt_->id());
 }
 
 void X11Window::swapBuffers() /* const */
@@ -313,6 +312,10 @@ X11Window* X11Window::create(const std::string& title_,
                 CWBorderPixel | CWColormap | CWEventMask, &winattribs);
 
     if(!winid){
+        //free visualinfo
+        XFree(visualinfo);
+        //free fbconfig
+        XFree(fbconfigs);
         return NULL;
     }
     
@@ -442,7 +445,7 @@ void X11Window::_term_x11()
 
 int X11Window::_errorHandler(Display* display_, XErrorEvent* e)
 {
-    #define MAX_ERROR_TEXT_LEN 31
+    #define MAX_ERROR_TEXT_LEN 63
     char error_text_buf[MAX_ERROR_TEXT_LEN + 1];
     
     /*#define MAX_ERROR_DB_TEXT_LEN 255

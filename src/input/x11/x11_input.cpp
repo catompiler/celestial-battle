@@ -32,9 +32,9 @@ state_t* x11_state()
     _state.buttons_mask = 0;
     if(bm & Button1Mask) //left
         _state.buttons_mask |= buttons::left;
-    if(bm & Button2Mask) //right
+    if(bm & Button3Mask) //right
         _state.buttons_mask |= buttons::right;
-    if(bm & Button3Mask) //middle
+    if(bm & Button2Mask) //middle
         _state.buttons_mask |= buttons::middle;
     
     return &_state;

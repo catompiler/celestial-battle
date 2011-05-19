@@ -33,6 +33,10 @@
         <itemPath>../src/display/display.cpp</itemPath>
         <itemPath>../src/display/display.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="entity" displayName="entity" projectFiles="true">
+        <itemPath>../src/entity/entity.cpp</itemPath>
+        <itemPath>../src/entity/entity.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="event" displayName="event" projectFiles="true">
         <itemPath>../src/event/event.cpp</itemPath>
         <itemPath>../src/event/event.h</itemPath>
@@ -71,6 +75,10 @@
       <logicalFolder name="global" displayName="global" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/global/constants.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="glresource" displayName="glresource" projectFiles="true">
+        <itemPath>../src/glresource/glresource.cpp</itemPath>
+        <itemPath>../src/glresource/glresource.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="input" displayName="input" projectFiles="true">
         <logicalFolder name="win" displayName="win" projectFiles="true">
           <itemPath>../src/input/win/win_input.cpp</itemPath>
@@ -91,13 +99,16 @@
         <itemPath>../src/object/object.cpp</itemPath>
         <itemPath>../src/object/object.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="opengl" displayName="opengl" projectFiles="true">
+        <itemPath>../src/opengl/opengl.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="osal" displayName="osal" projectFiles="true">
         <itemPath>../src/osal/osal.cpp</itemPath>
         <itemPath>../src/osal/osal.h</itemPath>
         <itemPath>../src/osal/osdef.h</itemPath>
       </logicalFolder>
       <logicalFolder name="smart_ptr" displayName="smart_ptr" projectFiles="true">
-        <itemPath>/home/artem/devel/opengl/celestial-battle/src/smart_ptr/smartptr.h</itemPath>
+        <itemPath>../src/smart_ptr/smart_ptr.h</itemPath>
       </logicalFolder>
       <logicalFolder name="string" displayName="string" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.cpp</itemPath>
@@ -173,10 +184,19 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>../src/</pElem>
+          </incDir>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
         </fortranCompilerTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>X11</linkerLibLibItem>
+            <linkerLibLibItem>GL</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
     </conf>
   </confs>

@@ -35,8 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/_ext/1519963337/utils.o \
-	${OBJECTDIR}/_ext/1390850504/display.o \
 	${OBJECTDIR}/_ext/241037705/win_window.o \
+	${OBJECTDIR}/_ext/1390850504/display.o \
 	${OBJECTDIR}/_ext/62598791/object.o \
 	${OBJECTDIR}/_ext/1019042359/osal.o \
 	${OBJECTDIR}/_ext/7752610/vfs.o \
@@ -45,11 +45,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1534683872/event.o \
 	${OBJECTDIR}/_ext/241038541/x11_window.o \
 	${OBJECTDIR}/_ext/897345942/string.o \
-	${OBJECTDIR}/_ext/1964181415/x11_input.o \
 	${OBJECTDIR}/_ext/173017642/window.o \
+	${OBJECTDIR}/_ext/1964181415/x11_input.o \
 	${OBJECTDIR}/_ext/1667457878/exception.o \
 	${OBJECTDIR}/_ext/1060664647/x11_glcontext.o \
 	${OBJECTDIR}/_ext/659870665/fsentrypoint.o \
+	${OBJECTDIR}/_ext/1153801517/glresource.o \
 	${OBJECTDIR}/_ext/659861322/log.o \
 	${OBJECTDIR}/_ext/662815568/glcontext.o \
 	${OBJECTDIR}/_ext/1029917654/main.o \
@@ -57,6 +58,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/960476949/win_display.o \
 	${OBJECTDIR}/_ext/1531217328/input.o \
 	${OBJECTDIR}/_ext/659870665/localfsentrypoint.o \
+	${OBJECTDIR}/_ext/337505763/entity.o \
 	${OBJECTDIR}/_ext/394022532/config.o
 
 
@@ -89,15 +91,15 @@ ${OBJECTDIR}/_ext/1519963337/utils.o: ../src/utils/utils.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1519963337/utils.o ../src/utils/utils.cpp
 
-${OBJECTDIR}/_ext/1390850504/display.o: ../src/display/display.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1390850504
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1390850504/display.o ../src/display/display.cpp
-
 ${OBJECTDIR}/_ext/241037705/win_window.o: ../src/window/win/win_window.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/241037705
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/241037705/win_window.o ../src/window/win/win_window.cpp
+
+${OBJECTDIR}/_ext/1390850504/display.o: ../src/display/display.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1390850504
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1390850504/display.o ../src/display/display.cpp
 
 ${OBJECTDIR}/_ext/62598791/object.o: ../src/object/object.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/62598791
@@ -139,15 +141,15 @@ ${OBJECTDIR}/_ext/897345942/string.o: /home/artem/devel/opengl/celestial-battle/
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/897345942/string.o /home/artem/devel/opengl/celestial-battle/src/string/string.cpp
 
-${OBJECTDIR}/_ext/1964181415/x11_input.o: ../src/input/x11/x11_input.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1964181415
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1964181415/x11_input.o ../src/input/x11/x11_input.cpp
-
 ${OBJECTDIR}/_ext/173017642/window.o: ../src/window/window.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/173017642
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/173017642/window.o ../src/window/window.cpp
+
+${OBJECTDIR}/_ext/1964181415/x11_input.o: ../src/input/x11/x11_input.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1964181415
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1964181415/x11_input.o ../src/input/x11/x11_input.cpp
 
 ${OBJECTDIR}/_ext/1667457878/exception.o: /home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1667457878
@@ -163,6 +165,11 @@ ${OBJECTDIR}/_ext/659870665/fsentrypoint.o: ../src/vfs/fsentrypoint.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/659870665
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659870665/fsentrypoint.o ../src/vfs/fsentrypoint.cpp
+
+${OBJECTDIR}/_ext/1153801517/glresource.o: ../src/glresource/glresource.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1153801517
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1153801517/glresource.o ../src/glresource/glresource.cpp
 
 ${OBJECTDIR}/_ext/659861322/log.o: ../src/log/log.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/659861322
@@ -198,6 +205,11 @@ ${OBJECTDIR}/_ext/659870665/localfsentrypoint.o: ../src/vfs/localfsentrypoint.cp
 	${MKDIR} -p ${OBJECTDIR}/_ext/659870665
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659870665/localfsentrypoint.o ../src/vfs/localfsentrypoint.cpp
+
+${OBJECTDIR}/_ext/337505763/entity.o: ../src/entity/entity.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/337505763
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/337505763/entity.o ../src/entity/entity.cpp
 
 ${OBJECTDIR}/_ext/394022532/config.o: ../src/config/config.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/394022532
