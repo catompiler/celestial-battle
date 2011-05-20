@@ -51,6 +51,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1060664647/x11_glcontext.o \
 	${OBJECTDIR}/_ext/659870665/fsentrypoint.o \
 	${OBJECTDIR}/_ext/1153801517/glresource.o \
+	${OBJECTDIR}/_ext/49809687/opengl.o \
 	${OBJECTDIR}/_ext/659861322/log.o \
 	${OBJECTDIR}/_ext/662815568/glcontext.o \
 	${OBJECTDIR}/_ext/1029917654/main.o \
@@ -170,6 +171,11 @@ ${OBJECTDIR}/_ext/1153801517/glresource.o: ../src/glresource/glresource.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1153801517
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1153801517/glresource.o ../src/glresource/glresource.cpp
+
+${OBJECTDIR}/_ext/49809687/opengl.o: ../src/opengl/opengl.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/49809687
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/49809687/opengl.o ../src/opengl/opengl.cpp
 
 ${OBJECTDIR}/_ext/659861322/log.o: ../src/log/log.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/659861322
