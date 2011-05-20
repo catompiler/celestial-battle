@@ -137,4 +137,9 @@ void WGLContext::destroy(GLContext* glcxt_)
     delete glcxt_;
 }
 
+void (*WGLContext::getProcAddress(const char* procname_))()
+{
+    return reinterpret_cast<void (*)()>(wglGetProcAddress(procname_));
+}
+
 #endif  //OS_WINDOWS

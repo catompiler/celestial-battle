@@ -84,3 +84,18 @@ void GLContext::destroy(GLContext* glcxt_)
 #endif
 }
 
+void (*GLContext::getProcAddress(const char* procname_))()
+{
+    return
+#ifdef OS_WINDOWS
+    WGLContext::getProcAddress(procname_)
+#else
+#ifdef OS_LINUX
+    X11GLContext::getProcAddress(procname_)
+#else
+    NULL
+#endif
+#endif
+    ;//return
+}
+

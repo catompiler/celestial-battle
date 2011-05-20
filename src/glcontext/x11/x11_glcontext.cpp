@@ -175,4 +175,9 @@ void X11GLContext::destroy(GLContext* glcxt_)
     delete glcxt_;
 }
 
+static void (*X11GLContext::getProcAddress(const char* procname_))()
+{
+    return glXGetProcAddress(reinterpret_cast<const GLubyte*>(procname_));
+}
+
 #endif  //OS_LINUX
