@@ -16,12 +16,14 @@ public:
     T* operator->();
     T* get();
     
-    bool operator==(T* ptr);
+    bool operator==(T* ptr) const;
 
     smart_ptr<T>& operator=(const smart_ptr<T>& sptr);
     smart_ptr<T>& operator=(T* ptr);
 
     void release();
+    
+    size_t links_count() const;
 
 private:
     class Rep{
@@ -36,7 +38,7 @@ private:
         T* operator->();
         T* get();
         
-        bool operator==(T* ptr);
+        bool operator==(T* ptr) const;
         Rep& operator=(T* ptr);
         
         T* _ptr;
@@ -88,7 +90,7 @@ T* smart_ptr<T>::get()
 }
 
 template <class T>
-bool smart_ptr<T>::operator==(T* ptr)
+bool smart_ptr<T>::operator==(T* ptr) const
 {
     return _rep->operator==(ptr);
 }
@@ -131,6 +133,12 @@ void smart_ptr<T>::release()
     }else{
         _rep->operator=(NULL);
     }
+}
+
+template <class T>
+size_t smart_ptr<T>::links_count() const
+{
+    return _rep->_links_count;
 }
 
 
@@ -190,7 +198,7 @@ T* smart_ptr<T>::Rep::get()
 }
 
 template <class T>
-bool smart_ptr<T>::Rep::operator==(T* ptr)
+bool smart_ptr<T>::Rep::operator==(T* ptr) const
 {
     return ptr == _ptr;
 }

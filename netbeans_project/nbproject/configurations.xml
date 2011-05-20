@@ -79,6 +79,10 @@
         <itemPath>../src/glresource/glresource.cpp</itemPath>
         <itemPath>../src/glresource/glresource.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="glresourcefactory"
+                     displayName="glresourcefactory"
+                     projectFiles="true">
+      </logicalFolder>
       <logicalFolder name="input" displayName="input" projectFiles="true">
         <logicalFolder name="win" displayName="win" projectFiles="true">
           <itemPath>../src/input/win/win_input.cpp</itemPath>
