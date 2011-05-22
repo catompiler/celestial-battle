@@ -82,6 +82,8 @@
       <logicalFolder name="glresourcefactory"
                      displayName="glresourcefactory"
                      projectFiles="true">
+        <itemPath>../src/glresourcefactory/glresourcefactory.cpp</itemPath>
+        <itemPath>../src/glresourcefactory/glresourcefactory.h</itemPath>
       </logicalFolder>
       <logicalFolder name="input" displayName="input" projectFiles="true">
         <logicalFolder name="win" displayName="win" projectFiles="true">

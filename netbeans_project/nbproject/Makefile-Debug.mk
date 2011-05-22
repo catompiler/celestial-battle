@@ -37,6 +37,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1519963337/utils.o \
 	${OBJECTDIR}/_ext/241037705/win_window.o \
 	${OBJECTDIR}/_ext/1390850504/display.o \
+	${OBJECTDIR}/_ext/576727235/glresourcefactory.o \
 	${OBJECTDIR}/_ext/62598791/object.o \
 	${OBJECTDIR}/_ext/1019042359/osal.o \
 	${OBJECTDIR}/_ext/7752610/vfs.o \
@@ -101,6 +102,11 @@ ${OBJECTDIR}/_ext/1390850504/display.o: ../src/display/display.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1390850504
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1390850504/display.o ../src/display/display.cpp
+
+${OBJECTDIR}/_ext/576727235/glresourcefactory.o: ../src/glresourcefactory/glresourcefactory.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/576727235
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/576727235/glresourcefactory.o ../src/glresourcefactory/glresourcefactory.cpp
 
 ${OBJECTDIR}/_ext/62598791/object.o: ../src/object/object.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/62598791
