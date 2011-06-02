@@ -5,9 +5,7 @@
 
 #ifdef OS_WINDOWS
 #include "win/win_window.h"
-#endif
-
-#ifdef OS_LINUX
+#elif defined OS_LINUX
 #include "x11/x11_window.h"
 #endif
 
@@ -97,12 +95,10 @@ GLWindow* GLWindow::create(const std::string& title_,
     return
     #ifdef OS_WINDOWS
         WinWindow::create(title_, left_, top_, width_, height_, pixelAttribs_)
-    #else
-    #ifdef OS_LINUX
+    #elif defined OS_LINUX
         X11Window::create(title_, left_, top_, width_, height_, pixelAttribs_)
     #else
         NULL
-    #endif
     #endif
     ; // return
 }
@@ -111,8 +107,7 @@ void GLWindow::destroy(GLWindow* window_)
 {
     #ifdef OS_WINDOWS
         WinWindow::destroy(static_cast<WinWindow*>(window_));
-    #endif
-    #ifdef OS_LINUX
+    #elif defined OS_LINUX
         X11Window::destroy(static_cast<X11Window*>(window_));
     #endif
 }
@@ -122,12 +117,10 @@ int GLWindow::processEvents()
     return
     #ifdef OS_WINDOWS
         WinWindow::processEvents()
-    #else
-    #ifdef OS_LINUX
+    #elif defined OS_LINUX
         X11Window::processEvents()
     #else
         0
-    #endif
     #endif
     ; // return
 }

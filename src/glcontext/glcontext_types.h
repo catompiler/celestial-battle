@@ -5,9 +5,7 @@
 
 #ifdef OS_WINDOWS
 #include "win/win_glcontext_types.h"
-#endif
-
-#ifdef OS_LINUX
+#elif defined OS_LINUX
 #include "x11/x11_glcontext_types.h"
 #endif
 
