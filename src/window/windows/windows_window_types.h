@@ -1,5 +1,5 @@
-#ifndef _WIN_WINDOW_TYPES_H
-#define _WIN_WINDOW_TYPES_H
+#ifndef _WINDOWS_WINDOW_TYPES_H
+#define _WINDOWS_WINDOW_TYPES_H
 
 #include <windows.h>
 //fucking windows with fucking defines like "#define Foo FooA"
@@ -7,4 +7,4 @@
 
 typedef HWND windowid_t;
 
-#endif  //_WIN_WINDOW_TYPES_H
+#endif

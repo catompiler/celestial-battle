@@ -3,7 +3,7 @@
 
 #include "glcontext_types.h"
 
-class GLWindow;
+class Window;
 
 class GLContext {
 public:
@@ -16,12 +16,10 @@ public:
         int minor;
     };
 
-    virtual ~GLContext();
-
     glcontext_t id() const;
 
-    static GLContext* create(const GLWindow* window_, const Version& version_);
-    static GLContext* create(const GLWindow* window_, const Version& version_,
+    static GLContext* create(const Window* window_, const Version& version_);
+    static GLContext* create(const Window* window_, const Version& version_,
                              const GLContext* glcxt_);//not copy - share!
     static GLContext* current();
     static void destroy(GLContext* glcxt_);
@@ -30,6 +28,7 @@ public:
 
 protected:
     GLContext();
+    ~GLContext();
 
     bool _not_destroy; //GLContext* current();
     glcontext_t _id;

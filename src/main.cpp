@@ -7,7 +7,7 @@
 #include <GL/gl.h>
 
 
-GLWindow* w = NULL;
+Window* w = NULL;
 GLContext* cxt = NULL;
 
 class WindowedApp{
@@ -15,18 +15,18 @@ public:
     WindowedApp(){
         closed = false;
     }
-    void onClose(GLWindow::CloseEvent* e){
+    void onClose(Window::CloseEvent* e){
         std::cout << "onClose()" << std::endl;
         closed = true;
     }
-    void onResize(GLWindow::ResizeEvent* e){
+    void onResize(Window::ResizeEvent* e){
         std::cout << e->width() << "x" << e->height() << std::endl;
         glViewport(0, 0, e->width(), e->height());
     }
-    void onCreate(GLWindow::CreateEvent* e){
+    void onCreate(Window::CreateEvent* e){
         std::cout << "onCreate()" << std::endl;
     }
-    void onPaint(GLWindow::PaintEvent* e){
+    void onPaint(Window::PaintEvent* e){
         std::cout << "onPaint()" << std::endl;
         glClear(GL_COLOR_BUFFER_BIT);
         w->swapBuffers();
@@ -41,7 +41,7 @@ int main(int argc, char** argv)
     
     WindowedApp wapp;
     
-    GLWindow::PixelAttribs pa;
+    Window::PixelAttribs pa;
     pa.alphaSize = 8;
     pa.blueSize = 8;
     pa.depthSize = 24;
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
     pa.samples = 0;
     pa.stencilSize = 0;
     
-    w = GLWindow::create("X11 Window", 100, 100, 250, 250, pa);
+    w = Window::create("X11 Window", 100, 100, 250, 250, pa);
     if(w == NULL){
         log(Log::Error) << "Error creating window" << std::endl;
         return 1;
@@ -61,7 +61,7 @@ int main(int argc, char** argv)
     cxt = GLContext::create(w, GLContext::Version(2,1));
     if(cxt == NULL){
         log(Log::Error) << "Error creating context" << std::endl;
-        GLWindow::destroy(w);
+        Window::destroy(w);
         return 1;
     }
     
@@ -76,7 +76,7 @@ int main(int argc, char** argv)
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     
     while(wapp.closed == false){
-        GLWindow::processEvents();
+        Window::processEvents();
         //input::mouse::state_t* state = input::mouse::state();
         //std::cout << state->x << "x" << state->y << std::endl;
     }
@@ -90,8 +90,7 @@ int main(int argc, char** argv)
     w->onResize().removeHandler(&wapp);
     w->onPaint().removeHandler(&wapp);
     
-    GLWindow::destroy(w);
+    Window::destroy(w);
     
     return (EXIT_SUCCESS);
 }
-

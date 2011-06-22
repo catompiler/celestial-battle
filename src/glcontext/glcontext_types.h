@@ -2,11 +2,6 @@
 #define _GLCONTEXT_TYPES_H
 
 #include "osal/osdef.h"
-
-#ifdef OS_WINDOWS
-#include "win/win_glcontext_types.h"
-#elif defined OS_LINUX
-#include "x11/x11_glcontext_types.h"
-#endif
+#include PLATFORM_FILE(WINDOW_SYSTEM, glcontext_types.h)
 
 #endif  //_GLCONTEXT_TYPES_H

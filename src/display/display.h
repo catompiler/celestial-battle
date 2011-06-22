@@ -1,11 +1,7 @@
 #ifndef _DISPLAY_H
 #define _DISPLAY_H
 
-namespace display{
-
-int width();
-int height();
-
-}//display
+#include "osal/osdef.h"
+#include PLATFORM_FILE(WINDOW_SYSTEM, display.h)
 
 #endif  //_DISPLAY_H

@@ -1,10 +1,5 @@
-#include "osal/osdef.h"
-#ifdef OS_WINDOWS
-
-#include "win_glcontext.h"
-#include "window/window.h"
-
 #include <windows.h>
+#include "window/window.h"
 
 
 #ifndef GL_CONTEXT_MAJOR_VERSION
@@ -14,36 +9,44 @@
 #define GL_CONTEXT_MINOR_VERSION 0x2092
 #endif
 
-WGLContext::wglCreateContextAttribsARBProc WGLContext::wglCreateContextAttribsARB = 0;
+
+typedef glcontext_t (*wglCreateContextAttribsARBProc)(void*, glcontext_t, const int *);
+static wglCreateContextAttribsARBProc wglCreateContextAttribsARB = NULL;
 
 
 
-WGLContext::WGLContext()
-    :GLContext()
+GLContext::GLContext()
 {
+    _id = 0;
+    _not_destroy = false;
 }
 
-WGLContext::~WGLContext()
+
+GLContext::~GLContext()
 {
     if(_id != 0 && _not_destroy == false) wglDeleteContext(_id);
 }
 
-GLContext* WGLContext::create(const GLWindow* window_, const Version& version_)
+
+GLContext* GLContext::create(const Window* window_, const Version& version_)
 {
     return create(window_, version_, NULL);
 }
 
-GLContext* WGLContext::create(const GLWindow* window_, const Version& version_,
+
+GLContext* GLContext::create(const Window* window_, const Version& version_,
                               const GLContext* glcxt_)//not copy - share!
 {
     HDC window_dc = 0;
-    HGLRC res_glcxt = 0;
+    glcontext_t res_glcxt = 0;
 
-    HGLRC origcxt = 0;
+
+    glcontext_t origcxt = 0;
     HDC origDc = 0;
 
-    HGLRC tmpglcxt = 0;
-    HGLRC shared = 0;
+
+    glcontext_t tmpglcxt = 0;
+    glcontext_t shared = 0;
     
     //save current context state
     origDc = wglGetCurrentDC();
@@ -51,7 +54,8 @@ GLContext* WGLContext::create(const GLWindow* window_, const Version& version_,
     
     window_dc = GetDC(window_->id());
     
-    if(glcxt_ != NULL) shared = static_cast<HGLRC>(glcxt_->id());
+    if(glcxt_ != NULL) shared = static_cast<glcontext_t>(glcxt_->id());
+
 
     //if need CreateContextAttribs
     if(version_.major > 2){
@@ -66,6 +70,7 @@ GLContext* WGLContext::create(const GLWindow* window_, const Version& version_,
                 return NULL;
             }
         }
+
 
         if(wglCreateContextAttribsARB == NULL){
             //get proc address
@@ -83,6 +88,7 @@ GLContext* WGLContext::create(const GLWindow* window_, const Version& version_,
             0
         };
 
+
         //if tmpglcxt created
         if(tmpglcxt != NULL){
             //destroy tmp context
@@ -90,8 +96,9 @@ GLContext* WGLContext::create(const GLWindow* window_, const Version& version_,
             wglDeleteContext(tmpglcxt);
         }
 
+
         //create new, gl3 context
-        res_glcxt = static_cast<HGLRC>(
+        res_glcxt = static_cast<glcontext_t>(
                         wglCreateContextAttribsARB(window_dc, shared, context_attribs)
                     );
         if(res_glcxt == 0){
@@ -111,20 +118,23 @@ GLContext* WGLContext::create(const GLWindow* window_, const Version& version_,
         }
     }
 
+
     wglMakeCurrent(origDc, origcxt);
     
-    WGLContext* res = new WGLContext();
+    GLContext* res = new GLContext();
     res->_id = res_glcxt;
+
 
     return res;
 }
 
-GLContext* WGLContext::current()
+
+GLContext* GLContext::current()
 {
     glcontext_t cur_glcxt = wglGetCurrentContext();
     if(cur_glcxt == 0) return NULL;
     
-    WGLContext* res = new WGLContext();
+    GLContext* res = new GLContext();
     
     res->_id = cur_glcxt;
     res->_not_destroy = true;
@@ -132,14 +142,14 @@ GLContext* WGLContext::current()
     return res;
 }
 
-void WGLContext::destroy(GLContext* glcxt_)
+
+void GLContext::destroy(GLContext* glcxt_)
 {
     delete glcxt_;
 }
 
-void (*WGLContext::getProcAddress(const char* procname_))()
+
+void (*GLContext::getProcAddress(const char* procname_))()
 {
     return reinterpret_cast<void (*)()>(wglGetProcAddress(procname_));
 }
-
-#endif  //OS_WINDOWS

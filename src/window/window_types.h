@@ -2,11 +2,6 @@
 #define _WINDOW_TYPES_H
 
 #include "osal/osdef.h"
-
-#ifdef OS_WINDOWS
-#include "win/win_window_types.h"
-#elif defined OS_LINUX
-#include "x11/x11_window_types.h"
-#endif
+#include PLATFORM_FILE(WINDOW_SYSTEM, window_types.h)
 
 #endif  //_WINDOW_TYPES_H

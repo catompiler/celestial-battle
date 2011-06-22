@@ -22,14 +22,6 @@
         <itemPath>../src/delegate/delegate.h</itemPath>
       </logicalFolder>
       <logicalFolder name="display" displayName="display" projectFiles="true">
-        <logicalFolder name="win" displayName="win" projectFiles="true">
-          <itemPath>../src/display/win/win_display.cpp</itemPath>
-          <itemPath>../src/display/win/win_display.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="x11" displayName="x11" projectFiles="true">
-          <itemPath>../src/display/x11/x11_display.cpp</itemPath>
-          <itemPath>../src/display/x11/x11_display.h</itemPath>
-        </logicalFolder>
         <itemPath>../src/display/display.cpp</itemPath>
         <itemPath>../src/display/display.h</itemPath>
       </logicalFolder>
@@ -46,16 +38,6 @@
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.h</itemPath>
       </logicalFolder>
       <logicalFolder name="glcontext" displayName="glcontext" projectFiles="true">
-        <logicalFolder name="win" displayName="win" projectFiles="true">
-          <itemPath>../src/glcontext/win/win_glcontext.cpp</itemPath>
-          <itemPath>../src/glcontext/win/win_glcontext.h</itemPath>
-          <itemPath>../src/glcontext/win/win_glcontext_types.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="x11" displayName="x11" projectFiles="true">
-          <itemPath>../src/glcontext/x11/x11_glcontext.cpp</itemPath>
-          <itemPath>../src/glcontext/x11/x11_glcontext.h</itemPath>
-          <itemPath>../src/glcontext/x11/x11_glcontext_types.h</itemPath>
-        </logicalFolder>
         <itemPath>../src/glcontext/glcontext.cpp</itemPath>
         <itemPath>../src/glcontext/glcontext.h</itemPath>
         <itemPath>../src/glcontext/glcontext_types.h</itemPath>
@@ -86,14 +68,6 @@
         <itemPath>../src/glresourcefactory/glresourcefactory.h</itemPath>
       </logicalFolder>
       <logicalFolder name="input" displayName="input" projectFiles="true">
-        <logicalFolder name="win" displayName="win" projectFiles="true">
-          <itemPath>../src/input/win/win_input.cpp</itemPath>
-          <itemPath>../src/input/win/win_input.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="x11" displayName="x11" projectFiles="true">
-          <itemPath>../src/input/x11/x11_input.cpp</itemPath>
-          <itemPath>../src/input/x11/x11_input.h</itemPath>
-        </logicalFolder>
         <itemPath>../src/input/input.cpp</itemPath>
         <itemPath>../src/input/input.h</itemPath>
       </logicalFolder>
@@ -134,16 +108,6 @@
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.h</itemPath>
       </logicalFolder>
       <logicalFolder name="window" displayName="window" projectFiles="true">
-        <logicalFolder name="win" displayName="win" projectFiles="true">
-          <itemPath>../src/window/win/win_window.cpp</itemPath>
-          <itemPath>../src/window/win/win_window.h</itemPath>
-          <itemPath>../src/window/win/win_window_types.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="x11" displayName="x11" projectFiles="true">
-          <itemPath>../src/window/x11/x11_window.cpp</itemPath>
-          <itemPath>../src/window/x11/x11_window.h</itemPath>
-          <itemPath>../src/window/x11/x11_window_types.h</itemPath>
-        </logicalFolder>
         <itemPath>../src/window/window.cpp</itemPath>
         <itemPath>../src/window/window.h</itemPath>
         <itemPath>../src/window/window_types.h</itemPath>
