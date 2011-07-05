@@ -25,4 +25,6 @@ private:
     static int _counter;
 };
 
+static Display __init_display;
+
 #endif  //_X11_DISPLAY_H

@@ -1,9 +1,10 @@
 #include <stdlib.h>
+#include "x11_display.h"
 
 XDisplay* Display::_display = NULL;
 int Display::_counter = 0;
 
-static Display display;
+//static Display display;
 
 Display::Display()
 {

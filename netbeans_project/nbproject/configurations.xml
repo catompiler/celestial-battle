@@ -67,9 +67,15 @@
         <itemPath>../src/glresourcefactory/glresourcefactory.cpp</itemPath>
         <itemPath>../src/glresourcefactory/glresourcefactory.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="iconv" displayName="iconv" projectFiles="true">
+        <itemPath>../src/iconv/iconv.cpp</itemPath>
+        <itemPath>../src/iconv/iconv.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="input" displayName="input" projectFiles="true">
         <itemPath>../src/input/input.cpp</itemPath>
         <itemPath>../src/input/input.h</itemPath>
+        <itemPath>../src/input/keys.h</itemPath>
+        <itemPath>../src/input/mouse_buttons.h</itemPath>
       </logicalFolder>
       <logicalFolder name="log" displayName="log" projectFiles="true">
         <itemPath>../src/log/log.cpp</itemPath>
@@ -94,6 +100,8 @@
       <logicalFolder name="string" displayName="string" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.cpp</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.h</itemPath>
+        <itemPath>../src/string/utf8char.cpp</itemPath>
+        <itemPath>../src/string/utf8char.h</itemPath>
       </logicalFolder>
       <logicalFolder name="utils" displayName="utils" projectFiles="true">
         <itemPath>../src/utils/utils.cpp</itemPath>
@@ -108,9 +116,14 @@
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.h</itemPath>
       </logicalFolder>
       <logicalFolder name="window" displayName="window" projectFiles="true">
+        <itemPath>../src/window/pixelattribs.h</itemPath>
         <itemPath>../src/window/window.cpp</itemPath>
         <itemPath>../src/window/window.h</itemPath>
+        <itemPath>../src/window/window_events.cpp</itemPath>
+        <itemPath>../src/window/window_events.h</itemPath>
         <itemPath>../src/window/window_types.h</itemPath>
+        <itemPath>../src/window/windowslist.cpp</itemPath>
+        <itemPath>../src/window/windowslist.h</itemPath>
       </logicalFolder>
       <itemPath>/home/artem/devel/opengl/celestial-battle/src/main.cpp</itemPath>
     </logicalFolder>
@@ -166,6 +179,54 @@
           <linkerLibItems>
             <linkerLibLibItem>X11</linkerLibLibItem>
             <linkerLibLibItem>GL</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Debug_cross" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU_cross|GNU</compilerSet>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../src/</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>gdi32</linkerLibLibItem>
+            <linkerLibLibItem>winmm</linkerLibLibItem>
+            <linkerLibLibItem>opengl32</linkerLibLibItem>
+            <linkerLibLibItem>iconv</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Release_cross" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>../src/</pElem>
+          </incDir>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>gdi32</linkerLibLibItem>
+            <linkerLibLibItem>winmm</linkerLibLibItem>
+            <linkerLibLibItem>opengl32</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

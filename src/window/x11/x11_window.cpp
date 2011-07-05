@@ -5,10 +5,15 @@
 #include <X11/Xatom.h>
 #undef Window
 #undef Display
+#include <vector>
 #include "display/display.h"
 #include "glcontext/glcontext.h"
 #include "log/log.h"
+#include "input/input.h"
+#include "x11_window.h"
+#include "iconv/iconv.h"
 
+//#define USE_XIM
 
 static int _counter = 0;
 
@@ -19,6 +24,9 @@ typedef int (*X11ErrorHandler)(XDisplay*, XErrorEvent *);
 static X11ErrorHandler _orig_handler = NULL;
 static int _errorHandler(XDisplay* display_, XErrorEvent* e);
 
+#ifdef USE_XIM
+static XIM _im = NULL;
+#endif
 
 static bool _init_x11()
 {
@@ -29,6 +37,11 @@ static bool _init_x11()
     
     //get DEL_WIN atom
     _atom_del_win = XInternAtom(Display::display(), "WM_DELETE_WINDOW", False);
+    
+#ifdef USE_XIM
+    _im = XOpenIM(Display::display(), NULL, NULL, NULL);
+    //if(_im == NULL) return false;
+#endif
     
     return true;
 }
@@ -43,6 +56,10 @@ static void _term_x11()
     }
     
     XSetErrorHandler(_orig_handler);
+
+#ifdef USE_XIM
+    if(_im) XCloseIM(_im);
+#endif
 }
 
 
@@ -73,14 +90,20 @@ static int _errorHandler(XDisplay* display_, XErrorEvent* e)
 Window::Window()
 {
     _id = 0;
+#ifdef USE_XIM
+    _ic = NULL;
+#endif
 }
 
 Window::~Window()
 {
     if(_id != 0){
         XDestroyWindow(Display::display(), _id);
-        removeWindow(_id);
+        WindowsList::removeWindow(_id);
     }
+#ifdef USE_XIM
+    if(_ic) XDestroyIC(_ic);
+#endif
 }
 
 
@@ -255,7 +278,7 @@ void Window::swapBuffers() /* const */
 Window* Window::create(const std::string& title_,
                       int left_, int top_,
                       int width_, int height_,
-                      const Window::PixelAttribs& pixelAttribs_)
+                      const PixelAttribs& pixelAttribs_)
 {
     Window* window;
     
@@ -354,13 +377,11 @@ Window* Window::create(const std::string& title_,
 
 
     winattribs.colormap = colormap;
-    winattribs.event_mask = StructureNotifyMask | ExposureMask;
-            /*KeyPressMask | StructureNotifyMask |
-                SubstructureNotifyMask |
-                PointerMotionMask | ButtonMotionMask |
-                ButtonPressMask | ButtonReleaseMask |
-                FocusChangeMask | ExposureMask |
-                Button3MotionMask;*/
+    winattribs.event_mask = StructureNotifyMask | ExposureMask |
+                                KeyPressMask | KeyReleaseMask |
+                                ButtonPressMask | ButtonReleaseMask |
+                                PointerMotionMask | ButtonMotionMask |
+                                FocusChangeMask;
     winattribs.background_pixmap = None;
     winattribs.border_pixel = 0;
 
@@ -387,14 +408,22 @@ Window* Window::create(const std::string& title_,
         return NULL;
     }
     
-    window = new Window();
-    window->_id = winid;
-    addWindow(winid, window);
-
     //init x11
     if(_counter++ == 0){
         _init_x11();
     }
+    
+    window = new Window();
+    window->_id = winid;
+#ifdef USE_XIM
+    if(_im){
+        window->_ic = XCreateIC(_im,
+                        XNInputStyle, XIMPreeditNothing | XIMStatusNothing,
+                        XNClientWindow, winid,
+                        NULL);
+    }
+#endif
+    WindowsList::addWindow(winid, window);
 
     if(_atom_del_win){
         XSetWMProtocols(Display::display(), winid, &_atom_del_win, True);
@@ -440,8 +469,12 @@ int Window::processEvents()
         //if(XPeekEvent(display,&event)){
         XNextEvent(Display::display(),&event);
         
+        if(XFilterEvent(&event, None) == True){
+            continue;
+        }
+        
         wid = event.xany.window;
-        window = static_cast<Window*>(getWindow(wid));
+        window = static_cast<Window*>(WindowsList::getWindow(wid));
         if(window == NULL) continue;
 
 
@@ -465,21 +498,128 @@ int Window::processEvents()
                 break;
                 
             case DestroyNotify:
-                removeWindow(wid);
+                WindowsList::removeWindow(wid);
                 break;
                 
             case KeyPress://key press
+            case KeyRelease:
+                {
+                    //std::string key_str;
+                    KeyCode kc = 0;
+                    KeySym ks = 0;
+                    std::vector<char> buf;
+                    std::string str_key;
+                    size_t len = 4;//max utf8 char length || UCS4 char length
+                    
+                    bool good_key = false;
+                    
+#ifdef USE_XIM
+                    if(window->_ic && event.type == KeyPress){
+                        Status status = 0;
+
+                        buf.resize(len + 1);
+                        len = Xutf8LookupString(window->_ic, &event.xkey, &buf[0], len,
+                                &ks, &status);
+
+                        if(status == XBufferOverflow){
+                            buf.resize(len + 1);
+
+                            len = Xutf8LookupString(window->_ic, &event.xkey, &buf[0], len,
+                                &ks, &status);
+                        }
+
+                        if(status != XLookupNone && ks != NoSymbol){
+                            //key_str = &buf[0];
+                            good_key = true;
+                        }
+                    }else
+#endif
+                    {
+                        buf.resize(len + 1);
+                        len = XLookupString(&event.xkey, &buf[0], len, &ks, NULL);
+                        
+                        if(ks != NoSymbol){
+                            //key_str = &buf[0];
+                            good_key = true;
+                        }
+                    }
+                    
+                    if(good_key == false) break;
+                    
+                    //kc = XKeysymToKeycode(Display::display(), ks);
+                    kc = event.xkey.keycode & 0xff;
+                    str_key = Iconv::fromLocal(std::string(&buf[0]));
+                    
+                    if(event.type == KeyPress){
+                        KeyPressEvent e(window,
+                                Utf8Char(str_key.c_str()),Input::keycodeToKey(kc));
+                        window->_onKeyPress(&e);
+                    }else if(event.type == KeyRelease){
+                        KeyReleaseEvent e(window,
+                                Utf8Char(str_key.c_str()),Input::keycodeToKey(kc));
+                        window->_onKeyRelease(&e);
+                    }
+                }
                 break;
+                
             case ButtonPress://mouse button press
-                break;
             case ButtonRelease://mouse button release
+                {
+                    int x = event.xbutton.x;
+                    int y = event.xbutton.y;
+                    int button = 0;
+                    switch(event.xbutton.button){
+                        case Button1:
+                            button = MOUSE_LEFT;
+                            break;
+                        case Button3:
+                            button = MOUSE_RIGHT;
+                            break;
+                        case Button2:
+                            button = MOUSE_MIDDLE;
+                            break;
+                        case Button4:
+                            button = MOUSE_SCROLL_UP;
+                            break;
+                        case Button5:
+                            button = MOUSE_SCROLL_DOWN;
+                            break;
+                    }
+                    if(event.type == ButtonPress){
+                        MousePressEvent e(window, x, y, button);
+                        window->_onMousePress(&e);
+                    }else if(event.type == ButtonRelease){
+                        MouseReleaseEvent e(window, x, y, button);
+                        window->_onMouseRelease(&e);
+                    }
+                }
                 break;
+                
             case MotionNotify://mouse motion notify
+                {
+                    int x = event.xmotion.x;
+                    int y = event.xmotion.y;
+                    int button = 0;
+                    if(event.xmotion.state & Button1Mask) button |= MOUSE_LEFT;
+                    if(event.xmotion.state & Button3Mask) button |= MOUSE_RIGHT;
+                    if(event.xmotion.state & Button2Mask) button |= MOUSE_MIDDLE;
+                    if(event.xmotion.state & Button4Mask) button |= MOUSE_SCROLL_UP;
+                    if(event.xmotion.state & Button5Mask) button |= MOUSE_SCROLL_DOWN;
+                    MouseMotionEvent e(window, x, y, button);
+                    window->_onMouseMotion(&e);
+                }
                 break;
+                
             case FocusIn://focus in
+                { FocusInEvent e(window, true);
+                window->_onFocusIn(&e);}
                 break;
+                
             case FocusOut://focus out
+                { FocusOutEvent e(window, false);
+                window->_onFocusOut(&e);}
                 break;
+                
             case Expose://repaint
                 //onDraw();
                 { PaintEvent e(window);

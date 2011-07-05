@@ -36,11 +36,15 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/_ext/1519963337/utils.o \
 	${OBJECTDIR}/_ext/1390850504/display.o \
+	${OBJECTDIR}/_ext/68783691/utf8char.o \
 	${OBJECTDIR}/_ext/576727235/glresourcefactory.o \
 	${OBJECTDIR}/_ext/62598791/object.o \
+	${OBJECTDIR}/_ext/1531546205/iconv.o \
 	${OBJECTDIR}/_ext/1019042359/osal.o \
 	${OBJECTDIR}/_ext/7752610/vfs.o \
 	${OBJECTDIR}/_ext/1534683872/event.o \
+	${OBJECTDIR}/_ext/173017642/windowslist.o \
+	${OBJECTDIR}/_ext/173017642/window_events.o \
 	${OBJECTDIR}/_ext/897345942/string.o \
 	${OBJECTDIR}/_ext/173017642/window.o \
 	${OBJECTDIR}/_ext/1667457878/exception.o \
@@ -90,6 +94,11 @@ ${OBJECTDIR}/_ext/1390850504/display.o: ../src/display/display.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1390850504/display.o ../src/display/display.cpp
 
+${OBJECTDIR}/_ext/68783691/utf8char.o: ../src/string/utf8char.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/68783691
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/68783691/utf8char.o ../src/string/utf8char.cpp
+
 ${OBJECTDIR}/_ext/576727235/glresourcefactory.o: ../src/glresourcefactory/glresourcefactory.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/576727235
 	${RM} $@.d
@@ -99,6 +108,11 @@ ${OBJECTDIR}/_ext/62598791/object.o: ../src/object/object.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/62598791
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/62598791/object.o ../src/object/object.cpp
+
+${OBJECTDIR}/_ext/1531546205/iconv.o: ../src/iconv/iconv.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1531546205
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1531546205/iconv.o ../src/iconv/iconv.cpp
 
 ${OBJECTDIR}/_ext/1019042359/osal.o: ../src/osal/osal.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1019042359
@@ -114,6 +128,16 @@ ${OBJECTDIR}/_ext/1534683872/event.o: ../src/event/event.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1534683872
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1534683872/event.o ../src/event/event.cpp
+
+${OBJECTDIR}/_ext/173017642/windowslist.o: ../src/window/windowslist.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/173017642
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/173017642/windowslist.o ../src/window/windowslist.cpp
+
+${OBJECTDIR}/_ext/173017642/window_events.o: ../src/window/window_events.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/173017642
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/173017642/window_events.o ../src/window/window_events.cpp
 
 ${OBJECTDIR}/_ext/897345942/string.o: /home/artem/devel/opengl/celestial-battle/src/string/string.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/897345942

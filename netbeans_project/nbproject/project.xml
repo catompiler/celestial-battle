@@ -22,6 +22,14 @@
                     <name>Release</name>
                     <type>1</type>
                 </confElem>
+                <confElem>
+                    <name>Debug_cross</name>
+                    <type>1</type>
+                </confElem>
+                <confElem>
+                    <name>Release_cross</name>
+                    <type>1</type>
+                </confElem>
             </confList>
         </data>
     </configuration>

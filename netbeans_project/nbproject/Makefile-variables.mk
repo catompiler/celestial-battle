@@ -22,6 +22,22 @@ CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux-x86/netbeans_project
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux-x86/package
 CND_PACKAGE_NAME_Release=netbeansproject.tar
 CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux-x86/package/netbeansproject.tar
+# Debug_cross configuration
+CND_PLATFORM_Debug_cross=GNU_cross-Linux-x86
+CND_ARTIFACT_DIR_Debug_cross=dist/Debug_cross/GNU_cross-Linux-x86
+CND_ARTIFACT_NAME_Debug_cross=netbeans_project
+CND_ARTIFACT_PATH_Debug_cross=dist/Debug_cross/GNU_cross-Linux-x86/netbeans_project
+CND_PACKAGE_DIR_Debug_cross=dist/Debug_cross/GNU_cross-Linux-x86/package
+CND_PACKAGE_NAME_Debug_cross=netbeansproject.tar
+CND_PACKAGE_PATH_Debug_cross=dist/Debug_cross/GNU_cross-Linux-x86/package/netbeansproject.tar
+# Release_cross configuration
+CND_PLATFORM_Release_cross=GNU-Linux-x86
+CND_ARTIFACT_DIR_Release_cross=dist/Release_cross/GNU-Linux-x86
+CND_ARTIFACT_NAME_Release_cross=netbeans_project
+CND_ARTIFACT_PATH_Release_cross=dist/Release_cross/GNU-Linux-x86/netbeans_project
+CND_PACKAGE_DIR_Release_cross=dist/Release_cross/GNU-Linux-x86/package
+CND_PACKAGE_NAME_Release_cross=netbeansproject.tar
+CND_PACKAGE_PATH_Release_cross=dist/Release_cross/GNU-Linux-x86/package/netbeansproject.tar
 #
 # include compiler specific variables
 #

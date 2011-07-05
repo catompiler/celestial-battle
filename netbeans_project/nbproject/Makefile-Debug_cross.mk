@@ -14,15 +14,15 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc
-CCC=g++
-CXX=g++
+CC=i386-mingw32msvc-gcc
+CCC=i386-mingw32msvc-g++
+CXX=i386-mingw32msvc-g++
 FC=gfortran
-AS=as
+AS=i386-mingw32msvc-as
 
 # Macros
-CND_PLATFORM=GNU-Linux-x86
-CND_CONF=Debug
+CND_PLATFORM=GNU_cross-Linux-x86
+CND_CONF=Debug_cross
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 
@@ -74,7 +74,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lX11 -lGL
+LDLIBSOPTIONS=-lgdi32 -lwinmm -lopengl32 -liconv
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}

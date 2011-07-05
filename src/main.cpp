@@ -4,7 +4,9 @@
 #include "window/window.h"
 #include "glcontext/glcontext.h"
 #include "input/input.h"
+#include "iconv/iconv.h"
 #include <GL/gl.h>
+#include <locale>
 
 
 Window* w = NULL;
@@ -15,33 +17,60 @@ public:
     WindowedApp(){
         closed = false;
     }
-    void onClose(Window::CloseEvent* e){
+    void onClose(CloseEvent* e){
         std::cout << "onClose()" << std::endl;
         closed = true;
     }
-    void onResize(Window::ResizeEvent* e){
+    void onResize(ResizeEvent* e){
+        std::cout << "onResize()" << std::endl;
         std::cout << e->width() << "x" << e->height() << std::endl;
         glViewport(0, 0, e->width(), e->height());
     }
-    void onCreate(Window::CreateEvent* e){
+    void onCreate(CreateEvent* e){
         std::cout << "onCreate()" << std::endl;
     }
-    void onPaint(Window::PaintEvent* e){
+    void onPaint(PaintEvent* e){
         std::cout << "onPaint()" << std::endl;
         glClear(GL_COLOR_BUFFER_BIT);
         w->swapBuffers();
-        
     }
+    void onKeyPress(KeyPressEvent* e){
+        std::cout << "onKeyPress()" << std::endl;
+        std::cout << "key: '" << Iconv::toLocal(e->character().toSrting()) <<
+                "' (" << e->key() << ")" << std::endl;
+    }
+    void onMousePress(MousePressEvent* e){
+        std::cout << "onMousePress()" << std::endl;
+        std::cout << "(" << e->x() << ", " << e->y() <<
+                     ") - " << e->button() << std::endl;
+    }
+    void onMouseRelease(MouseReleaseEvent* e){
+        std::cout << "onMouseRelease()" << std::endl;
+        std::cout << "(" << e->x() << ", " << e->y() <<
+                     ") - " << e->button() << std::endl;
+    }
+    void onMouseMotion(MouseMotionEvent* e){
+        std::cout << "onMouseMotion()" << std::endl;
+        std::cout << "(" << e->x() << ", " << e->y() <<
+                     ") - " << e->button() << std::endl;
+    }
+    void onFocusChange(FocusChangeEvent* e){
+        std::cout << "onFocusChange()" << std::endl;
+        std::cout << "Focus " << (e->focus() ? "in" : "out") << std::endl;
+    }
+    
     bool closed;
 };
 
-int main(int argc, char** argv)
+int main(int /*argc*/, char** /*argv*/)
 {
+    //std::locale::global(std::locale(""));
+    
     log(Log::Information) << "Hello, Log!" << std::endl;
     
     WindowedApp wapp;
     
-    Window::PixelAttribs pa;
+    PixelAttribs pa;
     pa.alphaSize = 8;
     pa.blueSize = 8;
     pa.depthSize = 24;
@@ -71,14 +100,19 @@ int main(int argc, char** argv)
     w->onCreate().addHandler(make_delegate(&wapp, &WindowedApp::onCreate));
     w->onResize().addHandler(make_delegate(&wapp, &WindowedApp::onResize));
     w->onPaint().addHandler(make_delegate(&wapp, &WindowedApp::onPaint));
+    w->onKeyPress().addHandler(make_delegate(&wapp, &WindowedApp::onKeyPress));
+    w->onMousePress().addHandler(make_delegate(&wapp, &WindowedApp::onMousePress));
+    w->onMouseRelease().addHandler(make_delegate(&wapp, &WindowedApp::onMouseRelease));
+    w->onMouseMotion().addHandler(make_delegate(&wapp, &WindowedApp::onMouseMotion));
+    w->onFocusIn().addHandler(make_delegate(&wapp, &WindowedApp::onFocusChange));
+    w->onFocusOut().addHandler(make_delegate(&wapp, &WindowedApp::onFocusChange));
     
     
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     
     while(wapp.closed == false){
+        Input::keyboardState();
         Window::processEvents();
-        //input::mouse::state_t* state = input::mouse::state();
-        //std::cout << state->x << "x" << state->y << std::endl;
     }
     
     w->makeCurrent(NULL);
@@ -89,6 +123,12 @@ int main(int argc, char** argv)
     w->onCreate().removeHandler(&wapp);
     w->onResize().removeHandler(&wapp);
     w->onPaint().removeHandler(&wapp);
+    w->onKeyPress().removeHandler(&wapp);
+    w->onMousePress().removeHandler(&wapp);
+    w->onMouseRelease().removeHandler(&wapp);
+    w->onMouseMotion().removeHandler(&wapp);
+    w->onFocusIn().removeHandler(&wapp);
+    w->onFocusOut().removeHandler(&wapp);
     
     Window::destroy(w);
     

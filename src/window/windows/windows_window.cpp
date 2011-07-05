@@ -1,9 +1,14 @@
 #include <windows.h>
 #include "glcontext/glcontext.h"
+#include "input/input.h"
+#include "windows_window.h"
+#include "iconv/iconv.h"
+#include <iostream>
 
 
 static const char* _winClassName = "_WINDOW_";
 static int _regclass_count = 0;
+
 
 Window::Window()
 {
@@ -14,7 +19,7 @@ Window::~Window()
 {
     if(_id != 0){
         DestroyWindow(_id);
-        removeWindow(_id);
+        WindowsList::removeWindow(_id);
     }
     if(_regclass_count != 0){
         if(--_regclass_count == 0){
@@ -172,7 +177,7 @@ void Window::swapBuffers() /* const */
 Window* Window::create(const std::string& title_,
                       int left_, int top_,
                       int width_, int height_,
-                      const Window::PixelAttribs& pixelAttribs_)
+                      const PixelAttribs& pixelAttribs_)
 {
     HINSTANCE hInst = GetModuleHandle(NULL);
     HWND hwnd;
@@ -285,38 +290,207 @@ LRESULT CALLBACK Window::_WndProc(HWND  hWnd, UINT  uMsg, WPARAM  wParam, LPARAM
             window = static_cast<Window*>(createStruct->lpCreateParams);
         
             window->_id = hWnd;
-            addWindow(hWnd, window);
+            WindowsList::addWindow(hWnd, window);
         
-            { Window::CreateEvent e(window);
+            { CreateEvent e(window);
             window->_onCreate(&e); }
             break;
             
         case WM_CLOSE:
-            window = static_cast<Window*>(getWindow(hWnd));
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
             if(window == NULL) break;
             
-            { Window::CloseEvent e(window);
+            { CloseEvent e(window);
             window->_onClose(&e); }
             break;
             
         case WM_DESTROY:
-            removeWindow(hWnd);
+            WindowsList::removeWindow(hWnd);
             break;
             
         case WM_PAINT:
-            window = static_cast<Window*>(getWindow(hWnd));
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
             if(window == NULL) break;
             
-            { Window::PaintEvent e(window);
+            { PaintEvent e(window);
             window->_onPaint(&e); }
             break;
             
         case WM_SIZE:
-            window = static_cast<Window*>(getWindow(hWnd));
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
             if(window == NULL) break;
             
-            { Window::ResizeEvent e(window , LOWORD(lParam), HIWORD(lParam));
+            { ResizeEvent e(window , LOWORD(lParam), HIWORD(lParam));
             window ->_onResize(&e); }
+            break;
+            
+        case WM_KEYDOWN:
+        case WM_KEYUP:
+        //case WM_CHAR:
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
+            if(window == NULL) break;
+            
+            { /*char key_utf8[6] = {0};
+            wchar_t wkey[2] = {0};
+            unsigned char vkey = 0;
+            unsigned char sc = 0;
+            unsigned char keyb_st[256];
+            std::string str_key;
+            
+            vkey = wParam & 0xff;
+            sc = (lParam >> 16) & 8;
+            GetKeyboardState(keyb_st);
+            if(ToUnicodeEx(vkey, sc, keyb_st, wkey, 1, 0, GetKeyboardLayout(0)) > 0){
+                std::cout << "wkey[0] = " << wkey[0] << std::endl;
+                int n = WideCharToMultiByte(CP_UTF8, 0, wkey, 1, key_utf8, 5, NULL, NULL);
+                std::cout << "res len = " << n << std::endl;
+                str_key = std::string(key_utf8);
+            }else{
+                std::cout << "ToUnicodeEx" << std::endl;
+            }*/
+                
+            char key_str[2] = {0};
+            WORD wkey[2] = {0};
+            unsigned char vkey = 0;
+            unsigned char sc = 0;
+            unsigned char keyb_st[256];
+            std::string str_key;
+            
+            vkey = wParam & 0xff;
+            sc = (lParam >> 16) & 8;
+            GetKeyboardState(keyb_st);
+            if(ToAsciiEx(vkey, sc, keyb_st, wkey, 0, GetKeyboardLayout(0)) > 0){
+                //std::cout << "wkey[0] = " << wkey[0] << std::endl;
+                key_str[0] = wkey[0];
+                str_key = Iconv::fromLocal(std::string(key_str));
+            }
+            
+            //str_key = Iconv::fromLocal(std::string(key_str));
+            
+            if(uMsg == WM_KEYDOWN){
+                KeyPressEvent e(window,
+                            Utf8Char(str_key.c_str()),Input::keycodeToKey(vkey));
+                window->_onKeyPress(&e);
+            }else if(uMsg == WM_KEYUP){
+                KeyReleaseEvent e(window,
+                            Utf8Char(str_key.c_str()),Input::keycodeToKey(vkey));
+                window->_onKeyRelease(&e);
+            }}
+            break;
+            
+        case WM_LBUTTONDOWN:
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
+            if(window == NULL) break;
+            
+            { int x = LOWORD(lParam);
+            int y = HIWORD(lParam);
+            int button = MOUSE_LEFT;
+            MousePressEvent e(window, x, y, button);
+            window->_onMousePress(&e); }
+            break;
+            
+        case WM_RBUTTONDOWN:
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
+            if(window == NULL) break;
+            
+            { int x = LOWORD(lParam);
+            int y = HIWORD(lParam);
+            int button = MOUSE_RIGHT;
+            MousePressEvent e(window, x, y, button);
+            window->_onMousePress(&e); }
+            break;
+            
+        case WM_MBUTTONDOWN:
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
+            if(window == NULL) break;
+            
+            { int x = LOWORD(lParam);
+            int y = HIWORD(lParam);
+            int button = MOUSE_MIDDLE;
+            MousePressEvent e(window, x, y, button);
+            window->_onMousePress(&e); }
+            break;
+            
+        case WM_LBUTTONUP:
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
+            if(window == NULL) break;
+            
+            { int x = LOWORD(lParam);
+            int y = HIWORD(lParam);
+            int button = MOUSE_LEFT;
+            MouseReleaseEvent e(window, x, y, button);
+            window->_onMouseRelease(&e); }
+            break;
+            
+        case WM_RBUTTONUP:
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
+            if(window == NULL) break;
+            
+            { int x = LOWORD(lParam);
+            int y = HIWORD(lParam);
+            int button = MOUSE_RIGHT;
+            MouseReleaseEvent e(window, x, y, button);
+            window->_onMouseRelease(&e); }
+            break;
+            
+        case WM_MBUTTONUP:
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
+            if(window == NULL) break;
+            
+            { int x = LOWORD(lParam);
+            int y = HIWORD(lParam);
+            int button = MOUSE_MIDDLE;
+            MouseReleaseEvent e(window, x, y, button);
+            window->_onMouseRelease(&e); }
+            break;
+            
+        case WM_MOUSEWHEEL:
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
+            if(window == NULL) break;
+            
+            { int x = LOWORD(lParam);
+            int y = HIWORD(lParam);
+            int button = 0;
+            
+            int d = static_cast<short>(HIWORD(wParam));
+            //std::cout << "wheel - " << d << std::endl;
+            if(d < 0){ //down
+                button = MOUSE_SCROLL_DOWN;
+                MousePressEvent e(window, x, y, button);
+                window->_onMousePress(&e);
+            }else{
+                button = MOUSE_SCROLL_UP;
+                MouseReleaseEvent e(window, x, y, button);
+                window->_onMouseRelease(&e);
+            }}
+            break;
+            
+        case WM_MOUSEMOVE:
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
+            if(window == NULL) break;
+            
+            { int x = LOWORD(lParam);
+            int y = HIWORD(lParam);
+            int button = 0;
+            
+            if(wParam & MK_LBUTTON) button |= MOUSE_LEFT;
+            if(wParam & MK_RBUTTON) button |= MOUSE_RIGHT;
+            if(wParam & MK_MBUTTON) button |= MOUSE_MIDDLE;
+            
+            MouseMotionEvent e(window, x, y, button);
+            window->_onMouseMotion(&e); }
+            break;
+            
+        case WM_ACTIVATEAPP:
+            window = static_cast<Window*>(WindowsList::getWindow(hWnd));
+            if(window == NULL) break;
+            if(wParam == TRUE){
+                FocusInEvent e(window, true);
+                window->_onFocusIn(&e);
+            }else{
+                FocusOutEvent e(window, false);
+                window->_onFocusOut(&e);
+            }
             break;
             
         default:
