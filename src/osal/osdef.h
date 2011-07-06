@@ -13,7 +13,8 @@
 
 #if defined OS_LINUX
 #define WINDOW_SYSTEM x11
-#define SYSTEM linux
+//linux - preprocessor macro :(
+#define SYSTEM gnulinux
 #elif defined OS_WINDOWS
 #define WINDOW_SYSTEM windows
 #define SYSTEM windows

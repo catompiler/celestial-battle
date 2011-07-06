@@ -48,6 +48,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/897345942/string.o \
 	${OBJECTDIR}/_ext/173017642/window.o \
 	${OBJECTDIR}/_ext/1667457878/exception.o \
+	${OBJECTDIR}/_ext/1527311355/mutex.o \
 	${OBJECTDIR}/_ext/659870665/fsentrypoint.o \
 	${OBJECTDIR}/_ext/1153801517/glresource.o \
 	${OBJECTDIR}/_ext/49809687/opengl.o \
@@ -74,7 +75,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lX11 -lGL
+LDLIBSOPTIONS=-lX11 -lGL -lpthread
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -153,6 +154,11 @@ ${OBJECTDIR}/_ext/1667457878/exception.o: /home/artem/devel/opengl/celestial-bat
 	${MKDIR} -p ${OBJECTDIR}/_ext/1667457878
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1667457878/exception.o /home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp
+
+${OBJECTDIR}/_ext/1527311355/mutex.o: ../src/mutex/mutex.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1527311355
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1527311355/mutex.o ../src/mutex/mutex.cpp
 
 ${OBJECTDIR}/_ext/659870665/fsentrypoint.o: ../src/vfs/fsentrypoint.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/659870665

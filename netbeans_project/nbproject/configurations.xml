@@ -81,6 +81,10 @@
         <itemPath>../src/log/log.cpp</itemPath>
         <itemPath>../src/log/log.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="mutex" displayName="mutex" projectFiles="true">
+        <itemPath>../src/mutex/mutex.cpp</itemPath>
+        <itemPath>../src/mutex/mutex.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="object" displayName="object" projectFiles="true">
         <itemPath>../src/object/object.cpp</itemPath>
         <itemPath>../src/object/object.h</itemPath>
@@ -153,6 +157,7 @@
           <linkerLibItems>
             <linkerLibLibItem>X11</linkerLibLibItem>
             <linkerLibLibItem>GL</linkerLibLibItem>
+            <linkerLibLibItem>pthread</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
