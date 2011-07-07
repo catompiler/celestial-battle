@@ -2,6 +2,7 @@
 #define _DELEGATE_H
 
 #include <functional>
+#include <stddef.h>
 
 template<class Ret>
 class Delegate
@@ -9,10 +10,19 @@ class Delegate
 {
 public:
     
+    Delegate(){
+        _obj = NULL;
+        _func = NULL;
+    }
+    
     template<class T>
     Delegate(T* obj_, Ret (T::*func_)()){
         _obj = reinterpret_cast<Obj*>(obj_);
         _func = reinterpret_cast<Function>(func_);
+    }
+    
+    operator bool() const{
+        return _obj != NULL;
     }
     
     Ret operator()() const{
@@ -49,10 +59,19 @@ class UnaryDelegate
 {
 public:
     
+    UnaryDelegate(){
+        _obj = NULL;
+        _func = NULL;
+    }
+    
     template<class T>
     UnaryDelegate(T* obj_, Ret (T::*func_)(Arg1)){
         _obj = reinterpret_cast<Obj*>(obj_);
         _func = reinterpret_cast<Function>(func_);
+    }
+    
+    operator bool() const{
+        return _obj != NULL;
     }
     
     Ret operator()(Arg1 arg1) const{
@@ -89,10 +108,19 @@ class BinaryDelegate
 {
 public:
     
+    BinaryDelegate(){
+        _obj = NULL;
+        _func = NULL;
+    }
+    
     template<class T>
     BinaryDelegate(T* obj_, Ret (T::*func_)(Arg1, Arg2)){
         _obj = reinterpret_cast<Obj*>(obj_);
         _func = reinterpret_cast<Function>(func_);
+    }
+    
+    operator bool() const{
+        return _obj != NULL;
     }
     
     Ret operator()(Arg1 arg1, Arg2 arg2) const{

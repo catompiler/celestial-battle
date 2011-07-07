@@ -44,6 +44,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/7752610/vfs.o \
 	${OBJECTDIR}/_ext/1534683872/event.o \
 	${OBJECTDIR}/_ext/173017642/windowslist.o \
+	${OBJECTDIR}/_ext/86326340/thread.o \
 	${OBJECTDIR}/_ext/173017642/window_events.o \
 	${OBJECTDIR}/_ext/897345942/string.o \
 	${OBJECTDIR}/_ext/173017642/window.o \
@@ -134,6 +135,11 @@ ${OBJECTDIR}/_ext/173017642/windowslist.o: ../src/window/windowslist.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/173017642
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/173017642/windowslist.o ../src/window/windowslist.cpp
+
+${OBJECTDIR}/_ext/86326340/thread.o: ../src/thread/thread.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/86326340
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/86326340/thread.o ../src/thread/thread.cpp
 
 ${OBJECTDIR}/_ext/173017642/window_events.o: ../src/window/window_events.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/173017642

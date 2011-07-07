@@ -107,6 +107,10 @@
         <itemPath>../src/string/utf8char.cpp</itemPath>
         <itemPath>../src/string/utf8char.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="thread" displayName="thread" projectFiles="true">
+        <itemPath>../src/thread/thread.cpp</itemPath>
+        <itemPath>../src/thread/thread.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="utils" displayName="utils" projectFiles="true">
         <itemPath>../src/utils/utils.cpp</itemPath>
         <itemPath>../src/utils/utils.h</itemPath>

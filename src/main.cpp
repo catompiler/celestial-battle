@@ -6,7 +6,8 @@
 #include "input/input.h"
 #include "iconv/iconv.h"
 #include <GL/gl.h>
-#include <locale>
+//#include <locale>
+#include "thread/thread.h"
 
 
 Window* w = NULL;
@@ -57,6 +58,15 @@ public:
     void onFocusChange(FocusChangeEvent* e){
         std::cout << "onFocusChange()" << std::endl;
         std::cout << "Focus " << (e->focus() ? "in" : "out") << std::endl;
+    }
+    
+    void* threadProc(void* arg){
+        long res = 0;
+        for(long i = 1; i <= reinterpret_cast<long>(arg); i++){
+            res += i + i;
+            std::cout << "thread" << std::endl;
+        }
+        return reinterpret_cast<void*>(res);
     }
     
     bool closed;
@@ -110,10 +120,18 @@ int main(int /*argc*/, char** /*argv*/)
     
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     
+    Thread thread(make_delegate(&wapp, &WindowedApp::threadProc));
+    
+    thread.start(reinterpret_cast<void*>(10000LL));
+    
     while(wapp.closed == false){
-        Input::keyboardState();
         Window::processEvents();
     }
+    
+    thread.join();
+    
+    long res = reinterpret_cast<long>(thread.value());
+    std::cout << "thread res: " << res << std::endl;
     
     w->makeCurrent(NULL);
     
