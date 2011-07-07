@@ -1,5 +1,5 @@
 #include "thread/thread.h" 
-
+#include <iostream>
 
 
 Thread::Thread()
@@ -27,11 +27,14 @@ void Thread::setRoutine(ThreadDelegate d_)
 
 bool Thread::start(void* arg_)
 {
-    _thread = CreateChread(NULL, 0, 
-                           reinterpret_cast<void* (*)(void*)>(_threadMain), 
+#ifdef WIN64
+#warning cast void* to DWORD
+#endif
+    _thread_cfg._arg = arg_;
+    _thread = CreateThread(NULL, 0, 
+                           reinterpret_cast<LPTHREAD_START_ROUTINE>(_threadMain), 
                            reinterpret_cast<void*>(&_thread_cfg),
                            0, NULL);
-    
     return _thread != 0;
 }
 

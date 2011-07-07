@@ -111,6 +111,14 @@
         <itemPath>../src/thread/thread.cpp</itemPath>
         <itemPath>../src/thread/thread.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="timer" displayName="timer" projectFiles="true">
+        <itemPath>../src/timer/gettime.cpp</itemPath>
+        <itemPath>../src/timer/gettime.h</itemPath>
+        <itemPath>../src/timer/settimer.cpp</itemPath>
+        <itemPath>../src/timer/settimer.h</itemPath>
+        <itemPath>../src/timer/timer.cpp</itemPath>
+        <itemPath>../src/timer/timer.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="utils" displayName="utils" projectFiles="true">
         <itemPath>../src/utils/utils.cpp</itemPath>
         <itemPath>../src/utils/utils.h</itemPath>

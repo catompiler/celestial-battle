@@ -8,7 +8,8 @@
 #include <GL/gl.h>
 //#include <locale>
 #include "thread/thread.h"
-
+#include "timer/settimer.h"
+#include "timer/gettime.h"
 
 Window* w = NULL;
 GLContext* cxt = NULL;
@@ -61,16 +62,24 @@ public:
     }
     
     void* threadProc(void* arg){
+        //std::cout << "thread start" << std::endl;
+        //std::cout << "thread arg = " << arg << std::endl;
         long res = 0;
         for(long i = 1; i <= reinterpret_cast<long>(arg); i++){
             res += i + i;
-            std::cout << "thread" << std::endl;
+            //std::cout << "thread" << std::endl;
         }
+        //std::cout << "thread end" << std::endl;
         return reinterpret_cast<void*>(res);
     }
     
     bool closed;
 };
+
+void timer(){
+    static int n = 0;
+    std::cout << "timer: " << n++ << std::endl;
+}
 
 int main(int /*argc*/, char** /*argv*/)
 {
@@ -120,9 +129,16 @@ int main(int /*argc*/, char** /*argv*/)
     
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     
+    if(setTimer(1, 0, timer) == false){
+        std::cout << "error set timer" << std::endl;
+    }
+    
     Thread thread(make_delegate(&wapp, &WindowedApp::threadProc));
     
-    thread.start(reinterpret_cast<void*>(10000LL));
+    uint64_t t1 = getTime();
+    thread.start(reinterpret_cast<void*>(10000));
+    uint64_t dt = getTime() - t1;
+    std::cout << "thread creation time: " << dt << " usec" << std::endl;
     
     while(wapp.closed == false){
         Window::processEvents();
