@@ -1,5 +1,13 @@
 #include "thread/thread.h" 
 
+
+
+Thread::Thread()
+{
+    _thread_cfg._arg = NULL;
+    _thread_cfg._ret_value = NULL;
+}
+
 Thread::Thread(ThreadDelegate d_)
 {
     _thread_cfg._d = d_;
@@ -10,6 +18,11 @@ Thread::Thread(ThreadDelegate d_)
 Thread::~Thread()
 {
     if(_thread) kill();
+}
+
+void Thread::setRoutine(ThreadDelegate d_)
+{
+    _thread_cfg._d = d_;
 }
 
 bool Thread::start(void* arg_)

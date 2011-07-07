@@ -8,8 +8,11 @@ class Thread{
 public:
     typedef UnaryDelegate<void*, void*> ThreadDelegate;
 
+    Thread();
     Thread(ThreadDelegate d_);
     ~Thread();
+    
+    void setRoutine(ThreadDelegate d_);
     
     bool start(void* arg_);
     bool join();
