@@ -58,6 +58,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/49809687/opengl.o \
 	${OBJECTDIR}/_ext/659861322/log.o \
 	${OBJECTDIR}/_ext/662815568/glcontext.o \
+	${OBJECTDIR}/_ext/1521210933/nanosleep.o \
 	${OBJECTDIR}/_ext/1029917654/main.o \
 	${OBJECTDIR}/_ext/1531217328/input.o \
 	${OBJECTDIR}/_ext/659870665/localfsentrypoint.o \
@@ -208,6 +209,11 @@ ${OBJECTDIR}/_ext/662815568/glcontext.o: ../src/glcontext/glcontext.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/662815568
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/662815568/glcontext.o ../src/glcontext/glcontext.cpp
+
+${OBJECTDIR}/_ext/1521210933/nanosleep.o: ../src/timer/nanosleep.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/nanosleep.o ../src/timer/nanosleep.cpp
 
 ${OBJECTDIR}/_ext/1029917654/main.o: /home/artem/devel/opengl/celestial-battle/src/main.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1029917654

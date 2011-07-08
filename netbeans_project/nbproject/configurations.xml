@@ -114,6 +114,8 @@
       <logicalFolder name="timer" displayName="timer" projectFiles="true">
         <itemPath>../src/timer/gettime.cpp</itemPath>
         <itemPath>../src/timer/gettime.h</itemPath>
+        <itemPath>../src/timer/nanosleep.cpp</itemPath>
+        <itemPath>../src/timer/nanosleep.h</itemPath>
         <itemPath>../src/timer/settimer.cpp</itemPath>
         <itemPath>../src/timer/settimer.h</itemPath>
         <itemPath>../src/timer/timer.cpp</itemPath>

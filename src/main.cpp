@@ -8,8 +8,7 @@
 #include <GL/gl.h>
 //#include <locale>
 #include "thread/thread.h"
-#include "timer/settimer.h"
-#include "timer/gettime.h"
+#include "timer/timer.h"
 
 Window* w = NULL;
 GLContext* cxt = NULL;
@@ -73,13 +72,13 @@ public:
         return reinterpret_cast<void*>(res);
     }
     
+    void timerProc(){
+        static int n = 0;
+        std::cout << "timer: " << n++ << std::endl;
+    }
+    
     bool closed;
 };
-
-void timer(){
-    static int n = 0;
-    std::cout << "timer: " << n++ << std::endl;
-}
 
 int main(int /*argc*/, char** /*argv*/)
 {
@@ -125,23 +124,28 @@ int main(int /*argc*/, char** /*argv*/)
     w->onMouseMotion().addHandler(make_delegate(&wapp, &WindowedApp::onMouseMotion));
     w->onFocusIn().addHandler(make_delegate(&wapp, &WindowedApp::onFocusChange));
     w->onFocusOut().addHandler(make_delegate(&wapp, &WindowedApp::onFocusChange));
+    Timer::onTimer().addHandler(make_delegate(&wapp, &WindowedApp::timerProc));
     
     
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     
-    if(setTimer(1, 0, timer) == false){
+    if(Timer::startTimer(1, 0) == false){
         std::cout << "error set timer" << std::endl;
     }
     
     Thread thread(make_delegate(&wapp, &WindowedApp::threadProc));
     
-    uint64_t t1 = getTime();
+    uint64_t t1 = Timer::getTime();
     thread.start(reinterpret_cast<void*>(10000));
-    uint64_t dt = getTime() - t1;
+    uint64_t dt = Timer::getTime() - t1;
     std::cout << "thread creation time: " << dt << " usec" << std::endl;
     
     while(wapp.closed == false){
         Window::processEvents();
+    }
+    
+    if(Timer::nsleep(2, 500000000) == false){
+        std::cout << "cann't sleep" << std::endl;
     }
     
     thread.join();
@@ -163,6 +167,7 @@ int main(int /*argc*/, char** /*argv*/)
     w->onMouseMotion().removeHandler(&wapp);
     w->onFocusIn().removeHandler(&wapp);
     w->onFocusOut().removeHandler(&wapp);
+    Timer::onTimer().removeHandler(&wapp);
     
     Window::destroy(w);
     
