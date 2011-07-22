@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <ctype.h>
 #include <stdlib.h>
+#include <locale>
 #include "utils/utils.h"
 
 /*
@@ -435,8 +436,8 @@ bool Value::write(std::ostream& ost_) const
 }
 
 
-const std::string ValueNumber::_valid_number_chars = "xXeE-+.0123456789aAbBcCdDeEfF";
-const std::string ValueNumber::_only_double_chars = ".eE";
+const std::string ValueNumber::_valid_number_chars = "xXeE-+.,0123456789aAbBcCdDeEfF";
+const std::string ValueNumber::_only_double_chars = ".,eE";
 const std::string ValueNumber::_single_chars = "-+eExX.";
 
 ValueNumber::ValueNumber()
@@ -520,6 +521,14 @@ iterator_t ValueNumber::parse(iterator_t config_begin, iterator_t config_end) th
     }
 
     std::string str_number(number_begin, number_end);
+    
+    if(std::has_facet<std::numpunct<char> >(std::locale())){
+        try{
+            char num_dot = std::use_facet<std::numpunct<char> >(std::locale()).decimal_point();
+            std::replace(str_number.begin(), str_number.end(),
+                    (num_dot == '.') ? ',' : '.', num_dot);
+        }catch(...){}
+    }
 
     if(std::find_first_of(number_begin, number_end,
             _only_double_chars.begin(), _only_double_chars.end()) != number_end){
@@ -1128,8 +1137,8 @@ Group::~Group()
 
 void Group::_clear()
 {
-    std::for_each(_groups->begin(), _groups->end(), utils::functors::delete_single());
-    std::for_each(_parameters->begin(), _parameters->end(), utils::functors::delete_single());
+    std::for_each(_groups->begin(), _groups->end(), functors::delete_single());
+    std::for_each(_parameters->begin(), _parameters->end(), functors::delete_single());
     
     _groups->clear();
     _parameters->clear();

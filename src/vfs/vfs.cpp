@@ -1,6 +1,10 @@
 #include "vfs.h"
 #include <algorithm>
 
+
+ENGINE_NAMESPACE_BEGIN
+
+
 /*
  * VFS
  */
@@ -53,3 +57,7 @@ bool VFS::delEntryPoint(FSEntryPoint* entryPoint)
     }
     return false;
 }
+
+
+ENGINE_NAMESPACE_END
+

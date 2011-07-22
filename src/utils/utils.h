@@ -1,20 +1,6 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
-namespace utils{
-
-
-/*
- * casts
- */
-namespace casts{
-
-//! cast string in number
-template<class T> T number_cast(const char*);
-
-}//casts
-
-
 /*
  * functors
  */
@@ -38,8 +24,6 @@ struct delete_array{
 
 
 }//functors
-
-}//utils
 
 #include "utils/utils_tmpl.h"
 

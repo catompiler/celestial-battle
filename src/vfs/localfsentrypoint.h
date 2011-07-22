@@ -4,6 +4,11 @@
 #include <iostream>
 #include "fsentrypoint.h"
 #include <string>
+#include "engine/engine.h"
+
+
+ENGINE_NAMESPACE_BEGIN
+
 
 class LocalFSEntryPoint
     :public FSEntryPoint
@@ -27,5 +32,9 @@ protected:
     std::string _addToPath(const std::string& fn) const;
 
 };
+
+
+ENGINE_NAMESPACE_END
+
 
 #endif	//_LOCALFSENTRYPOINT_H_

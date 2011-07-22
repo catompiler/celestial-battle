@@ -2,21 +2,24 @@
 #define _GLRESOURCE_H
 
 #include "opengl/opengl.h"
-#include <string>
 
-class GLResource
+
+OPENGL_NAMESPACE_BEGIN
+
+class Resource
 {
 public:
-    GLResource(const std::string& name_ = std::string());
-    virtual ~GLResource();
+    Resource();
+    Resource(GLuint id_);
+    virtual ~Resource();
     
-    const std::string& name() const;
-    
+    GLuint id();
     operator GLuint();
 
 protected:
-    std::string _name;
     GLuint _id;
 };
+
+OPENGL_NAMESPACE_END
 
 #endif  //_GLRESOURCE_H

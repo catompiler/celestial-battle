@@ -384,6 +384,7 @@ Window* Window::create(const std::string& title_,
                                 FocusChangeMask;
     winattribs.background_pixmap = None;
     winattribs.border_pixel = 0;
+    winattribs.override_redirect = False; //True for undecorated window
 
 
     //create window
@@ -397,7 +398,8 @@ Window* Window::create(const std::string& title_,
                 visualinfo->depth,//depth
                 InputOutput,//class
                 visualinfo->visual,//visual
-                CWBorderPixel | CWColormap | CWEventMask, &winattribs);
+                CWBorderPixel | CWColormap | CWEventMask | CWOverrideRedirect,
+                &winattribs);
 
 
     if(!winid){

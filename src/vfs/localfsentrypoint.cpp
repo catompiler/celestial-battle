@@ -5,6 +5,10 @@
 #include <iterator>
 //#include <iostream>
 
+
+ENGINE_NAMESPACE_BEGIN
+
+
 LocalFSEntryPoint::LocalFSEntryPoint()
 {
     _path = std::string();
@@ -84,3 +88,7 @@ std::string LocalFSEntryPoint::_addToPath(const std::string& fn) const
     
     return res;
 }
+
+
+ENGINE_NAMESPACE_END
+

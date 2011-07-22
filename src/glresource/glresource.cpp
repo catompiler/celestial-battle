@@ -1,24 +1,32 @@
 #include <string>
-
 #include "glresource.h"
 
-GLResource::GLResource(const std::string& name_)
+
+OPENGL_NAMESPACE_BEGIN
+
+
+Resource::Resource()
 {
-    _name = name_;
     _id = 0;
 }
 
-GLResource::~GLResource()
+Resource::Resource(GLuint id_)
+{
+    _id = id_;
+}
+
+Resource::~Resource()
 {
 }
 
-const std::string& GLResource::name() const
-{
-    return _name;
-}
-
-GLResource::operator GLuint()
+GLuint Resource::id()
 {
     return _id;
 }
 
+Resource::operator GLuint()
+{
+    return _id;
+}
+
+OPENGL_NAMESPACE_END

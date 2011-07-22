@@ -7,8 +7,18 @@
 #include "exception/exception.h"
 
 
+#define OPENGL_NAMESPACE_BEGIN namespace GL{
+#define OPENGL_NAMESPACE_END }
 
-template <class T> bool getGLProcAddress(const char* name, T& proc, bool except = false) throw(Exception&)
+
+#include "functions.h"
+
+
+OPENGL_NAMESPACE_BEGIN
+
+
+template <class T>
+bool getProcAddress(const char* name, T& proc, bool except = false) throw(Exception&)
 {
     proc = reinterpret_cast<T>(GLContext::getProcAddress(name));
     if(proc == NULL){
@@ -18,6 +28,10 @@ template <class T> bool getGLProcAddress(const char* name, T& proc, bool except 
     return true;
 }
 
-bool isGLExtensionSupported(const char* name, bool except = false) throw(Exception&);
+bool isExtensionSupported(const char* name, bool except = false) throw(Exception&);
+
+
+OPENGL_NAMESPACE_END
+
 
 #endif  //_OPENGL_H

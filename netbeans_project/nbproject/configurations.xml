@@ -25,6 +25,9 @@
         <itemPath>../src/display/display.cpp</itemPath>
         <itemPath>../src/display/display.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="engine" displayName="engine" projectFiles="true">
+        <itemPath>../src/engine/engine.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="entity" displayName="entity" projectFiles="true">
         <itemPath>../src/entity/entity.cpp</itemPath>
         <itemPath>../src/entity/entity.h</itemPath>
@@ -37,10 +40,20 @@
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="glbuffer" displayName="glbuffer" projectFiles="true">
+        <itemPath>../src/glbuffer/glbuffer.cpp</itemPath>
+        <itemPath>../src/glbuffer/glbuffer.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="glcontext" displayName="glcontext" projectFiles="true">
         <itemPath>../src/glcontext/glcontext.cpp</itemPath>
         <itemPath>../src/glcontext/glcontext.h</itemPath>
         <itemPath>../src/glcontext/glcontext_types.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glframebuffer"
+                     displayName="glframebuffer"
+                     projectFiles="true">
+        <itemPath>../src/glframebuffer/glframebuffer.cpp</itemPath>
+        <itemPath>../src/glframebuffer/glframebuffer.h</itemPath>
       </logicalFolder>
       <logicalFolder name="glmath" displayName="glmath" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/functions.h</itemPath>
@@ -57,6 +70,16 @@
       <logicalFolder name="global" displayName="global" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/global/constants.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="glprogram" displayName="glprogram" projectFiles="true">
+        <itemPath>../src/glprogram/glprogram.cpp</itemPath>
+        <itemPath>../src/glprogram/glprogram.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glrenderbuffer"
+                     displayName="glrenderbuffer"
+                     projectFiles="true">
+        <itemPath>../src/glrenderbuffer/glrenderbuffer.cpp</itemPath>
+        <itemPath>../src/glrenderbuffer/glrenderbuffer.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="glresource" displayName="glresource" projectFiles="true">
         <itemPath>../src/glresource/glresource.cpp</itemPath>
         <itemPath>../src/glresource/glresource.h</itemPath>
@@ -66,6 +89,14 @@
                      projectFiles="true">
         <itemPath>../src/glresourcefactory/glresourcefactory.cpp</itemPath>
         <itemPath>../src/glresourcefactory/glresourcefactory.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glshader" displayName="glshader" projectFiles="true">
+        <itemPath>../src/glshader/glshader.cpp</itemPath>
+        <itemPath>../src/glshader/glshader.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="gltexture" displayName="gltexture" projectFiles="true">
+        <itemPath>../src/gltexture/gltexture.cpp</itemPath>
+        <itemPath>../src/gltexture/gltexture.h</itemPath>
       </logicalFolder>
       <logicalFolder name="iconv" displayName="iconv" projectFiles="true">
         <itemPath>../src/iconv/iconv.cpp</itemPath>
@@ -90,6 +121,8 @@
         <itemPath>../src/object/object.h</itemPath>
       </logicalFolder>
       <logicalFolder name="opengl" displayName="opengl" projectFiles="true">
+        <itemPath>../src/opengl/functions.cpp</itemPath>
+        <itemPath>../src/opengl/functions.h</itemPath>
         <itemPath>../src/opengl/opengl.cpp</itemPath>
         <itemPath>../src/opengl/opengl.h</itemPath>
       </logicalFolder>
@@ -97,6 +130,14 @@
         <itemPath>../src/osal/osal.cpp</itemPath>
         <itemPath>../src/osal/osal.h</itemPath>
         <itemPath>../src/osal/osdef.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="render" displayName="render" projectFiles="true">
+        <itemPath>../src/render/render.cpp</itemPath>
+        <itemPath>../src/render/render.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="scene" displayName="scene" projectFiles="true">
+        <itemPath>../src/scene/scene.cpp</itemPath>
+        <itemPath>../src/scene/scene.h</itemPath>
       </logicalFolder>
       <logicalFolder name="smart_ptr" displayName="smart_ptr" projectFiles="true">
         <itemPath>../src/smart_ptr/smart_ptr.h</itemPath>
@@ -120,6 +161,10 @@
         <itemPath>../src/timer/settimer.h</itemPath>
         <itemPath>../src/timer/timer.cpp</itemPath>
         <itemPath>../src/timer/timer.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="transform" displayName="transform" projectFiles="true">
+        <itemPath>../src/transform/transform.cpp</itemPath>
+        <itemPath>../src/transform/transform.h</itemPath>
       </logicalFolder>
       <logicalFolder name="utils" displayName="utils" projectFiles="true">
         <itemPath>../src/utils/utils.cpp</itemPath>

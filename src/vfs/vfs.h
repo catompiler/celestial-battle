@@ -5,6 +5,11 @@
 #include <iostream>
 #include <list>
 #include <string>
+#include "engine/engine.h"
+
+
+
+ENGINE_NAMESPACE_BEGIN
 
 
 class VFS
@@ -25,6 +30,10 @@ private:
     typedef std::list<FSEntryPoint*> FSEntryPoints;
     FSEntryPoints* _entryPoints;
 };
+
+
+ENGINE_NAMESPACE_END
+
 
 #endif	/* _VFS_H */
 

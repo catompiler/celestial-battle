@@ -5,10 +5,12 @@
 #include "glcontext/glcontext.h"
 #include "input/input.h"
 #include "iconv/iconv.h"
-#include <GL/gl.h>
+#include "opengl/opengl.h"
 //#include <locale>
-#include "thread/thread.h"
-#include "timer/timer.h"
+#include "transform/transform.h"
+#include "glbuffer/glbuffer.h"
+#include "utils/utils.h"
+
 
 Window* w = NULL;
 GLContext* cxt = NULL;
@@ -39,6 +41,7 @@ public:
         std::cout << "onKeyPress()" << std::endl;
         std::cout << "key: '" << Iconv::toLocal(e->character().toSrting()) <<
                 "' (" << e->key() << ")" << std::endl;
+        if(e->key() == KEY_ESCAPE) closed = true;
     }
     void onMousePress(MousePressEvent* e){
         std::cout << "onMousePress()" << std::endl;
@@ -60,25 +63,35 @@ public:
         std::cout << "Focus " << (e->focus() ? "in" : "out") << std::endl;
     }
     
-    void* threadProc(void* arg){
-        //std::cout << "thread start" << std::endl;
-        //std::cout << "thread arg = " << arg << std::endl;
-        long res = 0;
-        for(long i = 1; i <= reinterpret_cast<long>(arg); i++){
-            res += i + i;
-            //std::cout << "thread" << std::endl;
-        }
-        //std::cout << "thread end" << std::endl;
-        return reinterpret_cast<void*>(res);
-    }
-    
-    void timerProc(){
-        static int n = 0;
-        std::cout << "timer: " << n++ << std::endl;
-    }
-    
     bool closed;
 };
+
+
+std::ostream& operator<<(std::ostream& ost, const vec3_t& v)
+{
+    ost << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+    return ost;
+}
+
+std::ostream& operator<<(std::ostream& ost, const quat_t& q)
+{
+    vec3_t axis;
+    try{
+        axis = q.axis();
+    }catch(...){}
+    ost << "(" << axis << ", " << degrees(q.angle()) << ")";
+    return ost;
+}
+
+std::ostream& operator<<(std::ostream& ost, const Rage::Transform& t)
+{
+    ost << "posit: " << t.position << std::endl <<
+           "rotat: " << t.rotation << std::endl <<
+           "scale: " << t.scaling << std::endl;
+    return ost;
+}
+
+
 
 int main(int /*argc*/, char** /*argv*/)
 {
@@ -124,34 +137,34 @@ int main(int /*argc*/, char** /*argv*/)
     w->onMouseMotion().addHandler(make_delegate(&wapp, &WindowedApp::onMouseMotion));
     w->onFocusIn().addHandler(make_delegate(&wapp, &WindowedApp::onFocusChange));
     w->onFocusOut().addHandler(make_delegate(&wapp, &WindowedApp::onFocusChange));
-    Timer::onTimer().addHandler(make_delegate(&wapp, &WindowedApp::timerProc));
     
     
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    
-    if(Timer::startTimer(1, 0) == false){
-        std::cout << "error set timer" << std::endl;
-    }
-    
-    Thread thread(make_delegate(&wapp, &WindowedApp::threadProc));
-    
-    uint64_t t1 = Timer::getTime();
-    thread.start(reinterpret_cast<void*>(10000));
-    uint64_t dt = Timer::getTime() - t1;
-    std::cout << "thread creation time: " << dt << " usec" << std::endl;
     
     while(wapp.closed == false){
         Window::processEvents();
     }
     
-    if(Timer::nsleep(2, 500000000) == false){
-        std::cout << "cann't sleep" << std::endl;
-    }
+    std::cout << "init gl functions..." << std::endl;
+    GL::initFunctions();
+    std::cout << "GL_EXT_gpu_shader4 == " << GL::GL_EXT_gpu_shader4_supported << std::endl;
     
-    thread.join();
+    std::cout << "glBindBuffer == " << (void*)GL::glBindBuffer << std::endl;
+    std::cout << "glBindBufferARB == " << (void*)GL::glBindBufferARB << std::endl;
     
-    long res = reinterpret_cast<long>(thread.value());
-    std::cout << "thread res: " << res << std::endl;
+    GL::Buffer buf;
+    buf.bind(GL_ARRAY_BUFFER);
+    GL::Buffer::setData(GL_ARRAY_BUFFER, 0x100, NULL, GL_STATIC_DRAW);
+    GL::Buffer::unbind(GL_ARRAY_BUFFER);
+    
+    
+    Rage::Transform tr1(vec3_t(1.0, 0.0, 0.0), quat_t::rotation(1.0, 0.0, 0.0, radians(90.0)));
+    Rage::Transform tr2(vec3_t(0.0, 1.0, 0.0), quat_t::rotation(1.0, 0.0, 0.0, radians(90.0)));
+    Rage::Transform tres = tr1 + tr2;
+    std::cout << tres << std::endl;
+    tres -= tr2;
+    std::cout << tres << std::endl;
+    
     
     w->makeCurrent(NULL);
     
@@ -167,7 +180,6 @@ int main(int /*argc*/, char** /*argv*/)
     w->onMouseMotion().removeHandler(&wapp);
     w->onFocusIn().removeHandler(&wapp);
     w->onFocusOut().removeHandler(&wapp);
-    Timer::onTimer().removeHandler(&wapp);
     
     Window::destroy(w);
     

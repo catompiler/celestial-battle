@@ -35,32 +35,42 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/_ext/1519963337/utils.o \
+	${OBJECTDIR}/_ext/49809687/functions.o \
 	${OBJECTDIR}/_ext/1390850504/display.o \
 	${OBJECTDIR}/_ext/1521210933/gettime.o \
+	${OBJECTDIR}/_ext/1262803996/gltexture.o \
 	${OBJECTDIR}/_ext/68783691/utf8char.o \
 	${OBJECTDIR}/_ext/576727235/glresourcefactory.o \
 	${OBJECTDIR}/_ext/62598791/object.o \
 	${OBJECTDIR}/_ext/1531546205/iconv.o \
 	${OBJECTDIR}/_ext/1019042359/osal.o \
 	${OBJECTDIR}/_ext/7752610/vfs.o \
+	${OBJECTDIR}/_ext/1522320622/scene.o \
+	${OBJECTDIR}/_ext/1923734139/glprogram.o \
 	${OBJECTDIR}/_ext/1521210933/timer.o \
 	${OBJECTDIR}/_ext/1534683872/event.o \
 	${OBJECTDIR}/_ext/173017642/windowslist.o \
 	${OBJECTDIR}/_ext/86326340/thread.o \
 	${OBJECTDIR}/_ext/173017642/window_events.o \
 	${OBJECTDIR}/_ext/897345942/string.o \
+	${OBJECTDIR}/_ext/1014552289/glbuffer.o \
+	${OBJECTDIR}/_ext/1677581042/transform.o \
 	${OBJECTDIR}/_ext/1521210933/settimer.o \
 	${OBJECTDIR}/_ext/173017642/window.o \
 	${OBJECTDIR}/_ext/1667457878/exception.o \
+	${OBJECTDIR}/_ext/666085778/glframebuffer.o \
 	${OBJECTDIR}/_ext/1527311355/mutex.o \
 	${OBJECTDIR}/_ext/659870665/fsentrypoint.o \
 	${OBJECTDIR}/_ext/1153801517/glresource.o \
 	${OBJECTDIR}/_ext/49809687/opengl.o \
-	${OBJECTDIR}/_ext/659861322/log.o \
 	${OBJECTDIR}/_ext/662815568/glcontext.o \
-	${OBJECTDIR}/_ext/1521210933/nanosleep.o \
+	${OBJECTDIR}/_ext/659861322/log.o \
 	${OBJECTDIR}/_ext/1029917654/main.o \
+	${OBJECTDIR}/_ext/1521210933/nanosleep.o \
+	${OBJECTDIR}/_ext/540013372/glshader.o \
+	${OBJECTDIR}/_ext/1578303221/glrenderbuffer.o \
 	${OBJECTDIR}/_ext/1531217328/input.o \
+	${OBJECTDIR}/_ext/26177488/render.o \
 	${OBJECTDIR}/_ext/659870665/localfsentrypoint.o \
 	${OBJECTDIR}/_ext/337505763/entity.o \
 	${OBJECTDIR}/_ext/394022532/config.o
@@ -95,6 +105,11 @@ ${OBJECTDIR}/_ext/1519963337/utils.o: ../src/utils/utils.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1519963337/utils.o ../src/utils/utils.cpp
 
+${OBJECTDIR}/_ext/49809687/functions.o: ../src/opengl/functions.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/49809687
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/49809687/functions.o ../src/opengl/functions.cpp
+
 ${OBJECTDIR}/_ext/1390850504/display.o: ../src/display/display.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1390850504
 	${RM} $@.d
@@ -104,6 +119,11 @@ ${OBJECTDIR}/_ext/1521210933/gettime.o: ../src/timer/gettime.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/gettime.o ../src/timer/gettime.cpp
+
+${OBJECTDIR}/_ext/1262803996/gltexture.o: ../src/gltexture/gltexture.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1262803996
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1262803996/gltexture.o ../src/gltexture/gltexture.cpp
 
 ${OBJECTDIR}/_ext/68783691/utf8char.o: ../src/string/utf8char.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/68783691
@@ -135,6 +155,16 @@ ${OBJECTDIR}/_ext/7752610/vfs.o: /home/artem/devel/opengl/celestial-battle/src/v
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/7752610/vfs.o /home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp
 
+${OBJECTDIR}/_ext/1522320622/scene.o: ../src/scene/scene.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1522320622
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1522320622/scene.o ../src/scene/scene.cpp
+
+${OBJECTDIR}/_ext/1923734139/glprogram.o: ../src/glprogram/glprogram.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1923734139
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1923734139/glprogram.o ../src/glprogram/glprogram.cpp
+
 ${OBJECTDIR}/_ext/1521210933/timer.o: ../src/timer/timer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
 	${RM} $@.d
@@ -165,6 +195,16 @@ ${OBJECTDIR}/_ext/897345942/string.o: /home/artem/devel/opengl/celestial-battle/
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/897345942/string.o /home/artem/devel/opengl/celestial-battle/src/string/string.cpp
 
+${OBJECTDIR}/_ext/1014552289/glbuffer.o: ../src/glbuffer/glbuffer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1014552289
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1014552289/glbuffer.o ../src/glbuffer/glbuffer.cpp
+
+${OBJECTDIR}/_ext/1677581042/transform.o: ../src/transform/transform.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1677581042
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1677581042/transform.o ../src/transform/transform.cpp
+
 ${OBJECTDIR}/_ext/1521210933/settimer.o: ../src/timer/settimer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
 	${RM} $@.d
@@ -179,6 +219,11 @@ ${OBJECTDIR}/_ext/1667457878/exception.o: /home/artem/devel/opengl/celestial-bat
 	${MKDIR} -p ${OBJECTDIR}/_ext/1667457878
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1667457878/exception.o /home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp
+
+${OBJECTDIR}/_ext/666085778/glframebuffer.o: ../src/glframebuffer/glframebuffer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/666085778
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/666085778/glframebuffer.o ../src/glframebuffer/glframebuffer.cpp
 
 ${OBJECTDIR}/_ext/1527311355/mutex.o: ../src/mutex/mutex.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1527311355
@@ -200,30 +245,45 @@ ${OBJECTDIR}/_ext/49809687/opengl.o: ../src/opengl/opengl.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/49809687/opengl.o ../src/opengl/opengl.cpp
 
-${OBJECTDIR}/_ext/659861322/log.o: ../src/log/log.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/659861322
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659861322/log.o ../src/log/log.cpp
-
 ${OBJECTDIR}/_ext/662815568/glcontext.o: ../src/glcontext/glcontext.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/662815568
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/662815568/glcontext.o ../src/glcontext/glcontext.cpp
 
-${OBJECTDIR}/_ext/1521210933/nanosleep.o: ../src/timer/nanosleep.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
+${OBJECTDIR}/_ext/659861322/log.o: ../src/log/log.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/659861322
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/nanosleep.o ../src/timer/nanosleep.cpp
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659861322/log.o ../src/log/log.cpp
 
 ${OBJECTDIR}/_ext/1029917654/main.o: /home/artem/devel/opengl/celestial-battle/src/main.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1029917654
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1029917654/main.o /home/artem/devel/opengl/celestial-battle/src/main.cpp
 
+${OBJECTDIR}/_ext/1521210933/nanosleep.o: ../src/timer/nanosleep.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/nanosleep.o ../src/timer/nanosleep.cpp
+
+${OBJECTDIR}/_ext/540013372/glshader.o: ../src/glshader/glshader.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/540013372
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/540013372/glshader.o ../src/glshader/glshader.cpp
+
+${OBJECTDIR}/_ext/1578303221/glrenderbuffer.o: ../src/glrenderbuffer/glrenderbuffer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1578303221
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1578303221/glrenderbuffer.o ../src/glrenderbuffer/glrenderbuffer.cpp
+
 ${OBJECTDIR}/_ext/1531217328/input.o: ../src/input/input.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1531217328
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1531217328/input.o ../src/input/input.cpp
+
+${OBJECTDIR}/_ext/26177488/render.o: ../src/render/render.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/26177488
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/26177488/render.o ../src/render/render.cpp
 
 ${OBJECTDIR}/_ext/659870665/localfsentrypoint.o: ../src/vfs/localfsentrypoint.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/659870665
