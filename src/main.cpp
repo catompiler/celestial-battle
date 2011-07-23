@@ -9,7 +9,7 @@
 //#include <locale>
 #include "transform/transform.h"
 #include "glbuffer/glbuffer.h"
-#include "utils/utils.h"
+#include "display/display.h"
 
 
 Window* w = NULL;
@@ -47,6 +47,7 @@ public:
         std::cout << "onMousePress()" << std::endl;
         std::cout << "(" << e->x() << ", " << e->y() <<
                      ") - " << e->button() << std::endl;
+        if(e->button() & MOUSE_LEFT) closed = true;
     }
     void onMouseRelease(MouseReleaseEvent* e){
         std::cout << "onMouseRelease()" << std::endl;
@@ -99,6 +100,15 @@ int main(int /*argc*/, char** /*argv*/)
     
     log(Log::Information) << "Hello, Log!" << std::endl;
     
+    int width = 800;//1440;
+    int height = 600;//900;
+    bool fullscreen = false;
+    
+    if(fullscreen && !Display::setMode(Display::Mode(width, height, 60))){
+        std::cout << "Error set video mode" << std::endl;
+        fullscreen = false;
+    }
+    
     WindowedApp wapp;
     
     PixelAttribs pa;
@@ -112,7 +122,7 @@ int main(int /*argc*/, char** /*argv*/)
     pa.samples = 0;
     pa.stencilSize = 0;
     
-    w = Window::create("X11 Window", 100, 100, 250, 250, pa);
+    w = Window::create("X11 Window", 0, 0, width, height, fullscreen, pa);
     if(w == NULL){
         log(Log::Error) << "Error creating window" << std::endl;
         return 1;
@@ -152,10 +162,12 @@ int main(int /*argc*/, char** /*argv*/)
     std::cout << "glBindBuffer == " << (void*)GL::glBindBuffer << std::endl;
     std::cout << "glBindBufferARB == " << (void*)GL::glBindBufferARB << std::endl;
     
-    GL::Buffer buf;
-    buf.bind(GL_ARRAY_BUFFER);
-    GL::Buffer::setData(GL_ARRAY_BUFFER, 0x100, NULL, GL_STATIC_DRAW);
-    GL::Buffer::unbind(GL_ARRAY_BUFFER);
+    if(GL::GL_VERSION_1_5_supported){
+        GL::Buffer buf;
+        buf.bind(GL_ARRAY_BUFFER);
+        GL::Buffer::setData(GL_ARRAY_BUFFER, 0x100, NULL, GL_STATIC_DRAW);
+        GL::Buffer::unbind(GL_ARRAY_BUFFER);
+    }
     
     
     Rage::Transform tr1(vec3_t(1.0, 0.0, 0.0), quat_t::rotation(1.0, 0.0, 0.0, radians(90.0)));
@@ -182,6 +194,8 @@ int main(int /*argc*/, char** /*argv*/)
     w->onFocusOut().removeHandler(&wapp);
     
     Window::destroy(w);
+    
+    Display::restoreMode();
     
     return (EXIT_SUCCESS);
 }

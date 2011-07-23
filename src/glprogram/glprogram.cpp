@@ -207,7 +207,7 @@ void Program::_updateAttribsList()
     
     GLenum attrib_type = 0;
     GLint attrib_size = 0;
-    GLuint attrib_loc = -1;
+    GLuint attrib_loc = static_cast<GLuint>(-1);
     std::vector<char> buf_name;
     buf_name.resize(name_max_len);
     

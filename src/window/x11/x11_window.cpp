@@ -278,6 +278,7 @@ void Window::swapBuffers() /* const */
 Window* Window::create(const std::string& title_,
                       int left_, int top_,
                       int width_, int height_,
+                      bool is_fullscreen_window_,
                       const PixelAttribs& pixelAttribs_)
 {
     Window* window;
@@ -377,14 +378,16 @@ Window* Window::create(const std::string& title_,
 
 
     winattribs.colormap = colormap;
+    
+    long pointerEventMask = ButtonPressMask | ButtonReleaseMask |
+                                PointerMotionMask | ButtonMotionMask;
     winattribs.event_mask = StructureNotifyMask | ExposureMask |
                                 KeyPressMask | KeyReleaseMask |
-                                ButtonPressMask | ButtonReleaseMask |
-                                PointerMotionMask | ButtonMotionMask |
+                                pointerEventMask |
                                 FocusChangeMask;
     winattribs.background_pixmap = None;
     winattribs.border_pixel = 0;
-    winattribs.override_redirect = False; //True for undecorated window
+    winattribs.override_redirect = is_fullscreen_window_ ? True : False; //True for undecorated window
 
 
     //create window
@@ -435,8 +438,20 @@ Window* Window::create(const std::string& title_,
     //set window text
     XStoreName(Display::display(), winid, title_.c_str());
     //map|show window
-    XMapWindow(Display::display(), winid);
-
+    if(is_fullscreen_window_){
+        //move pointer to (0,0)
+        XWarpPointer(Display::display(), None, winid, 0, 0, 0, 0, 0, 0);
+        //map window on top
+        XMapRaised(Display::display(), winid);
+        //gran keyboard
+        XGrabKeyboard(Display::display(), winid, True, GrabModeAsync,
+                      GrabModeAsync, CurrentTime);
+        //and mouse
+        XGrabPointer(Display::display(), winid, True, pointerEventMask,
+                     GrabModeAsync, GrabModeAsync, winid, None, CurrentTime);
+    }else{
+        XMapWindow(Display::display(), winid);
+    }
 
     //free visualinfo
     XFree(visualinfo);

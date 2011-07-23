@@ -46,8 +46,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1019042359/osal.o \
 	${OBJECTDIR}/_ext/7752610/vfs.o \
 	${OBJECTDIR}/_ext/1522320622/scene.o \
-	${OBJECTDIR}/_ext/1923734139/glprogram.o \
 	${OBJECTDIR}/_ext/1521210933/timer.o \
+	${OBJECTDIR}/_ext/1923734139/glprogram.o \
 	${OBJECTDIR}/_ext/1534683872/event.o \
 	${OBJECTDIR}/_ext/173017642/windowslist.o \
 	${OBJECTDIR}/_ext/86326340/thread.o \
@@ -160,15 +160,15 @@ ${OBJECTDIR}/_ext/1522320622/scene.o: ../src/scene/scene.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1522320622/scene.o ../src/scene/scene.cpp
 
-${OBJECTDIR}/_ext/1923734139/glprogram.o: ../src/glprogram/glprogram.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1923734139
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1923734139/glprogram.o ../src/glprogram/glprogram.cpp
-
 ${OBJECTDIR}/_ext/1521210933/timer.o: ../src/timer/timer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/timer.o ../src/timer/timer.cpp
+
+${OBJECTDIR}/_ext/1923734139/glprogram.o: ../src/glprogram/glprogram.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1923734139
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1923734139/glprogram.o ../src/glprogram/glprogram.cpp
 
 ${OBJECTDIR}/_ext/1534683872/event.o: ../src/event/event.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1534683872

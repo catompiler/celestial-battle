@@ -177,6 +177,7 @@ void Window::swapBuffers() /* const */
 Window* Window::create(const std::string& title_,
                       int left_, int top_,
                       int width_, int height_,
+                      bool is_fullscreen_window_,
                       const PixelAttribs& pixelAttribs_)
 {
     HINSTANCE hInst = GetModuleHandle(NULL);
@@ -203,11 +204,16 @@ Window* Window::create(const std::string& title_,
     
     window = new Window();
     
+    int style = WS_OVERLAPPEDWINDOW;
+    if(is_fullscreen_window_){
+        style = WS_POPUP;
+    }
+    
     hwnd = CreateWindowEx(
                           0 /*dwExStyle*/,
                           _winClassName /*lpClassName*/,
                           title_.c_str() /*lpWindowName*/,
-                          WS_OVERLAPPEDWINDOW /*dwStyle*/,
+                          style /*dwStyle*/,
                           left_ /*x*/,
                           top_ /*y*/,
                           width_ /*nWidth*/,

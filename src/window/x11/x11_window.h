@@ -47,6 +47,7 @@ public:
     static Window* create(const std::string& title_,
                           int left_, int top_,
                           int width_, int height_,
+                          bool is_fullscreen_window_,
                           const PixelAttribs& pixelAttribs_);
     
     static void destroy(Window* window_);

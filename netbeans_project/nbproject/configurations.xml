@@ -217,6 +217,7 @@
             <linkerLibLibItem>X11</linkerLibLibItem>
             <linkerLibLibItem>GL</linkerLibLibItem>
             <linkerLibLibItem>pthread</linkerLibLibItem>
+            <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -243,6 +244,8 @@
           <linkerLibItems>
             <linkerLibLibItem>X11</linkerLibLibItem>
             <linkerLibLibItem>GL</linkerLibLibItem>
+            <linkerLibLibItem>pthread</linkerLibLibItem>
+            <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
