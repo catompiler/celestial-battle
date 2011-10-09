@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/_ext/1519963337/utils.o \
+	${OBJECTDIR}/_ext/664031954/transformstree.o \
 	${OBJECTDIR}/_ext/49809687/functions.o \
 	${OBJECTDIR}/_ext/1390850504/display.o \
 	${OBJECTDIR}/_ext/1521210933/gettime.o \
@@ -45,11 +46,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1531546205/iconv.o \
 	${OBJECTDIR}/_ext/1019042359/osal.o \
 	${OBJECTDIR}/_ext/7752610/vfs.o \
+	${OBJECTDIR}/_ext/774992765/componentfactory.o \
 	${OBJECTDIR}/_ext/1522320622/scene.o \
 	${OBJECTDIR}/_ext/1521210933/timer.o \
 	${OBJECTDIR}/_ext/1923734139/glprogram.o \
-	${OBJECTDIR}/_ext/1534683872/event.o \
 	${OBJECTDIR}/_ext/173017642/windowslist.o \
+	${OBJECTDIR}/_ext/1534683872/event.o \
 	${OBJECTDIR}/_ext/86326340/thread.o \
 	${OBJECTDIR}/_ext/173017642/window_events.o \
 	${OBJECTDIR}/_ext/897345942/string.o \
@@ -70,9 +72,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/540013372/glshader.o \
 	${OBJECTDIR}/_ext/1578303221/glrenderbuffer.o \
 	${OBJECTDIR}/_ext/1531217328/input.o \
+	${OBJECTDIR}/_ext/774992765/component.o \
 	${OBJECTDIR}/_ext/26177488/render.o \
 	${OBJECTDIR}/_ext/659870665/localfsentrypoint.o \
-	${OBJECTDIR}/_ext/337505763/entity.o \
 	${OBJECTDIR}/_ext/394022532/config.o
 
 
@@ -104,6 +106,11 @@ ${OBJECTDIR}/_ext/1519963337/utils.o: ../src/utils/utils.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1519963337
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1519963337/utils.o ../src/utils/utils.cpp
+
+${OBJECTDIR}/_ext/664031954/transformstree.o: ../src/transformationstree/transformstree.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/664031954
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/664031954/transformstree.o ../src/transformationstree/transformstree.cpp
 
 ${OBJECTDIR}/_ext/49809687/functions.o: ../src/opengl/functions.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/49809687
@@ -155,6 +162,11 @@ ${OBJECTDIR}/_ext/7752610/vfs.o: /home/artem/devel/opengl/celestial-battle/src/v
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/7752610/vfs.o /home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp
 
+${OBJECTDIR}/_ext/774992765/componentfactory.o: ../src/component/componentfactory.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/774992765
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/774992765/componentfactory.o ../src/component/componentfactory.cpp
+
 ${OBJECTDIR}/_ext/1522320622/scene.o: ../src/scene/scene.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1522320622
 	${RM} $@.d
@@ -170,15 +182,15 @@ ${OBJECTDIR}/_ext/1923734139/glprogram.o: ../src/glprogram/glprogram.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1923734139/glprogram.o ../src/glprogram/glprogram.cpp
 
-${OBJECTDIR}/_ext/1534683872/event.o: ../src/event/event.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1534683872
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1534683872/event.o ../src/event/event.cpp
-
 ${OBJECTDIR}/_ext/173017642/windowslist.o: ../src/window/windowslist.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/173017642
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/173017642/windowslist.o ../src/window/windowslist.cpp
+
+${OBJECTDIR}/_ext/1534683872/event.o: ../src/event/event.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1534683872
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1534683872/event.o ../src/event/event.cpp
 
 ${OBJECTDIR}/_ext/86326340/thread.o: ../src/thread/thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/86326340
@@ -280,6 +292,11 @@ ${OBJECTDIR}/_ext/1531217328/input.o: ../src/input/input.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1531217328/input.o ../src/input/input.cpp
 
+${OBJECTDIR}/_ext/774992765/component.o: ../src/component/component.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/774992765
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/774992765/component.o ../src/component/component.cpp
+
 ${OBJECTDIR}/_ext/26177488/render.o: ../src/render/render.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/26177488
 	${RM} $@.d
@@ -289,11 +306,6 @@ ${OBJECTDIR}/_ext/659870665/localfsentrypoint.o: ../src/vfs/localfsentrypoint.cp
 	${MKDIR} -p ${OBJECTDIR}/_ext/659870665
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659870665/localfsentrypoint.o ../src/vfs/localfsentrypoint.cpp
-
-${OBJECTDIR}/_ext/337505763/entity.o: ../src/entity/entity.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/337505763
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/337505763/entity.o ../src/entity/entity.cpp
 
 ${OBJECTDIR}/_ext/394022532/config.o: ../src/config/config.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/394022532

@@ -18,6 +18,13 @@ Transform::Transform(const vec3_t& position_)
     scaling = vec3_t(1.0, 1.0, 1.0);
 }
 
+Transform::Transform(const quat_t& rotation_)
+{
+    position = vec3_t(0.0, 0.0, 0.0);
+    rotation = rotation_;
+    scaling = vec3_t(1.0, 1.0, 1.0);
+}
+
 Transform::Transform(const vec3_t& position_,
                      const quat_t& rotation_)
 {
@@ -77,6 +84,18 @@ mat4_t Transform::matrix() const
                  mat4_t::rotation(rotation) *
                  mat4_t::scaling(scaling);
     return res;
+}
+
+bool Transform::operator==(const Transform& transform_)
+{
+    return position == transform_.position &&
+           rotation == transform_.rotation &&
+           scaling == transform_.scaling;
+}
+
+bool Transform::operator!=(const Transform& transform_)
+{
+    return !operator==(transform_);
 }
 
 Transform& Transform::operator=(const Transform& transform_)

@@ -23,7 +23,7 @@ public:
 
     void release();
     
-    size_t links_count() const;
+    size_t refs_count() const;
 
 private:
     class Rep{
@@ -42,7 +42,7 @@ private:
         Rep& operator=(T* ptr);
         
         T* _ptr;
-        size_t _links_count;
+        size_t _refs_count;
     };
 
     mutable Rep* _rep;
@@ -65,7 +65,7 @@ smart_ptr<T>::smart_ptr(T* ptr)
 template <class T>
 smart_ptr<T>::smart_ptr(const smart_ptr<T>& sptr)
 {
-    sptr._rep->_links_count ++;
+    sptr._rep->_refs_count ++;
     _rep = sptr._rep;
 }
 
@@ -101,7 +101,7 @@ smart_ptr<T>& smart_ptr<T>::operator=(const smart_ptr<T>& sptr)
     if(_rep->release()){
         delete _rep;
     }
-    sptr._rep->_links_count++;
+    sptr._rep->_refs_count++;
     _rep = sptr._rep;
     
     return *this;
@@ -136,9 +136,9 @@ void smart_ptr<T>::release()
 }
 
 template <class T>
-size_t smart_ptr<T>::links_count() const
+size_t smart_ptr<T>::refs_count() const
 {
-    return _rep->_links_count;
+    return _rep->_refs_count;
 }
 
 
@@ -146,14 +146,14 @@ template <class T>
 smart_ptr<T>::Rep::Rep()
 {
     _ptr = NULL;
-    _links_count = 1;
+    _refs_count = 1;
 }
 
 template <class T>
 smart_ptr<T>::Rep::Rep(T* ptr)
 {
     _ptr = ptr;
-    _links_count = 1;
+    _refs_count = 1;
 }
 
 template <class T>
@@ -165,8 +165,8 @@ smart_ptr<T>::Rep::~Rep()
 template <class T>
 bool smart_ptr<T>::Rep::release()
 {
-    if(_links_count > 0){
-        if(--_links_count == 0){
+    if(_refs_count > 0){
+        if(--_refs_count == 0){
             if(_ptr != NULL){
                 delete _ptr;
                 _ptr = NULL;
@@ -209,7 +209,7 @@ typename smart_ptr<T>::Rep& smart_ptr<T>::Rep::operator=(T* ptr)
     //delete _ptr;
     
     _ptr = ptr;
-    _links_count = 1;
+    _refs_count = 1;
     
     return *this;
 }

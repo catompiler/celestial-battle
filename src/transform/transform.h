@@ -12,6 +12,7 @@ struct Transform{
 
     Transform();
     Transform(const vec3_t& position_);
+    Transform(const quat_t& rotation_);
     Transform(const vec3_t& position_,
               const quat_t& rotation_);
     Transform(const vec3_t& position_,
@@ -27,6 +28,8 @@ struct Transform{
     mat4_t matrixPosRot() const;
     mat4_t matrix() const;
     
+    bool operator==(const Transform& transform_);
+    bool operator!=(const Transform& transform_);
     Transform& operator=(const Transform& transform_);
     Transform& operator+=(const Transform& transform_);
     Transform& operator-=(const Transform& transform_);

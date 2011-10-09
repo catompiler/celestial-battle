@@ -7,7 +7,6 @@
 #include "iconv/iconv.h"
 #include "opengl/opengl.h"
 //#include <locale>
-#include "transform/transform.h"
 #include "glbuffer/glbuffer.h"
 #include "display/display.h"
 
@@ -47,7 +46,7 @@ public:
         std::cout << "onMousePress()" << std::endl;
         std::cout << "(" << e->x() << ", " << e->y() <<
                      ") - " << e->button() << std::endl;
-        if(e->button() & MOUSE_LEFT) closed = true;
+        if(e->button() & MOUSE_RIGHT) closed = true;
     }
     void onMouseRelease(MouseReleaseEvent* e){
         std::cout << "onMouseRelease()" << std::endl;
@@ -68,6 +67,7 @@ public:
 };
 
 
+/*
 std::ostream& operator<<(std::ostream& ost, const vec3_t& v)
 {
     ost << "(" << v.x << ", " << v.y << ", " << v.z << ")";
@@ -91,6 +91,7 @@ std::ostream& operator<<(std::ostream& ost, const Rage::Transform& t)
            "scale: " << t.scaling << std::endl;
     return ost;
 }
+*/
 
 
 
@@ -102,9 +103,10 @@ int main(int /*argc*/, char** /*argv*/)
     
     int width = 800;//1440;
     int height = 600;//900;
+    int freq = 60;
     bool fullscreen = false;
     
-    if(fullscreen && !Display::setMode(Display::Mode(width, height, 60))){
+    if(fullscreen && !Display::setMode(Display::Mode(width, height, freq))){
         std::cout << "Error set video mode" << std::endl;
         fullscreen = false;
     }
@@ -149,13 +151,7 @@ int main(int /*argc*/, char** /*argv*/)
     w->onFocusOut().addHandler(make_delegate(&wapp, &WindowedApp::onFocusChange));
     
     
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    
-    while(wapp.closed == false){
-        Window::processEvents();
-    }
-    
-    std::cout << "init gl functions..." << std::endl;
+    std::cout << "Init gl functions..." << std::endl;
     GL::initFunctions();
     std::cout << "GL_EXT_gpu_shader4 == " << GL::GL_EXT_gpu_shader4_supported << std::endl;
     
@@ -169,14 +165,11 @@ int main(int /*argc*/, char** /*argv*/)
         GL::Buffer::unbind(GL_ARRAY_BUFFER);
     }
     
+    GL::glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     
-    Rage::Transform tr1(vec3_t(1.0, 0.0, 0.0), quat_t::rotation(1.0, 0.0, 0.0, radians(90.0)));
-    Rage::Transform tr2(vec3_t(0.0, 1.0, 0.0), quat_t::rotation(1.0, 0.0, 0.0, radians(90.0)));
-    Rage::Transform tres = tr1 + tr2;
-    std::cout << tres << std::endl;
-    tres -= tr2;
-    std::cout << tres << std::endl;
-    
+    while(wapp.closed == false){
+        Window::processEvents();
+    }
     
     w->makeCurrent(NULL);
     

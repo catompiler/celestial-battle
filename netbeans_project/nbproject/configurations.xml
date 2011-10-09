@@ -14,6 +14,12 @@
                    projectFiles="true">
     </logicalFolder>
     <logicalFolder name="src" displayName="src" projectFiles="true">
+      <logicalFolder name="component" displayName="component" projectFiles="true">
+        <itemPath>../src/component/component.cpp</itemPath>
+        <itemPath>../src/component/component.h</itemPath>
+        <itemPath>../src/component/componentfactory.cpp</itemPath>
+        <itemPath>../src/component/componentfactory.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="config" displayName="config" projectFiles="true">
         <itemPath>../src/config/config.cpp</itemPath>
         <itemPath>../src/config/config.h</itemPath>
@@ -27,10 +33,6 @@
       </logicalFolder>
       <logicalFolder name="engine" displayName="engine" projectFiles="true">
         <itemPath>../src/engine/engine.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="entity" displayName="entity" projectFiles="true">
-        <itemPath>../src/entity/entity.cpp</itemPath>
-        <itemPath>../src/entity/entity.h</itemPath>
       </logicalFolder>
       <logicalFolder name="event" displayName="event" projectFiles="true">
         <itemPath>../src/event/event.cpp</itemPath>
@@ -166,9 +168,20 @@
         <itemPath>../src/transform/transform.cpp</itemPath>
         <itemPath>../src/transform/transform.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="transformationstree"
+                     displayName="transformstree"
+                     projectFiles="true">
+        <itemPath>../src/transformationstree/transformstree.cpp</itemPath>
+        <itemPath>../src/transformationstree/transformstree.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="tree" displayName="tree" projectFiles="true">
+        <itemPath>../src/tree/tree_iterator.h</itemPath>
+        <itemPath>../src/tree/tree_node.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="utils" displayName="utils" projectFiles="true">
         <itemPath>../src/utils/utils.cpp</itemPath>
         <itemPath>../src/utils/utils.h</itemPath>
+        <itemPath>../src/utils/utils_tmpl.h</itemPath>
       </logicalFolder>
       <logicalFolder name="vfs" displayName="vfs" projectFiles="true">
         <itemPath>../src/vfs/fsentrypoint.cpp</itemPath>
