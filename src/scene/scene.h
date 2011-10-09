@@ -2,7 +2,6 @@
 #define _SCENE_H_
 
 #include "engine/engine.h"
-#include "entity/entity.h"
 #include <string>
 
 ENGINE_NAMESPACE_BEGIN
