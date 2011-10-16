@@ -6,185 +6,6 @@
 ENGINE_NAMESPACE_BEGIN
 
 
-/*
-TransformComponent::TransformComponent(const std::string& name_)
-        : Component(name_)
-{
-}
-
-TransformComponent::~TransformComponent()
-{
-}
-
-const Transform& TransformComponent::localTransform() const
-{
-    return _local_transform;
-}
-
-void TransformComponent::setLocalTransform(const Transform& local_transform_)
-{
-    _local_transform = local_transform_;
-}
-
-const Transform& TransformComponent::worldTransform() const
-{
-    return _world_transform;
-}
-
-void TransformComponent::setWorldTransform(const Transform& world_transform_)
-{
-    _world_transform = world_transform_;
-}
-
-
-
-
-TransformsTree::TransformNode::TransformNode(const std::string& name_)
-        :TransformComponent(name_), ::Node<TransformNode>()
-{
-}
-
-TransformsTree::TransformNode::~TransformNode()
-{
-    if(_parent) _parent->_removeChild(this, false);
-    for(Childs::iterator it = _childs->begin(); it != _childs->end(); ++ it){
-        (*it)->_setParent(_parent, false, true);
-    }
-}
-
-
-
-
-TransformsTree::TransformsTree()
-        :ComponentFactory()
-{
-    _components = new Components;
-    _nodes = new TransformNodes;
-}
-
-TransformsTree::~TransformsTree()
-{
-    for(Components::iterator it = _components->begin(); it != _components->end(); ++ it){
-        delete (*it).second;
-    }
-    delete _components;
-    delete _nodes;
-}
-
-TransformComponent* TransformsTree::createComponent(const std::string& name_)
-{
-    Components::iterator it = _components->find(name_);
-    if(it == _components->end()){
-        TransformNode* n = new TransformNode(name_);
-        _components->insert(std::make_pair(name_, n));
-        _addNode(n);
-        return n;
-    }
-    return NULL;
-}
-
-TransformComponent* TransformsTree::getComponent(const std::string& name_)
-{
-    return static_cast<TransformComponent*>(_getComponent(name_));
-}
-
-bool TransformsTree::destroyComponent(Component* component_)
-{
-    return destroyComponent(component_->name());
-}
-
-bool TransformsTree::destroyComponent(const std::string& name_)
-{
-    typename Components::iterator it = _components->find(name_);
-    if(it != _components->end()){
-        if(_delNode((*it).second)){
-            _components->erase(it);
-            return true;
-        }
-    }
-    return false;
-}
-
-bool TransformsTree::setParent(const std::string& name_, const std::string& parent_name_)
-{
-    return _reparentNode(_getComponent(name_), _getComponent(parent_name_));
-}
-
-bool TransformsTree::setParent(TransformComponent* component_, const std::string& parent_name_)
-{
-    return _reparentNode(component_, _getComponent(parent_name_));
-}
-
-bool TransformsTree::setParent(TransformComponent* component_, TransformComponent* parent_component_)
-{
-    return _reparentNode(component_, parent_component_);
-}
-
-TransformsTree::iterator TransformsTree::componentsBegin()
-{
-    return iterator(_components->begin());
-}
-
-TransformsTree::iterator TransformsTree::componentsEnd()
-{
-    return iterator(_components->end());
-}
-
-TransformsTree::TransformNode* TransformsTree::_getComponent(const std::string& name_)
-{
-    Components::iterator it = _components->find(name_);
-    if(it != _components->end()){
-        return (*it).second;
-    }
-    return NULL;
-}
-
-void TransformsTree::_addNode(TransformNode* node_)
-{
-    _nodes->push_back(node_);
-}
-
-bool TransformsTree::_delNode(TransformNode* node_)
-{
-    TransformNodes::iterator it = std::find(_nodes->begin(), _nodes->end(), node_);
-    if(it != _nodes->end()){
-        delete (*it);
-        _nodes->erase(it);
-        return true;
-    }
-    return false;
-}
-
-bool TransformsTree::_reparentNode(TransformNode* node_, TransformNode* parent_)
-{
-    if(node_ == NULL) return false;
-    
-    TransformNodes::iterator childit = std::find(_nodes->begin(), _nodes->end(), node_);
-    if(childit == _nodes->end()) return false;
-    
-    _nodes->erase(childit);
-    
-    if(parent_ == NULL){
-        _nodes->insert(_nodes->begin(), node_);
-    }else{
-        TransformNodes::iterator parentit = std::find(_nodes->begin(), _nodes->end(), parent_);
-        if(parentit != _nodes->end()){
-            ++parentit;
-        }else{
-            parentit = _nodes->begin();
-            parent_ = NULL;
-        }
-        _nodes->insert(parentit, node_);
-    }
-    
-    node_->setParent(parent_);
-    
-    return true;
-}
-*/
-
-
-
 TransformComponent::TransformComponent(const std::string& name_)
         : Component(name_)
 {
@@ -194,6 +15,42 @@ TransformComponent::TransformComponent(const std::string& name_)
 TransformComponent::~TransformComponent()
 {
     delete _transforms;
+}
+
+const vec3_t& TransformComponent::localPosition() const
+{
+    return _local_transform.position;
+}
+
+void TransformComponent::setLocalPosition(const vec3_t& local_position_)
+{
+    Transform local = _local_transform;
+    local.position = local_position_;
+    setLocalTransform(local);
+}
+
+const quat_t& TransformComponent::localRotation() const
+{
+    return _local_transform.rotation;
+}
+
+void TransformComponent::setLocalRotation(const quat_t& local_rotation_)
+{
+    Transform local = _local_transform;
+    local.rotation = local_rotation_;
+    setLocalTransform(local);
+}
+
+const vec3_t& TransformComponent::localScaling() const
+{
+    return _local_transform.scaling;
+}
+
+void TransformComponent::setLocalScaling(const vec3_t& local_scaling_)
+{
+    Transform local = _local_transform;
+    local.scaling = local_scaling_;
+    setLocalTransform(local);
 }
 
 const Transform& TransformComponent::localTransform() const
@@ -206,6 +63,42 @@ void TransformComponent::setLocalTransform(const Transform& local_transform_)
     Transform parent_transform = parentTransform();
     _local_transform = local_transform_;
     _world_transform = parent_transform + _local_transform;
+}
+
+const vec3_t& TransformComponent::worldPosition() const
+{
+    return _world_transform.position;
+}
+
+void TransformComponent::setWorldPosition(const vec3_t& world_position_)
+{
+    Transform world = _world_transform;
+    world.position = world_position_;
+    setWorldTransform(world);
+}
+
+const quat_t& TransformComponent::worldRotation() const
+{
+    return _world_transform.rotation;
+}
+
+void TransformComponent::setWorldRotation(const quat_t& world_rotation_)
+{
+    Transform world = _world_transform;
+    world.rotation = world_rotation_;
+    setWorldTransform(world);
+}
+
+const vec3_t& TransformComponent::worldScaling() const
+{
+    return _world_transform.scaling;
+}
+
+void TransformComponent::setWorldScaling(const vec3_t& world_scaling_)
+{
+    Transform world = _world_transform;
+    world.scaling = world_scaling_;
+    setWorldTransform(world);
 }
 
 const Transform& TransformComponent::worldTransform() const
@@ -320,6 +213,33 @@ TransformComponent* TransformsTree::createComponent(const std::string& name_,
     return NULL;
 }
 
+TransformComponent* TransformsTree::createComponent(const std::string& name_,
+                                                    const ParametersList& parameters_)
+{
+    TransformComponent* component = createComponent(name_);
+    if(component){
+        for(ParametersList::const_iterator it = parameters_.begin();
+                it != parameters_.end(); ++ it){
+            _setParameter(component, (*it).first, (*it).second);
+        }
+    }
+    return component;
+}
+
+TransformComponent* TransformsTree::createComponent(const std::string& name_,
+                                                    const std::string& parent_name_,
+                                                    const ParametersList& parameters_)
+{
+    TransformComponent* component = createComponent(name_, parent_name_);
+    if(component){
+        for(ParametersList::const_iterator it = parameters_.begin();
+                it != parameters_.end(); ++ it){
+            _setParameter(component, (*it).first, (*it).second);
+        }
+    }
+    return component;
+}
+
 TransformComponent* TransformsTree::getComponent(const std::string& name_)
 {
     TransformNode* node = _getNode(name_);
@@ -422,6 +342,41 @@ bool TransformsTree::_delNode(const std::string& name_)
     return false;
 }
 
+void TransformsTree::_setParameter(TransformComponent* component_, const std::string& parameter_,
+                                   const ParameterValue& value_)
+{
+    if(parameter_ == "local_pos"){
+        try{
+            component_->setLocalPosition(value_.get<vec3_t>());
+        }catch(...){
+        }
+    }else if(parameter_ == "local_rot"){
+        try{
+            component_->setLocalRotation(value_.get<quat_t>());
+        }catch(...){
+        }
+    }else if(parameter_ == "local_scale"){
+        try{
+            component_->setLocalScaling(value_.get<vec3_t>());
+        }catch(...){
+        }
+    }else if(parameter_ == "world_pos"){
+        try{
+            component_->setWorldPosition(value_.get<vec3_t>());
+        }catch(...){
+        }
+    }else if(parameter_ == "world_rot"){
+        try{
+            component_->setWorldRotation(value_.get<quat_t>());
+        }catch(...){
+        }
+    }else if(parameter_ == "world_scale"){
+        try{
+            component_->setWorldScaling(value_.get<vec3_t>());
+        }catch(...){
+        }
+    }
+}
 
 TransformsTree::ComponentsIterator::ComponentsIterator()
 {

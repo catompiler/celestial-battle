@@ -164,6 +164,9 @@
         <itemPath>../src/timer/timer.cpp</itemPath>
         <itemPath>../src/timer/timer.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="tlvariant" displayName="tlvariant" projectFiles="true">
+        <itemPath>../src/tlvariant/tlvariant.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="transform" displayName="transform" projectFiles="true">
         <itemPath>../src/transform/transform.cpp</itemPath>
         <itemPath>../src/transform/transform.h</itemPath>
@@ -177,6 +180,9 @@
       <logicalFolder name="tree" displayName="tree" projectFiles="true">
         <itemPath>../src/tree/tree_iterator.h</itemPath>
         <itemPath>../src/tree/tree_node.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="typelist" displayName="typelist" projectFiles="true">
+        <itemPath>../src/typelist/typelist.h</itemPath>
       </logicalFolder>
       <logicalFolder name="utils" displayName="utils" projectFiles="true">
         <itemPath>../src/utils/utils.cpp</itemPath>

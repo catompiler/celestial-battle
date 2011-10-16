@@ -12,77 +12,6 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-/*
-class TransformComponent
-        :public Component
-{
-public:
-    TransformComponent(const std::string& name_ = std::string());
-    ~TransformComponent();
-    
-    const Transform& localTransform() const;
-    void setLocalTransform(const Transform& local_transform_);
-    
-    const Transform& worldTransform() const;
-    void setWorldTransform(const Transform& world_transform_);
-    
-private:
-    Transform _local_transform;
-    Transform _world_transform;
-};
-
-class TransformsTree
-        :public ComponentFactory
-{
-public:
-    
-    class TransformNode
-        :public ::Node<TransformNode>
-    {
-    public:
-        TransformNode(const std::string& name_ = std::string());
-        ~TransformNode();
-        
-        TransformComponent* component();
-        
-    private:
-        TransformComponent* _component;
-    };
-    
-    
-    typedef std::map<std::string, TransformNode*> Components;
-    typedef std::list<TransformNode*> TransformNodes;
-    //typedef iterators::MapValueIterator<Components, TransformComponent*> iterator;
-    typedef TransformNodes::iterator iterator;
-    
-    TransformsTree();
-    ~TransformsTree();
-    
-    TransformComponent* createComponent(const std::string& name_);
-    TransformComponent* getComponent(const std::string& name_);
-    bool destroyComponent(Component* component_);
-    bool destroyComponent(const std::string& name_);
-    
-    bool setParent(const std::string& name_, const std::string& parent_name_);
-    bool setParent(TransformComponent* component_, const std::string& parent_name_);
-    bool setParent(TransformComponent* component_, TransformComponent* parent_component_);
-    
-    iterator componentsBegin();
-    iterator componentsEnd();
-    
-private:
-    
-    Components* _components;
-    TransformNodes* _nodes;
-    
-    TransformNode* _getComponent(const std::string& name_);
-    void _addNode(TransformNode* node_);
-    bool _delNode(TransformNode* node_);
-    bool _reparentNode(TransformNode* node_, TransformNode* parent_);
-};
-*/
-
-
 
 class TransformComponent
         :public Component
@@ -91,8 +20,26 @@ public:
     TransformComponent(const std::string& name_ = std::string());
     ~TransformComponent();
     
+    const vec3_t& localPosition() const;
+    void setLocalPosition(const vec3_t& local_position_);
+    
+    const quat_t& localRotation() const;
+    void setLocalRotation(const quat_t& local_rotation_);
+    
+    const vec3_t& localScaling() const;
+    void setLocalScaling(const vec3_t& local_scaling_);
+    
     const Transform& localTransform() const;
     void setLocalTransform(const Transform& local_transform_);
+        
+    const vec3_t& worldPosition() const;
+    void setWorldPosition(const vec3_t& world_position_);
+    
+    const quat_t& worldRotation() const;
+    void setWorldRotation(const quat_t& world_rotation_);
+    
+    const vec3_t& worldScaling() const;
+    void setWorldScaling(const vec3_t& world_scaling_);
     
     const Transform& worldTransform() const;
     void setWorldTransform(const Transform& world_transform_);
@@ -181,7 +128,12 @@ public:
     
     TransformComponent* createComponent(const std::string& name_);
     TransformComponent* createComponent(const std::string& name_,
-                                        const std::string& parent_name_);
+                                        const std::string& parent_name_);    
+    TransformComponent* createComponent(const std::string& name_,
+                                        const ParametersList& parameters_);
+    TransformComponent* createComponent(const std::string& name_,
+                                        const std::string& parent_name_,
+                                        const ParametersList& parameters_);
     TransformComponent* getComponent(const std::string& name_);
     bool destroyComponent(Component* component_);
     bool destroyComponent(const std::string& name_);
@@ -204,6 +156,9 @@ private:
     TransformNode* _addNode(const std::string& name_);
     TransformNode* _addNode(const std::string& name_, TransformNode* parent_node_);
     bool _delNode(const std::string& name_);
+    
+    void _setParameter(TransformComponent* component_, const std::string& parameter_,
+                       const ParameterValue& value_);
     
 };
 
