@@ -68,6 +68,15 @@ class TransformsTree
 {
 public:
     
+    struct Parameters{
+        static const parameterid_t local_position;
+        static const parameterid_t local_rotation;
+        static const parameterid_t local_scaling;
+        static const parameterid_t world_position;
+        static const parameterid_t world_rotation;
+        static const parameterid_t world_scaling;
+    };
+
     class TransformNode
         :public Tree::Node<TransformNode>
     {
@@ -81,14 +90,6 @@ public:
     private:
         TransformComponent* _component;
     };
-    
-//    struct NodeLessCmp{
-//        bool operator()(const TransformNode*
-//                        node1_, const TransformNode* node2_) const
-//        {
-//            return node1_->component()->name() < node2_->component()->name();
-//        }
-//    };
     
     
     typedef std::map<std::string, TransformNode*> Components;
@@ -157,7 +158,8 @@ private:
     TransformNode* _addNode(const std::string& name_, TransformNode* parent_node_);
     bool _delNode(const std::string& name_);
     
-    void _setParameter(TransformComponent* component_, const std::string& parameter_,
+    void _setParameters(TransformComponent* component_, const ParametersList& parameters_);
+    void _setParameter(TransformComponent* component_, const parameterid_t& parameter_,
                        const ParameterValue& value_);
     
 };

@@ -22,7 +22,8 @@ public:
                              vec2_t, vec3_t, vec4_t, quat_t,
                              mat2_t, mat3_t, mat4_t>::value ParameterValueTypes;
     typedef TLVariant<ParameterValueTypes> ParameterValue;
-    typedef std::map<std::string, ParameterValue> ParametersList;
+    typedef int parameterid_t;
+    typedef std::map<parameterid_t, ParameterValue> ParametersList;
     
     //ComponentFactory();
     virtual ~ComponentFactory(){};
@@ -62,7 +63,7 @@ protected:
     
     Components* _components;
     
-    virtual void _setParameter(T* component_, const std::string& parameter_,
+    virtual void _setParameter(T* component_, const parameterid_t& parameter_,
                                const ParameterValue& value_) = 0;
     
 };

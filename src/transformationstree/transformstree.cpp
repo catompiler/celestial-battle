@@ -181,6 +181,14 @@ const TransformComponent* TransformsTree::TransformNode::component() const
 }
 
 
+const ComponentFactory::parameterid_t TransformsTree::Parameters::local_position = 0;
+const ComponentFactory::parameterid_t TransformsTree::Parameters::local_rotation = 1;
+const ComponentFactory::parameterid_t TransformsTree::Parameters::local_scaling = 2;
+const ComponentFactory::parameterid_t TransformsTree::Parameters::world_position = 3;
+const ComponentFactory::parameterid_t TransformsTree::Parameters::world_rotation = 4;
+const ComponentFactory::parameterid_t TransformsTree::Parameters::world_scaling = 5;
+
+
 const std::string TransformsTree::root_node_name = std::string();
 
 TransformsTree::TransformsTree()
@@ -218,10 +226,7 @@ TransformComponent* TransformsTree::createComponent(const std::string& name_,
 {
     TransformComponent* component = createComponent(name_);
     if(component){
-        for(ParametersList::const_iterator it = parameters_.begin();
-                it != parameters_.end(); ++ it){
-            _setParameter(component, (*it).first, (*it).second);
-        }
+        _setParameters(component, parameters_);
     }
     return component;
 }
@@ -232,10 +237,7 @@ TransformComponent* TransformsTree::createComponent(const std::string& name_,
 {
     TransformComponent* component = createComponent(name_, parent_name_);
     if(component){
-        for(ParametersList::const_iterator it = parameters_.begin();
-                it != parameters_.end(); ++ it){
-            _setParameter(component, (*it).first, (*it).second);
-        }
+        _setParameters(component, parameters_);
     }
     return component;
 }
@@ -342,35 +344,45 @@ bool TransformsTree::_delNode(const std::string& name_)
     return false;
 }
 
-void TransformsTree::_setParameter(TransformComponent* component_, const std::string& parameter_,
+void TransformsTree::_setParameters(TransformComponent* component_,
+                                    const ParametersList& parameters_)
+{
+    for(ParametersList::const_iterator it = parameters_.begin();
+            it != parameters_.end(); ++ it){
+        _setParameter(component_, (*it).first, (*it).second);
+    }
+}
+
+void TransformsTree::_setParameter(TransformComponent* component_,
+                                   const parameterid_t& parameter_,
                                    const ParameterValue& value_)
 {
-    if(parameter_ == "local_pos"){
+    if(parameter_ == Parameters::local_position){
         try{
             component_->setLocalPosition(value_.get<vec3_t>());
         }catch(...){
         }
-    }else if(parameter_ == "local_rot"){
+    }else if(parameter_ == Parameters::local_rotation){
         try{
             component_->setLocalRotation(value_.get<quat_t>());
         }catch(...){
         }
-    }else if(parameter_ == "local_scale"){
+    }else if(parameter_ == Parameters::local_scaling){
         try{
             component_->setLocalScaling(value_.get<vec3_t>());
         }catch(...){
         }
-    }else if(parameter_ == "world_pos"){
+    }else if(parameter_ == Parameters::world_position){
         try{
             component_->setWorldPosition(value_.get<vec3_t>());
         }catch(...){
         }
-    }else if(parameter_ == "world_rot"){
+    }else if(parameter_ == Parameters::world_rotation){
         try{
             component_->setWorldRotation(value_.get<quat_t>());
         }catch(...){
         }
-    }else if(parameter_ == "world_scale"){
+    }else if(parameter_ == Parameters::world_scaling){
         try{
             component_->setWorldScaling(value_.get<vec3_t>());
         }catch(...){
