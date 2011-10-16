@@ -357,36 +357,41 @@ void TransformsTree::_setParameter(TransformComponent* component_,
                                    const parameterid_t& parameter_,
                                    const ParameterValue& value_)
 {
-    if(parameter_ == Parameters::local_position){
-        try{
+    try{
+        /*if(parameter_ == Parameters::local_position){
             component_->setLocalPosition(value_.get<vec3_t>());
-        }catch(...){
-        }
-    }else if(parameter_ == Parameters::local_rotation){
-        try{
+        }else if(parameter_ == Parameters::local_rotation){
             component_->setLocalRotation(value_.get<quat_t>());
-        }catch(...){
-        }
-    }else if(parameter_ == Parameters::local_scaling){
-        try{
+        }else if(parameter_ == Parameters::local_scaling){
             component_->setLocalScaling(value_.get<vec3_t>());
-        }catch(...){
-        }
-    }else if(parameter_ == Parameters::world_position){
-        try{
+        }else if(parameter_ == Parameters::world_position){
             component_->setWorldPosition(value_.get<vec3_t>());
-        }catch(...){
-        }
-    }else if(parameter_ == Parameters::world_rotation){
-        try{
+        }else if(parameter_ == Parameters::world_rotation){
             component_->setWorldRotation(value_.get<quat_t>());
-        }catch(...){
-        }
-    }else if(parameter_ == Parameters::world_scaling){
-        try{
+        }else if(parameter_ == Parameters::world_scaling){
             component_->setWorldScaling(value_.get<vec3_t>());
-        }catch(...){
+        }*/
+        switch(parameter_){
+            case Parameters::local_position:
+                component_->setLocalPosition(value_.get<vec3_t>());
+                break;
+            case Parameters::local_rotation:
+                component_->setLocalRotation(value_.get<quat_t>());
+                break;
+            case Parameters::local_scaling:
+                component_->setLocalScaling(value_.get<vec3_t>());
+                break;
+            case Parameters::world_position:
+                component_->setWorldPosition(value_.get<vec3_t>());
+                break;
+            case Parameters::world_rotation:
+                component_->setWorldRotation(value_.get<quat_t>());
+                break;
+            case Parameters::world_scaling:
+                component_->setWorldScaling(value_.get<vec3_t>());
+                break;
         }
+    }catch(...){
     }
 }
 
