@@ -16,7 +16,7 @@ public:
     virtual ~FSEntryPoint();
     
     virtual std::iostream* open(const std::string& fn, std::ios_base::openmode om) const = 0;
-    //virtual bool close(std::iostream* iost);
+    virtual bool close(std::iostream* iost) const = 0;
 };
 
 

@@ -539,7 +539,7 @@ mat4<T> mat4<T>::lookat(const vec3<T>& eye, const vec3<T>& center, const vec3<T>
 
     vec3<T> f = normalize(center - eye);
     vec3<T> up2 = normalize(up);
-    vec3<T> s = cross(f, up2);
+    vec3<T> s = normalize(cross(f, up2));
     
     up2 = cross(s, f);
 
@@ -547,6 +547,7 @@ mat4<T> mat4<T>::lookat(const vec3<T>& eye, const vec3<T>& center, const vec3<T>
                                                     res._24 = 0.0f;
                                                     res._34 = 0.0f;
     res._41 = 0.0f; res._42 = 0.0f; res._43 = 0.0f; res._44 = 1.0f;
+    //res._41 = -eye.x; res._42 = -eye.y; res._43 = -eye.z; res._44 = 1.0f;
 
     res._11 = s.x;
     res._12 = up2.x;
@@ -559,6 +560,8 @@ mat4<T> mat4<T>::lookat(const vec3<T>& eye, const vec3<T>& center, const vec3<T>
     res._31 = s.z;
     res._32 = up2.z;
     res._33 = -f.z;
+    
+    res = mat4<T>::translation(- eye) * res;
     
     return res;
 }

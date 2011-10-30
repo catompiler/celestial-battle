@@ -18,6 +18,8 @@
 
 #include "functions.h"
 
+#include "utils.h"
+
 typedef vec2<float> vec2_t;
 typedef vec3<float> vec3_t;
 typedef vec4<float> vec4_t;

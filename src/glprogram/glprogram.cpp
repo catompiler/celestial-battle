@@ -217,7 +217,7 @@ void Program::_updateAttribsList()
         GL::glGetActiveAttrib(_id, i, name_max_len, NULL,
                                &attrib_size, &attrib_type, &buf_name[0]);
         attrib_loc = GL::glGetAttribLocation(_id, &buf_name[0]);
-        if(attrib_loc == 0) continue;
+        if(attrib_loc == -1) continue;
         a = new Attrib(this, std::string(&buf_name[0]),
                         attrib_type, attrib_size, attrib_loc);
         _attribs.push_back(a);

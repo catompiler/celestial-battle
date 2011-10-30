@@ -36,6 +36,7 @@ public:
 class VertexShader
         :public Shader
 {
+public:
     VertexShader();
     VertexShader(GLuint id_);
     ~VertexShader();
@@ -46,6 +47,7 @@ class VertexShader
 class FragmentShader
         :public Shader
 {
+public:
     FragmentShader();
     FragmentShader(GLuint id_);
     ~FragmentShader();
