@@ -10,6 +10,14 @@
 
 namespace noise{
 
+perlin::perlin(float amplitude_, float frequency_, float persistence_, int octaves_)
+{
+    _amplitude = amplitude_;
+    _frequency = frequency_;
+    _persistence = persistence_;
+    _octaves = octaves_;
+}
+
 float perlin::interpolation(float a, float b, float t)
 {
     float t1 = 3.0f * pow(1.0f - t, 2.0f) - 2.0f * pow(1.0f - t, 3.0f);
@@ -20,17 +28,14 @@ float perlin::interpolation(float a, float b, float t)
 //1D
 
 perlin1d::perlin1d(float seed_x_, float amplitude_, float frequency_, float persistence_, int octaves_)
+    :perlin(amplitude_, frequency_, persistence_, octaves_)
 {
-    seed_x = seed_x_;
-    amplitude = amplitude_;
-    frequency = frequency_;
-    persistence = persistence_;
-    octaves = octaves_;
+    _seed_x = seed_x_;
 }
 
 float perlin1d::operator()(float x)
 {
-    return noise(x, seed_x, amplitude, frequency, persistence, octaves);
+    return noise(x, _seed_x, _amplitude, _frequency, _persistence, _octaves);
 }
 
 float perlin1d::simple_noise(int x)
@@ -73,18 +78,15 @@ float perlin1d::noise(float x, float seed, float amplitude, float frequency, flo
 //2D
 
 perlin2d::perlin2d(float seed_x_, float seed_y_, float amplitude_, float frequency_, float persistence_, int octaves_)
+    :perlin(amplitude_, frequency_, persistence_, octaves_)
 {
-    seed_x = seed_x_;
-    seed_y = seed_y_;
-    amplitude = amplitude_;
-    frequency = frequency_;
-    persistence = persistence_;
-    octaves = octaves_;
+    _seed_x = seed_x_;
+    _seed_y = seed_y_;
 }
 
 float perlin2d::operator()(float x, float y)
 {
-    return noise(x, y, seed_x, seed_y, amplitude, frequency, persistence, octaves);
+    return noise(x, y, _seed_x, _seed_y, _amplitude, _frequency, _persistence, _octaves);
 }
 
 float perlin2d::simple_noise(int x, int y)
@@ -140,19 +142,16 @@ float perlin2d::noise(float x, float y, float seed_x, float seed_y, float amplit
 //3D
 
 perlin3d::perlin3d(float seed_x_, float seed_y_, float seed_z_, float amplitude_, float frequency_, float persistence_, int octaves_)
+    :perlin(amplitude_, frequency_, persistence_, octaves_)
 {
-    seed_x = seed_x_;
-    seed_y = seed_y_;
-    seed_z = seed_z_;
-    amplitude = amplitude_;
-    frequency = frequency_;
-    persistence = persistence_;
-    octaves = octaves_;
+    _seed_x = seed_x_;
+    _seed_y = seed_y_;
+    _seed_z = seed_z_;
 }
 
 float perlin3d::operator()(float x, float y, float z)
 {
-    return noise(x, y, z, seed_x, seed_y, seed_z, amplitude, frequency, persistence, octaves);
+    return noise(x, y, z, _seed_x, _seed_y, _seed_z, _amplitude, _frequency, _persistence, _octaves);
 }
 
 float perlin3d::simple_noise(int x, int y, int z)

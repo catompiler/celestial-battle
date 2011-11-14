@@ -6,7 +6,15 @@ namespace noise{
 class perlin
 {
 public:
+    perlin(float amplitude_, float frequency_, float persistence_, int octaves_);
+
     static float interpolation(float a, float b, float t);
+
+protected:
+    float _amplitude;
+    float _frequency;
+    float _persistence;
+    int _octaves;
 };
 
 class perlin1d :public perlin
@@ -22,11 +30,7 @@ public:
     static float noise(float x, float seed, float amplitude, float frequency, float persistence, int octaves);
 
 private:
-    float seed_x;
-    float amplitude;
-    float frequency;
-    float persistence;
-    int octaves;
+    float _seed_x;
 };
 
 class perlin2d :public perlin
@@ -42,12 +46,8 @@ public:
     static float noise(float x, float y, float seed_x, float seed_y, float amplitude, float frequency, float persistence, int octaves);
 
 private:
-    float seed_x;
-    float seed_y;
-    float amplitude;
-    float frequency;
-    float persistence;
-    int octaves;
+    float _seed_x;
+    float _seed_y;
 };
 
 class perlin3d :public perlin
@@ -63,13 +63,9 @@ public:
     static float noise(float x, float y, float z, float seed_x, float seed_y, float seed_z, float amplitude, float frequency, float persistence, int octaves);
 
 private:
-    float seed_x;
-    float seed_y;
-    float seed_z;
-    float amplitude;
-    float frequency;
-    float persistence;
-    int octaves;
+    float _seed_x;
+    float _seed_y;
+    float _seed_z;
 };
 
 }
