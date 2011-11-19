@@ -8,7 +8,7 @@ namespace tga{
 
 bool read(const std::string& fileName_, image_t* img_, direction_t dir_)
 {
-    std::ifstream file(fileName_, std::ios::in | std::ios::binary);
+    std::ifstream file(fileName_.c_str(), std::ios::in | std::ios::binary);
 
     if(!file){
         return false;
@@ -115,7 +115,7 @@ bool write(const std::string& fileName_, const image_t* img_)
     
     if(bpp != 24 && bpp != 32) return false;
     
-    std::ofstream file(fileName_, std::ios::out | std::ios::binary);
+    std::ofstream file(fileName_.c_str(), std::ios::out | std::ios::binary);
 
     if(!file){
         return false;
