@@ -6,13 +6,13 @@
 
 class Thread{
 public:
-    typedef UnaryDelegate<void*, void*> ThreadDelegate;
+    typedef UnaryDelegate<void*, void*> RoutineDelegate;
 
     Thread();
-    Thread(ThreadDelegate d_);
+    Thread(RoutineDelegate d_);
     ~Thread();
     
-    void setRoutine(ThreadDelegate d_);
+    void setRoutine(RoutineDelegate d_);
     
     bool start(void* arg_);
     bool join();
@@ -24,7 +24,7 @@ private:
     typedef pthread_t threadid_t;
 
     struct ThreadCfg{
-        ThreadDelegate _d;
+        RoutineDelegate _d;
         void* _arg;
         void* _ret_value;
     };

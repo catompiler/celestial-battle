@@ -8,7 +8,7 @@ Thread::Thread()
     _thread_cfg._ret_value = NULL;
 }
 
-Thread::Thread(ThreadDelegate d_)
+Thread::Thread(RoutineDelegate d_)
 {
     _thread_cfg._d = d_;
     _thread_cfg._arg = NULL;
@@ -20,7 +20,7 @@ Thread::~Thread()
     if(_thread) kill();
 }
 
-void Thread::setRoutine(ThreadDelegate d_)
+void Thread::setRoutine(RoutineDelegate d_)
 {
     _thread_cfg._d = d_;
 }
