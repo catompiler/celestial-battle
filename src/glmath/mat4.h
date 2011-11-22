@@ -521,7 +521,7 @@ mat4<T> mat4<T>::viewport(const T& x, const T& y, const T& width, const T& heigh
                                                  res._44 = 1.0;
 
     res._11 = w2;
-    res._22 = -h2;
+    res._22 = h2;//-
     res._33 = zmax - zmin;
     res._41 = x + w2;
     res._42 = y + h2;
