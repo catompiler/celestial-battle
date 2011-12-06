@@ -10,6 +10,7 @@ public:
 
     Thread();
     Thread(RoutineDelegate d_);
+    Thread(const Thread& thread_);
     ~Thread();
     
     void setRoutine(RoutineDelegate d_);

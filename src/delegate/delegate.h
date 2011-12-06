@@ -21,6 +21,17 @@ public:
         _func = reinterpret_cast<Function>(func_);
     }
     
+    Delegate(const Delegate<Ret>& d_){
+        _obj = d_._obj;
+        _func = d_._func;
+    }
+    
+    Delegate<Ret>& operator=(const Delegate<Ret>& d_){
+        _obj = d_._obj;
+        _func = d_._func;
+        return *this;
+    }
+    
     operator bool() const{
         return _obj != NULL;
     }
@@ -70,6 +81,17 @@ public:
         _func = reinterpret_cast<Function>(func_);
     }
     
+    UnaryDelegate(const UnaryDelegate<Arg1, Ret>& d_){
+        _obj = d_._obj;
+        _func = d_._func;
+    }
+    
+    UnaryDelegate<Arg1, Ret>& operator=(const UnaryDelegate<Arg1, Ret>& d_){
+        _obj = d_._obj;
+        _func = d_._func;
+        return *this;
+    }
+    
     operator bool() const{
         return _obj != NULL;
     }
@@ -117,6 +139,17 @@ public:
     BinaryDelegate(T* obj_, Ret (T::*func_)(Arg1, Arg2)){
         _obj = reinterpret_cast<Obj*>(obj_);
         _func = reinterpret_cast<Function>(func_);
+    }
+    
+    BinaryDelegate(const BinaryDelegate<Arg1, Arg2, Ret>& d_){
+        _obj = d_._obj;
+        _func = d_._func;
+    }
+    
+    BinaryDelegate<Arg1, Arg2, Ret>& operator=(const BinaryDelegate<Arg1, Arg2, Ret>& d_){
+        _obj = d_._obj;
+        _func = d_._func;
+        return *this;
     }
     
     operator bool() const{

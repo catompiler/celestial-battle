@@ -4,15 +4,25 @@
 
 Thread::Thread()
 {
+    _thread = 0;
     _thread_cfg._arg = NULL;
     _thread_cfg._ret_value = NULL;
 }
 
 Thread::Thread(RoutineDelegate d_)
 {
+    _thread = 0;
     _thread_cfg._d = d_;
     _thread_cfg._arg = NULL;
     _thread_cfg._ret_value = NULL;
+}
+
+Thread::Thread(const Thread& thread_)
+{
+    _thread_cfg._d = thread_._thread_cfg._d;
+    _thread_cfg._arg = thread_._thread_cfg._arg;
+    _thread_cfg._ret_value = thread_._thread_cfg._ret_value;
+    _thread = thread_._thread;
 }
 
 Thread::~Thread()
