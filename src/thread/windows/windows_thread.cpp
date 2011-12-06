@@ -35,12 +35,22 @@ void Thread::setRoutine(RoutineDelegate d_)
     _thread_cfg._d = d_;
 }
 
-bool Thread::start(void* arg_)
+void Thread::setArgument(void* arg_)
 {
 #ifdef WIN64
 #warning cast void* to DWORD
 #endif
     _thread_cfg._arg = arg_;
+}
+
+bool Thread::start(void* arg_)
+{
+    setArgument(arg_);
+    return start();
+}
+
+bool Thread::start()
+{
     _thread = CreateThread(NULL, 0, 
                            reinterpret_cast<LPTHREAD_START_ROUTINE>(_threadMain), 
                            reinterpret_cast<void*>(&_thread_cfg),

@@ -14,8 +14,10 @@ public:
     ~Thread();
     
     void setRoutine(RoutineDelegate d_);
+    void setArgument(void* arg_);
     
     bool start(void* arg_);
+    bool start();
     bool join();
     bool kill();
     void* value() const;

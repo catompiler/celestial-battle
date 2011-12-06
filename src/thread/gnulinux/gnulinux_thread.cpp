@@ -35,14 +35,24 @@ void Thread::setRoutine(RoutineDelegate d_)
     _thread_cfg._d = d_;
 }
 
+void Thread::setArgument(void* arg_)
+{
+    _thread_cfg._arg = arg_;
+}
+
 bool Thread::start(void* arg_)
+{
+    setArgument(arg_);
+    return start();
+}
+
+bool Thread::start()
 {
     pthread_attr_t attr;
     
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
     
-    _thread_cfg._arg = arg_;
     pthread_create(&_thread, &attr,
                    reinterpret_cast<void* (*)(void*)>(_threadMain),
                    reinterpret_cast<void*>(&_thread_cfg));
