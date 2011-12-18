@@ -6,8 +6,9 @@
 ENGINE_NAMESPACE_BEGIN
 
 
-TransformComponent::TransformComponent(const std::string& name_)
-        : Component(name_)
+TransformComponent::TransformComponent(TransformsTree* creator_,
+                                       const std::string& name_)
+        : Component(creator_, name_)
 {
     _transforms = new Transforms;
 }
@@ -155,10 +156,11 @@ void TransformComponent::update()
 
 
 
-TransformsTree::TransformNode::TransformNode(const std::string& name_)
+TransformsTree::TransformNode::TransformNode(TransformsTree* creator_,
+                                             const std::string& name_)
         :Tree::Node<TransformNode>()
 {
-    _component = new TransformComponent(name_);
+    _component = new TransformComponent(creator_, name_);
 }
 
 TransformsTree::TransformNode::~TransformNode()
@@ -321,7 +323,7 @@ TransformsTree::TransformNode* TransformsTree::_addNode(const std::string& name_
                                                 TransformNode* parent_node_)
 {
     if(_getNode(name_) == NULL){
-        TransformNode* node = new TransformNode(name_);
+        TransformNode* node = new TransformNode(this, name_);
         _components->insert(std::make_pair(name_, node));
         if(parent_node_){
             parent_node_->addChild(node);

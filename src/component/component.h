@@ -8,18 +8,24 @@
 
 ENGINE_NAMESPACE_BEGIN
 
+class ComponentFactory;
 
 class Component
         :public ::Object
 {
 public:
-    Component(const std::string& name_ = std::string());
+    Component(ComponentFactory* creator_,
+              const std::string& name_ = std::string());
     virtual ~Component();
     
     const std::string& name() const;//"entity" name
     
+    virtual ComponentFactory* creator();
+    virtual const ComponentFactory* creator() const;
+    
 protected:
     std::string _name;
+    ComponentFactory* _creator;
 };
 
 

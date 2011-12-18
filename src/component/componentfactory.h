@@ -37,7 +37,7 @@ public:
 };
 
 
-template<class T>
+template<class T, class Factory = ComponentFactory>
 class ComponentFactoryTmpl
         :public ComponentFactory
 {
@@ -69,34 +69,34 @@ protected:
 };
 
 
-template<class T>
-ComponentFactoryTmpl<T>::ComponentFactoryTmpl()
+template<class T, class Factory>
+ComponentFactoryTmpl<T, Factory>::ComponentFactoryTmpl()
         :ComponentFactory()
 {
     _components = new Components;
 }
 
-template<class T>
-ComponentFactoryTmpl<T>::~ComponentFactoryTmpl()
+template<class T, class Factory>
+ComponentFactoryTmpl<T, Factory>::~ComponentFactoryTmpl()
 {
     std::for_each(_components->begin(), _components->end(), functors::delete_single());
     delete _components;
 }
 
-template<class T>
-T* ComponentFactoryTmpl<T>::createComponent(const std::string& name_)
+template<class T, class Factory>
+T* ComponentFactoryTmpl<T, Factory>::createComponent(const std::string& name_)
 {
     typename Components::iterator it = _components->find(name_);
     if(it == _components->end()){
-        T* c = new T(name_);
+        T* c = new T(static_cast<Factory*>(this), name_);
         _components->insert(std::make_pair(name_, c));
         return c;
     }
     return NULL;
 }
 
-template<class T>
-T* ComponentFactoryTmpl<T>::createComponent(const std::string& name_,
+template<class T, class Factory>
+T* ComponentFactoryTmpl<T, Factory>::createComponent(const std::string& name_,
                                             const ParametersList& parameters_)
 {
     T* component = createComponent(name_);
@@ -109,8 +109,8 @@ T* ComponentFactoryTmpl<T>::createComponent(const std::string& name_,
     return component;
 }
 
-template<class T>
-T* ComponentFactoryTmpl<T>::getComponent(const std::string& name_)
+template<class T, class Factory>
+T* ComponentFactoryTmpl<T, Factory>::getComponent(const std::string& name_)
 {
     typename Components::iterator it = _components->find(name_);
     if(it != _components->end()){
@@ -119,14 +119,14 @@ T* ComponentFactoryTmpl<T>::getComponent(const std::string& name_)
     return NULL;
 }
 
-template<class T>
-bool ComponentFactoryTmpl<T>::destroyComponent(Component* component_)
+template<class T, class Factory>
+bool ComponentFactoryTmpl<T, Factory>::destroyComponent(Component* component_)
 {
     return destroyComponent(component_->name());
 }
 
-template<class T>
-bool ComponentFactoryTmpl<T>::destroyComponent(const std::string& name_)
+template<class T, class Factory>
+bool ComponentFactoryTmpl<T, Factory>::destroyComponent(const std::string& name_)
 {
     typename Components::iterator it = _components->find(name_);
     if(it != _components->end()){
@@ -137,14 +137,14 @@ bool ComponentFactoryTmpl<T>::destroyComponent(const std::string& name_)
     return false;
 }
 
-template<class T>
-typename ComponentFactoryTmpl<T>::iterator ComponentFactoryTmpl<T>::componentsBegin()
+template<class T, class Factory>
+typename ComponentFactoryTmpl<T, Factory>::iterator ComponentFactoryTmpl<T, Factory>::componentsBegin()
 {
     return iterator(_components->begin());
 }
 
-template<class T>
-typename ComponentFactoryTmpl<T>::iterator ComponentFactoryTmpl<T>::componentsEnd()
+template<class T, class Factory>
+typename ComponentFactoryTmpl<T, Factory>::iterator ComponentFactoryTmpl<T, Factory>::componentsEnd()
 {
     return iterator(_components->end());
 }

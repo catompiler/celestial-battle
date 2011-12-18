@@ -13,11 +13,14 @@
 ENGINE_NAMESPACE_BEGIN
 
 
+class TransformsTree;
+
 class TransformComponent
         :public Component
 {
 public:
-    TransformComponent(const std::string& name_ = std::string());
+    TransformComponent(TransformsTree* creator_,
+                       const std::string& name_ = std::string());
     ~TransformComponent();
     
     const vec3_t& localPosition() const;
@@ -81,7 +84,8 @@ public:
         :public Tree::Node<TransformNode>
     {
     public:
-        TransformNode(const std::string& name_ = std::string());
+        TransformNode(TransformsTree* creator_,
+                      const std::string& name_ = std::string());
         ~TransformNode();
         
         TransformComponent* component();

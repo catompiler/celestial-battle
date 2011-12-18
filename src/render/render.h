@@ -10,17 +10,19 @@
 ENGINE_NAMESPACE_BEGIN
 
 
+class Render;
+
 class RenderComponent
         :public Component
 {
 public:
-    RenderComponent(const std::string& name_ = std::string());
+    RenderComponent(Render* creator_, const std::string& name_ = std::string());
     ~RenderComponent();
 };
 
 
 class Render
-        :public ComponentFactoryTmpl<RenderComponent>
+        :public ComponentFactoryTmpl<RenderComponent, Render>
 {
 public:
     Render();
