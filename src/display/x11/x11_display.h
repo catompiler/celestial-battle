@@ -39,6 +39,8 @@ public:
     
     static int width();
     static int height();
+    static int wdpi();
+    static int hdpi();
     
     static size_t modesCount();
     static const Mode& mode(int n) throw(Exception&);

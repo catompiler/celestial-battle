@@ -76,13 +76,13 @@ typename Node<T>::childs_iterator Node<T>::childsEnd(){
 template <class T>
 typename Node<T>::tree_iterator Node<T>::treeBegin()
 {
-    return Node<T>::tree_iterator(static_cast<T*>(this));
+    return typename Node<T>::tree_iterator(static_cast<T*>(this));
 }
 
 template <class T>
 typename Node<T>::tree_iterator Node<T>::treeEnd()
 {
-    return Node<T>::tree_iterator();
+    return typename Node<T>::tree_iterator();
 }
 
 template <class T>

@@ -76,6 +76,65 @@ int Display::height()
                           XDefaultScreen(Display::display()));
 }
 
+int Display::wdpi()
+{
+    /*int w;
+    
+    XF86VidModeModeLine modeline;
+    int dotclock_unused;
+    if(XF86VidModeGetModeLine(Display::display(),
+                         XDefaultScreen(Display::display()),
+                         &dotclock_unused,
+                         &modeline)){
+        w = modeline.hdisplay;
+    }else{
+        w = XDisplayWidth(Display::display(),
+                         XDefaultScreen(Display::display()));
+    }*/
+    int w = XDisplayWidth(Display::display(),
+                         XDefaultScreen(Display::display()));
+    int wmm = XDisplayWidthMM(Display::display(),
+                         XDefaultScreen(Display::display()));
+    //return static_cast<float>(w) / (static_cast<float>(wmm) / 25.4);
+    
+    int w254 = w * 254;
+    int wcm = wmm * 10;
+    
+    int res_wdpi = w254 / wcm;
+    if(w254 % wcm >= 5) res_wdpi ++;
+    
+    return res_wdpi;
+}
+
+int Display::hdpi()
+{
+    /*int h;
+    
+    XF86VidModeModeLine modeline;
+    int dotclock_unused;
+    if(XF86VidModeGetModeLine(Display::display(),
+                         XDefaultScreen(Display::display()),
+                         &dotclock_unused,
+                         &modeline)){
+        h = modeline.vdisplay;
+    }else{
+        h = XDisplayHeight(Display::display(),
+                         XDefaultScreen(Display::display()));
+    }*/
+    int h = XDisplayHeight(Display::display(),
+                         XDefaultScreen(Display::display()));
+    int hmm = XDisplayHeightMM(Display::display(),
+                         XDefaultScreen(Display::display()));
+       
+    int h254 = h * 254;
+    int hcm = hmm * 10;
+    
+    int res_hdpi = h254 / hcm;
+    if(h254 % hcm >= 5) res_hdpi ++;
+    
+    return res_hdpi;
+}
+
 size_t Display::modesCount()
 {
     return _modes->size();

@@ -415,4 +415,92 @@ GLint Texture3D::internalFormat(GLint level_) const
 
 
 
+
+TextureRect::TextureRect()
+        :Texture(GL_TEXTURE_RECTANGLE)
+{
+}
+
+TextureRect::TextureRect(GLuint id_)
+        :Texture(GL_TEXTURE_RECTANGLE, id_)
+{
+}
+
+TextureRect::~TextureRect()
+{
+}
+
+void TextureRect::setImage(GLint internalFormat_,
+              GLsizei width_, GLsizei height_,
+              GLenum format_, GLenum type_, const GLvoid* data_)
+{
+    GL::glTexImage2D(_target, 0, internalFormat_, width_, height_, 0, format_, type_, data_);
+}
+
+void TextureRect::getImage(GLenum format_, GLenum type_, GLvoid* img_) const
+{
+    GL::glGetTexImage(_target, 0, format_, type_, img_);
+}
+
+void TextureRect::setSubImage(GLint xoffset_, GLint yoffset_,
+                 GLsizei width_, GLsizei height_,
+                 GLenum format_, GLenum type_, const GLvoid* data_)
+{
+    GL::glTexSubImage2D(_target, 0, xoffset_, yoffset_, width_, height_,
+                        format_, type_, data_);
+}
+
+void TextureRect::copyImage(GLenum internalformat_, 
+               GLint x_, GLint y_, GLsizei width_, GLsizei height_)
+{
+    GL::glCopyTexImage2D(_target, 0, internalformat_, x_, y_, width_, height_, 0);
+}
+
+void TextureRect::copySubImage(GLint xoffset_, GLint yoffset_,
+                  GLint x_, GLint y_, GLsizei width_, GLsizei height_)
+{
+    GL::glCopyTexSubImage2D(_target, 0, xoffset_, yoffset_, x_, y_, width_, height_);
+}
+
+GLint TextureRect::getLevelParameteri(GLenum pname_) const
+{
+    GLint res;
+    GL::glGetTexLevelParameteriv(_target, 0, pname_, &res);
+    return res;
+}
+
+GLfloat TextureRect::getLevelParameterf(GLenum pname_) const
+{
+    GLfloat res;
+    GL::glGetTexLevelParameterfv(_target, 0, pname_, &res);
+    return res;
+}
+
+GLint TextureRect::maxSize()
+{
+    GLint res;
+    GL::glGetIntegerv(GL_MAX_TEXTURE_SIZE, &res);
+    return res;
+}
+
+GLsizei TextureRect::width() const
+{
+    return getLevelParameteri(GL_TEXTURE_WIDTH);
+}
+
+GLsizei TextureRect::height() const
+{
+    return getLevelParameteri(GL_TEXTURE_HEIGHT);
+}
+
+GLint TextureRect::internalFormat() const
+{
+    return getLevelParameteri(GL_TEXTURE_INTERNAL_FORMAT);
+}
+
+
+
+
+
+
 OPENGL_NAMESPACE_END

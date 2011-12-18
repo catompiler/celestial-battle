@@ -45,6 +45,34 @@ int Display::height()
     return GetSystemMetrics(SM_CYSCREEN);
 }
 
+int Display::wdpi()
+{
+    int w = GetDeviceCaps(GetDC(NULL), HORZRES);
+    int wmm = GetDeviceCaps(GetDC(NULL), HORZSIZE);
+       
+    int w254 = w * 254;
+    int wcm = wmm * 10;
+    
+    int res_wdpi = w254 / wcm;
+    if(w254 % wcm >= 5) res_wdpi ++;
+    
+    return res_wdpi;
+}
+
+int Display::hdpi()
+{
+    int h = GetDeviceCaps(GetDC(NULL), VERTRES);
+    int hmm = GetDeviceCaps(GetDC(NULL), VERTSIZE);
+       
+    int h254 = h * 254;
+    int hcm = hmm * 10;
+    
+    int res_hdpi = h254 / hcm;
+    if(h254 % hcm >= 5) res_hdpi ++;
+    
+    return res_hdpi;
+}
+
 size_t Display::modesCount()
 {
     return _modes->size();

@@ -104,12 +104,18 @@ int main(int /*argc*/, char** /*argv*/)
     int width = 800;//1440;
     int height = 600;//900;
     int freq = 60;
-    bool fullscreen = false;
+    bool fullscreen = true;
     
     if(fullscreen && !Display::setMode(Display::Mode(width, height, freq))){
         std::cout << "Error set video mode" << std::endl;
         fullscreen = false;
     }
+    
+    std::cout << "width: " << Display::width() << std::endl;
+    std::cout << "height: " << Display::height() << std::endl;
+    
+    std::cout << "width dpi: " << Display::wdpi() << std::endl;
+    std::cout << "height dpi: " << Display::hdpi() << std::endl;
     
     WindowedApp wapp;
     

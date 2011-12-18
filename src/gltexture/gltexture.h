@@ -173,6 +173,41 @@ public:
 };
 
 
+class TextureRect
+        :public Texture
+{
+public:
+    TextureRect();
+    explicit TextureRect(GLuint id_);
+    ~TextureRect();
+    
+    void setImage(GLint internalFormat_,
+                  GLsizei width_, GLsizei height_,
+                  GLenum format_, GLenum type_, const GLvoid* data_);
+    
+    void getImage(GLenum format_, GLenum type_, GLvoid* img_) const;
+    
+    void setSubImage(GLint xoffset_, GLint yoffset_,
+                     GLsizei width_, GLsizei height_,
+                     GLenum format_, GLenum type_, const GLvoid* data_);
+    
+    void copyImage(GLenum internalformat_, 
+                   GLint x_, GLint y_, GLsizei width_, GLsizei height_);
+    
+    void copySubImage(GLint xoffset_, GLint yoffset_,
+                      GLint x_, GLint y_, GLsizei width_, GLsizei height_);
+   
+    GLint getLevelParameteri(GLenum pname_) const;
+    GLfloat getLevelParameterf(GLenum pname_) const;
+    
+    static GLint maxSize();
+    
+    GLsizei width() const;
+    GLsizei height() const;
+    
+    GLint internalFormat() const;
+};
+
 
 OPENGL_NAMESPACE_END
 
