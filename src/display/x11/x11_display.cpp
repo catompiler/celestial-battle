@@ -66,19 +66,7 @@ void Display::_clean()
 
 int Display::width()
 {
-    return XDisplayWidth(Display::display(),
-                         XDefaultScreen(Display::display()));
-}
-
-int Display::height()
-{
-    return XDisplayHeight(Display::display(),
-                          XDefaultScreen(Display::display()));
-}
-
-int Display::wdpi()
-{
-    /*int w;
+    int w;
     
     XF86VidModeModeLine modeline;
     int dotclock_unused;
@@ -90,9 +78,35 @@ int Display::wdpi()
     }else{
         w = XDisplayWidth(Display::display(),
                          XDefaultScreen(Display::display()));
-    }*/
-    int w = XDisplayWidth(Display::display(),
+    }
+    return w;
+    /*return XDisplayWidth(Display::display(),
+                         XDefaultScreen(Display::display()));*/
+}
+
+int Display::height()
+{
+    int h;
+    
+    XF86VidModeModeLine modeline;
+    int dotclock_unused;
+    if(XF86VidModeGetModeLine(Display::display(),
+                         XDefaultScreen(Display::display()),
+                         &dotclock_unused,
+                         &modeline)){
+        h = modeline.vdisplay;
+    }else{
+        h = XDisplayHeight(Display::display(),
                          XDefaultScreen(Display::display()));
+    }
+    return h;
+    /*return XDisplayHeight(Display::display(),
+                          XDefaultScreen(Display::display()));*/
+}
+
+int Display::wdpi()
+{
+    int w = width();
     int wmm = XDisplayWidthMM(Display::display(),
                          XDefaultScreen(Display::display()));
     //return static_cast<float>(w) / (static_cast<float>(wmm) / 25.4);
@@ -108,21 +122,7 @@ int Display::wdpi()
 
 int Display::hdpi()
 {
-    /*int h;
-    
-    XF86VidModeModeLine modeline;
-    int dotclock_unused;
-    if(XF86VidModeGetModeLine(Display::display(),
-                         XDefaultScreen(Display::display()),
-                         &dotclock_unused,
-                         &modeline)){
-        h = modeline.vdisplay;
-    }else{
-        h = XDisplayHeight(Display::display(),
-                         XDefaultScreen(Display::display()));
-    }*/
-    int h = XDisplayHeight(Display::display(),
-                         XDefaultScreen(Display::display()));
+    int h = height();
     int hmm = XDisplayHeightMM(Display::display(),
                          XDefaultScreen(Display::display()));
        
