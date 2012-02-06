@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/_ext/1519963337/utils.o \
 	${OBJECTDIR}/_ext/664031954/transformstree.o \
+	${OBJECTDIR}/_ext/1019114841/mesh.o \
 	${OBJECTDIR}/_ext/49809687/functions.o \
 	${OBJECTDIR}/_ext/1390850504/display.o \
 	${OBJECTDIR}/_ext/1521210933/gettime.o \
@@ -50,6 +51,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1522320622/scene.o \
 	${OBJECTDIR}/_ext/1521210933/timer.o \
 	${OBJECTDIR}/_ext/1923734139/glprogram.o \
+	${OBJECTDIR}/_ext/180677857/material.o \
 	${OBJECTDIR}/_ext/173017642/windowslist.o \
 	${OBJECTDIR}/_ext/1534683872/event.o \
 	${OBJECTDIR}/_ext/86326340/thread.o \
@@ -111,6 +113,11 @@ ${OBJECTDIR}/_ext/664031954/transformstree.o: ../src/transformationstree/transfo
 	${MKDIR} -p ${OBJECTDIR}/_ext/664031954
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/664031954/transformstree.o ../src/transformationstree/transformstree.cpp
+
+${OBJECTDIR}/_ext/1019114841/mesh.o: ../src/mesh/mesh.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1019114841
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1019114841/mesh.o ../src/mesh/mesh.cpp
 
 ${OBJECTDIR}/_ext/49809687/functions.o: ../src/opengl/functions.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/49809687
@@ -181,6 +188,11 @@ ${OBJECTDIR}/_ext/1923734139/glprogram.o: ../src/glprogram/glprogram.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1923734139
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1923734139/glprogram.o ../src/glprogram/glprogram.cpp
+
+${OBJECTDIR}/_ext/180677857/material.o: ../src/material/material.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/180677857
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/180677857/material.o ../src/material/material.cpp
 
 ${OBJECTDIR}/_ext/173017642/windowslist.o: ../src/window/windowslist.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/173017642

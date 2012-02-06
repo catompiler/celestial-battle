@@ -10,6 +10,9 @@ template <class TypeList>
 class TLVariant
 {
 public:
+    
+    typedef TypeList typelist;
+    
     TLVariant();
     template <class T> TLVariant(const T& v_);
     TLVariant(const TLVariant<TypeList>& v_);
