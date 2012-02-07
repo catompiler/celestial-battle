@@ -25,7 +25,7 @@ public:
     typedef tl::makeTypeList11<GL::Buffer,
             GL::VertexShader, GL::FragmentShader, GL::Program,
             GL::Texture1D, GL::Texture2D, GL::Texture3D, GL::TextureCube, GL::TextureRect,
-            Mesh, Material> ResourceTypes;
+            Mesh, Material>::value ResourceTypes;
     
     
     Resources();
