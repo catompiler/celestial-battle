@@ -86,12 +86,6 @@
         <itemPath>../src/glresource/glresource.cpp</itemPath>
         <itemPath>../src/glresource/glresource.h</itemPath>
       </logicalFolder>
-      <logicalFolder name="glresourcefactory"
-                     displayName="glresourcefactory"
-                     projectFiles="true">
-        <itemPath>../src/glresourcefactory/glresourcefactory.cpp</itemPath>
-        <itemPath>../src/glresourcefactory/glresourcefactory.h</itemPath>
-      </logicalFolder>
       <logicalFolder name="glshader" displayName="glshader" projectFiles="true">
         <itemPath>../src/glshader/glshader.cpp</itemPath>
         <itemPath>../src/glshader/glshader.h</itemPath>
@@ -144,6 +138,12 @@
       <logicalFolder name="render" displayName="render" projectFiles="true">
         <itemPath>../src/render/render.cpp</itemPath>
         <itemPath>../src/render/render.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="resources" displayName="resources" projectFiles="true">
+        <itemPath>../src/resources/reader.cpp</itemPath>
+        <itemPath>../src/resources/reader.h</itemPath>
+        <itemPath>../src/resources/resources.cpp</itemPath>
+        <itemPath>../src/resources/resources.h</itemPath>
       </logicalFolder>
       <logicalFolder name="scene" displayName="scene" projectFiles="true">
         <itemPath>../src/scene/scene.cpp</itemPath>

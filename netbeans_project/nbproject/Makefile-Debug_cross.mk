@@ -38,11 +38,11 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/664031954/transformstree.o \
 	${OBJECTDIR}/_ext/1019114841/mesh.o \
 	${OBJECTDIR}/_ext/49809687/functions.o \
+	${OBJECTDIR}/_ext/1358156373/reader.o \
 	${OBJECTDIR}/_ext/1390850504/display.o \
 	${OBJECTDIR}/_ext/1521210933/gettime.o \
 	${OBJECTDIR}/_ext/1262803996/gltexture.o \
 	${OBJECTDIR}/_ext/68783691/utf8char.o \
-	${OBJECTDIR}/_ext/576727235/glresourcefactory.o \
 	${OBJECTDIR}/_ext/62598791/object.o \
 	${OBJECTDIR}/_ext/1531546205/iconv.o \
 	${OBJECTDIR}/_ext/1019042359/osal.o \
@@ -69,8 +69,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/49809687/opengl.o \
 	${OBJECTDIR}/_ext/662815568/glcontext.o \
 	${OBJECTDIR}/_ext/659861322/log.o \
-	${OBJECTDIR}/_ext/1029917654/main.o \
 	${OBJECTDIR}/_ext/1521210933/nanosleep.o \
+	${OBJECTDIR}/_ext/1029917654/main.o \
+	${OBJECTDIR}/_ext/1358156373/resources.o \
 	${OBJECTDIR}/_ext/540013372/glshader.o \
 	${OBJECTDIR}/_ext/1578303221/glrenderbuffer.o \
 	${OBJECTDIR}/_ext/1531217328/input.o \
@@ -124,6 +125,11 @@ ${OBJECTDIR}/_ext/49809687/functions.o: ../src/opengl/functions.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/49809687/functions.o ../src/opengl/functions.cpp
 
+${OBJECTDIR}/_ext/1358156373/reader.o: ../src/resources/reader.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1358156373
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1358156373/reader.o ../src/resources/reader.cpp
+
 ${OBJECTDIR}/_ext/1390850504/display.o: ../src/display/display.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1390850504
 	${RM} $@.d
@@ -143,11 +149,6 @@ ${OBJECTDIR}/_ext/68783691/utf8char.o: ../src/string/utf8char.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/68783691
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/68783691/utf8char.o ../src/string/utf8char.cpp
-
-${OBJECTDIR}/_ext/576727235/glresourcefactory.o: ../src/glresourcefactory/glresourcefactory.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/576727235
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/576727235/glresourcefactory.o ../src/glresourcefactory/glresourcefactory.cpp
 
 ${OBJECTDIR}/_ext/62598791/object.o: ../src/object/object.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/62598791
@@ -279,15 +280,20 @@ ${OBJECTDIR}/_ext/659861322/log.o: ../src/log/log.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659861322/log.o ../src/log/log.cpp
 
+${OBJECTDIR}/_ext/1521210933/nanosleep.o: ../src/timer/nanosleep.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/nanosleep.o ../src/timer/nanosleep.cpp
+
 ${OBJECTDIR}/_ext/1029917654/main.o: /home/artem/devel/opengl/celestial-battle/src/main.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1029917654
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1029917654/main.o /home/artem/devel/opengl/celestial-battle/src/main.cpp
 
-${OBJECTDIR}/_ext/1521210933/nanosleep.o: ../src/timer/nanosleep.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
+${OBJECTDIR}/_ext/1358156373/resources.o: ../src/resources/resources.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1358156373
 	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/nanosleep.o ../src/timer/nanosleep.cpp
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1358156373/resources.o ../src/resources/resources.cpp
 
 ${OBJECTDIR}/_ext/540013372/glshader.o: ../src/glshader/glshader.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/540013372
