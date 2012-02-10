@@ -9,7 +9,7 @@
 //#include <locale>
 #include "glbuffer/glbuffer.h"
 #include "display/display.h"
-
+#include "resources/resources.h"
 
 Window* w = NULL;
 GLContext* cxt = NULL;
@@ -172,6 +172,20 @@ int main(int /*argc*/, char** /*argv*/)
     }
     
     GL::glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    
+    Rage::Resources resources;
+    
+    smart_ptr<GL::Texture2D> ptex = resources.get<GL::Texture2D>();
+    
+    if(ptex){
+        std::cout << "Texture2D created: " << ptex.refs_count() << std::endl;
+    }
+    
+    smart_ptr<int> pi = resources.get<int>();
+    
+    if(!pi){
+        std::cout << "int not created: " << pi.refs_count() << std::endl;
+    }
     
     while(wapp.closed == false){
         Window::processEvents();

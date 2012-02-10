@@ -22,6 +22,8 @@ public:
     bool acquire();
     bool release();
     
+    operator bool() const;
+    
     T* operator->();
     const T* operator->() const;
     
@@ -140,6 +142,12 @@ template<class T>
 bool smart_ptr<T>::release()
 {
     return _release();
+}
+
+template<class T>
+smart_ptr<T>::operator bool() const
+{
+    return _get_ptr() != NULL;
 }
 
 template<class T>

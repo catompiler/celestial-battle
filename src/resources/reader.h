@@ -11,7 +11,7 @@ class Reader
 {
 public:
     
-    typedef R Resource;
+    typedef R ResourceType;
     
     Reader();
     virtual ~Reader();
