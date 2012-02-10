@@ -6,6 +6,7 @@
 #include "reader.h"
 #include <map>
 #include <vector>
+#include "smart_ptr/smart_ptr.h"
 #include "typelist/typelist.h"
 #include "glresource/glresource.h"
 #include "gltexture/gltexture.h"
@@ -32,10 +33,10 @@ public:
     virtual ~Resources();
     
     template<class T>
-    T* get();//create
+    smart_ptr<T> get();//create
     
     template<class T>
-    T* get(const std::string& filename_);//read
+    smart_ptr<T> get(const std::string& filename_);//read
     
     template<class T>
     bool addReader(T* reader_);
@@ -46,6 +47,8 @@ public:
 private:
     typedef Reader<void*> AllReader;
     typedef std::map<int, std::vector<AllReader*> > Readers;
+    
+    Readers _readers;
 
 };
 

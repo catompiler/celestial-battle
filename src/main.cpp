@@ -104,7 +104,7 @@ int main(int /*argc*/, char** /*argv*/)
     int width = 800;//1440;
     int height = 600;//900;
     int freq = 60;
-    bool fullscreen = true;
+    bool fullscreen = false;
     
     if(fullscreen && !Display::setMode(Display::Mode(width, height, freq))){
         std::cout << "Error set video mode" << std::endl;

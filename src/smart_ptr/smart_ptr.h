@@ -3,215 +3,397 @@
 
 #include <stddef.h>
 
-template <class T>
+
+template<class T>
 class smart_ptr
 {
 public:
     smart_ptr();
-    smart_ptr(T* ptr);
-    smart_ptr(const smart_ptr<T>& sptr);
+    smart_ptr(T* ptr_);
+    smart_ptr(const smart_ptr<T>& sptr_);
     ~smart_ptr();
-
-    T& operator*();
-    T* operator->();
+    
+    int refs_count() const;
+    
     T* get();
+    const T* get() const;
     
-    bool operator==(T* ptr) const;
-
-    smart_ptr<T>& operator=(const smart_ptr<T>& sptr);
-    smart_ptr<T>& operator=(T* ptr);
-
-    void release();
+    T* reset();
+    bool acquire();
+    bool release();
     
-    size_t refs_count() const;
-
+    T* operator->();
+    const T* operator->() const;
+    
+    T& operator*();
+    const T& operator*() const;
+    
+    operator T*();
+    operator const T*() const;
+    
+    smart_ptr<T>& operator=(const smart_ptr<T>& sptr_);
+    smart_ptr<T>& operator=(T* ptr_);
+    
+    bool operator==(const smart_ptr<T>& sptr_) const;
+    bool operator==(T* ptr_) const;
+    
 private:
-    class Rep{
+    class ptr_rep{
     public:
-        Rep();
-        Rep(T* ptr);
-        ~Rep();
+        ptr_rep();
+        ptr_rep(T* ptr_);
+        ~ptr_rep();
         
-        bool release();
+        inline T* ptr();
+        inline const T* ptr() const;
+        inline int refs_count() const;
         
-        T& operator*();
-        T* operator->();
-        T* get();
+        inline bool acquire();
+        inline bool release();
         
-        bool operator==(T* ptr) const;
-        Rep& operator=(T* ptr);
+        inline void acquire_ptr(T* ptr_);
+        inline void set_ptr(T* ptr_);
         
+    private:
+        inline void _ctor(T* ptr_);
         T* _ptr;
-        size_t _refs_count;
+        int _refs_count;
     };
-
-    mutable Rep* _rep;
-
+    
+    mutable ptr_rep* _rep;
+    
+    inline int _refs_count() const;
+    
+    inline void _set_ptr(T* ptr_);
+    inline void _set_ptr(const smart_ptr<T>& sptr_);
+    
+    inline T* _get_ptr();
+    inline const T* _get_ptr() const;
+    
+    inline bool _equal(const T* ptr_) const;
+    inline bool _equal(const smart_ptr<T>& sptr_) const;
+    
+    inline T* _reset();
+    inline bool _acquire();
+    inline bool _release();
 };
 
-
-template <class T>
+template<class T>
 smart_ptr<T>::smart_ptr()
 {
-    _rep = new Rep();
+    _rep = NULL;
 }
 
-template <class T>
-smart_ptr<T>::smart_ptr(T* ptr)
+template<class T>
+smart_ptr<T>::smart_ptr(T* ptr_)
 {
-    _rep = new Rep(ptr);
+    _rep = NULL;
+    _set_ptr(ptr_);
 }
 
-template <class T>
-smart_ptr<T>::smart_ptr(const smart_ptr<T>& sptr)
+template<class T>
+smart_ptr<T>::smart_ptr(const smart_ptr<T>& sptr_)
 {
-    sptr._rep->_refs_count ++;
-    _rep = sptr._rep;
+    _rep = NULL;
+    _set_ptr(sptr_);
 }
 
-template <class T>
+template<class T>
 smart_ptr<T>::~smart_ptr()
 {
-    if(_rep->release()){
+    if(_rep && _rep->release()){
         delete _rep;
     }
 }
 
-template <class T>
-T* smart_ptr<T>::operator->()
+template<class T>
+int smart_ptr<T>::refs_count() const
 {
-    return _rep->operator->();
+    return _refs_count();
 }
 
-template <class T>
+template<class T>
 T* smart_ptr<T>::get()
 {
-    return _rep->get();
+    return _get_ptr();
 }
 
-template <class T>
-bool smart_ptr<T>::operator==(T* ptr) const
+template<class T>
+const T* smart_ptr<T>::get() const
 {
-    return _rep->operator==(ptr);
+    return _get_ptr();
 }
 
-template <class T>
-smart_ptr<T>& smart_ptr<T>::operator=(const smart_ptr<T>& sptr)
+template<class T>
+T* smart_ptr<T>::reset()
 {
-    if(_rep->release()){
-        delete _rep;
-    }
-    sptr._rep->_refs_count++;
-    _rep = sptr._rep;
-    
-    return *this;
+    return _reset();
 }
 
-template <class T>
-smart_ptr<T>& smart_ptr<T>::operator=(T* ptr)
+template<class T>
+bool smart_ptr<T>::acquire()
 {
-    if(!_rep->release()){
-        _rep = new Rep;
-    }
-    
-    _rep->operator=(ptr);
-    
-    return *this;
+    return _acquire();
 }
 
-template <class T>
+template<class T>
+bool smart_ptr<T>::release()
+{
+    return _release();
+}
+
+template<class T>
+T* smart_ptr<T>::operator->()
+{
+    return _get_ptr();
+}
+
+template<class T>
+const T* smart_ptr<T>::operator->() const
+{
+    return _get_ptr();
+}
+
+template<class T>
 T& smart_ptr<T>::operator*()
 {
-    return _rep->operator*();
+    return *_get_ptr();
 }
 
-template <class T>
-void smart_ptr<T>::release()
+template<class T>
+const T& smart_ptr<T>::operator*() const
 {
-    if(!_rep->release()){
-        _rep = new Rep();
-    }else{
-        _rep->operator=(NULL);
+    return *_get_ptr();
+}
+
+template<class T>
+smart_ptr<T>::operator T*()
+{
+    return get();
+}
+
+template<class T>
+smart_ptr<T>::operator const T*() const
+{
+    return get();
+}
+
+template<class T>
+smart_ptr<T>& smart_ptr<T>::operator=(const smart_ptr<T>& sptr_)
+{
+    _set_ptr(sptr_);
+    return *this;
+}
+
+template<class T>
+smart_ptr<T>& smart_ptr<T>::operator=(T* ptr_)
+{
+    _set_ptr(ptr_);
+    return *this;
+}
+
+template<class T>
+bool smart_ptr<T>::operator==(const smart_ptr<T>& sptr_) const
+{
+    return _equal(sptr_);
+}
+
+template<class T>
+bool smart_ptr<T>::operator==(T* ptr_) const
+{
+    return _equal(ptr_);
+}
+
+/*
+ * rep states:
+ * - NULL
+ * - with refs
+ * - without (with one) refs
+ * if ptr == NULL => rep = NULL
+ */
+template<class T>
+void smart_ptr<T>::_set_ptr(T* ptr_)//!!
+{
+    //if rep is not NULL
+    if(_rep){
+        //if ptr is not NULL
+        if(ptr_){
+            //if rep is shared
+            if(!_rep->release()){//release it
+                _rep = new ptr_rep();//and create new
+            }
+            //set ptr && inc refs
+            _rep->acquire_ptr(ptr_);
+        }else{//if ptr == NULL
+            if(_rep->release()){//if rep has no refs
+                delete _rep;//delete rep
+            }
+            _rep = NULL;//rep = NULL
+        }
+    }else{//if rep == NULL
+        if(ptr_){//if ptr is not NULL
+            _rep = new ptr_rep(ptr_);//create new rep
+        }else{
+            //do nothing
+        }
     }
 }
 
-template <class T>
-size_t smart_ptr<T>::refs_count() const
+template<class T>
+void smart_ptr<T>::_set_ptr(const smart_ptr<T>& sptr_)
 {
-    return _rep->_refs_count;
-}
-
-
-template <class T>
-smart_ptr<T>::Rep::Rep()
-{
-    _ptr = NULL;
-    _refs_count = 1;
-}
-
-template <class T>
-smart_ptr<T>::Rep::Rep(T* ptr)
-{
-    _ptr = ptr;
-    _refs_count = 1;
-}
-
-template <class T>
-smart_ptr<T>::Rep::~Rep()
-{
-    //release();
-}
-
-template <class T>
-bool smart_ptr<T>::Rep::release()
-{
-    if(_refs_count > 0){
-        if(--_refs_count == 0){
-            if(_ptr != NULL){
-                delete _ptr;
-                _ptr = NULL;
-            }
-            return true;
+    if(sptr_._rep) sptr_._rep->acquire();
+    if(_rep){
+        if(_rep->release()){
+            delete _rep;
+            _rep = NULL;
         }
-    }else{
+    }
+    _rep = sptr_._rep;
+}
+
+template<class T>
+T* smart_ptr<T>::_get_ptr()
+{
+    return _rep ? _rep->ptr() : NULL;
+}
+
+template<class T>
+const T* smart_ptr<T>::_get_ptr() const
+{
+    return _rep ? _rep->ptr() : NULL;
+}
+
+template<class T>
+bool smart_ptr<T>::_equal(const T* ptr_) const
+{
+    return _get_ptr() == ptr_;
+}
+
+template<class T>
+bool smart_ptr<T>::_equal(const smart_ptr<T>& sptr_) const
+{
+    return _get_ptr() == sptr_._get_ptr();
+}
+
+template<class T>
+int smart_ptr<T>::_refs_count() const
+{
+    return _rep ? _rep->refs_count() : 0;
+}
+
+template<class T>
+T* smart_ptr<T>::_reset()
+{
+    T* ptr = _get_ptr();
+    
+    if(_rep){
+        if(_rep->refs_count() <= 1){//can be 0 ?
+            delete _rep;
+        }
+        _rep = NULL;
+    }
+    
+    return ptr;
+}
+
+template<class T>
+bool smart_ptr<T>::_acquire()
+{
+    return _rep ? _rep->acquire() : false;
+}
+
+template<class T>
+bool smart_ptr<T>::_release()
+{
+    if(_rep == NULL) return true;
+    if(_rep->release()){
+        delete _rep;
+        _rep = NULL;
         return true;
     }
     return false;
 }
 
-template <class T>
-T& smart_ptr<T>::Rep::operator*()
+
+
+//rep
+template<class T>
+smart_ptr<T>::ptr_rep::ptr_rep()
 {
-    return *_ptr;
+    _ctor(NULL);
 }
 
-template <class T>
-T* smart_ptr<T>::Rep::operator->()
+template<class T>
+smart_ptr<T>::ptr_rep::ptr_rep(T* ptr_)
+{
+    _ctor(ptr_);
+}
+
+template<class T>
+smart_ptr<T>::ptr_rep::~ptr_rep()
+{
+}
+
+template<class T>
+T* smart_ptr<T>::ptr_rep::ptr()
 {
     return _ptr;
 }
 
-template <class T>
-T* smart_ptr<T>::Rep::get()
+template<class T>
+const T* smart_ptr<T>::ptr_rep::ptr() const
 {
     return _ptr;
 }
 
-template <class T>
-bool smart_ptr<T>::Rep::operator==(T* ptr) const
+template<class T>
+int smart_ptr<T>::ptr_rep::refs_count() const
 {
-    return ptr == _ptr;
+    return _refs_count;
 }
 
-template <class T>
-typename smart_ptr<T>::Rep& smart_ptr<T>::Rep::operator=(T* ptr)
+template<class T>
+bool smart_ptr<T>::ptr_rep::acquire()
 {
-    //delete _ptr;
-    
-    _ptr = ptr;
-    _refs_count = 1;
-    
-    return *this;
+    _refs_count ++;
+    return true;
+}
+
+template<class T>
+bool smart_ptr<T>::ptr_rep::release()
+{
+    if(_refs_count == 0) return true;
+    if(--_refs_count == 0){
+        delete _ptr;
+        _ptr = NULL;
+        return true;
+    }
+    return false;
+}
+
+template<class T>
+void smart_ptr<T>::ptr_rep::acquire_ptr(T* ptr_)//!!
+{
+    set_ptr(ptr_);
+    acquire();
+}
+
+template<class T>
+void smart_ptr<T>::ptr_rep::set_ptr(T* ptr_)//!!
+{
+    _ptr = ptr_;
+}
+
+template<class T>
+void smart_ptr<T>::ptr_rep::_ctor(T* ptr_)
+{
+    _ptr = ptr_;
+    if(ptr_){
+        _refs_count = 1;
+    }else{
+        _refs_count = 0;
+    }
 }
 
 #endif //_SMARTPTR_H

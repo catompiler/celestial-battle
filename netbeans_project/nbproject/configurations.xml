@@ -142,15 +142,13 @@
       <logicalFolder name="resources" displayName="resources" projectFiles="true">
         <itemPath>../src/resources/reader.cpp</itemPath>
         <itemPath>../src/resources/reader.h</itemPath>
+        <itemPath>../src/resources/resource_ptr.h</itemPath>
         <itemPath>../src/resources/resources.cpp</itemPath>
         <itemPath>../src/resources/resources.h</itemPath>
       </logicalFolder>
       <logicalFolder name="scene" displayName="scene" projectFiles="true">
         <itemPath>../src/scene/scene.cpp</itemPath>
         <itemPath>../src/scene/scene.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="smart_ptr" displayName="smart_ptr" projectFiles="true">
-        <itemPath>../src/smart_ptr/smart_ptr.h</itemPath>
       </logicalFolder>
       <logicalFolder name="string" displayName="string" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.cpp</itemPath>

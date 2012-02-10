@@ -16,7 +16,7 @@ public:
     Reader();
     virtual ~Reader();
     
-    R* read(const std::string& filename_) const = 0;
+    virtual R* read(const std::string& filename_) const = 0;
 };
 
 ENGINE_NAMESPACE_END
