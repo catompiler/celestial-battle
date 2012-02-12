@@ -19,6 +19,19 @@ public:
     virtual R* read(const std::string& filename_) const = 0;
 };
 
+
+
+template<class R>
+Reader<R>::Reader()
+{
+}
+
+template<class R>
+Reader<R>::~Reader()
+{
+}
+
+
 ENGINE_NAMESPACE_END
 
 #endif  //_READER_H

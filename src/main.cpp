@@ -93,7 +93,17 @@ std::ostream& operator<<(std::ostream& ost, const Rage::Transform& t)
 }
 */
 
-
+class MyReader
+    :public Rage::Reader<GL::Texture2D>
+{
+public:
+    MyReader(){}
+    ~MyReader(){}
+    
+    GL::Texture2D* read(const std::string& filename_) const{
+        return new GL::Texture2D();
+    }
+};
 
 int main(int /*argc*/, char** /*argv*/)
 {
@@ -173,19 +183,29 @@ int main(int /*argc*/, char** /*argv*/)
     
     GL::glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     
-    Rage::Resources resources;
     
-    smart_ptr<GL::Texture2D> ptex = resources.get<GL::Texture2D>();
+    {
+        Rage::Resources resources;
+        MyReader myreader;
+
+        resources.addReader(&myreader);
+        {
+            smart_ptr<GL::Texture2D> ptex = resources.get<GL::Texture2D>("wall.tga");
+            smart_ptr<GL::Texture2D> ptex2 = resources.get<GL::Texture2D>("wall.tga");
+
+            std::cout << "ptex refs count: " << ptex.refs_count() << std::endl;
+            
+            resources.release(ptex2);
+            
+            std::cout << "ptex refs count: " << ptex.refs_count() << std::endl;
+
+            smart_ptr<int> pi = resources.get<int>();
+
+            std::cout << "int refs count: " << pi.refs_count() << std::endl;
+        }
+        resources.removeReader(&myreader);
+    }//*/
     
-    if(ptex){
-        std::cout << "Texture2D created: " << ptex.refs_count() << std::endl;
-    }
-    
-    smart_ptr<int> pi = resources.get<int>();
-    
-    if(!pi){
-        std::cout << "int not created: " << pi.refs_count() << std::endl;
-    }
     
     while(wapp.closed == false){
         Window::processEvents();

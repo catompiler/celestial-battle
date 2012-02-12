@@ -39,6 +39,9 @@ public:
     bool operator==(const smart_ptr<T>& sptr_) const;
     bool operator==(T* ptr_) const;
     
+    template<class To, class From>
+    friend smart_ptr<To>& smart_ptr_cast(smart_ptr<From>& sptr_);
+    
 private:
     class ptr_rep{
     public:
@@ -49,6 +52,8 @@ private:
         inline T* ptr();
         inline const T* ptr() const;
         inline int refs_count() const;
+        
+        inline T* reset();
         
         inline bool acquire();
         inline bool release();
@@ -297,6 +302,7 @@ T* smart_ptr<T>::_reset()
     
     if(_rep){
         if(_rep->refs_count() <= 1){//can be 0 ?
+            _rep->reset();
             delete _rep;
         }
         _rep = NULL;
@@ -362,6 +368,17 @@ int smart_ptr<T>::ptr_rep::refs_count() const
 }
 
 template<class T>
+T* smart_ptr<T>::ptr_rep::reset()
+{
+    T* res = _ptr;
+    
+    _ptr = NULL;
+    _refs_count = 0;
+    
+    return res;
+}
+
+template<class T>
 bool smart_ptr<T>::ptr_rep::acquire()
 {
     _refs_count ++;
@@ -402,6 +419,13 @@ void smart_ptr<T>::ptr_rep::_ctor(T* ptr_)
     }else{
         _refs_count = 0;
     }
+}
+
+
+template<class To, class From>
+smart_ptr<To>& smart_ptr_cast(smart_ptr<From>& sptr_)
+{
+    return *reinterpret_cast<smart_ptr<To>*>(&sptr_);
 }
 
 #endif //_SMARTPTR_H
