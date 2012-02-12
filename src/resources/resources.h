@@ -9,13 +9,26 @@
 #include <list>
 #include "smart_ptr/smart_ptr.h"
 #include "typelist/typelist.h"
-#include "glresource/glresource.h"
-#include "gltexture/gltexture.h"
+#include "glbuffer/glbuffer.h"
 #include "glshader/glshader.h"
 #include "glprogram/glprogram.h"
-#include "glbuffer/glbuffer.h"
+#include "gltexture/gltexture.h"
 #include "mesh/mesh.h"
 #include "material/material.h"
+
+
+
+typedef smart_ptr<GL::Buffer> buffer_ptr;
+typedef smart_ptr<GL::VertexShader> vshader_ptr;
+typedef smart_ptr<GL::FragmentShader> fshader_ptr;
+typedef smart_ptr<GL::Program> program_ptr;
+typedef smart_ptr<GL::Texture1D> texture1d_ptr;
+typedef smart_ptr<GL::Texture2D> texture2d_ptr;
+typedef smart_ptr<GL::Texture3D> texture3d_ptr;
+typedef smart_ptr<GL::TextureCube> texturecube_ptr;
+typedef smart_ptr<GL::TextureRect> texturerect_ptr;
+typedef smart_ptr<Rage::Mesh> mesh_ptr;
+typedef smart_ptr<Rage::Material> material_ptr;
 
 
 ENGINE_NAMESPACE_BEGIN

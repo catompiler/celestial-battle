@@ -190,8 +190,8 @@ int main(int /*argc*/, char** /*argv*/)
 
         resources.addReader(&myreader);
         {
-            smart_ptr<GL::Texture2D> ptex = resources.get<GL::Texture2D>("wall.tga");
-            smart_ptr<GL::Texture2D> ptex2 = resources.get<GL::Texture2D>("wall.tga");
+            texture2d_ptr ptex = resources.get<GL::Texture2D>("wall.tga");
+            texture2d_ptr ptex2 = resources.get<GL::Texture2D>("wall.tga");
 
             std::cout << "ptex refs count: " << ptex.refs_count() << std::endl;
             
