@@ -32,7 +32,32 @@ Resources::~Resources() {
     std::for_each(_restypeitems.begin(), _restypeitems.end(), functors::delete_single());
 }
 
-
+void Resources::gc()
+{
+    //for each resource type
+    for(ResTypeItems::iterator rti_it = _restypeitems.begin();
+            rti_it != _restypeitems.end(); ++ rti_it){
+        //get resources list
+        ResourcesList* resourceslist = (*rti_it).second->resources();
+        //if has resources
+        if(resourceslist != NULL){
+            //for each resource
+            for(ResourcesList::iterator res_it = resourceslist->begin();
+                    res_it != resourceslist->end();){
+                //if no one use the resource
+                if((*res_it).second->refs_count() == 1){
+                    //delete
+                    delete (*res_it).second;
+                    //erase
+                    ResourcesList::iterator erase_it = res_it ++;
+                    resourceslist->erase(erase_it);
+                }else{
+                    ++ res_it;
+                }
+            }
+        }
+    }
+}
 
 
 Resources::ResTypeItem::ResTypeItem()

@@ -198,6 +198,9 @@ int main(int /*argc*/, char** /*argv*/)
             resources.release(ptex2);
             
             std::cout << "ptex refs count: " << ptex.refs_count() << std::endl;
+            
+            ptex.release();
+            resources.gc();
 
             smart_ptr<int> pi = resources.get<int>();
 

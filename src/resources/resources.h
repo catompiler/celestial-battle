@@ -58,6 +58,8 @@ public:
     template<class T>
     bool release(smart_ptr<T>& resource_);//release
     
+    void gc();
+    
     template<class _Reader>
     bool addReader(_Reader* reader_);
     
@@ -74,6 +76,7 @@ private:
         ResBase(){};
         virtual ~ResBase(){};
         virtual AllType* allptr() = 0;
+        virtual int refs_count() = 0;
         virtual smart_ptr<AllType>& allsptr() = 0;
     };
     
@@ -88,6 +91,7 @@ private:
         T* ptr();
         smart_ptr<T>& sptr();
         AllType* allptr();
+        int refs_count();
         smart_ptr<AllType>& allsptr();
     private:
         smart_ptr<T> _ptr;
@@ -354,6 +358,12 @@ template<class T>
 Resources::AllType* Resources::ResContainer<T>::allptr()
 {
     return reinterpret_cast<AllType*>(_ptr.get());
+}
+
+template<class T>
+int Resources::ResContainer<T>::refs_count()
+{
+    return _ptr.refs_count();
 }
 
 template<class T>
