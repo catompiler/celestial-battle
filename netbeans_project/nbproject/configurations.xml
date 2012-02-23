@@ -19,6 +19,8 @@
         <itemPath>../src/component/component.h</itemPath>
         <itemPath>../src/component/componentfactory.cpp</itemPath>
         <itemPath>../src/component/componentfactory.h</itemPath>
+        <itemPath>../src/component/locatedcomponent.cpp</itemPath>
+        <itemPath>../src/component/locatedcomponent.h</itemPath>
       </logicalFolder>
       <logicalFolder name="config" displayName="config" projectFiles="true">
         <itemPath>../src/config/config.cpp</itemPath>
@@ -180,11 +182,11 @@
         <itemPath>../src/transform/transform.cpp</itemPath>
         <itemPath>../src/transform/transform.h</itemPath>
       </logicalFolder>
-      <logicalFolder name="transformationstree"
+      <logicalFolder name="transformstree"
                      displayName="transformstree"
                      projectFiles="true">
-        <itemPath>../src/transformationstree/transformstree.cpp</itemPath>
-        <itemPath>../src/transformationstree/transformstree.h</itemPath>
+        <itemPath>../src/transformstree/transformstree.cpp</itemPath>
+        <itemPath>../src/transformstree/transformstree.h</itemPath>
       </logicalFolder>
       <logicalFolder name="tree" displayName="tree" projectFiles="true">
         <itemPath>../src/tree/tree_iterator.h</itemPath>

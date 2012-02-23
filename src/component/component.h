@@ -15,7 +15,7 @@ class Component
 {
 public:
     Component(ComponentFactory* creator_,
-              const std::string& name_ = std::string());
+              const std::string& name_);
     virtual ~Component();
     
     const std::string& name() const;//"entity" name

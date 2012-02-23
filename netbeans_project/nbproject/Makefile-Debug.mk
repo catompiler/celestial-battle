@@ -35,7 +35,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/_ext/1519963337/utils.o \
-	${OBJECTDIR}/_ext/664031954/transformstree.o \
 	${OBJECTDIR}/_ext/1019114841/mesh.o \
 	${OBJECTDIR}/_ext/49809687/functions.o \
 	${OBJECTDIR}/_ext/1358156373/reader.o \
@@ -44,13 +43,13 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1262803996/gltexture.o \
 	${OBJECTDIR}/_ext/68783691/utf8char.o \
 	${OBJECTDIR}/_ext/62598791/object.o \
-	${OBJECTDIR}/_ext/1531546205/iconv.o \
 	${OBJECTDIR}/_ext/1019042359/osal.o \
+	${OBJECTDIR}/_ext/1531546205/iconv.o \
 	${OBJECTDIR}/_ext/7752610/vfs.o \
+	${OBJECTDIR}/_ext/1923734139/glprogram.o \
+	${OBJECTDIR}/_ext/1521210933/timer.o \
 	${OBJECTDIR}/_ext/774992765/componentfactory.o \
 	${OBJECTDIR}/_ext/1522320622/scene.o \
-	${OBJECTDIR}/_ext/1521210933/timer.o \
-	${OBJECTDIR}/_ext/1923734139/glprogram.o \
 	${OBJECTDIR}/_ext/180677857/material.o \
 	${OBJECTDIR}/_ext/173017642/windowslist.o \
 	${OBJECTDIR}/_ext/1534683872/event.o \
@@ -64,8 +63,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1667457878/exception.o \
 	${OBJECTDIR}/_ext/666085778/glframebuffer.o \
 	${OBJECTDIR}/_ext/1527311355/mutex.o \
+	${OBJECTDIR}/_ext/774992765/locatedcomponent.o \
 	${OBJECTDIR}/_ext/659870665/fsentrypoint.o \
 	${OBJECTDIR}/_ext/1153801517/glresource.o \
+	${OBJECTDIR}/_ext/907685599/transformstree.o \
 	${OBJECTDIR}/_ext/49809687/opengl.o \
 	${OBJECTDIR}/_ext/662815568/glcontext.o \
 	${OBJECTDIR}/_ext/659861322/log.o \
@@ -110,11 +111,6 @@ ${OBJECTDIR}/_ext/1519963337/utils.o: ../src/utils/utils.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1519963337/utils.o ../src/utils/utils.cpp
 
-${OBJECTDIR}/_ext/664031954/transformstree.o: ../src/transformationstree/transformstree.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/664031954
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/664031954/transformstree.o ../src/transformationstree/transformstree.cpp
-
 ${OBJECTDIR}/_ext/1019114841/mesh.o: ../src/mesh/mesh.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1019114841
 	${RM} $@.d
@@ -155,20 +151,30 @@ ${OBJECTDIR}/_ext/62598791/object.o: ../src/object/object.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/62598791/object.o ../src/object/object.cpp
 
-${OBJECTDIR}/_ext/1531546205/iconv.o: ../src/iconv/iconv.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1531546205
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1531546205/iconv.o ../src/iconv/iconv.cpp
-
 ${OBJECTDIR}/_ext/1019042359/osal.o: ../src/osal/osal.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1019042359
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1019042359/osal.o ../src/osal/osal.cpp
 
+${OBJECTDIR}/_ext/1531546205/iconv.o: ../src/iconv/iconv.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1531546205
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1531546205/iconv.o ../src/iconv/iconv.cpp
+
 ${OBJECTDIR}/_ext/7752610/vfs.o: /home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/7752610
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/7752610/vfs.o /home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp
+
+${OBJECTDIR}/_ext/1923734139/glprogram.o: ../src/glprogram/glprogram.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1923734139
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1923734139/glprogram.o ../src/glprogram/glprogram.cpp
+
+${OBJECTDIR}/_ext/1521210933/timer.o: ../src/timer/timer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/timer.o ../src/timer/timer.cpp
 
 ${OBJECTDIR}/_ext/774992765/componentfactory.o: ../src/component/componentfactory.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/774992765
@@ -179,16 +185,6 @@ ${OBJECTDIR}/_ext/1522320622/scene.o: ../src/scene/scene.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1522320622
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1522320622/scene.o ../src/scene/scene.cpp
-
-${OBJECTDIR}/_ext/1521210933/timer.o: ../src/timer/timer.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/timer.o ../src/timer/timer.cpp
-
-${OBJECTDIR}/_ext/1923734139/glprogram.o: ../src/glprogram/glprogram.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1923734139
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1923734139/glprogram.o ../src/glprogram/glprogram.cpp
 
 ${OBJECTDIR}/_ext/180677857/material.o: ../src/material/material.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/180677857
@@ -255,6 +251,11 @@ ${OBJECTDIR}/_ext/1527311355/mutex.o: ../src/mutex/mutex.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1527311355/mutex.o ../src/mutex/mutex.cpp
 
+${OBJECTDIR}/_ext/774992765/locatedcomponent.o: ../src/component/locatedcomponent.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/774992765
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/774992765/locatedcomponent.o ../src/component/locatedcomponent.cpp
+
 ${OBJECTDIR}/_ext/659870665/fsentrypoint.o: ../src/vfs/fsentrypoint.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/659870665
 	${RM} $@.d
@@ -264,6 +265,11 @@ ${OBJECTDIR}/_ext/1153801517/glresource.o: ../src/glresource/glresource.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1153801517
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1153801517/glresource.o ../src/glresource/glresource.cpp
+
+${OBJECTDIR}/_ext/907685599/transformstree.o: ../src/transformstree/transformstree.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/907685599
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/907685599/transformstree.o ../src/transformstree/transformstree.cpp
 
 ${OBJECTDIR}/_ext/49809687/opengl.o: ../src/opengl/opengl.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/49809687
