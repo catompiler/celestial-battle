@@ -1,6 +1,7 @@
 #ifndef _RESOURCES_H
 #define	_RESOURCES_H
 
+#include <assert.h>
 #include "engine/engine.h"
 #include <string>
 #include "reader.h"
@@ -231,10 +232,12 @@ bool Resources::release(smart_ptr<T>& resource_)
     
     if(res_it == resourceslist->end()) return false;
     
-    if(!resource_.release()) resource_.reset();
+    //if(!resource_.release()) resource_.reset();
+    resource_ = NULL;
     
     ResContainer<T>* rescontainer = static_cast<ResContainer<T>*>((*res_it).second);
     
+    assert(rescontainer->sptr().refs_count() != 0);
     if(rescontainer->sptr().refs_count() == 1){
         delete rescontainer;
         resourceslist->erase(res_it);

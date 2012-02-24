@@ -45,6 +45,7 @@ void Resources::gc()
             for(ResourcesList::iterator res_it = resourceslist->begin();
                     res_it != resourceslist->end();){
                 //if no one use the resource
+                assert((*res_it).second->refs_count() != 0);
                 if((*res_it).second->refs_count() == 1){
                     //delete
                     delete (*res_it).second;

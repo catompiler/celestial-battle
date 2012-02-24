@@ -137,6 +137,10 @@
         <itemPath>../src/osal/osal.h</itemPath>
         <itemPath>../src/osal/osdef.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="readers" displayName="readers" projectFiles="true">
+        <itemPath>../src/readers/tgareader.cpp</itemPath>
+        <itemPath>../src/readers/tgareader.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="render" displayName="render" projectFiles="true">
         <itemPath>../src/render/render.cpp</itemPath>
         <itemPath>../src/render/render.h</itemPath>
@@ -160,6 +164,12 @@
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.h</itemPath>
         <itemPath>../src/string/utf8char.cpp</itemPath>
         <itemPath>../src/string/utf8char.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="tga" displayName="tga" projectFiles="true">
+        <itemPath>../src/tga/texture.cpp</itemPath>
+        <itemPath>../src/tga/texture.h</itemPath>
+        <itemPath>../src/tga/tga.cpp</itemPath>
+        <itemPath>../src/tga/tga.h</itemPath>
       </logicalFolder>
       <logicalFolder name="thread" displayName="thread" projectFiles="true">
         <itemPath>../src/thread/thread.cpp</itemPath>

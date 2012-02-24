@@ -2,7 +2,7 @@
 #define _SMARTPTR_H
 
 #include <stddef.h>
-
+#include <assert.h>
 
 template<class T>
 class smart_ptr
@@ -301,7 +301,8 @@ T* smart_ptr<T>::_reset()
     T* ptr = _get_ptr();
     
     if(_rep){
-        if(_rep->refs_count() <= 1){//can be 0 ?
+        assert(_rep->refs_count() != 0);
+        if(_rep->refs_count() == 1){//can be 0 ?
             _rep->reset();
             delete _rep;
         }

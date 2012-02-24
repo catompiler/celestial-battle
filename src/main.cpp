@@ -10,6 +10,7 @@
 #include "glbuffer/glbuffer.h"
 #include "display/display.h"
 #include "resources/resources.h"
+#include "readers/tgareader.h"
 
 Window* w = NULL;
 GLContext* cxt = NULL;
@@ -93,17 +94,6 @@ std::ostream& operator<<(std::ostream& ost, const Rage::Transform& t)
 }
 */
 
-class MyReader
-    :public Rage::Reader<GL::Texture2D>
-{
-public:
-    MyReader(){}
-    ~MyReader(){}
-    
-    GL::Texture2D* read(const std::string& filename_) const{
-        return new GL::Texture2D();
-    }
-};
 
 int main(int /*argc*/, char** /*argv*/)
 {
@@ -186,12 +176,12 @@ int main(int /*argc*/, char** /*argv*/)
     
     {
         Rage::Resources resources;
-        MyReader myreader;
+        Rage::TgaReader tgareader;
 
-        resources.addReader(&myreader);
+        resources.addReader(&tgareader);
         {
-            texture2d_ptr ptex = resources.get<GL::Texture2D>("wall.tga");
-            texture2d_ptr ptex2 = resources.get<GL::Texture2D>("wall.tga");
+            texture2d_ptr ptex = resources.get<GL::Texture2D>("/tmp/wall.tga");
+            texture2d_ptr ptex2 = resources.get<GL::Texture2D>("/tmp/wall.tga");
 
             std::cout << "ptex refs count: " << ptex.refs_count() << std::endl;
             
@@ -199,14 +189,11 @@ int main(int /*argc*/, char** /*argv*/)
             
             std::cout << "ptex refs count: " << ptex.refs_count() << std::endl;
             
-            ptex.release();
+            ptex = NULL;
+            //resources.release(ptex);
             resources.gc();
-
-            smart_ptr<int> pi = resources.get<int>();
-
-            std::cout << "int refs count: " << pi.refs_count() << std::endl;
         }
-        resources.removeReader(&myreader);
+        resources.removeReader(&tgareader);
     }//*/
     
     

@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1358156373/reader.o \
 	${OBJECTDIR}/_ext/1390850504/display.o \
 	${OBJECTDIR}/_ext/1521210933/gettime.o \
+	${OBJECTDIR}/_ext/659868756/tga.o \
 	${OBJECTDIR}/_ext/1262803996/gltexture.o \
 	${OBJECTDIR}/_ext/68783691/utf8char.o \
 	${OBJECTDIR}/_ext/62598791/object.o \
@@ -63,8 +64,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1667457878/exception.o \
 	${OBJECTDIR}/_ext/666085778/glframebuffer.o \
 	${OBJECTDIR}/_ext/1527311355/mutex.o \
-	${OBJECTDIR}/_ext/774992765/locatedcomponent.o \
+	${OBJECTDIR}/_ext/799496470/tgareader.o \
 	${OBJECTDIR}/_ext/659870665/fsentrypoint.o \
+	${OBJECTDIR}/_ext/774992765/locatedcomponent.o \
 	${OBJECTDIR}/_ext/1153801517/glresource.o \
 	${OBJECTDIR}/_ext/907685599/transformstree.o \
 	${OBJECTDIR}/_ext/49809687/opengl.o \
@@ -73,10 +75,11 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1521210933/nanosleep.o \
 	${OBJECTDIR}/_ext/1029917654/main.o \
 	${OBJECTDIR}/_ext/1358156373/resources.o \
+	${OBJECTDIR}/_ext/774992765/component.o \
 	${OBJECTDIR}/_ext/540013372/glshader.o \
 	${OBJECTDIR}/_ext/1578303221/glrenderbuffer.o \
+	${OBJECTDIR}/_ext/659868756/texture.o \
 	${OBJECTDIR}/_ext/1531217328/input.o \
-	${OBJECTDIR}/_ext/774992765/component.o \
 	${OBJECTDIR}/_ext/26177488/render.o \
 	${OBJECTDIR}/_ext/659870665/localfsentrypoint.o \
 	${OBJECTDIR}/_ext/394022532/config.o
@@ -135,6 +138,11 @@ ${OBJECTDIR}/_ext/1521210933/gettime.o: ../src/timer/gettime.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/gettime.o ../src/timer/gettime.cpp
+
+${OBJECTDIR}/_ext/659868756/tga.o: ../src/tga/tga.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/659868756
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659868756/tga.o ../src/tga/tga.cpp
 
 ${OBJECTDIR}/_ext/1262803996/gltexture.o: ../src/gltexture/gltexture.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1262803996
@@ -251,15 +259,20 @@ ${OBJECTDIR}/_ext/1527311355/mutex.o: ../src/mutex/mutex.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1527311355/mutex.o ../src/mutex/mutex.cpp
 
-${OBJECTDIR}/_ext/774992765/locatedcomponent.o: ../src/component/locatedcomponent.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/774992765
+${OBJECTDIR}/_ext/799496470/tgareader.o: ../src/readers/tgareader.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/799496470
 	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/774992765/locatedcomponent.o ../src/component/locatedcomponent.cpp
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/799496470/tgareader.o ../src/readers/tgareader.cpp
 
 ${OBJECTDIR}/_ext/659870665/fsentrypoint.o: ../src/vfs/fsentrypoint.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/659870665
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659870665/fsentrypoint.o ../src/vfs/fsentrypoint.cpp
+
+${OBJECTDIR}/_ext/774992765/locatedcomponent.o: ../src/component/locatedcomponent.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/774992765
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/774992765/locatedcomponent.o ../src/component/locatedcomponent.cpp
 
 ${OBJECTDIR}/_ext/1153801517/glresource.o: ../src/glresource/glresource.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1153801517
@@ -301,6 +314,11 @@ ${OBJECTDIR}/_ext/1358156373/resources.o: ../src/resources/resources.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1358156373/resources.o ../src/resources/resources.cpp
 
+${OBJECTDIR}/_ext/774992765/component.o: ../src/component/component.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/774992765
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/774992765/component.o ../src/component/component.cpp
+
 ${OBJECTDIR}/_ext/540013372/glshader.o: ../src/glshader/glshader.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/540013372
 	${RM} $@.d
@@ -311,15 +329,15 @@ ${OBJECTDIR}/_ext/1578303221/glrenderbuffer.o: ../src/glrenderbuffer/glrenderbuf
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1578303221/glrenderbuffer.o ../src/glrenderbuffer/glrenderbuffer.cpp
 
+${OBJECTDIR}/_ext/659868756/texture.o: ../src/tga/texture.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/659868756
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659868756/texture.o ../src/tga/texture.cpp
+
 ${OBJECTDIR}/_ext/1531217328/input.o: ../src/input/input.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1531217328
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1531217328/input.o ../src/input/input.cpp
-
-${OBJECTDIR}/_ext/774992765/component.o: ../src/component/component.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/774992765
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/774992765/component.o ../src/component/component.cpp
 
 ${OBJECTDIR}/_ext/26177488/render.o: ../src/render/render.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/26177488
