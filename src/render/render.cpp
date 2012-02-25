@@ -3,8 +3,10 @@
 ENGINE_NAMESPACE_BEGIN
 
 
-RenderComponent::RenderComponent(Render* creator_, const std::string& name_)
-        :Component(creator_, name_)
+RenderComponent::RenderComponent(Render* creator_,
+                                   const std::string& name_,
+                                   Transformation* transformation_)
+        :LocatedComponent(creator_, name_, transformation_)
 {
 }
 
@@ -14,7 +16,7 @@ RenderComponent::~RenderComponent()
 
 
 Render::Render()
-        :ComponentFactoryTmpl<RenderComponent, Render>()
+        :LocatedComponentFactoryTmpl<RenderComponent, Render>()
 {
 }
 

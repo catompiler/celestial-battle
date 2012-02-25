@@ -15,13 +15,13 @@ class LocatedComponent
 public:
     LocatedComponent(ComponentFactory* creator_,
                      const std::string& name_,
-                     TransformComponent* transform_component_);
+                     Transformation* transformation_);
     ~LocatedComponent();
     
-    TransformComponent* transformComponent();
+    Transformation* transformation();
     
 protected:
-    TransformComponent* _transform_component;
+    Transformation* _transformation;
 };
 
 

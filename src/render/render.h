@@ -2,8 +2,9 @@
 #define _RENDER_H_
 
 #include "engine/engine.h"
-#include "component/component.h"
+#include "component/locatedcomponent.h"
 #include "component/componentfactory.h"
+#include "transformstree/transformstree.h"
 #include <string>
 
 
@@ -13,16 +14,18 @@ ENGINE_NAMESPACE_BEGIN
 class Render;
 
 class RenderComponent
-        :public Component
+        :public LocatedComponent
 {
 public:
-    RenderComponent(Render* creator_, const std::string& name_ = std::string());
+    RenderComponent(Render* creator_,
+                     const std::string& name_,
+                     Transformation* transformation_);
     ~RenderComponent();
 };
 
 
 class Render
-        :public ComponentFactoryTmpl<RenderComponent, Render>
+        :public LocatedComponentFactoryTmpl<RenderComponent, Render>
 {
 public:
     Render();

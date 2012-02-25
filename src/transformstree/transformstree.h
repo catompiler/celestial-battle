@@ -15,13 +15,13 @@ ENGINE_NAMESPACE_BEGIN
 
 class TransformsTree;
 
-class TransformComponent
+class Transformation
         :public Component
 {
 public:
-    TransformComponent(TransformsTree* creator_,
+    Transformation(TransformsTree* creator_,
                        const std::string& name_ = std::string());
-    ~TransformComponent();
+    ~Transformation();
     
     const vec3_t& localPosition() const;
     void setLocalPosition(const vec3_t& local_position_);
@@ -71,14 +71,13 @@ class TransformsTree
 {
 public:
     
-    struct Parameters{
-        static const parameterid_t local_position;
-        static const parameterid_t local_rotation;
-        static const parameterid_t local_scaling;
-        static const parameterid_t world_position;
-        static const parameterid_t world_rotation;
-        static const parameterid_t world_scaling;
-    };
+    static const parameterid_t LOCAL_POSITION;
+    static const parameterid_t LOCAL_ROTATION;
+    static const parameterid_t LOCAL_SCALING;
+    static const parameterid_t WORLD_POSITION;
+    static const parameterid_t WORLD_ROTATION;
+    static const parameterid_t WORLD_SCALING;
+    static const parameterid_t PARENT;
 
     class TransformNode
         :public Tree::Node<TransformNode>
@@ -88,11 +87,11 @@ public:
                       const std::string& name_ = std::string());
         ~TransformNode();
         
-        TransformComponent* component();
-        const TransformComponent* component() const;
+        Transformation* component();
+        const Transformation* component() const;
         
     private:
-        TransformComponent* _component;
+        Transformation* _component;
     };
     
     
@@ -100,7 +99,7 @@ public:
     
     
     class ComponentsIterator
-    :public std::iterator<std::bidirectional_iterator_tag, TransformComponent*>
+    :public std::iterator<std::bidirectional_iterator_tag, Transformation*>
     {
     public:
         ComponentsIterator();
@@ -118,7 +117,7 @@ public:
         bool operator==(const ComponentsIterator& iter_) const;
         bool operator!=(const ComponentsIterator& iter_) const;
 
-        TransformComponent* operator*();
+        Transformation* operator*();
 
     private:
         Components::iterator _it;
@@ -131,15 +130,26 @@ public:
     TransformsTree();
     ~TransformsTree();
     
-    TransformComponent* createComponent(const std::string& name_);
-    TransformComponent* createComponent(const std::string& name_,
-                                        const std::string& parent_name_);    
-    TransformComponent* createComponent(const std::string& name_,
-                                        const ParametersList& parameters_);
-    TransformComponent* createComponent(const std::string& name_,
-                                        const std::string& parent_name_,
-                                        const ParametersList& parameters_);
-    TransformComponent* getComponent(const std::string& name_);
+    Transformation* createComponent(const std::string& name_);
+    Transformation* createComponent(const std::string& name_,
+                                     const std::string& parent_name_);    
+    Transformation* createComponent(const std::string& name_,
+                                     const ParametersList& parameters_);
+    Transformation* createComponent(const std::string& name_,
+                                     const std::string& parent_name_,
+                                     const ParametersList& parameters_);
+    
+    Transformation* createComponent(const std::string& name_,
+                                     Transformation* transformation_){
+        return createComponent(name_);
+    }
+    Transformation* createComponent(const std::string& name_,
+                                     Transformation* transformation_,
+                                     const ParametersList& parameters_){
+        return createComponent(name_, parameters_);
+    }
+    
+    Transformation* getComponent(const std::string& name_);
     bool destroyComponent(Component* component_);
     bool destroyComponent(const std::string& name_);
     
@@ -162,8 +172,8 @@ private:
     TransformNode* _addNode(const std::string& name_, TransformNode* parent_node_);
     bool _delNode(const std::string& name_);
     
-    void _setParameters(TransformComponent* component_, const ParametersList& parameters_);
-    void _setParameter(TransformComponent* component_, const parameterid_t& parameter_,
+    void _setParameters(Transformation* component_, const ParametersList& parameters_);
+    void _setParameter(Transformation* component_, const parameterid_t& parameter_,
                        const ParameterValue& value_);
     
 };

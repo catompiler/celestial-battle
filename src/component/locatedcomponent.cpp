@@ -6,18 +6,18 @@ ENGINE_NAMESPACE_BEGIN
 
 LocatedComponent::LocatedComponent(ComponentFactory* creator_,
                                     const std::string& name_,
-                                    TransformComponent* transform_component_)
+                                    Transformation* transformation_)
                             :Component(creator_, name_)
 {
-    _transform_component = transform_component_;
+    _transformation = transformation_;
 }
 
 LocatedComponent::~LocatedComponent() {
 }
 
-TransformComponent* LocatedComponent::transformComponent()
+Transformation* LocatedComponent::transformation()
 {
-    return _transform_component;
+    return _transformation;
 }
 
 
