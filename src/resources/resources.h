@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <iterator>
 #include "engine/engine.h"
 #include "resptrs_types.h"
 #include "typelist/typelist.h"
@@ -15,6 +16,10 @@ ENGINE_NAMESPACE_BEGIN
 
 
 class Resources {
+//private:
+    class ResBase;
+    typedef std::multimap<std::string, ResBase*> ResourcesList;
+    
 public:
     
     typedef tl::makeTypeList11<GL::Buffer,
@@ -46,6 +51,45 @@ public:
     template<class _Reader>
     bool removeReader(_Reader* reader_);
     
+    
+    template <class T>
+    class iterator
+        :public std::iterator<std::bidirectional_iterator_tag, T>
+    {
+    public:
+        iterator();
+        iterator(ResourcesList::iterator it_);
+        iterator(const iterator<T>& it_);
+        ~iterator();
+        
+        iterator<T>& operator=(const iterator<T>& it_);
+        
+        iterator<T>& operator++();
+        iterator<T> operator++(int);
+        iterator<T>& operator--();
+        iterator<T> operator--(int);
+        
+        bool operator==(const iterator<T>& it_) const;
+        bool operator!=(const iterator<T>& it_) const;
+        
+        smart_ptr<T>& operator*();
+        smart_ptr<T>& operator->();
+        
+        const std::string& filename() const;
+        smart_ptr<T>& sptr();
+        
+    private:
+        ResourcesList::iterator _it;
+    };
+    
+    
+    template<class T>
+    iterator<T> begin();
+    
+    template<class T>
+    iterator<T> end();
+    
+    
 private:
     struct AllType{};
     typedef Reader<AllType*> AllReader;
@@ -67,7 +111,9 @@ private:
     public:
         ResContainer(smart_ptr<T>& ptr_);
         ~ResContainer();
+        
         void set_ptr(smart_ptr<T>& ptr_);
+        
         T* ptr();
         smart_ptr<T>& sptr();
         AllType* allptr();
@@ -77,7 +123,7 @@ private:
         smart_ptr<T> _ptr;
     };
     
-    typedef std::multimap<std::string, ResBase*> ResourcesList;
+    //typedef std::multimap<std::string, ResBase*> ResourcesList;
     
     
     class ResBasePtrCmp{
@@ -266,6 +312,34 @@ bool Resources::removeReader(_Reader* reader_)
 }
 
 template<class T>
+Resources::iterator<T> Resources::begin()
+{
+    ResTypeItems::iterator restype_it = _resTypeIt<T>();
+    if(restype_it == _restypeitems.end()) return iterator<T>();
+    
+    ResTypeItem* restypeitem = (*restype_it).second;
+    ResourcesList* resourceslist = restypeitem->resources();
+    
+    if(resourceslist == NULL) return iterator<T>();
+    
+    return iterator<T>(resourceslist->begin());
+}
+
+template<class T>
+Resources::iterator<T> Resources::end()
+{
+    ResTypeItems::iterator restype_it = _resTypeIt<T>();
+    if(restype_it == _restypeitems.end()) return iterator<T>();
+    
+    ResTypeItem* restypeitem = (*restype_it).second;
+    ResourcesList* resourceslist = restypeitem->resources();
+    
+    if(resourceslist == NULL) return iterator<T>();
+    
+    return iterator<T>(resourceslist->end());
+}
+
+template<class T>
 int Resources::_getResourceTypeIndex()
 {
     return tl::index_of<ResourceTypes, T>::value;
@@ -355,6 +429,97 @@ smart_ptr<Resources::AllType>& Resources::ResContainer<T>::allsptr()
 }
 
 
+
+
+template<class T>
+Resources::iterator<T>::iterator()
+{
+}
+
+template<class T>
+Resources::iterator<T>::iterator(ResourcesList::iterator it_)
+{
+    _it = it_;
+}
+
+template<class T>
+Resources::iterator<T>::iterator(const iterator<T>& it_)
+{
+    _it = it_._it;
+}
+
+template<class T>
+Resources::iterator<T>::~iterator()
+{
+}
+
+template<class T>
+Resources::iterator<T>& Resources::iterator<T>::operator=(const iterator<T>& it_)
+{
+    _it = it_._it;
+}
+
+template<class T>
+Resources::iterator<T>& Resources::iterator<T>::operator++()
+{
+    ++ _it;
+    return *this;
+}
+
+template<class T>
+Resources::iterator<T> Resources::iterator<T>::operator++(int)
+{
+    return iterator<T>(_it ++);
+}
+
+template<class T>
+Resources::iterator<T>& Resources::iterator<T>::operator--()
+{
+    -- _it;
+    return *this;
+}
+
+template<class T>
+Resources::iterator<T> Resources::iterator<T>::operator--(int)
+{
+    return iterator<T>(_it --);
+}
+
+template<class T>
+bool Resources::iterator<T>::operator==(const iterator<T>& it_) const
+{
+    return _it == it_._it;
+}
+
+template<class T>
+bool Resources::iterator<T>::operator!=(const iterator<T>& it_) const
+{
+    return _it != it_._it;
+}
+
+template<class T>
+smart_ptr<T>& Resources::iterator<T>::operator*()
+{
+    return static_cast<ResContainer<T>*>((*_it).second)->sptr();
+}
+
+template<class T>
+smart_ptr<T>& Resources::iterator<T>::operator->()
+{
+    return static_cast<ResContainer<T>*>((*_it).second)->sptr();
+}
+
+template<class T>
+const std::string& Resources::iterator<T>::filename() const
+{
+    return (*_it).first;
+}
+
+template<class T>
+smart_ptr<T>& Resources::iterator<T>::sptr()
+{
+    return static_cast<ResContainer<T>*>((*_it).second)->sptr();
+}
 
 
 ENGINE_NAMESPACE_END

@@ -71,7 +71,7 @@ buffer_ptr Mesh::tangents()
 
 bool Mesh::hasAttrib(const std::string& attrib_name_)
 {
-    return attrib(attrib_name_).get() != NULL;
+    return attrib(attrib_name_) != static_cast<GL::Buffer*>(NULL);
 }
 
 buffer_ptr Mesh::attrib(const std::string& attrib_name_)

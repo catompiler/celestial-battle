@@ -82,6 +82,12 @@ Item& MapValueIterator<Map, Item>::operator*()
     return (*_it).second;
 }
 
+template<class Map, class Item>
+Item* MapValueIterator<Map, Item>::operator->()
+{
+    return &(*_it).second;
+}
+
 }//iterators
 
 #endif

@@ -60,7 +60,8 @@ public:
     bool operator==(const MapValueIterator<Map, Item>& iter_) const;
     bool operator!=(const MapValueIterator<Map, Item>& iter_) const;
     
-    /*typename MapValueIterator<Map>::value_type&*/Item& operator*();
+    Item& operator*();
+    Item* operator->();
     
 private:
     typename Map::iterator _it;

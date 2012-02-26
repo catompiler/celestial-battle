@@ -189,6 +189,12 @@ int main(int /*argc*/, char** /*argv*/)
             
             std::cout << "ptex refs count: " << ptex.refs_count() << std::endl;
             
+            for(Rage::Resources::iterator<GL::Texture2D> it =
+                    resources.begin<GL::Texture2D>();
+                    it != resources.end<GL::Texture2D>(); ++it){
+                std::cout << it.filename() << std::endl;
+            }
+            
             ptex = NULL;
             //resources.release(ptex);
             resources.gc();
