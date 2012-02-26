@@ -3,7 +3,7 @@
 
 #include <math.h>
 #include <algorithm>
-#include "../exception/exception.h"
+#include "exception/badindexexception.h"
 
 #include "vec2.h"
 #include "vec3.h"
@@ -32,8 +32,8 @@ public:
 
     operator T*();
     operator const T*() const;
-    T& operator[] (int index) throw(Exception&);
-    const T& operator[] (int index) const throw(Exception&);
+    T& operator[] (int index) throw(BadIndexException&);
+    const T& operator[] (int index) const throw(BadIndexException&);
     bool operator==(const vec4<T>& _v) const;
     vec4<T>& operator=(const vec4<T>& _v);
     vec4<T> operator-() const;
@@ -149,16 +149,16 @@ vec4<T>::operator const T*() const
 }
 
 template <class T>
-T& vec4<T>::operator[](int index) throw(Exception&)
+T& vec4<T>::operator[](int index) throw(BadIndexException&)
 {
-    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (Exception("Index out of range!"));
+    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (BadIndexException("Index out of range!"));
     return v[index];
 }
 
 template <class T>
-const T& vec4<T>::operator[](int index) const throw(Exception&)
+const T& vec4<T>::operator[](int index) const throw(BadIndexException&)
 {
-    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (Exception("Index out of range!"));
+    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (BadIndexException("Index out of range!"));
     return v[index];
 }
 
@@ -317,12 +317,12 @@ T dot(const vec4<T>& v1, const vec4<T>& v2)
 }
 
 template <class T>
-vec4<T> normalize(const vec4<T>& v) throw (Exception&)
+vec4<T> normalize(const vec4<T>& v) throw (BadIndexException&)
 {
     T l = length(v);
     
     if(l == 0.0){
-        Exception e("Length is equal to zero!");
+        BadIndexException e("Length is equal to zero!");
         throw(e);
     }
     

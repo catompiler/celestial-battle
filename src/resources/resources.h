@@ -2,34 +2,13 @@
 #define	_RESOURCES_H
 
 #include <assert.h>
-#include "engine/engine.h"
 #include <string>
-#include "reader.h"
 #include <map>
-#include <vector>
 #include <list>
-#include "smart_ptr/smart_ptr.h"
+#include "engine/engine.h"
+#include "resptrs_types.h"
 #include "typelist/typelist.h"
-#include "glbuffer/glbuffer.h"
-#include "glshader/glshader.h"
-#include "glprogram/glprogram.h"
-#include "gltexture/gltexture.h"
-#include "mesh/mesh.h"
-#include "material/material.h"
-
-
-
-typedef smart_ptr<GL::Buffer> buffer_ptr;
-typedef smart_ptr<GL::VertexShader> vshader_ptr;
-typedef smart_ptr<GL::FragmentShader> fshader_ptr;
-typedef smart_ptr<GL::Program> program_ptr;
-typedef smart_ptr<GL::Texture1D> texture1d_ptr;
-typedef smart_ptr<GL::Texture2D> texture2d_ptr;
-typedef smart_ptr<GL::Texture3D> texture3d_ptr;
-typedef smart_ptr<GL::TextureCube> texturecube_ptr;
-typedef smart_ptr<GL::TextureRect> texturerect_ptr;
-typedef smart_ptr<Rage::Mesh> mesh_ptr;
-typedef smart_ptr<Rage::Material> material_ptr;
+#include "reader.h"
 
 
 ENGINE_NAMESPACE_BEGIN

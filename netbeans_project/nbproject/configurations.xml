@@ -41,6 +41,10 @@
         <itemPath>../src/event/event.h</itemPath>
       </logicalFolder>
       <logicalFolder name="exception" displayName="exception" projectFiles="true">
+        <itemPath>../src/exception/badindexexception.cpp</itemPath>
+        <itemPath>../src/exception/badindexexception.h</itemPath>
+        <itemPath>../src/exception/badtypeexception.cpp</itemPath>
+        <itemPath>../src/exception/badtypeexception.h</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.h</itemPath>
       </logicalFolder>
@@ -151,6 +155,7 @@
         <itemPath>../src/resources/resource_ptr.h</itemPath>
         <itemPath>../src/resources/resources.cpp</itemPath>
         <itemPath>../src/resources/resources.h</itemPath>
+        <itemPath>../src/resources/resptrs_types.h</itemPath>
       </logicalFolder>
       <logicalFolder name="scene" displayName="scene" projectFiles="true">
         <itemPath>../src/scene/scene.cpp</itemPath>

@@ -9,7 +9,7 @@ class smart_ptr
 {
 public:
     smart_ptr();
-    smart_ptr(T* ptr_);
+    explicit smart_ptr(T* ptr_);
     smart_ptr(const smart_ptr<T>& sptr_);
     ~smart_ptr();
     
@@ -38,6 +38,9 @@ public:
     
     bool operator==(const smart_ptr<T>& sptr_) const;
     bool operator==(T* ptr_) const;
+    
+    bool operator!=(const smart_ptr<T>& sptr_) const;
+    bool operator!=(T* ptr_) const;
     
     template<class To, class From>
     friend smart_ptr<To>& smart_ptr_cast(smart_ptr<From>& sptr_);
@@ -215,6 +218,18 @@ template<class T>
 bool smart_ptr<T>::operator==(T* ptr_) const
 {
     return _equal(ptr_);
+}
+
+template<class T>
+bool smart_ptr<T>::operator!=(const smart_ptr<T>& sptr_) const
+{
+    return !_equal(sptr_);
+}
+
+template<class T>
+bool smart_ptr<T>::operator!=(T* ptr_) const
+{
+    return !_equal(ptr_);
 }
 
 /*

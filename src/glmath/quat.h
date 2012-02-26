@@ -3,7 +3,7 @@
 
 #include <math.h>
 //#include <algorithm>
-#include "../exception/exception.h"
+#include "exception/badindexexception.h"
 
 #include "vec2.h"
 #include "vec3.h"
@@ -40,12 +40,12 @@ public:
     vec4<T> xyzw() const;
     
     T angle() const;
-    vec3<T> axis() const throw(Exception&);
+    vec3<T> axis() const throw(BadIndexException&);
 
     operator T*();
     operator const T*() const;
-    T& operator[] (int index) throw(Exception&);
-    const T& operator[] (int index) const throw(Exception&);
+    T& operator[] (int index) throw(BadIndexException&);
+    const T& operator[] (int index) const throw(BadIndexException&);
     bool operator==(const quat<T>& _q) const;
     quat<T>& operator=(const quat<T>& _q);
     quat<T> operator-() const;
@@ -172,7 +172,7 @@ T quat<T>::angle() const
 }
 
 template <class T>
-vec3<T> quat<T>::axis() const throw(Exception&)
+vec3<T> quat<T>::axis() const throw(BadIndexException&)
 {
     vec3<T> res;
     T sin_a2;
@@ -180,7 +180,7 @@ vec3<T> quat<T>::axis() const throw(Exception&)
     sin_a2 = sqrt( 1.0f - w * w );
     
     if(sin_a2 == 0.0){
-        Exception e("Rotation is zero!");
+        BadIndexException e("Rotation is zero!");
         throw(e);
     }
     
@@ -204,16 +204,16 @@ quat<T>::operator const T*() const
 }
 
 template <class T>
-T& quat<T>::operator[](int index) throw(Exception&)
+T& quat<T>::operator[](int index) throw(BadIndexException&)
 {
-    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (Exception("Index out of range!"));
+    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (BadIndexException("Index out of range!"));
     return q[index];
 }
 
 template <class T>
-const T& quat<T>::operator[](int index) const throw(Exception&)
+const T& quat<T>::operator[](int index) const throw(BadIndexException&)
 {
-    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (Exception("Index out of range!"));
+    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (BadIndexException("Index out of range!"));
     return q[index];
 }
 
@@ -501,12 +501,12 @@ T inner(const quat<T>& q1, const quat<T>& q2)
 }
 
 template <class T>
-quat<T> normalize(const quat<T>& q) throw (Exception&)
+quat<T> normalize(const quat<T>& q) throw (BadIndexException&)
 {
     T l = magnitude(q);
     
     if(l == 0){
-        Exception e("Length is equal to zero!");
+        BadIndexException e("Length is equal to zero!");
         throw(e);
     }
     

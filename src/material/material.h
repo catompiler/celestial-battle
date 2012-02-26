@@ -1,13 +1,21 @@
 #ifndef _MATERIAL_H_
 #define _MATERIAL_H_
 
-#include "engine/engine.h"
-#include "glmath/glmath.h"
-#include "tlvariant/tlvariant.h"
 #include <string>
 #include <map>
 #include <utility>
 #include <stddef.h>
+#include "engine/engine.h"
+#include "glmath/glmath.h"
+#include "tlvariant/tlvariant.h"
+
+
+ENGINE_NAMESPACE_BEGIN
+class Material;
+ENGINE_NAMESPACE_END
+#include "resources/resptrs_types.h"
+
+
 
 ENGINE_NAMESPACE_BEGIN
 

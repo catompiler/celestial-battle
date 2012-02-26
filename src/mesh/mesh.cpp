@@ -7,6 +7,7 @@ ENGINE_NAMESPACE_BEGIN
 
 #define INVALID_INDEX (-1)
 
+const std::string Mesh::attrib_index_name = "in_index";
 const std::string Mesh::attrib_vertex_name = "in_vertex";
 const std::string Mesh::attrib_normal_name = "in_normal";
 const std::string Mesh::attrib_texuv_name = "in_texuv";
@@ -16,6 +17,7 @@ const std::string Mesh::attrib_tangent_name = "in_tangent";
 
 Mesh::Mesh()
 {
+    _indices_index = INVALID_INDEX;
     _vertices_index = INVALID_INDEX;
     _normals_index = INVALID_INDEX;
     _texuvs_index = INVALID_INDEX;
@@ -27,55 +29,58 @@ Mesh::~Mesh()
     
 }
 
-GL::Buffer* Mesh::indices()
+buffer_ptr Mesh::indices()
 {
-    return _indices;
+    if(_indices_index != INVALID_INDEX){
+        return _attribs.at(_indices_index).second;
+    }
+    return buffer_ptr(NULL);
 }
 
-GL::Buffer* Mesh::vertives()
+buffer_ptr Mesh::vertives()
 {
     if(_vertices_index != INVALID_INDEX){
         return _attribs.at(_vertices_index).second;
     }
-    return NULL;
+    return buffer_ptr(NULL);
 }
 
-GL::Buffer* Mesh::normals()
+buffer_ptr Mesh::normals()
 {
     if(_normals_index != INVALID_INDEX){
         return _attribs.at(_normals_index).second;
     }
-    return NULL;
+    return buffer_ptr(NULL);
 }
 
-GL::Buffer* Mesh::texuvs()
+buffer_ptr Mesh::texuvs()
 {
     if(_texuvs_index != INVALID_INDEX){
         return _attribs.at(_texuvs_index).second;
     }
-    return NULL;
+    return buffer_ptr(NULL);
 }
 
-GL::Buffer* Mesh::tangents()
+buffer_ptr Mesh::tangents()
 {
     if(_tangents_index != INVALID_INDEX){
         return _attribs.at(_tangents_index).second;
     }
-    return NULL;
+    return buffer_ptr(NULL);
 }
 
 bool Mesh::hasAttrib(const std::string& attrib_name_)
 {
-    return attrib(attrib_name_) != NULL;
+    return attrib(attrib_name_).get() != NULL;
 }
 
-GL::Buffer* Mesh::attrib(const std::string& attrib_name_)
+buffer_ptr Mesh::attrib(const std::string& attrib_name_)
 {
     int i = _getAttribIndexSorted(attrib_name_);
     if(i != INVALID_INDEX){
         return _attribs.at(i).second;
     }
-    return NULL;
+    return buffer_ptr(NULL);
 }
 
 void Mesh::_resortAttribs()

@@ -2,7 +2,7 @@
 #define _MAT2_H_
 
 #include <math.h>
-#include "../exception/exception.h"
+#include "exception/badindexexception.h"
 
 #include "vec2.h"
 
@@ -29,8 +29,8 @@ public:
     
     operator T*();
     operator const T*() const;
-    T& operator[] (int index) throw(Exception&);
-    const T& operator[] (int index) const throw(Exception&);
+    T& operator[] (int index) throw(BadIndexException&);
+    const T& operator[] (int index) const throw(BadIndexException&);
     bool operator==(const mat2<T>& _m) const;
     mat2<T>& operator=(const mat2<T>& _m);
 
@@ -130,16 +130,16 @@ mat2<T>::operator const T*() const
 }
 
 template <class T>
-T& mat2<T>::operator[] (int index) throw(Exception&)
+T& mat2<T>::operator[] (int index) throw(BadIndexException&)
 {
-    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (Exception("Index out of range!"));
+    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (BadIndexException("Index out of range!"));
     return mv[index];
 }
 
 template <class T>
-const T& mat2<T>::operator[] (int index) const throw(Exception&)
+const T& mat2<T>::operator[] (int index) const throw(BadIndexException&)
 {
-    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (Exception("Index out of range!"));
+    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (BadIndexException("Index out of range!"));
     return mv[index];
 }
 
@@ -331,12 +331,12 @@ T determinant(const mat2<T>& _m)
 }
 
 template <class T>
-mat2<T> invert(const mat2<T>& _m) throw(Exception&)
+mat2<T> invert(const mat2<T>& _m) throw(BadIndexException&)
 {
     T d = determinant(_m);
     
     if(d == 0.0){
-        Exception e("Determinant is zero!");
+        BadIndexException e("Determinant is zero!");
         throw(e);
     }
     

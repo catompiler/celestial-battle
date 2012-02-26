@@ -1,12 +1,19 @@
 #ifndef _MESH_H_
 #define _MESH_H_
 
-#include "glbuffer/glbuffer.h"
 #include "engine/engine.h"
 #include <string>
 #include <vector>
 #include <utility>
 #include <stddef.h>
+
+
+ENGINE_NAMESPACE_BEGIN
+class Mesh;
+ENGINE_NAMESPACE_END
+#include "resources/resptrs_types.h"
+
+
 
 ENGINE_NAMESPACE_BEGIN
 
@@ -15,6 +22,7 @@ class Mesh
 {
 public:
 
+    static const std::string attrib_index_name;
     static const std::string attrib_vertex_name;
     static const std::string attrib_normal_name;
     static const std::string attrib_texuv_name;
@@ -23,31 +31,24 @@ public:
     Mesh();
     ~Mesh();
 
-    GL::Buffer* indices();
-    GL::Buffer* vertives();
-    GL::Buffer* normals();
-    GL::Buffer* texuvs();
-    GL::Buffer* tangents();
+    buffer_ptr indices();
+    buffer_ptr vertives();
+    buffer_ptr normals();
+    buffer_ptr texuvs();
+    buffer_ptr tangents();
 
     bool hasAttrib(const std::string& attrib_name);
-    GL::Buffer* attrib(const std::string& attrib_name);
+    buffer_ptr attrib(const std::string& attrib_name);
 
 private:
 
-    size_t _indices_count;
-    GL::Buffer* _indices;
-
-    size_t _vertices_count;
-    /*GL::Buffer* _vertices;
-    GL::Buffer* _normals;
-    GL::Buffer* _texuvs;
-    GL::Buffer* _tangents;*/
+    int _indices_index;
     int _vertices_index;
     int _normals_index;
     int _texuvs_index;
     int _tangents_index;
 
-    typedef std::vector<std::pair<std::string, GL::Buffer*> > Attribs;
+    typedef std::vector<std::pair<std::string, buffer_ptr> > Attribs;
     Attribs _attribs;
     typedef Attribs::iterator AttribsIt;
 

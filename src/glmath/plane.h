@@ -2,7 +2,7 @@
 #define _PLANE_H_
 
 #include <math.h>
-#include "../exception/exception.h"
+#include "exception/badindexexception.h"
 
 #include "vec3.h"
 
@@ -23,8 +23,8 @@ public:
 
     operator T*();
     operator const T*() const;
-    T& operator[] (int index) throw(Exception&);
-    const T& operator[] (int index) const throw(Exception&);
+    T& operator[] (int index) throw(BadIndexException&);
+    const T& operator[] (int index) const throw(BadIndexException&);
     bool operator==(const plane<T>& _p) const;
     plane<T>& operator=(const plane<T>& _p);
 
@@ -86,16 +86,16 @@ plane<T>::operator const T*() const
 }
 
 template <class T>
-T& plane<T>::operator[](int index) throw(Exception&)
+T& plane<T>::operator[](int index) throw(BadIndexException&)
 {
-    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (Exception("Index out of range!"));
+    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (BadIndexException("Index out of range!"));
     return p[index];
 }
 
 template <class T>
-const T& plane<T>::operator[](int index) const throw(Exception&)
+const T& plane<T>::operator[](int index) const throw(BadIndexException&)
 {
-    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (Exception("Index out of range!"));
+    if(index < 0 || static_cast<size_t>(index) >= components_count) throw (BadIndexException("Index out of range!"));
     return p[index];
 }
 

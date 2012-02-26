@@ -3,20 +3,20 @@
 ENGINE_NAMESPACE_BEGIN
 
 
-RenderComponent::RenderComponent(Render* creator_,
+Graphics::Graphics(Render* creator_,
                                    const std::string& name_,
                                    Transformation* transformation_)
         :LocatedComponent(creator_, name_, transformation_)
 {
 }
 
-RenderComponent::~RenderComponent()
+Graphics::~Graphics()
 {
 }
 
 
 Render::Render()
-        :LocatedComponentFactoryTmpl<RenderComponent, Render>()
+        :LocatedComponentFactoryTmpl<Graphics, Render>()
 {
 }
 

@@ -2,7 +2,7 @@
 #define _TLVARIANT_H_
 
 #include <stddef.h>
-#include "exception/exception.h"
+#include "exception/badtypeexception.h"
 #include "typelist/typelist.h"
 
 
@@ -18,12 +18,12 @@ public:
     TLVariant(const TLVariant<TypeList>& v_);
     ~TLVariant();
     
-    template <class T> T& get() throw(Exception&);
-    template <class T> const T& get() const throw(Exception&);
+    template <class T> T& get() throw(BadTypeException&);
+    template <class T> const T& get() const throw(BadTypeException&);
     template <class T> void set(const T& v_);
 
-    template <class T> operator T&() throw(Exception&);
-    template <class T> operator const T&() const throw(Exception&);
+    template <class T> operator T&() throw(BadTypeException&);
+    template <class T> operator const T&() const throw(BadTypeException&);
     template <class T> TLVariant<TypeList>& operator=(const T& v_);
     TLVariant<TypeList>& operator=(const TLVariant<TypeList>& v_);
     
@@ -111,7 +111,7 @@ TLVariant<TypeList>::~TLVariant()
 
 template <class TypeList>
 template <class T>
-T& TLVariant<TypeList>::get() throw(Exception&)
+T& TLVariant<TypeList>::get() throw(BadTypeException&)
 {
     const int type_index = tl::index_of<TypeList, T>::value;
 #ifdef DEBUG
@@ -119,18 +119,18 @@ T& TLVariant<TypeList>::get() throw(Exception&)
 #endif
     if(type_index == -1){
         //return T();
-        throw(Exception("type not found"));
+        throw(BadTypeException("type not found"));
     }
     if((_value == NULL) || (_value->type_index() != type_index)){
         //return T();
-        throw(Exception("bad value type"));
+        throw(BadTypeException("bad value type"));
     }
     return static_cast<CurValue<T>*>(_value)->value();
 }
 
 template <class TypeList>
 template <class T>
-const T& TLVariant<TypeList>::get() const throw(Exception&)
+const T& TLVariant<TypeList>::get() const throw(BadTypeException&)
 {
     /*typedef T& (Value<TypeList>::*getProc)();
     getProc gp = &Value<TypeList>::get;
@@ -161,14 +161,14 @@ void TLVariant<TypeList>::set(const T& v_)
 
 template <class TypeList>
 template <class T>
-TLVariant<TypeList>::operator T&() throw(Exception&)
+TLVariant<TypeList>::operator T&() throw(BadTypeException&)
 {
     return get<T>();
 }
 
 template <class TypeList>
 template <class T>
-TLVariant<TypeList>::operator const T&() const throw(Exception&)
+TLVariant<TypeList>::operator const T&() const throw(BadTypeException&)
 {
     return get<T>();
 }

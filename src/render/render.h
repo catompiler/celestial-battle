@@ -5,6 +5,7 @@
 #include "component/locatedcomponent.h"
 #include "component/componentfactory.h"
 #include "transformstree/transformstree.h"
+#include "resources/resources.h"
 #include <string>
 
 
@@ -13,19 +14,26 @@ ENGINE_NAMESPACE_BEGIN
 
 class Render;
 
-class RenderComponent
+class Graphics
         :public LocatedComponent
 {
 public:
-    RenderComponent(Render* creator_,
+    Graphics(Render* creator_,
                      const std::string& name_,
                      Transformation* transformation_);
-    ~RenderComponent();
+    ~Graphics();
+    
+    void setMaterial(material_ptr material_);
+    material_ptr material();
+    
+    void setMesh(mesh_ptr mesh_);
+    mesh_ptr mesh();
+    
 };
 
 
 class Render
-        :public LocatedComponentFactoryTmpl<RenderComponent, Render>
+        :public LocatedComponentFactoryTmpl<Graphics, Render>
 {
 public:
     Render();

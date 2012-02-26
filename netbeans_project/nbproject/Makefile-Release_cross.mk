@@ -56,6 +56,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1534683872/event.o \
 	${OBJECTDIR}/_ext/86326340/thread.o \
 	${OBJECTDIR}/_ext/173017642/window_events.o \
+	${OBJECTDIR}/_ext/2106539989/badindexexception.o \
+	${OBJECTDIR}/_ext/2106539989/badtypeexception.o \
 	${OBJECTDIR}/_ext/897345942/string.o \
 	${OBJECTDIR}/_ext/1014552289/glbuffer.o \
 	${OBJECTDIR}/_ext/1677581042/transform.o \
@@ -218,6 +220,16 @@ ${OBJECTDIR}/_ext/173017642/window_events.o: ../src/window/window_events.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/173017642
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/173017642/window_events.o ../src/window/window_events.cpp
+
+${OBJECTDIR}/_ext/2106539989/badindexexception.o: ../src/exception/badindexexception.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/2106539989
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/2106539989/badindexexception.o ../src/exception/badindexexception.cpp
+
+${OBJECTDIR}/_ext/2106539989/badtypeexception.o: ../src/exception/badtypeexception.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/2106539989
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/2106539989/badtypeexception.o ../src/exception/badtypeexception.cpp
 
 ${OBJECTDIR}/_ext/897345942/string.o: /home/artem/devel/opengl/celestial-battle/src/string/string.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/897345942
