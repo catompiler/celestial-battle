@@ -137,6 +137,8 @@ private:
             return respair_.second->allptr() == _ptr;
         }
     private:
+        ResBasePtrCmp(){_ptr = NULL;}
+        
         AllType* _ptr;
     };
     

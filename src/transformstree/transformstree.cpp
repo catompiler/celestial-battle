@@ -199,7 +199,7 @@ TransformsTree::TransformsTree()
         :ComponentFactory()
 {
     _components = new Components;
-    _addNode(root_node_name);
+    _addRootNode();
 }
 
 TransformsTree::~TransformsTree()
@@ -307,6 +307,12 @@ TransformsTree::TransformNode* TransformsTree::_getNode(const std::string& name_
         return (*it).second;
     }
     return NULL;
+}
+
+void TransformsTree::_addRootNode()
+{
+    _root = new TransformNode(this, root_node_name);
+    _components->insert(std::make_pair(root_node_name, _root));
 }
 
 TransformsTree::TransformNode* TransformsTree::_addNode(const std::string& name_)

@@ -167,6 +167,7 @@ private:
     TransformNode* _root;
     Components* _components;
     
+    void _addRootNode();
     TransformNode* _getNode(const std::string& name_);
     TransformNode* _addNode(const std::string& name_);
     TransformNode* _addNode(const std::string& name_, TransformNode* parent_node_);

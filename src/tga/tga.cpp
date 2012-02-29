@@ -83,7 +83,7 @@ bool read(const std::string& fileName_, image_t* img_, direction_t dir_)
     img_->bpp = tga.bpp;
     img_->pixels = data;
     
-    direction_t img_dir = ((tga.description & 0x20) == 1) ? up_to_down : down_to_up;
+    direction_t img_dir = ((tga.description & 0x20) == 0x20) ? up_to_down : down_to_up;
     
     if(img_dir != dir_){
         size_t line_size = img_->width * bytepp;

@@ -28,8 +28,8 @@ struct Transform{
     mat4_t matrixPosRot() const;
     mat4_t matrix() const;
     
-    bool operator==(const Transform& transform_);
-    bool operator!=(const Transform& transform_);
+    bool operator==(const Transform& transform_) const;
+    bool operator!=(const Transform& transform_) const;
     Transform& operator=(const Transform& transform_);
     Transform& operator+=(const Transform& transform_);
     Transform& operator-=(const Transform& transform_);

@@ -15,7 +15,7 @@ typedef std::string::value_type value_t;
 iterator_t skip_ws(iterator_t begin, iterator_t end);
 //! skip comment, defined by comment_begin and comment_end
 iterator_t skip_comment(const std::string& comment_begin,
-                        const std::string comment_end,
+                        const std::string& comment_end,
                         iterator_t begin, iterator_t end);
 //! skip c-style comment
 iterator_t skip_c_comment(iterator_t begin, iterator_t end);

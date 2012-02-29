@@ -86,14 +86,14 @@ mat4_t Transform::matrix() const
     return res;
 }
 
-bool Transform::operator==(const Transform& transform_)
+bool Transform::operator==(const Transform& transform_) const
 {
     return position == transform_.position &&
            rotation == transform_.rotation &&
            scaling == transform_.scaling;
 }
 
-bool Transform::operator!=(const Transform& transform_)
+bool Transform::operator!=(const Transform& transform_) const
 {
     return !operator==(transform_);
 }
@@ -103,6 +103,8 @@ Transform& Transform::operator=(const Transform& transform_)
     position = transform_.position;
     rotation = transform_.rotation;
     scaling = transform_.scaling;
+    
+    return *this;
 }
 
 Transform& Transform::operator+=(const Transform& transform_)

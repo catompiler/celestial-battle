@@ -28,7 +28,7 @@ iterator_t skip_ws(iterator_t begin, iterator_t end)
 }
 
 iterator_t skip_comment(const std::string& comment_begin,
-                        const std::string comment_end,
+                        const std::string& comment_end,
                         iterator_t begin, iterator_t end)
 {
     if(comment_begin.length() > static_cast<unsigned int>(std::distance(begin, end))) return begin;
@@ -514,7 +514,7 @@ iterator_t ValueNumber::parse(iterator_t config_begin, iterator_t config_end) th
         throw(ConfigException("ValueNumber", "length of value is equal to zero", number_begin));
     }
     
-    for(std::string::const_iterator it = _single_chars.begin(); it != _single_chars.end(); it ++){
+    for(std::string::const_iterator it = _single_chars.begin(); it != _single_chars.end(); ++ it){
         if(std::count(number_begin, number_end, *it) > 1){
             throw(ConfigException("ValueNumber", "bad number", number_begin));
         }

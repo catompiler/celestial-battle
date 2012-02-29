@@ -45,6 +45,7 @@ unsigned int Utf8Char::toUInt() const
 Utf8Char& Utf8Char::operator=(const Utf8Char& c_)
 {
     _c = c_._c;
+    return *this;
 }
 
 bool Utf8Char::operator==(const Utf8Char& c_) const

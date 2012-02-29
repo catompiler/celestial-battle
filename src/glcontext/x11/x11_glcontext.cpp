@@ -97,7 +97,7 @@ GLContext* GLContext::create(const Window* window_, const Version& version_,
                         reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")
             )))){
                 //OpenGL 3.0 is not supported
-                glXMakeCurrent(Display::display(), origDrawWindow, origcxt);
+                glXMakeCurrent(origDisplay, origDrawWindow, origcxt);
                 return NULL;
             }
         }
