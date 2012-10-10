@@ -51,6 +51,7 @@ protected:
 template <class T>
 Node<T>::Node(){
     _childs = new Childs;
+    _parent = NULL;
 }
 
 template <class T>

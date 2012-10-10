@@ -47,8 +47,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1019042359/osal.o \
 	${OBJECTDIR}/_ext/1531546205/iconv.o \
 	${OBJECTDIR}/_ext/7752610/vfs.o \
-	${OBJECTDIR}/_ext/1923734139/glprogram.o \
 	${OBJECTDIR}/_ext/1521210933/timer.o \
+	${OBJECTDIR}/_ext/1923734139/glprogram.o \
 	${OBJECTDIR}/_ext/774992765/componentfactory.o \
 	${OBJECTDIR}/_ext/1522320622/scene.o \
 	${OBJECTDIR}/_ext/180677857/material.o \
@@ -62,9 +62,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1014552289/glbuffer.o \
 	${OBJECTDIR}/_ext/1677581042/transform.o \
 	${OBJECTDIR}/_ext/1521210933/settimer.o \
+	${OBJECTDIR}/_ext/666085778/glframebuffer.o \
 	${OBJECTDIR}/_ext/173017642/window.o \
 	${OBJECTDIR}/_ext/1667457878/exception.o \
-	${OBJECTDIR}/_ext/666085778/glframebuffer.o \
 	${OBJECTDIR}/_ext/1527311355/mutex.o \
 	${OBJECTDIR}/_ext/799496470/tgareader.o \
 	${OBJECTDIR}/_ext/659870665/fsentrypoint.o \
@@ -176,15 +176,15 @@ ${OBJECTDIR}/_ext/7752610/vfs.o: /home/artem/devel/opengl/celestial-battle/src/v
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/7752610/vfs.o /home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp
 
-${OBJECTDIR}/_ext/1923734139/glprogram.o: ../src/glprogram/glprogram.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1923734139
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1923734139/glprogram.o ../src/glprogram/glprogram.cpp
-
 ${OBJECTDIR}/_ext/1521210933/timer.o: ../src/timer/timer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/timer.o ../src/timer/timer.cpp
+
+${OBJECTDIR}/_ext/1923734139/glprogram.o: ../src/glprogram/glprogram.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1923734139
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1923734139/glprogram.o ../src/glprogram/glprogram.cpp
 
 ${OBJECTDIR}/_ext/774992765/componentfactory.o: ../src/component/componentfactory.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/774992765
@@ -251,6 +251,11 @@ ${OBJECTDIR}/_ext/1521210933/settimer.o: ../src/timer/settimer.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/settimer.o ../src/timer/settimer.cpp
 
+${OBJECTDIR}/_ext/666085778/glframebuffer.o: ../src/glframebuffer/glframebuffer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/666085778
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/666085778/glframebuffer.o ../src/glframebuffer/glframebuffer.cpp
+
 ${OBJECTDIR}/_ext/173017642/window.o: ../src/window/window.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/173017642
 	${RM} $@.d
@@ -260,11 +265,6 @@ ${OBJECTDIR}/_ext/1667457878/exception.o: /home/artem/devel/opengl/celestial-bat
 	${MKDIR} -p ${OBJECTDIR}/_ext/1667457878
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1667457878/exception.o /home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp
-
-${OBJECTDIR}/_ext/666085778/glframebuffer.o: ../src/glframebuffer/glframebuffer.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/666085778
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/666085778/glframebuffer.o ../src/glframebuffer/glframebuffer.cpp
 
 ${OBJECTDIR}/_ext/1527311355/mutex.o: ../src/mutex/mutex.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1527311355
