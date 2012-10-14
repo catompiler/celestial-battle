@@ -4,6 +4,7 @@
 #include "delegate/delegate.h"
 #include <list>
 #include <algorithm>
+#include <utility>
 
 
 template<class HandlerDelegate>
@@ -42,30 +43,30 @@ public:
 
 template<class Arg>
 class UnaryEvent
-    :public BaseEvent<UnaryDelegate<Arg, void> >
+    :public BaseEvent<UnaryDelegate<void, Arg> >
 {
 public:
     
-    typedef BaseEvent<UnaryDelegate<Arg, void> > Base;
+    typedef BaseEvent<UnaryDelegate<void, Arg> > Base;
     
     UnaryEvent();
     ~UnaryEvent();
     
-    void operator()(const Arg& arg_);
+    void operator()(Arg&& arg_);
 };
 
 template<class Arg1, class Arg2>
 class BinaryEvent
-    :public BaseEvent<BinaryDelegate<Arg1, Arg2, void> >
+    :public BaseEvent<BinaryDelegate<void, Arg1, Arg2> >
 {
 public:
     
-    typedef BaseEvent<BinaryDelegate<Arg1, Arg2, void> > Base;
+    typedef BaseEvent<BinaryDelegate<void, Arg1, Arg2> > Base;
     
     BinaryEvent();
     ~BinaryEvent();
     
-    void operator()(const Arg1& arg1_, const Arg2& arg2_);
+    void operator()(Arg1&& arg1_, Arg2&& arg2_);
 };
 
 
@@ -147,11 +148,11 @@ UnaryEvent<Arg>::~UnaryEvent()
 }
 
 template<class Arg>
-void UnaryEvent<Arg>::operator()(const Arg& arg_)
+void UnaryEvent<Arg>::operator()(Arg&& arg_)
 {
     for(typename Base::DelegateList::iterator it = Base::_delegate_list.begin();
             it != Base::_delegate_list.end(); ++it){
-        (*it)(arg_);
+        (*it)(std::forward<Arg>(arg_));
     }
 }
 
@@ -167,11 +168,11 @@ BinaryEvent<Arg1, Arg2>::~BinaryEvent()
 }
 
 template<class Arg1, class Arg2>
-void BinaryEvent<Arg1, Arg2>::operator()(const Arg1& arg1_, const Arg2& arg2_)
+void BinaryEvent<Arg1, Arg2>::operator()(Arg1&& arg1_, Arg2&& arg2_)
 {
     for(typename Base::DelegateList::iterator it = Base::_delegate_list.begin();
             it != Base::_delegate_list.end(); ++it){
-        (*it)(arg1_, arg2_);
+        (*it)(std::forward<Arg1>(arg1_), std::forward<Arg2>(arg2_));
     }
 }
 
