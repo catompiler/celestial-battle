@@ -152,7 +152,7 @@ int main(int /*argc*/, char** /*argv*/)
         return 1;
     }
     
-    cxt = GLContext::create(w, GLContext::Version(2,1));
+    cxt = GLContext::create(w, GLContext::Version(4, 2));
     if(cxt == NULL){
         log(Log::Error) << "Error creating context" << std::endl;
         Window::destroy(w);

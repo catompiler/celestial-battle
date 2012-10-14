@@ -6,13 +6,13 @@
 OPENGL_NAMESPACE_BEGIN
 
 
-bool isExtensionSupported(const char* name, bool except) throw(Exception&)
+static bool isExtensionSupported_impl_2(const char* name, bool except) throw(Exception&)
 {
-    static char *exts = 0;
-    if(exts == 0) exts = (char*)glGetString(GL_EXTENSIONS);
+    static const char *exts = 0;
+    if(exts == 0) exts = reinterpret_cast<const char*>(GL::glGetString(GL_EXTENSIONS));
 
     int len = strlen(name);
-    char *ext = strstr(exts, name);
+    const char *ext = strstr(exts, name);
 
     while(ext){
         if(ext[len] == ' ' || ext[len] == '\0') return true;
@@ -22,6 +22,29 @@ bool isExtensionSupported(const char* name, bool except) throw(Exception&)
     if(except == true) throw (Exception(name));
     
     return false;
+}
+
+static bool isExtensionSupported_impl_3(const char* name, bool except) throw(Exception&)
+{
+    GLint count = 0;
+    GL::glGetIntegerv(GL_NUM_EXTENSIONS, &count);
+    for(GLint i = 0; i < count; i ++){
+        if(strcmp(reinterpret_cast<const char*>(
+                        GL::glGetStringi(GL_EXTENSIONS, i)
+                  ), name) == 0){
+            return true;
+        }
+    }
+    
+    if(except == true) throw (Exception(name));
+    
+    return false;
+}
+
+bool isExtensionSupported(const char* name, bool except) throw(Exception&)
+{
+    if(GL::glGetStringi != nullptr) return isExtensionSupported_impl_3(name, except);
+    return isExtensionSupported_impl_2(name, except);
 }
 
 

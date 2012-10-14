@@ -1,7 +1,7 @@
 #ifndef _OPENGL_H
 #define _OPENGL_H
 
-#include <GL/gl.h>
+#include <GL/glcorearb.h>
 #include <GL/glext.h>
 #include "glcontext/glcontext.h"
 #include "exception/exception.h"

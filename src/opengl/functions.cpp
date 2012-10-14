@@ -4,7 +4,6 @@
 
 OPENGL_NAMESPACE_BEGIN
 
-
 bool GL_VERSION_1_0_supported = false;
 PFNGLCULLFACEPROC glCullFace = NULL;
 PFNGLFRONTFACEPROC glFrontFace = NULL;
@@ -305,6 +304,8 @@ PFNGLBLENDFUNCIPROC glBlendFunci = NULL;
 PFNGLBLENDFUNCSEPARATEIPROC glBlendFuncSeparatei = NULL;
 
 bool GL_VERSION_4_1_supported = false;
+bool GL_VERSION_4_2_supported = false;
+bool GL_VERSION_4_3_supported = false;
 bool GL_ARB_multitexture_supported = false;
 PFNGLACTIVETEXTUREARBPROC glActiveTextureARB = NULL;
 PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB = NULL;
@@ -697,6 +698,7 @@ PFNGLGETSAMPLERPARAMETERIIVPROC glGetSamplerParameterIiv = NULL;
 PFNGLGETSAMPLERPARAMETERFVPROC glGetSamplerParameterfv = NULL;
 PFNGLGETSAMPLERPARAMETERIUIVPROC glGetSamplerParameterIuiv = NULL;
 
+bool GL_ARB_shader_bit_encoding_supported = false;
 bool GL_ARB_texture_rgb10_a2ui_supported = false;
 bool GL_ARB_texture_swizzle_supported = false;
 bool GL_ARB_timer_query_supported = false;
@@ -908,18 +910,6 @@ PFNGLGETDEBUGMESSAGELOGARBPROC glGetDebugMessageLogARB = NULL;
 
 bool GL_ARB_robustness_supported = false;
 PFNGLGETGRAPHICSRESETSTATUSARBPROC glGetGraphicsResetStatusARB = NULL;
-PFNGLGETNMAPDVARBPROC glGetnMapdvARB = NULL;
-PFNGLGETNMAPFVARBPROC glGetnMapfvARB = NULL;
-PFNGLGETNMAPIVARBPROC glGetnMapivARB = NULL;
-PFNGLGETNPIXELMAPFVARBPROC glGetnPixelMapfvARB = NULL;
-PFNGLGETNPIXELMAPUIVARBPROC glGetnPixelMapuivARB = NULL;
-PFNGLGETNPIXELMAPUSVARBPROC glGetnPixelMapusvARB = NULL;
-PFNGLGETNPOLYGONSTIPPLEARBPROC glGetnPolygonStippleARB = NULL;
-PFNGLGETNCOLORTABLEARBPROC glGetnColorTableARB = NULL;
-PFNGLGETNCONVOLUTIONFILTERARBPROC glGetnConvolutionFilterARB = NULL;
-PFNGLGETNSEPARABLEFILTERARBPROC glGetnSeparableFilterARB = NULL;
-PFNGLGETNHISTOGRAMARBPROC glGetnHistogramARB = NULL;
-PFNGLGETNMINMAXARBPROC glGetnMinmaxARB = NULL;
 PFNGLGETNTEXIMAGEARBPROC glGetnTexImageARB = NULL;
 PFNGLREADNPIXELSARBPROC glReadnPixelsARB = NULL;
 PFNGLGETNCOMPRESSEDTEXIMAGEARBPROC glGetnCompressedTexImageARB = NULL;
@@ -929,6 +919,132 @@ PFNGLGETNUNIFORMUIVARBPROC glGetnUniformuivARB = NULL;
 PFNGLGETNUNIFORMDVARBPROC glGetnUniformdvARB = NULL;
 
 bool GL_ARB_shader_stencil_export_supported = false;
+bool GL_ARB_base_instance_supported = false;
+PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC glDrawArraysInstancedBaseInstance = NULL;
+PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC glDrawElementsInstancedBaseInstance = NULL;
+PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXBASEINSTANCEPROC glDrawElementsInstancedBaseVertexBaseInstance = NULL;
+
+bool GL_ARB_shading_language_420pack_supported = false;
+bool GL_ARB_transform_feedback_instanced_supported = false;
+PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC glDrawTransformFeedbackInstanced = NULL;
+PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC glDrawTransformFeedbackStreamInstanced = NULL;
+
+bool GL_ARB_compressed_texture_pixel_storage_supported = false;
+bool GL_ARB_conservative_depth_supported = false;
+bool GL_ARB_internalformat_query_supported = false;
+PFNGLGETINTERNALFORMATIVPROC glGetInternalformativ = NULL;
+
+bool GL_ARB_map_buffer_alignment_supported = false;
+bool GL_ARB_shader_atomic_counters_supported = false;
+PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC glGetActiveAtomicCounterBufferiv = NULL;
+
+bool GL_ARB_shader_image_load_store_supported = false;
+PFNGLBINDIMAGETEXTUREPROC glBindImageTexture = NULL;
+PFNGLMEMORYBARRIERPROC glMemoryBarrier = NULL;
+
+bool GL_ARB_shading_language_packing_supported = false;
+bool GL_ARB_texture_storage_supported = false;
+PFNGLTEXSTORAGE1DPROC glTexStorage1D = NULL;
+PFNGLTEXSTORAGE2DPROC glTexStorage2D = NULL;
+PFNGLTEXSTORAGE3DPROC glTexStorage3D = NULL;
+PFNGLTEXTURESTORAGE1DEXTPROC glTextureStorage1DEXT = NULL;
+PFNGLTEXTURESTORAGE2DEXTPROC glTextureStorage2DEXT = NULL;
+PFNGLTEXTURESTORAGE3DEXTPROC glTextureStorage3DEXT = NULL;
+
+bool GL_KHR_texture_compression_astc_ldr_supported = false;
+bool GL_KHR_debug_supported = false;
+PFNGLDEBUGMESSAGECONTROLPROC glDebugMessageControl = NULL;
+PFNGLDEBUGMESSAGEINSERTPROC glDebugMessageInsert = NULL;
+PFNGLDEBUGMESSAGECALLBACKPROC glDebugMessageCallback = NULL;
+PFNGLGETDEBUGMESSAGELOGPROC glGetDebugMessageLog = NULL;
+PFNGLPUSHDEBUGGROUPPROC glPushDebugGroup = NULL;
+PFNGLPOPDEBUGGROUPPROC glPopDebugGroup = NULL;
+PFNGLOBJECTLABELPROC glObjectLabel = NULL;
+PFNGLGETOBJECTLABELPROC glGetObjectLabel = NULL;
+PFNGLOBJECTPTRLABELPROC glObjectPtrLabel = NULL;
+PFNGLGETOBJECTPTRLABELPROC glGetObjectPtrLabel = NULL;
+
+bool GL_ARB_arrays_of_arrays_supported = false;
+bool GL_ARB_clear_buffer_object_supported = false;
+PFNGLCLEARBUFFERDATAPROC glClearBufferData = NULL;
+PFNGLCLEARBUFFERSUBDATAPROC glClearBufferSubData = NULL;
+PFNGLCLEARNAMEDBUFFERDATAEXTPROC glClearNamedBufferDataEXT = NULL;
+PFNGLCLEARNAMEDBUFFERSUBDATAEXTPROC glClearNamedBufferSubDataEXT = NULL;
+
+bool GL_ARB_compute_shader_supported = false;
+PFNGLDISPATCHCOMPUTEPROC glDispatchCompute = NULL;
+PFNGLDISPATCHCOMPUTEINDIRECTPROC glDispatchComputeIndirect = NULL;
+
+bool GL_ARB_copy_image_supported = false;
+PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubData = NULL;
+
+bool GL_ARB_texture_view_supported = false;
+PFNGLTEXTUREVIEWPROC glTextureView = NULL;
+
+bool GL_ARB_vertex_attrib_binding_supported = false;
+PFNGLBINDVERTEXBUFFERPROC glBindVertexBuffer = NULL;
+PFNGLVERTEXATTRIBFORMATPROC glVertexAttribFormat = NULL;
+PFNGLVERTEXATTRIBIFORMATPROC glVertexAttribIFormat = NULL;
+PFNGLVERTEXATTRIBLFORMATPROC glVertexAttribLFormat = NULL;
+PFNGLVERTEXATTRIBBINDINGPROC glVertexAttribBinding = NULL;
+PFNGLVERTEXBINDINGDIVISORPROC glVertexBindingDivisor = NULL;
+PFNGLVERTEXARRAYBINDVERTEXBUFFEREXTPROC glVertexArrayBindVertexBufferEXT = NULL;
+PFNGLVERTEXARRAYVERTEXATTRIBFORMATEXTPROC glVertexArrayVertexAttribFormatEXT = NULL;
+PFNGLVERTEXARRAYVERTEXATTRIBIFORMATEXTPROC glVertexArrayVertexAttribIFormatEXT = NULL;
+PFNGLVERTEXARRAYVERTEXATTRIBLFORMATEXTPROC glVertexArrayVertexAttribLFormatEXT = NULL;
+PFNGLVERTEXARRAYVERTEXATTRIBBINDINGEXTPROC glVertexArrayVertexAttribBindingEXT = NULL;
+PFNGLVERTEXARRAYVERTEXBINDINGDIVISOREXTPROC glVertexArrayVertexBindingDivisorEXT = NULL;
+
+bool GL_ARB_robustness_isolation_supported = false;
+bool GL_ARB_ES3_compatibility_supported = false;
+bool GL_ARB_explicit_uniform_location_supported = false;
+bool GL_ARB_fragment_layer_viewport_supported = false;
+bool GL_ARB_framebuffer_no_attachments_supported = false;
+PFNGLFRAMEBUFFERPARAMETERIPROC glFramebufferParameteri = NULL;
+PFNGLGETFRAMEBUFFERPARAMETERIVPROC glGetFramebufferParameteriv = NULL;
+PFNGLNAMEDFRAMEBUFFERPARAMETERIEXTPROC glNamedFramebufferParameteriEXT = NULL;
+PFNGLGETNAMEDFRAMEBUFFERPARAMETERIVEXTPROC glGetNamedFramebufferParameterivEXT = NULL;
+
+bool GL_ARB_internalformat_query2_supported = false;
+PFNGLGETINTERNALFORMATI64VPROC glGetInternalformati64v = NULL;
+
+bool GL_ARB_invalidate_subdata_supported = false;
+PFNGLINVALIDATETEXSUBIMAGEPROC glInvalidateTexSubImage = NULL;
+PFNGLINVALIDATETEXIMAGEPROC glInvalidateTexImage = NULL;
+PFNGLINVALIDATEBUFFERSUBDATAPROC glInvalidateBufferSubData = NULL;
+PFNGLINVALIDATEBUFFERDATAPROC glInvalidateBufferData = NULL;
+PFNGLINVALIDATEFRAMEBUFFERPROC glInvalidateFramebuffer = NULL;
+PFNGLINVALIDATESUBFRAMEBUFFERPROC glInvalidateSubFramebuffer = NULL;
+
+bool GL_ARB_multi_draw_indirect_supported = false;
+PFNGLMULTIDRAWARRAYSINDIRECTPROC glMultiDrawArraysIndirect = NULL;
+PFNGLMULTIDRAWELEMENTSINDIRECTPROC glMultiDrawElementsIndirect = NULL;
+
+bool GL_ARB_program_interface_query_supported = false;
+PFNGLGETPROGRAMINTERFACEIVPROC glGetProgramInterfaceiv = NULL;
+PFNGLGETPROGRAMRESOURCEINDEXPROC glGetProgramResourceIndex = NULL;
+PFNGLGETPROGRAMRESOURCENAMEPROC glGetProgramResourceName = NULL;
+PFNGLGETPROGRAMRESOURCEIVPROC glGetProgramResourceiv = NULL;
+PFNGLGETPROGRAMRESOURCELOCATIONPROC glGetProgramResourceLocation = NULL;
+PFNGLGETPROGRAMRESOURCELOCATIONINDEXPROC glGetProgramResourceLocationIndex = NULL;
+
+bool GL_ARB_robust_buffer_access_behavior_supported = false;
+bool GL_ARB_shader_image_size_supported = false;
+bool GL_ARB_shader_storage_buffer_object_supported = false;
+PFNGLSHADERSTORAGEBLOCKBINDINGPROC glShaderStorageBlockBinding = NULL;
+
+bool GL_ARB_stencil_texturing_supported = false;
+bool GL_ARB_texture_buffer_range_supported = false;
+PFNGLTEXBUFFERRANGEPROC glTexBufferRange = NULL;
+PFNGLTEXTUREBUFFERRANGEEXTPROC glTextureBufferRangeEXT = NULL;
+
+bool GL_ARB_texture_query_levels_supported = false;
+bool GL_ARB_texture_storage_multisample_supported = false;
+PFNGLTEXSTORAGE2DMULTISAMPLEPROC glTexStorage2DMultisample = NULL;
+PFNGLTEXSTORAGE3DMULTISAMPLEPROC glTexStorage3DMultisample = NULL;
+PFNGLTEXTURESTORAGE2DMULTISAMPLEEXTPROC glTextureStorage2DMultisampleEXT = NULL;
+PFNGLTEXTURESTORAGE3DMULTISAMPLEEXTPROC glTextureStorage3DMultisampleEXT = NULL;
+
 bool GL_EXT_abgr_supported = false;
 bool GL_EXT_blend_color_supported = false;
 PFNGLBLENDCOLOREXTPROC glBlendColorEXT = NULL;
@@ -1216,6 +1332,8 @@ PFNGLPIXELTRANSFORMPARAMETERIEXTPROC glPixelTransformParameteriEXT = NULL;
 PFNGLPIXELTRANSFORMPARAMETERFEXTPROC glPixelTransformParameterfEXT = NULL;
 PFNGLPIXELTRANSFORMPARAMETERIVEXTPROC glPixelTransformParameterivEXT = NULL;
 PFNGLPIXELTRANSFORMPARAMETERFVEXTPROC glPixelTransformParameterfvEXT = NULL;
+PFNGLGETPIXELTRANSFORMPARAMETERIVEXTPROC glGetPixelTransformParameterivEXT = NULL;
+PFNGLGETPIXELTRANSFORMPARAMETERFVEXTPROC glGetPixelTransformParameterfvEXT = NULL;
 
 bool GL_EXT_pixel_transform_color_table_supported = false;
 bool GL_EXT_shared_texture_palette_supported = false;
@@ -2492,6 +2610,105 @@ PFNGLVDPAUUNMAPSURFACESNVPROC glVDPAUUnmapSurfacesNV = NULL;
 
 bool GL_AMD_transform_feedback3_lines_triangles_supported = false;
 bool GL_AMD_depth_clamp_separate_supported = false;
+bool GL_EXT_texture_sRGB_decode_supported = false;
+bool GL_NV_texture_multisample_supported = false;
+PFNGLTEXIMAGE2DMULTISAMPLECOVERAGENVPROC glTexImage2DMultisampleCoverageNV = NULL;
+PFNGLTEXIMAGE3DMULTISAMPLECOVERAGENVPROC glTexImage3DMultisampleCoverageNV = NULL;
+PFNGLTEXTUREIMAGE2DMULTISAMPLENVPROC glTextureImage2DMultisampleNV = NULL;
+PFNGLTEXTUREIMAGE3DMULTISAMPLENVPROC glTextureImage3DMultisampleNV = NULL;
+PFNGLTEXTUREIMAGE2DMULTISAMPLECOVERAGENVPROC glTextureImage2DMultisampleCoverageNV = NULL;
+PFNGLTEXTUREIMAGE3DMULTISAMPLECOVERAGENVPROC glTextureImage3DMultisampleCoverageNV = NULL;
+
+bool GL_AMD_blend_minmax_factor_supported = false;
+bool GL_AMD_sample_positions_supported = false;
+PFNGLSETMULTISAMPLEFVAMDPROC glSetMultisamplefvAMD = NULL;
+
+bool GL_EXT_x11_sync_object_supported = false;
+PFNGLIMPORTSYNCEXTPROC glImportSyncEXT = NULL;
+
+bool GL_AMD_multi_draw_indirect_supported = false;
+PFNGLMULTIDRAWARRAYSINDIRECTAMDPROC glMultiDrawArraysIndirectAMD = NULL;
+PFNGLMULTIDRAWELEMENTSINDIRECTAMDPROC glMultiDrawElementsIndirectAMD = NULL;
+
+bool GL_EXT_framebuffer_multisample_blit_scaled_supported = false;
+bool GL_NV_path_rendering_supported = false;
+PFNGLGENPATHSNVPROC glGenPathsNV = NULL;
+PFNGLDELETEPATHSNVPROC glDeletePathsNV = NULL;
+PFNGLISPATHNVPROC glIsPathNV = NULL;
+PFNGLPATHCOMMANDSNVPROC glPathCommandsNV = NULL;
+PFNGLPATHCOORDSNVPROC glPathCoordsNV = NULL;
+PFNGLPATHSUBCOMMANDSNVPROC glPathSubCommandsNV = NULL;
+PFNGLPATHSUBCOORDSNVPROC glPathSubCoordsNV = NULL;
+PFNGLPATHSTRINGNVPROC glPathStringNV = NULL;
+PFNGLPATHGLYPHSNVPROC glPathGlyphsNV = NULL;
+PFNGLPATHGLYPHRANGENVPROC glPathGlyphRangeNV = NULL;
+PFNGLWEIGHTPATHSNVPROC glWeightPathsNV = NULL;
+PFNGLCOPYPATHNVPROC glCopyPathNV = NULL;
+PFNGLINTERPOLATEPATHSNVPROC glInterpolatePathsNV = NULL;
+PFNGLTRANSFORMPATHNVPROC glTransformPathNV = NULL;
+PFNGLPATHPARAMETERIVNVPROC glPathParameterivNV = NULL;
+PFNGLPATHPARAMETERINVPROC glPathParameteriNV = NULL;
+PFNGLPATHPARAMETERFVNVPROC glPathParameterfvNV = NULL;
+PFNGLPATHPARAMETERFNVPROC glPathParameterfNV = NULL;
+PFNGLPATHDASHARRAYNVPROC glPathDashArrayNV = NULL;
+PFNGLPATHSTENCILFUNCNVPROC glPathStencilFuncNV = NULL;
+PFNGLPATHSTENCILDEPTHOFFSETNVPROC glPathStencilDepthOffsetNV = NULL;
+PFNGLSTENCILFILLPATHNVPROC glStencilFillPathNV = NULL;
+PFNGLSTENCILSTROKEPATHNVPROC glStencilStrokePathNV = NULL;
+PFNGLSTENCILFILLPATHINSTANCEDNVPROC glStencilFillPathInstancedNV = NULL;
+PFNGLSTENCILSTROKEPATHINSTANCEDNVPROC glStencilStrokePathInstancedNV = NULL;
+PFNGLPATHCOVERDEPTHFUNCNVPROC glPathCoverDepthFuncNV = NULL;
+PFNGLPATHCOLORGENNVPROC glPathColorGenNV = NULL;
+PFNGLPATHTEXGENNVPROC glPathTexGenNV = NULL;
+PFNGLPATHFOGGENNVPROC glPathFogGenNV = NULL;
+PFNGLCOVERFILLPATHNVPROC glCoverFillPathNV = NULL;
+PFNGLCOVERSTROKEPATHNVPROC glCoverStrokePathNV = NULL;
+PFNGLCOVERFILLPATHINSTANCEDNVPROC glCoverFillPathInstancedNV = NULL;
+PFNGLCOVERSTROKEPATHINSTANCEDNVPROC glCoverStrokePathInstancedNV = NULL;
+PFNGLGETPATHPARAMETERIVNVPROC glGetPathParameterivNV = NULL;
+PFNGLGETPATHPARAMETERFVNVPROC glGetPathParameterfvNV = NULL;
+PFNGLGETPATHCOMMANDSNVPROC glGetPathCommandsNV = NULL;
+PFNGLGETPATHCOORDSNVPROC glGetPathCoordsNV = NULL;
+PFNGLGETPATHDASHARRAYNVPROC glGetPathDashArrayNV = NULL;
+PFNGLGETPATHMETRICSNVPROC glGetPathMetricsNV = NULL;
+PFNGLGETPATHMETRICRANGENVPROC glGetPathMetricRangeNV = NULL;
+PFNGLGETPATHSPACINGNVPROC glGetPathSpacingNV = NULL;
+PFNGLGETPATHCOLORGENIVNVPROC glGetPathColorGenivNV = NULL;
+PFNGLGETPATHCOLORGENFVNVPROC glGetPathColorGenfvNV = NULL;
+PFNGLGETPATHTEXGENIVNVPROC glGetPathTexGenivNV = NULL;
+PFNGLGETPATHTEXGENFVNVPROC glGetPathTexGenfvNV = NULL;
+PFNGLISPOINTINFILLPATHNVPROC glIsPointInFillPathNV = NULL;
+PFNGLISPOINTINSTROKEPATHNVPROC glIsPointInStrokePathNV = NULL;
+PFNGLGETPATHLENGTHNVPROC glGetPathLengthNV = NULL;
+PFNGLPOINTALONGPATHNVPROC glPointAlongPathNV = NULL;
+
+bool GL_AMD_pinned_memory_supported = false;
+bool GL_AMD_stencil_operation_extended_supported = false;
+PFNGLSTENCILOPVALUEAMDPROC glStencilOpValueAMD = NULL;
+
+bool GL_AMD_vertex_shader_viewport_index_supported = false;
+bool GL_AMD_vertex_shader_layer_supported = false;
+bool GL_NV_bindless_texture_supported = false;
+PFNGLGETTEXTUREHANDLENVPROC glGetTextureHandleNV = NULL;
+PFNGLGETTEXTURESAMPLERHANDLENVPROC glGetTextureSamplerHandleNV = NULL;
+PFNGLMAKETEXTUREHANDLERESIDENTNVPROC glMakeTextureHandleResidentNV = NULL;
+PFNGLMAKETEXTUREHANDLENONRESIDENTNVPROC glMakeTextureHandleNonResidentNV = NULL;
+PFNGLGETIMAGEHANDLENVPROC glGetImageHandleNV = NULL;
+PFNGLMAKEIMAGEHANDLERESIDENTNVPROC glMakeImageHandleResidentNV = NULL;
+PFNGLMAKEIMAGEHANDLENONRESIDENTNVPROC glMakeImageHandleNonResidentNV = NULL;
+PFNGLUNIFORMHANDLEUI64NVPROC glUniformHandleui64NV = NULL;
+PFNGLUNIFORMHANDLEUI64VNVPROC glUniformHandleui64vNV = NULL;
+PFNGLPROGRAMUNIFORMHANDLEUI64NVPROC glProgramUniformHandleui64NV = NULL;
+PFNGLPROGRAMUNIFORMHANDLEUI64VNVPROC glProgramUniformHandleui64vNV = NULL;
+PFNGLISTEXTUREHANDLERESIDENTNVPROC glIsTextureHandleResidentNV = NULL;
+PFNGLISIMAGEHANDLERESIDENTNVPROC glIsImageHandleResidentNV = NULL;
+
+bool GL_NV_shader_atomic_float_supported = false;
+bool GL_AMD_query_buffer_object_supported = false;
+bool GL_AMD_sparse_texture_supported = false;
+PFNGLTEXSTORAGESPARSEAMDPROC glTexStorageSparseAMD = NULL;
+PFNGLTEXTURESTORAGESPARSEAMDPROC glTextureStorageSparseAMD = NULL;
+
 
 
 bool initFunctions()
@@ -2864,6 +3081,8 @@ bool initFunctions()
         }
     }
     GL_VERSION_4_1_supported = false;
+    GL_VERSION_4_2_supported = false;
+    GL_VERSION_4_3_supported = false;
 
     if(GL_ARB_multitexture_supported = isExtensionSupported("GL_ARB_multitexture", false)){
         if(getProcAddress("glActiveTextureARB", glActiveTextureARB, false) == false
@@ -3388,6 +3607,7 @@ bool initFunctions()
             GL_ARB_sampler_objects_supported = false;
         }
     }
+    GL_ARB_shader_bit_encoding_supported = isExtensionSupported("GL_ARB_shader_bit_encoding", false);
     GL_ARB_texture_rgb10_a2ui_supported = isExtensionSupported("GL_ARB_texture_rgb10_a2ui", false);
     GL_ARB_texture_swizzle_supported = isExtensionSupported("GL_ARB_texture_swizzle", false);
 
@@ -3660,18 +3880,6 @@ bool initFunctions()
 
     if(GL_ARB_robustness_supported = isExtensionSupported("GL_ARB_robustness", false)){
         if(getProcAddress("glGetGraphicsResetStatusARB", glGetGraphicsResetStatusARB, false) == false
-            || getProcAddress("glGetnMapdvARB", glGetnMapdvARB, false) == false
-            || getProcAddress("glGetnMapfvARB", glGetnMapfvARB, false) == false
-            || getProcAddress("glGetnMapivARB", glGetnMapivARB, false) == false
-            || getProcAddress("glGetnPixelMapfvARB", glGetnPixelMapfvARB, false) == false
-            || getProcAddress("glGetnPixelMapuivARB", glGetnPixelMapuivARB, false) == false
-            || getProcAddress("glGetnPixelMapusvARB", glGetnPixelMapusvARB, false) == false
-            || getProcAddress("glGetnPolygonStippleARB", glGetnPolygonStippleARB, false) == false
-            || getProcAddress("glGetnColorTableARB", glGetnColorTableARB, false) == false
-            || getProcAddress("glGetnConvolutionFilterARB", glGetnConvolutionFilterARB, false) == false
-            || getProcAddress("glGetnSeparableFilterARB", glGetnSeparableFilterARB, false) == false
-            || getProcAddress("glGetnHistogramARB", glGetnHistogramARB, false) == false
-            || getProcAddress("glGetnMinmaxARB", glGetnMinmaxARB, false) == false
             || getProcAddress("glGetnTexImageARB", glGetnTexImageARB, false) == false
             || getProcAddress("glReadnPixelsARB", glReadnPixelsARB, false) == false
             || getProcAddress("glGetnCompressedTexImageARB", glGetnCompressedTexImageARB, false) == false
@@ -3684,6 +3892,212 @@ bool initFunctions()
         }
     }
     GL_ARB_shader_stencil_export_supported = isExtensionSupported("GL_ARB_shader_stencil_export", false);
+
+    if(GL_ARB_base_instance_supported = isExtensionSupported("GL_ARB_base_instance", false)){
+        if(getProcAddress("glDrawArraysInstancedBaseInstance", glDrawArraysInstancedBaseInstance, false) == false
+            || getProcAddress("glDrawElementsInstancedBaseInstance", glDrawElementsInstancedBaseInstance, false) == false
+            || getProcAddress("glDrawElementsInstancedBaseVertexBaseInstance", glDrawElementsInstancedBaseVertexBaseInstance, false) == false
+        ){
+            GL_ARB_base_instance_supported = false;
+        }
+    }
+    GL_ARB_shading_language_420pack_supported = isExtensionSupported("GL_ARB_shading_language_420pack", false);
+
+    if(GL_ARB_transform_feedback_instanced_supported = isExtensionSupported("GL_ARB_transform_feedback_instanced", false)){
+        if(getProcAddress("glDrawTransformFeedbackInstanced", glDrawTransformFeedbackInstanced, false) == false
+            || getProcAddress("glDrawTransformFeedbackStreamInstanced", glDrawTransformFeedbackStreamInstanced, false) == false
+        ){
+            GL_ARB_transform_feedback_instanced_supported = false;
+        }
+    }
+    GL_ARB_compressed_texture_pixel_storage_supported = isExtensionSupported("GL_ARB_compressed_texture_pixel_storage", false);
+    GL_ARB_conservative_depth_supported = isExtensionSupported("GL_ARB_conservative_depth", false);
+
+    if(GL_ARB_internalformat_query_supported = isExtensionSupported("GL_ARB_internalformat_query", false)){
+        if(getProcAddress("glGetInternalformativ", glGetInternalformativ, false) == false
+        ){
+            GL_ARB_internalformat_query_supported = false;
+        }
+    }
+    GL_ARB_map_buffer_alignment_supported = isExtensionSupported("GL_ARB_map_buffer_alignment", false);
+
+    if(GL_ARB_shader_atomic_counters_supported = isExtensionSupported("GL_ARB_shader_atomic_counters", false)){
+        if(getProcAddress("glGetActiveAtomicCounterBufferiv", glGetActiveAtomicCounterBufferiv, false) == false
+        ){
+            GL_ARB_shader_atomic_counters_supported = false;
+        }
+    }
+
+    if(GL_ARB_shader_image_load_store_supported = isExtensionSupported("GL_ARB_shader_image_load_store", false)){
+        if(getProcAddress("glBindImageTexture", glBindImageTexture, false) == false
+            || getProcAddress("glMemoryBarrier", glMemoryBarrier, false) == false
+        ){
+            GL_ARB_shader_image_load_store_supported = false;
+        }
+    }
+    GL_ARB_shading_language_packing_supported = isExtensionSupported("GL_ARB_shading_language_packing", false);
+
+    if(GL_ARB_texture_storage_supported = isExtensionSupported("GL_ARB_texture_storage", false)){
+        if(getProcAddress("glTexStorage1D", glTexStorage1D, false) == false
+            || getProcAddress("glTexStorage2D", glTexStorage2D, false) == false
+            || getProcAddress("glTexStorage3D", glTexStorage3D, false) == false
+            || getProcAddress("glTextureStorage1DEXT", glTextureStorage1DEXT, false) == false
+            || getProcAddress("glTextureStorage2DEXT", glTextureStorage2DEXT, false) == false
+            || getProcAddress("glTextureStorage3DEXT", glTextureStorage3DEXT, false) == false
+        ){
+            GL_ARB_texture_storage_supported = false;
+        }
+    }
+    GL_KHR_texture_compression_astc_ldr_supported = isExtensionSupported("GL_KHR_texture_compression_astc_ldr", false);
+
+    if(GL_KHR_debug_supported = isExtensionSupported("GL_KHR_debug", false)){
+        if(getProcAddress("glDebugMessageControl", glDebugMessageControl, false) == false
+            || getProcAddress("glDebugMessageInsert", glDebugMessageInsert, false) == false
+            || getProcAddress("glDebugMessageCallback", glDebugMessageCallback, false) == false
+            || getProcAddress("glGetDebugMessageLog", glGetDebugMessageLog, false) == false
+            || getProcAddress("glPushDebugGroup", glPushDebugGroup, false) == false
+            || getProcAddress("glPopDebugGroup", glPopDebugGroup, false) == false
+            || getProcAddress("glObjectLabel", glObjectLabel, false) == false
+            || getProcAddress("glGetObjectLabel", glGetObjectLabel, false) == false
+            || getProcAddress("glObjectPtrLabel", glObjectPtrLabel, false) == false
+            || getProcAddress("glGetObjectPtrLabel", glGetObjectPtrLabel, false) == false
+        ){
+            GL_KHR_debug_supported = false;
+        }
+    }
+    GL_ARB_arrays_of_arrays_supported = isExtensionSupported("GL_ARB_arrays_of_arrays", false);
+
+    if(GL_ARB_clear_buffer_object_supported = isExtensionSupported("GL_ARB_clear_buffer_object", false)){
+        if(getProcAddress("glClearBufferData", glClearBufferData, false) == false
+            || getProcAddress("glClearBufferSubData", glClearBufferSubData, false) == false
+            || getProcAddress("glClearNamedBufferDataEXT", glClearNamedBufferDataEXT, false) == false
+            || getProcAddress("glClearNamedBufferSubDataEXT", glClearNamedBufferSubDataEXT, false) == false
+        ){
+            GL_ARB_clear_buffer_object_supported = false;
+        }
+    }
+
+    if(GL_ARB_compute_shader_supported = isExtensionSupported("GL_ARB_compute_shader", false)){
+        if(getProcAddress("glDispatchCompute", glDispatchCompute, false) == false
+            || getProcAddress("glDispatchComputeIndirect", glDispatchComputeIndirect, false) == false
+        ){
+            GL_ARB_compute_shader_supported = false;
+        }
+    }
+
+    if(GL_ARB_copy_image_supported = isExtensionSupported("GL_ARB_copy_image", false)){
+        if(getProcAddress("glCopyImageSubData", glCopyImageSubData, false) == false
+        ){
+            GL_ARB_copy_image_supported = false;
+        }
+    }
+
+    if(GL_ARB_texture_view_supported = isExtensionSupported("GL_ARB_texture_view", false)){
+        if(getProcAddress("glTextureView", glTextureView, false) == false
+        ){
+            GL_ARB_texture_view_supported = false;
+        }
+    }
+
+    if(GL_ARB_vertex_attrib_binding_supported = isExtensionSupported("GL_ARB_vertex_attrib_binding", false)){
+        if(getProcAddress("glBindVertexBuffer", glBindVertexBuffer, false) == false
+            || getProcAddress("glVertexAttribFormat", glVertexAttribFormat, false) == false
+            || getProcAddress("glVertexAttribIFormat", glVertexAttribIFormat, false) == false
+            || getProcAddress("glVertexAttribLFormat", glVertexAttribLFormat, false) == false
+            || getProcAddress("glVertexAttribBinding", glVertexAttribBinding, false) == false
+            || getProcAddress("glVertexBindingDivisor", glVertexBindingDivisor, false) == false
+            || getProcAddress("glVertexArrayBindVertexBufferEXT", glVertexArrayBindVertexBufferEXT, false) == false
+            || getProcAddress("glVertexArrayVertexAttribFormatEXT", glVertexArrayVertexAttribFormatEXT, false) == false
+            || getProcAddress("glVertexArrayVertexAttribIFormatEXT", glVertexArrayVertexAttribIFormatEXT, false) == false
+            || getProcAddress("glVertexArrayVertexAttribLFormatEXT", glVertexArrayVertexAttribLFormatEXT, false) == false
+            || getProcAddress("glVertexArrayVertexAttribBindingEXT", glVertexArrayVertexAttribBindingEXT, false) == false
+            || getProcAddress("glVertexArrayVertexBindingDivisorEXT", glVertexArrayVertexBindingDivisorEXT, false) == false
+        ){
+            GL_ARB_vertex_attrib_binding_supported = false;
+        }
+    }
+    GL_ARB_robustness_isolation_supported = isExtensionSupported("GL_ARB_robustness_isolation", false);
+    GL_ARB_ES3_compatibility_supported = isExtensionSupported("GL_ARB_ES3_compatibility", false);
+    GL_ARB_explicit_uniform_location_supported = isExtensionSupported("GL_ARB_explicit_uniform_location", false);
+    GL_ARB_fragment_layer_viewport_supported = isExtensionSupported("GL_ARB_fragment_layer_viewport", false);
+
+    if(GL_ARB_framebuffer_no_attachments_supported = isExtensionSupported("GL_ARB_framebuffer_no_attachments", false)){
+        if(getProcAddress("glFramebufferParameteri", glFramebufferParameteri, false) == false
+            || getProcAddress("glGetFramebufferParameteriv", glGetFramebufferParameteriv, false) == false
+            || getProcAddress("glNamedFramebufferParameteriEXT", glNamedFramebufferParameteriEXT, false) == false
+            || getProcAddress("glGetNamedFramebufferParameterivEXT", glGetNamedFramebufferParameterivEXT, false) == false
+        ){
+            GL_ARB_framebuffer_no_attachments_supported = false;
+        }
+    }
+
+    if(GL_ARB_internalformat_query2_supported = isExtensionSupported("GL_ARB_internalformat_query2", false)){
+        if(getProcAddress("glGetInternalformati64v", glGetInternalformati64v, false) == false
+        ){
+            GL_ARB_internalformat_query2_supported = false;
+        }
+    }
+
+    if(GL_ARB_invalidate_subdata_supported = isExtensionSupported("GL_ARB_invalidate_subdata", false)){
+        if(getProcAddress("glInvalidateTexSubImage", glInvalidateTexSubImage, false) == false
+            || getProcAddress("glInvalidateTexImage", glInvalidateTexImage, false) == false
+            || getProcAddress("glInvalidateBufferSubData", glInvalidateBufferSubData, false) == false
+            || getProcAddress("glInvalidateBufferData", glInvalidateBufferData, false) == false
+            || getProcAddress("glInvalidateFramebuffer", glInvalidateFramebuffer, false) == false
+            || getProcAddress("glInvalidateSubFramebuffer", glInvalidateSubFramebuffer, false) == false
+        ){
+            GL_ARB_invalidate_subdata_supported = false;
+        }
+    }
+
+    if(GL_ARB_multi_draw_indirect_supported = isExtensionSupported("GL_ARB_multi_draw_indirect", false)){
+        if(getProcAddress("glMultiDrawArraysIndirect", glMultiDrawArraysIndirect, false) == false
+            || getProcAddress("glMultiDrawElementsIndirect", glMultiDrawElementsIndirect, false) == false
+        ){
+            GL_ARB_multi_draw_indirect_supported = false;
+        }
+    }
+
+    if(GL_ARB_program_interface_query_supported = isExtensionSupported("GL_ARB_program_interface_query", false)){
+        if(getProcAddress("glGetProgramInterfaceiv", glGetProgramInterfaceiv, false) == false
+            || getProcAddress("glGetProgramResourceIndex", glGetProgramResourceIndex, false) == false
+            || getProcAddress("glGetProgramResourceName", glGetProgramResourceName, false) == false
+            || getProcAddress("glGetProgramResourceiv", glGetProgramResourceiv, false) == false
+            || getProcAddress("glGetProgramResourceLocation", glGetProgramResourceLocation, false) == false
+            || getProcAddress("glGetProgramResourceLocationIndex", glGetProgramResourceLocationIndex, false) == false
+        ){
+            GL_ARB_program_interface_query_supported = false;
+        }
+    }
+    GL_ARB_robust_buffer_access_behavior_supported = isExtensionSupported("GL_ARB_robust_buffer_access_behavior", false);
+    GL_ARB_shader_image_size_supported = isExtensionSupported("GL_ARB_shader_image_size", false);
+
+    if(GL_ARB_shader_storage_buffer_object_supported = isExtensionSupported("GL_ARB_shader_storage_buffer_object", false)){
+        if(getProcAddress("glShaderStorageBlockBinding", glShaderStorageBlockBinding, false) == false
+        ){
+            GL_ARB_shader_storage_buffer_object_supported = false;
+        }
+    }
+    GL_ARB_stencil_texturing_supported = isExtensionSupported("GL_ARB_stencil_texturing", false);
+
+    if(GL_ARB_texture_buffer_range_supported = isExtensionSupported("GL_ARB_texture_buffer_range", false)){
+        if(getProcAddress("glTexBufferRange", glTexBufferRange, false) == false
+            || getProcAddress("glTextureBufferRangeEXT", glTextureBufferRangeEXT, false) == false
+        ){
+            GL_ARB_texture_buffer_range_supported = false;
+        }
+    }
+    GL_ARB_texture_query_levels_supported = isExtensionSupported("GL_ARB_texture_query_levels", false);
+
+    if(GL_ARB_texture_storage_multisample_supported = isExtensionSupported("GL_ARB_texture_storage_multisample", false)){
+        if(getProcAddress("glTexStorage2DMultisample", glTexStorage2DMultisample, false) == false
+            || getProcAddress("glTexStorage3DMultisample", glTexStorage3DMultisample, false) == false
+            || getProcAddress("glTextureStorage2DMultisampleEXT", glTextureStorage2DMultisampleEXT, false) == false
+            || getProcAddress("glTextureStorage3DMultisampleEXT", glTextureStorage3DMultisampleEXT, false) == false
+        ){
+            GL_ARB_texture_storage_multisample_supported = false;
+        }
+    }
     GL_EXT_abgr_supported = isExtensionSupported("GL_EXT_abgr", false);
 
     if(GL_EXT_blend_color_supported = isExtensionSupported("GL_EXT_blend_color", false)){
@@ -4140,6 +4554,8 @@ bool initFunctions()
             || getProcAddress("glPixelTransformParameterfEXT", glPixelTransformParameterfEXT, false) == false
             || getProcAddress("glPixelTransformParameterivEXT", glPixelTransformParameterivEXT, false) == false
             || getProcAddress("glPixelTransformParameterfvEXT", glPixelTransformParameterfvEXT, false) == false
+            || getProcAddress("glGetPixelTransformParameterivEXT", glGetPixelTransformParameterivEXT, false) == false
+            || getProcAddress("glGetPixelTransformParameterfvEXT", glGetPixelTransformParameterfvEXT, false) == false
         ){
             GL_EXT_pixel_transform_supported = false;
         }
@@ -5823,7 +6239,139 @@ bool initFunctions()
     }
     GL_AMD_transform_feedback3_lines_triangles_supported = isExtensionSupported("GL_AMD_transform_feedback3_lines_triangles", false);
     GL_AMD_depth_clamp_separate_supported = isExtensionSupported("GL_AMD_depth_clamp_separate", false);
-/**/
+    GL_EXT_texture_sRGB_decode_supported = isExtensionSupported("GL_EXT_texture_sRGB_decode", false);
+
+    if(GL_NV_texture_multisample_supported = isExtensionSupported("GL_NV_texture_multisample", false)){
+        if(getProcAddress("glTexImage2DMultisampleCoverageNV", glTexImage2DMultisampleCoverageNV, false) == false
+            || getProcAddress("glTexImage3DMultisampleCoverageNV", glTexImage3DMultisampleCoverageNV, false) == false
+            || getProcAddress("glTextureImage2DMultisampleNV", glTextureImage2DMultisampleNV, false) == false
+            || getProcAddress("glTextureImage3DMultisampleNV", glTextureImage3DMultisampleNV, false) == false
+            || getProcAddress("glTextureImage2DMultisampleCoverageNV", glTextureImage2DMultisampleCoverageNV, false) == false
+            || getProcAddress("glTextureImage3DMultisampleCoverageNV", glTextureImage3DMultisampleCoverageNV, false) == false
+        ){
+            GL_NV_texture_multisample_supported = false;
+        }
+    }
+    GL_AMD_blend_minmax_factor_supported = isExtensionSupported("GL_AMD_blend_minmax_factor", false);
+
+    if(GL_AMD_sample_positions_supported = isExtensionSupported("GL_AMD_sample_positions", false)){
+        if(getProcAddress("glSetMultisamplefvAMD", glSetMultisamplefvAMD, false) == false
+        ){
+            GL_AMD_sample_positions_supported = false;
+        }
+    }
+
+    if(GL_EXT_x11_sync_object_supported = isExtensionSupported("GL_EXT_x11_sync_object", false)){
+        if(getProcAddress("glImportSyncEXT", glImportSyncEXT, false) == false
+        ){
+            GL_EXT_x11_sync_object_supported = false;
+        }
+    }
+
+    if(GL_AMD_multi_draw_indirect_supported = isExtensionSupported("GL_AMD_multi_draw_indirect", false)){
+        if(getProcAddress("glMultiDrawArraysIndirectAMD", glMultiDrawArraysIndirectAMD, false) == false
+            || getProcAddress("glMultiDrawElementsIndirectAMD", glMultiDrawElementsIndirectAMD, false) == false
+        ){
+            GL_AMD_multi_draw_indirect_supported = false;
+        }
+    }
+    GL_EXT_framebuffer_multisample_blit_scaled_supported = isExtensionSupported("GL_EXT_framebuffer_multisample_blit_scaled", false);
+
+    if(GL_NV_path_rendering_supported = isExtensionSupported("GL_NV_path_rendering", false)){
+        if(getProcAddress("glGenPathsNV", glGenPathsNV, false) == false
+            || getProcAddress("glDeletePathsNV", glDeletePathsNV, false) == false
+            || getProcAddress("glIsPathNV", glIsPathNV, false) == false
+            || getProcAddress("glPathCommandsNV", glPathCommandsNV, false) == false
+            || getProcAddress("glPathCoordsNV", glPathCoordsNV, false) == false
+            || getProcAddress("glPathSubCommandsNV", glPathSubCommandsNV, false) == false
+            || getProcAddress("glPathSubCoordsNV", glPathSubCoordsNV, false) == false
+            || getProcAddress("glPathStringNV", glPathStringNV, false) == false
+            || getProcAddress("glPathGlyphsNV", glPathGlyphsNV, false) == false
+            || getProcAddress("glPathGlyphRangeNV", glPathGlyphRangeNV, false) == false
+            || getProcAddress("glWeightPathsNV", glWeightPathsNV, false) == false
+            || getProcAddress("glCopyPathNV", glCopyPathNV, false) == false
+            || getProcAddress("glInterpolatePathsNV", glInterpolatePathsNV, false) == false
+            || getProcAddress("glTransformPathNV", glTransformPathNV, false) == false
+            || getProcAddress("glPathParameterivNV", glPathParameterivNV, false) == false
+            || getProcAddress("glPathParameteriNV", glPathParameteriNV, false) == false
+            || getProcAddress("glPathParameterfvNV", glPathParameterfvNV, false) == false
+            || getProcAddress("glPathParameterfNV", glPathParameterfNV, false) == false
+            || getProcAddress("glPathDashArrayNV", glPathDashArrayNV, false) == false
+            || getProcAddress("glPathStencilFuncNV", glPathStencilFuncNV, false) == false
+            || getProcAddress("glPathStencilDepthOffsetNV", glPathStencilDepthOffsetNV, false) == false
+            || getProcAddress("glStencilFillPathNV", glStencilFillPathNV, false) == false
+            || getProcAddress("glStencilStrokePathNV", glStencilStrokePathNV, false) == false
+            || getProcAddress("glStencilFillPathInstancedNV", glStencilFillPathInstancedNV, false) == false
+            || getProcAddress("glStencilStrokePathInstancedNV", glStencilStrokePathInstancedNV, false) == false
+            || getProcAddress("glPathCoverDepthFuncNV", glPathCoverDepthFuncNV, false) == false
+            || getProcAddress("glPathColorGenNV", glPathColorGenNV, false) == false
+            || getProcAddress("glPathTexGenNV", glPathTexGenNV, false) == false
+            || getProcAddress("glPathFogGenNV", glPathFogGenNV, false) == false
+            || getProcAddress("glCoverFillPathNV", glCoverFillPathNV, false) == false
+            || getProcAddress("glCoverStrokePathNV", glCoverStrokePathNV, false) == false
+            || getProcAddress("glCoverFillPathInstancedNV", glCoverFillPathInstancedNV, false) == false
+            || getProcAddress("glCoverStrokePathInstancedNV", glCoverStrokePathInstancedNV, false) == false
+            || getProcAddress("glGetPathParameterivNV", glGetPathParameterivNV, false) == false
+            || getProcAddress("glGetPathParameterfvNV", glGetPathParameterfvNV, false) == false
+            || getProcAddress("glGetPathCommandsNV", glGetPathCommandsNV, false) == false
+            || getProcAddress("glGetPathCoordsNV", glGetPathCoordsNV, false) == false
+            || getProcAddress("glGetPathDashArrayNV", glGetPathDashArrayNV, false) == false
+            || getProcAddress("glGetPathMetricsNV", glGetPathMetricsNV, false) == false
+            || getProcAddress("glGetPathMetricRangeNV", glGetPathMetricRangeNV, false) == false
+            || getProcAddress("glGetPathSpacingNV", glGetPathSpacingNV, false) == false
+            || getProcAddress("glGetPathColorGenivNV", glGetPathColorGenivNV, false) == false
+            || getProcAddress("glGetPathColorGenfvNV", glGetPathColorGenfvNV, false) == false
+            || getProcAddress("glGetPathTexGenivNV", glGetPathTexGenivNV, false) == false
+            || getProcAddress("glGetPathTexGenfvNV", glGetPathTexGenfvNV, false) == false
+            || getProcAddress("glIsPointInFillPathNV", glIsPointInFillPathNV, false) == false
+            || getProcAddress("glIsPointInStrokePathNV", glIsPointInStrokePathNV, false) == false
+            || getProcAddress("glGetPathLengthNV", glGetPathLengthNV, false) == false
+            || getProcAddress("glPointAlongPathNV", glPointAlongPathNV, false) == false
+        ){
+            GL_NV_path_rendering_supported = false;
+        }
+    }
+    GL_AMD_pinned_memory_supported = isExtensionSupported("GL_AMD_pinned_memory", false);
+
+    if(GL_AMD_stencil_operation_extended_supported = isExtensionSupported("GL_AMD_stencil_operation_extended", false)){
+        if(getProcAddress("glStencilOpValueAMD", glStencilOpValueAMD, false) == false
+        ){
+            GL_AMD_stencil_operation_extended_supported = false;
+        }
+    }
+    GL_AMD_vertex_shader_viewport_index_supported = isExtensionSupported("GL_AMD_vertex_shader_viewport_index", false);
+    GL_AMD_vertex_shader_layer_supported = isExtensionSupported("GL_AMD_vertex_shader_layer", false);
+
+    if(GL_NV_bindless_texture_supported = isExtensionSupported("GL_NV_bindless_texture", false)){
+        if(getProcAddress("glGetTextureHandleNV", glGetTextureHandleNV, false) == false
+            || getProcAddress("glGetTextureSamplerHandleNV", glGetTextureSamplerHandleNV, false) == false
+            || getProcAddress("glMakeTextureHandleResidentNV", glMakeTextureHandleResidentNV, false) == false
+            || getProcAddress("glMakeTextureHandleNonResidentNV", glMakeTextureHandleNonResidentNV, false) == false
+            || getProcAddress("glGetImageHandleNV", glGetImageHandleNV, false) == false
+            || getProcAddress("glMakeImageHandleResidentNV", glMakeImageHandleResidentNV, false) == false
+            || getProcAddress("glMakeImageHandleNonResidentNV", glMakeImageHandleNonResidentNV, false) == false
+            || getProcAddress("glUniformHandleui64NV", glUniformHandleui64NV, false) == false
+            || getProcAddress("glUniformHandleui64vNV", glUniformHandleui64vNV, false) == false
+            || getProcAddress("glProgramUniformHandleui64NV", glProgramUniformHandleui64NV, false) == false
+            || getProcAddress("glProgramUniformHandleui64vNV", glProgramUniformHandleui64vNV, false) == false
+            || getProcAddress("glIsTextureHandleResidentNV", glIsTextureHandleResidentNV, false) == false
+            || getProcAddress("glIsImageHandleResidentNV", glIsImageHandleResidentNV, false) == false
+        ){
+            GL_NV_bindless_texture_supported = false;
+        }
+    }
+    GL_NV_shader_atomic_float_supported = isExtensionSupported("GL_NV_shader_atomic_float", false);
+    GL_AMD_query_buffer_object_supported = isExtensionSupported("GL_AMD_query_buffer_object", false);
+
+    if(GL_AMD_sparse_texture_supported = isExtensionSupported("GL_AMD_sparse_texture", false)){
+        if(getProcAddress("glTexStorageSparseAMD", glTexStorageSparseAMD, false) == false
+            || getProcAddress("glTextureStorageSparseAMD", glTextureStorageSparseAMD, false) == false
+        ){
+            GL_AMD_sparse_texture_supported = false;
+        }
+    }
+    
+    
     return true;
 }
 
