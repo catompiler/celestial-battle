@@ -1,6 +1,7 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
+#include <algorithm>
 #include <iterator>
 #include <utility>
 
@@ -12,12 +13,12 @@ namespace functors{
 //! delete single object
 struct delete_single{
     template<class T>
-    void operator()(T* obj){
+    void operator()(T* obj) const{
         delete obj;
     }
     
     template<class T, class U>
-    void operator()(std::pair<T, U>& pair_){
+    void operator()(std::pair<T, U>& pair_) const{
         delete pair_.second;
     }
 };
@@ -25,18 +26,65 @@ struct delete_single{
 //! delete array of objects
 struct delete_array{
     template<class T>
-    void operator()(T* arr){
+    void operator()(T* arr) const{
         delete[] arr;
     }
     
     template<class T, class U>
-    void operator()(std::pair<T, U>& pair_){
+    void operator()(std::pair<T, U>& pair_) const{
         delete[] pair_.second;
     }
 };
 
+//! map's/pair's value/second comp(equal)
+template<class T>
+struct value_equal
+{
+    T value;
+    
+    value_equal(T v) :value(v){}
+    
+    bool operator()(const T& v){
+        return value == v;
+    }
+    
+    template <class Pair>
+    bool operator()(const Pair& p){
+        return value == p.second;
+    }
+};
+template<class T>
+value_equal<T> make_value_equal(T v){ return value_equal<T>(v); }
 
 }//functors
+
+namespace functions{
+
+template <class Container>
+void delete_all(Container& c)
+{
+    std::for_each(c.begin(), c.end(), functors::delete_single());
+}
+
+template <class Container, class Deleter>
+void delete_all(Container& c, const Deleter& d)
+{
+    std::for_each(c.begin(), c.end(), d);
+}
+
+template <class Container>
+void delete_all(Container* c)
+{
+    std::for_each(c->begin(), c->end(), functors::delete_single());
+}
+
+template <class Container, class Deleter>
+void delete_all(Container* c, const Deleter& d)
+{
+    std::for_each(c->begin(), c->end(), d);
+}
+
+}//functions
 
 namespace iterators{
 

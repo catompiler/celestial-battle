@@ -1,406 +1,223 @@
-#ifndef _CONFIG_H
-#define	_CONFIG_H
+#ifndef CONFIG_H
+#define	CONFIG_H
 
 #include <string>
-#include <vector>
-#include <iostream>
 #include <list>
-#include "exception/exception.h"
+#include <vector>
+#include <utility>
+#include <stddef.h>
+#include "tree/tree_node.h"
+#include "tlvariant/tlvariant.h"
+#include "glmath/glmath.h"
+#include "tokenizer/token.h"
+#include "tokenizer/tokenizer.h"
+
+//#include <iostream>
 
 
-typedef std::string::const_iterator iterator_t;
-typedef std::string::value_type value_t;
-
-//! skip white-spaces
-iterator_t skip_ws(iterator_t begin, iterator_t end);
-//! skip comment, defined by comment_begin and comment_end
-iterator_t skip_comment(const std::string& comment_begin,
-                        const std::string& comment_end,
-                        iterator_t begin, iterator_t end);
-//! skip c-style comment
-iterator_t skip_c_comment(iterator_t begin, iterator_t end);
-//! skip cpp-style comment
-iterator_t skip_cpp_comment(iterator_t begin, iterator_t end);
-//! skip all styles comments
-iterator_t skip_comments(iterator_t begin, iterator_t end);
-//! skip all trash data
-iterator_t skip_trash(iterator_t begin, iterator_t end);
-
-//! is name character
-bool isnamechar(value_t c, bool isfirst = false);
-//! try to find sign after name
-bool isit(const std::string& sign, iterator_t begin, iterator_t end);
-//! read name
-iterator_t get_name(std::string& name, iterator_t begin, iterator_t end);
+class TokenParser;
+class TokensSequence;
 
 
-class ConfigException
-    :public Exception
-{
-public:
-    ConfigException(const char* who_, const char* what_, iterator_t where_);
-    ~ConfigException() throw();
-
-    const char* who() const throw();
-    iterator_t where() const throw();
-private:
-    std::string _who;
-    iterator_t _where;
-};
-
-/*
-ConfigException ce("", "", current);
-throw(ce);
- */
-
-class Element{
-public:
-    virtual ~Element();
-    virtual iterator_t parse(iterator_t config_begin,
-                iterator_t config_end) throw(ConfigException&) = 0;
-    
-    static const std::string line_sep;
-    static const std::string align_space;
-    static const std::string line_end;
-    static const std::string white_space;
-};
-
-class NamedElement
-    :public Element
-{
-public:
-    NamedElement(const std::string& name_);
-    const std::string& name() const;
-protected:
-    std::string _name;
-};
-
-class Value;
-
-class ValueBase
-    :public Element
-{
+class Config {
 public:
     
-    ValueBase();
-    ValueBase(const ValueBase& value_);
-    ~ValueBase();
-
-    virtual ValueBase* clone() const;
-    
-    virtual int getInt(bool* isOk = NULL) const;
-    virtual bool getBool(bool* isOk = NULL) const;
-    virtual double getDouble(bool* isOk = NULL) const;
-    virtual std::string getConstant(bool* isOk = NULL) const;
-    virtual std::string getString(bool* isOk = NULL) const;
-    virtual std::vector<Value> getVector(bool* isOk = NULL) const;
-
-    virtual bool setInt(int val_);
-    virtual bool setBool(bool val_);
-    virtual bool setDouble(double val_);
-    virtual bool setConstant(const std::string& val_);
-    virtual bool setString(const std::string& val_);
-    virtual bool setVector(const std::vector<Value>& val_);
-    
-    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
-    
-    virtual bool write(std::ostream& ost_) const;
-};
-
-class Value
-    :public ValueBase
-{
-public:
-    
-    Value();
-    Value(const Value& value_);
-    ~Value();
-
-    Value* clone() const;
-    
-    int getInt(bool* isOk = NULL) const;
-    bool getBool(bool* isOk = NULL) const;
-    double getDouble(bool* isOk = NULL) const;
-    std::string getConstant(bool* isOk = NULL) const;
-    std::string getString(bool* isOk = NULL) const;
-    std::vector<Value> getVector(bool* isOk = NULL) const;
-
-    bool setInt(int val_);
-    bool setBool(bool val_);
-    bool setDouble(double val_);
-    bool setConstant(const std::string& val_);
-    bool setString(const std::string& val_);
-    bool setVector(const std::vector<Value>& val_);
-    
-    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
-    
-    bool write(std::ostream& ost_) const;
-    
-private:
-    
-    ValueBase* _value;
-};
-
-class ValueNumber
-    :public ValueBase
-{
-public:
-    
-    ValueNumber();
-    ValueNumber(const ValueNumber& value_);
-    ValueNumber(int val_);
-    ValueNumber(double val_);
-    ~ValueNumber();
-
-    ValueNumber* clone() const;
-    
-    int getInt(bool* isOk = NULL) const;
-    double getDouble(bool* isOk = NULL) const;
-
-    bool setInt(int val_);
-    bool setDouble(double val_);
-    
-    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
-    
-    static bool isit(iterator_t config_begin, iterator_t config_end);
-
-    bool write(std::ostream& ost_) const;
-    
-private:
-    
-    static const std::string _valid_number_chars;
-    static const std::string _only_double_chars;
-    static const std::string _single_chars;
-    
-    static bool isnumberchar(value_t c);
-    
-    bool _is_double;
-    union{
-        int _valuei;
-        double _valued;
+    class Element{
+    public:
+        
+        Element();
+        Element(const std::string& name_);
+        virtual ~Element();
+        
+        const std::string& name() const;
+        void setName(const std::string& name_);
+        
+        virtual std::ostream& write(std::ostream& ost_, const std::string& indent_, size_t depth_) const = 0;
+        virtual std::ostream& writeDepth(std::ostream& ost_, const std::string& indent_, size_t depth_) const;
+    protected:
+        std::string _name;
     };
-};
-
-class ValueBool
-    :public ValueBase
-{
-public:
     
-    ValueBool();
-    ValueBool(const ValueBool& value_);
-    ValueBool(bool val_);
-    ~ValueBool();
-
-    ValueBool* clone() const;
+    typedef tl::makeTypeList<int, float, std::string,
+                             vec2_t, vec3_t, vec4_t,
+                             mat2_t, mat3_t, mat4_t>::value ValueTypes;
+    typedef TLVariant<ValueTypes> Value;
     
-    bool getBool(bool* isOk = NULL) const;
+    class Parameter
+        :public Element
+    {
+    public:
+        Parameter();
+        Parameter(const std::string& name_);
+        ~Parameter();
+        
+        bool parseValue(TokensSequence* tokens_);
+        
+        template<class T>
+        T value(const T& defval_) const;
+        
+        template<class T>
+        bool setValue(const T& val_);
+        
+        std::ostream& write(std::ostream& ost_, const std::string& indent_, size_t depth_) const;
+        
+    private:
+        Value _value;
+        
+        struct Number{
+            enum Type{Int, Float};
+            Type type;
+            union{
+                float f;
+                int i;
+            }value;
+            
+            float toFloat(){
+                if(type == Float) return value.f;
+                return static_cast<float>(value.i);
+            }
+            float toInt(){
+                if(type == Int) return value.i;
+                return static_cast<int>(value.f);
+            }
+        };
+        
+        void _parseNumbersCtor(TokensSequence* tokens_, std::vector<Number>* numbers_);
+        void _parseNumber(TokensSequence* tokens_, Number* number_);
+    };
     
-    bool setBool(bool val_);
+    class Group
+        :public Tree::Node<Config::Group>, public Element
+    {
+    public:
+        
+        static const std::string separator;
+        
+        Group();
+        Group(const std::string& name_);
+        ~Group();
+        
+        template<class T> 
+        T value(const std::string& name_, const T& defval_ = T()) const;
+        
+        template<class T> 
+        bool setValue(const std::string& name_, const T& val_);
+        
+        bool isRoot() const;
+        void setRoot(bool is_root_);
+        
+        void addParameter(Parameter* parameter_);
+        
+        bool parse(TokensSequence* tokens_);
+        
+        std::ostream& write(std::ostream& ost_, const std::string& indent_, size_t depth_) const;
+    private:
+        typedef std::list<Parameter*> Parameters;
+        Parameters* _parameters;
+        
+        bool _is_root;
+        
+        struct NameCmp{
+            NameCmp(const std::string& name_){
+                _name = name_;
+            }
+            bool operator()(const Element* e_){
+                return _name == e_->name();
+            }
+            std::string _name;
+        };
+        
+        Group* _getGroup(const std::string& name_, bool add_);
+        Parameter* _getParameter(const std::string& name_, bool add_);
+        
+        Group* _getSubGroup(const std::string& name_, bool add_);
+        Parameter* _getSubParameter(const std::string& name_, bool add_);
+    };
     
-    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
     
-    static bool isit(iterator_t config_begin, iterator_t config_end);
-
-    bool write(std::ostream& ost_) const;
-
-private:
-    
-    static const std::string _str_true;
-    static const std::string _str_false;
-    
-    bool _value;
-};
-
-class ValueConstant
-    :public ValueBase
-{
-public:
-    
-    ValueConstant();
-    ValueConstant(const ValueConstant& value_);
-    ValueConstant(const std::string& val_);
-    ~ValueConstant();
-
-    ValueConstant* clone() const;
-    
-    std::string getConstant(bool* isOk = NULL) const;
-
-    bool setConstant(const std::string& val_);
-    
-    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
-    
-    static bool isit(iterator_t config_begin, iterator_t config_end);
-    
-    bool write(std::ostream& ost_) const;
-
-private:
-    std::string _value;
-};
-
-class ValueString
-    :public ValueBase
-{
-public:
-    
-    ValueString();
-    ValueString(const ValueString& value_);
-    ValueString(const std::string& val_);
-    ~ValueString();
-
-    ValueString* clone() const;
-    
-    std::string getString(bool* isOk = NULL) const;
-
-    bool setString(const std::string& val_);
-    
-    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
-    
-    static bool isit(iterator_t config_begin, iterator_t config_end);
-
-    bool write(std::ostream& ost_) const;
-    
-private:
-    static const std::string _string_begin_end;
-
-    std::string _value;
-};
-
-class ValueVector
-    :public ValueBase
-{
-public:
-    
-    ValueVector();
-    ValueVector(const ValueVector& value_);
-    ValueVector(const std::vector<Value>& val_);
-    ~ValueVector();
-
-    ValueVector* clone() const;
-    
-    std::vector<Value> getVector(bool* isOk = NULL) const;
-
-    bool setVector(const std::vector<Value>& val_);
-    
-    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
-    
-    static bool isit(iterator_t config_begin, iterator_t config_end);
-
-    bool write(std::ostream& ost_) const;
-    
-private:
-    static const std::string _vector_begin;
-    static const std::string _vector_end;
-    static const std::string _vector_sep;
-
-    std::vector<Value>* _value;
-};
-
-
-class Parameter
-    :public NamedElement
-{
-public:
-    
-    Parameter(const std::string& name_);
-    ~Parameter();
-    
-    Value* getValue();
-    void setValue(const Value* value_);
-    
-    static bool isit(iterator_t begin, iterator_t end);
-    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
-    
-    bool write(std::ostream& ost_) const;
-
-private:
-    static const std::string _parameter_sign;
-    
-    Value* _value;
-};
-
-class Group
-    :public NamedElement
-{
-public:
-    
-    Group();
-    Group(const std::string& name_);
-    ~Group();
-    
-    Group* addGroup(const std::string& name);
-    Parameter* addParameter(const std::string& name);
-
-    Group* getGroup(const std::string& group_);
-    Parameter* getParameter(const std::string& param_);
-    
-    static bool isit(iterator_t begin, iterator_t end);
-    iterator_t parse(iterator_t config_begin, iterator_t config_end) throw(ConfigException&);
-    
-    Value* getValue(const std::string& parameter_);
-    bool setValue(const std::string& parameter_, const Value* value_);
-    
-    bool write(std::ostream& ost_, size_t lvl = 0) const;
-
-private:
-    
-    static const std::string _group_begin;
-    static const std::string _group_end;
-    static const std::string _group_sign;
-    
-    static const std::string _group_sep;
-    
-    typedef std::list<Group*> Groups;
-    typedef std::list<Parameter*> Parameters;
-    
-    void _def_ctor();
-
-    void _clear();
-    
-    bool _is_root;
-    
-    Groups* _groups;
-    Parameters* _parameters;
-};
-
-class Config
-{
-public:
     Config();
     ~Config();
-
-    void clear();
     
-    bool read(std::istream& ist_);
-    bool write(std::ostream& ost_) const;
+    bool read(const std::string& filename_);
+    bool parse(const std::string& source_);
+    bool write(const std::string& filename_) const;
     
-    int getInt(const std::string& parameter_, bool* isOk = NULL) const;
-    bool getBool(const std::string& parameter_, bool* isOk = NULL) const;
-    double getDouble(const std::string& parameter_, bool* isOk = NULL) const;
-    std::string getConstant(const std::string& parameter_, bool* isOk = NULL) const;
-    std::string getString(const std::string& parameter_, bool* isOk = NULL) const;
-    std::vector<Value> getVector(const std::string& parameter_, bool* isOk = NULL) const;
+    template<class T> 
+    T value(const std::string& name_, const T& defval_ = T()) const;
 
-    bool setInt(const std::string& parameter_, int value_);
-    bool setBool(const std::string& parameter_, bool value_);
-    bool setDouble(const std::string& parameter_, double value_);
-    bool setConstant(const std::string& parameter_, const std::string& value_);
-    bool setString(const std::string& parameter_, const std::string& value_);
-    bool setVector(const std::string& parameter_, const std::vector<Value>& value_);
+    template<class T> 
+    bool setValue(const std::string& name_, const T& val_);
     
-    friend std::istream& operator>>(std::istream& ist, Config& config);
-    friend std::ostream& operator<<(std::ostream& ost, const Config& config);
-
 private:
-    iterator_t parse(iterator_t config_begin, iterator_t config_end);
-
-    Value* getValue(const std::string& parameter_) const;
-    bool setValue(const std::string& parameter_, const Value& value_);
+    
+    typedef std::pair<tokenprior_t, TokenParser*> TokenParserPair;
+    typedef std::list<TokenParserPair> TokenParsers;
+    
+    TokenParsers* _tokenparsers;
+    Tokenizer* _tokenizer;
     
     Group* _root;
+
+    void _createTokenParsers(TokenParsers* tps_);
+    void _addTokenParsers(Tokenizer* tokenizer_, TokenParsers* tps_);
+    void _delTokenParsers(TokenParsers* tps_);
+    void _createTokenizer();
+    void _delTokenizer();
+    bool _parse(const std::string& source_);
+    void _removeSpacesTokens();
+    
 };
 
-std::istream& operator>>(std::istream& ist, Config& config);
-std::ostream& operator<<(std::ostream& ost, const Config& config);
 
-#endif	/* _CONFIG_H */
+template<class T>
+T Config::Parameter::value(const T& defval_) const
+{
+    try{
+        return _value.get<T>();
+    }catch(BadTypeException& bte_){
+        return defval_;
+    }
+}
+
+template<class T>
+bool Config::Parameter::setValue(const T& val_)
+{
+    try{
+        _value.set<T>(val_);
+    }catch(BadTypeException& bte_){
+        return false;
+    }
+    return true;
+}
+
+template<class T>
+T Config::Group::value(const std::string& name_, const T& defval_) const
+{
+    Parameter* param = const_cast<Config::Group*>(this)->_getSubParameter(name_, false);
+    if(param) return param->value<T>(defval_);
+    return defval_;
+}
+
+template<class T> 
+bool Config::Group::setValue(const std::string& name_, const T& val_)
+{
+    return _getSubParameter(name_, true)->setValue<T>(val_);
+}
+
+
+template<class T>
+T Config::value(const std::string& name_, const T& defval_) const
+{
+    return _root->value<T>(name_, defval_);
+}
+
+template<class T> 
+bool Config::setValue(const std::string& name_, const T& val_)
+{
+    return _root->setValue<T>(name_, val_);
+}
+
+
+
+#endif	/* CONFIG_H */
 

@@ -22,6 +22,7 @@ AS=as
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86
+CND_DLIB_EXT=so
 CND_CONF=Release_cross
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -34,19 +35,23 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/_ext/767039133/tokenparser.o \
 	${OBJECTDIR}/_ext/1519963337/utils.o \
 	${OBJECTDIR}/_ext/1019114841/mesh.o \
 	${OBJECTDIR}/_ext/49809687/functions.o \
 	${OBJECTDIR}/_ext/1358156373/reader.o \
 	${OBJECTDIR}/_ext/1390850504/display.o \
 	${OBJECTDIR}/_ext/1521210933/gettime.o \
-	${OBJECTDIR}/_ext/659868756/tga.o \
+	${OBJECTDIR}/_ext/767039133/parseexception.o \
 	${OBJECTDIR}/_ext/1262803996/gltexture.o \
 	${OBJECTDIR}/_ext/68783691/utf8char.o \
+	${OBJECTDIR}/_ext/767039133/tokenssequence.o \
+	${OBJECTDIR}/_ext/659868756/tga.o \
 	${OBJECTDIR}/_ext/62598791/object.o \
 	${OBJECTDIR}/_ext/1019042359/osal.o \
 	${OBJECTDIR}/_ext/1531546205/iconv.o \
 	${OBJECTDIR}/_ext/7752610/vfs.o \
+	${OBJECTDIR}/_ext/767039133/tokenizer.o \
 	${OBJECTDIR}/_ext/1521210933/timer.o \
 	${OBJECTDIR}/_ext/1923734139/glprogram.o \
 	${OBJECTDIR}/_ext/774992765/componentfactory.o \
@@ -65,6 +70,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/666085778/glframebuffer.o \
 	${OBJECTDIR}/_ext/173017642/window.o \
 	${OBJECTDIR}/_ext/1667457878/exception.o \
+	${OBJECTDIR}/_ext/767039133/tokenposition.o \
+	${OBJECTDIR}/_ext/767039133/tokenparsers.o \
+	${OBJECTDIR}/_ext/767039133/tokens.o \
 	${OBJECTDIR}/_ext/1527311355/mutex.o \
 	${OBJECTDIR}/_ext/799496470/tgareader.o \
 	${OBJECTDIR}/_ext/659870665/fsentrypoint.o \
@@ -77,12 +85,14 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1521210933/nanosleep.o \
 	${OBJECTDIR}/_ext/1029917654/main.o \
 	${OBJECTDIR}/_ext/1358156373/resources.o \
+	${OBJECTDIR}/_ext/767039133/token.o \
 	${OBJECTDIR}/_ext/774992765/component.o \
 	${OBJECTDIR}/_ext/540013372/glshader.o \
 	${OBJECTDIR}/_ext/1578303221/glrenderbuffer.o \
 	${OBJECTDIR}/_ext/659868756/texture.o \
 	${OBJECTDIR}/_ext/1531217328/input.o \
 	${OBJECTDIR}/_ext/26177488/render.o \
+	${OBJECTDIR}/_ext/394022532/configexception.o \
 	${OBJECTDIR}/_ext/659870665/localfsentrypoint.o \
 	${OBJECTDIR}/_ext/394022532/config.o
 
@@ -110,6 +120,11 @@ LDLIBSOPTIONS=-lgdi32 -lwinmm -lopengl32
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/netbeans_project: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/netbeans_project ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/_ext/767039133/tokenparser.o: ../src/tokenizer/tokenparser.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/767039133
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/767039133/tokenparser.o ../src/tokenizer/tokenparser.cpp
 
 ${OBJECTDIR}/_ext/1519963337/utils.o: ../src/utils/utils.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1519963337
@@ -141,10 +156,10 @@ ${OBJECTDIR}/_ext/1521210933/gettime.o: ../src/timer/gettime.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1521210933/gettime.o ../src/timer/gettime.cpp
 
-${OBJECTDIR}/_ext/659868756/tga.o: ../src/tga/tga.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/659868756
+${OBJECTDIR}/_ext/767039133/parseexception.o: ../src/tokenizer/parseexception.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/767039133
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659868756/tga.o ../src/tga/tga.cpp
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/767039133/parseexception.o ../src/tokenizer/parseexception.cpp
 
 ${OBJECTDIR}/_ext/1262803996/gltexture.o: ../src/gltexture/gltexture.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1262803996
@@ -155,6 +170,16 @@ ${OBJECTDIR}/_ext/68783691/utf8char.o: ../src/string/utf8char.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/68783691
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/68783691/utf8char.o ../src/string/utf8char.cpp
+
+${OBJECTDIR}/_ext/767039133/tokenssequence.o: ../src/tokenizer/tokenssequence.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/767039133
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/767039133/tokenssequence.o ../src/tokenizer/tokenssequence.cpp
+
+${OBJECTDIR}/_ext/659868756/tga.o: ../src/tga/tga.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/659868756
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/659868756/tga.o ../src/tga/tga.cpp
 
 ${OBJECTDIR}/_ext/62598791/object.o: ../src/object/object.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/62598791
@@ -175,6 +200,11 @@ ${OBJECTDIR}/_ext/7752610/vfs.o: /home/artem/devel/opengl/celestial-battle/src/v
 	${MKDIR} -p ${OBJECTDIR}/_ext/7752610
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/7752610/vfs.o /home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp
+
+${OBJECTDIR}/_ext/767039133/tokenizer.o: ../src/tokenizer/tokenizer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/767039133
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/767039133/tokenizer.o ../src/tokenizer/tokenizer.cpp
 
 ${OBJECTDIR}/_ext/1521210933/timer.o: ../src/timer/timer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1521210933
@@ -266,6 +296,21 @@ ${OBJECTDIR}/_ext/1667457878/exception.o: /home/artem/devel/opengl/celestial-bat
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1667457878/exception.o /home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp
 
+${OBJECTDIR}/_ext/767039133/tokenposition.o: ../src/tokenizer/tokenposition.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/767039133
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/767039133/tokenposition.o ../src/tokenizer/tokenposition.cpp
+
+${OBJECTDIR}/_ext/767039133/tokenparsers.o: ../src/tokenizer/tokenparsers.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/767039133
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/767039133/tokenparsers.o ../src/tokenizer/tokenparsers.cpp
+
+${OBJECTDIR}/_ext/767039133/tokens.o: ../src/tokenizer/tokens.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/767039133
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/767039133/tokens.o ../src/tokenizer/tokens.cpp
+
 ${OBJECTDIR}/_ext/1527311355/mutex.o: ../src/mutex/mutex.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1527311355
 	${RM} $@.d
@@ -326,6 +371,11 @@ ${OBJECTDIR}/_ext/1358156373/resources.o: ../src/resources/resources.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1358156373/resources.o ../src/resources/resources.cpp
 
+${OBJECTDIR}/_ext/767039133/token.o: ../src/tokenizer/token.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/767039133
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/767039133/token.o ../src/tokenizer/token.cpp
+
 ${OBJECTDIR}/_ext/774992765/component.o: ../src/component/component.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/774992765
 	${RM} $@.d
@@ -355,6 +405,11 @@ ${OBJECTDIR}/_ext/26177488/render.o: ../src/render/render.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/26177488
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/26177488/render.o ../src/render/render.cpp
+
+${OBJECTDIR}/_ext/394022532/configexception.o: ../src/config/configexception.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/394022532
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/394022532/configexception.o ../src/config/configexception.cpp
 
 ${OBJECTDIR}/_ext/659870665/localfsentrypoint.o: ../src/vfs/localfsentrypoint.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/659870665

@@ -186,7 +186,7 @@ struct makeTypeList15{
 
 
 
-#ifdef __GXX_EXPERIMENTAL_CXX0X__
+#if defined(__GXX_EXPERIMENTAL_CXX0X__) || __cplusplus >= 201103L
 
 template <class ... Types>
 struct makeTypeList{

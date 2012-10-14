@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="80">
+<configurationDescriptor version="84">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -25,6 +25,8 @@
       <logicalFolder name="config" displayName="config" projectFiles="true">
         <itemPath>../src/config/config.cpp</itemPath>
         <itemPath>../src/config/config.h</itemPath>
+        <itemPath>../src/config/configexception.cpp</itemPath>
+        <itemPath>../src/config/configexception.h</itemPath>
       </logicalFolder>
       <logicalFolder name="delegate" displayName="delegate" projectFiles="true">
         <itemPath>../src/delegate/delegate.h</itemPath>
@@ -193,6 +195,24 @@
       <logicalFolder name="tlvariant" displayName="tlvariant" projectFiles="true">
         <itemPath>../src/tlvariant/tlvariant.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="tokenizer" displayName="tokenizer" projectFiles="true">
+        <itemPath>../src/tokenizer/parseexception.cpp</itemPath>
+        <itemPath>../src/tokenizer/parseexception.h</itemPath>
+        <itemPath>../src/tokenizer/token.cpp</itemPath>
+        <itemPath>../src/tokenizer/token.h</itemPath>
+        <itemPath>../src/tokenizer/tokenizer.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokenizer.h</itemPath>
+        <itemPath>../src/tokenizer/tokenparser.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokenparser.h</itemPath>
+        <itemPath>../src/tokenizer/tokenparsers.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokenparsers.h</itemPath>
+        <itemPath>../src/tokenizer/tokenposition.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokenposition.h</itemPath>
+        <itemPath>../src/tokenizer/tokens.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokens.h</itemPath>
+        <itemPath>../src/tokenizer/tokenssequence.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokenssequence.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="transform" displayName="transform" projectFiles="true">
         <itemPath>../src/transform/transform.cpp</itemPath>
         <itemPath>../src/transform/transform.h</itemPath>
@@ -256,6 +276,7 @@
           <incDir>
             <pElem>../src/</pElem>
           </incDir>
+          <commandLine>-std=c++0x</commandLine>
         </ccTool>
         <linkerTool>
           <linkerLibItems>

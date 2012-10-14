@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "log/log.h"
+#include "config/config.h"
 #include "window/window.h"
 #include "glcontext/glcontext.h"
 #include "input/input.h"
@@ -11,6 +12,7 @@
 #include "display/display.h"
 #include "resources/resources.h"
 #include "readers/tgareader.h"
+#include "tokenizer/parseexception.h"
 
 Window* w = NULL;
 GLContext* cxt = NULL;
@@ -101,10 +103,24 @@ int main(int /*argc*/, char** /*argv*/)
     
     log(Log::Information) << "Hello, Log!" << std::endl;
     
-    int width = 800;//1440;
-    int height = 600;//900;
-    int freq = 60;
-    bool fullscreen = false;
+    log(Log::Information) << "Reading config" << std::endl;
+    
+    const std::string config_filename = "config.cfg";
+    Config config;
+    
+    try{
+        config.read(config_filename);
+    }catch(ParseException& pe_){
+        log(Log::Error) << "Error: " << pe_.what()
+                        << "; line: " << pe_.position().line()
+                        << " col: " << pe_.position().col()
+                        << std::endl;
+    }
+    
+    int width = config.value<int>("video.width", 800);//1440;
+    int height = config.value<int>("video.height", 600);//900;
+    int freq = config.value<int>("video.freq", 60);
+    bool fullscreen = config.value<int>("video.fullscreen", 0);
     
     if(fullscreen && !Display::setMode(Display::Mode(width, height, freq))){
         std::cout << "Error set video mode" << std::endl;
@@ -225,6 +241,8 @@ int main(int /*argc*/, char** /*argv*/)
     Window::destroy(w);
     
     Display::restoreMode();
+    
+    config.write(config_filename);
     
     return (EXIT_SUCCESS);
 }

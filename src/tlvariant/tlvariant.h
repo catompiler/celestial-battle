@@ -5,6 +5,11 @@
 #include "exception/badtypeexception.h"
 #include "typelist/typelist.h"
 
+//#define DEBUG 1
+#ifdef DEBUG
+#include <iostream>
+#endif
+
 
 template <class TypeList>
 class TLVariant
@@ -18,13 +23,15 @@ public:
     TLVariant(const TLVariant<TypeList>& v_);
     ~TLVariant();
     
+    int typeIndex() const;
+    
     template <class T> T& get() throw(BadTypeException&);
     template <class T> const T& get() const throw(BadTypeException&);
-    template <class T> void set(const T& v_);
+    template <class T> void set(const T& v_) throw(BadTypeException&);
 
     template <class T> operator T&() throw(BadTypeException&);
     template <class T> operator const T&() const throw(BadTypeException&);
-    template <class T> TLVariant<TypeList>& operator=(const T& v_);
+    template <class T> TLVariant<TypeList>& operator=(const T& v_) throw(BadTypeException&);
     TLVariant<TypeList>& operator=(const TLVariant<TypeList>& v_);
     
 private:
@@ -108,6 +115,12 @@ TLVariant<TypeList>::~TLVariant()
     delete _value;
 }
 
+template <class TypeList>
+int TLVariant<TypeList>::typeIndex() const
+{
+    return _value != NULL ? _value->type_index() : -1;
+}
+
 
 template <class TypeList>
 template <class T>
@@ -142,14 +155,14 @@ const T& TLVariant<TypeList>::get() const throw(BadTypeException&)
 
 template <class TypeList>
 template <class T>
-void TLVariant<TypeList>::set(const T& v_)
+void TLVariant<TypeList>::set(const T& v_) throw(BadTypeException&)
 {
     const int type_index = tl::index_of<TypeList, T>::value;
 #ifdef DEBUG
     std::cout << "set: type_index = " << type_index << std::endl;
 #endif
     if(type_index == -1){
-        return;
+        throw(BadTypeException("type not found"));
     }
     if((_value == NULL) || (_value->type_index() != type_index)){
         delete _value;
@@ -175,7 +188,7 @@ TLVariant<TypeList>::operator const T&() const throw(BadTypeException&)
 
 template <class TypeList>
 template <class T>
-TLVariant<TypeList>& TLVariant<TypeList>::operator=(const T& v_)
+TLVariant<TypeList>& TLVariant<TypeList>::operator=(const T& v_) throw(BadTypeException&)
 {
     set(v_);
     return *this;
