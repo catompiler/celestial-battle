@@ -22,8 +22,9 @@ class Resources {
     
 public:
     
-    typedef tl::makeTypeList11<GL::Buffer,
-            GL::VertexShader, GL::FragmentShader, GL::Program,
+    typedef tl::makeTypeList<GL::Buffer,
+            GL::VertexShader, GL::FragmentShader, GL::GeometryShader,
+            GL::TessControlShader, GL::TessEvaluationShader, GL::ComputeShader, GL::Program,
             GL::Texture1D, GL::Texture2D, GL::Texture3D, GL::TextureCube, GL::TextureRect,
             Mesh, Material>::value ResourceTypes;
     
@@ -35,13 +36,13 @@ public:
     bool hasResourceType();
     
     template<class T>
-    smart_ptr<T> get();//create
+    resource_ptr<T> get();//create
     
     template<class T>
-    smart_ptr<T> get(const std::string& filename_);//read
+    resource_ptr<T> get(const std::string& filename_);//read
     
     template<class T>
-    bool release(smart_ptr<T>& resource_);//release
+    bool release(resource_ptr<T>& resource_);//release
     
     void gc();
     
@@ -72,11 +73,11 @@ public:
         bool operator==(const iterator<T>& it_) const;
         bool operator!=(const iterator<T>& it_) const;
         
-        smart_ptr<T>& operator*();
-        smart_ptr<T>& operator->();
+        resource_ptr<T>& operator*();
+        resource_ptr<T>& operator->();
         
         const std::string& filename() const;
-        smart_ptr<T>& sptr();
+        resource_ptr<T>& sptr();
         
     private:
         ResourcesList::iterator _it;
@@ -101,7 +102,7 @@ private:
         virtual ~ResBase(){};
         virtual AllType* allptr() = 0;
         virtual int refs_count() = 0;
-        virtual smart_ptr<AllType>& allsptr() = 0;
+        virtual resource_ptr<AllType>& allsptr() = 0;
     };
     
     template<class T>
@@ -109,18 +110,18 @@ private:
         :public ResBase
     {
     public:
-        ResContainer(smart_ptr<T>& ptr_);
+        ResContainer(resource_ptr<T>& ptr_);
         ~ResContainer();
         
-        void set_ptr(smart_ptr<T>& ptr_);
+        void set_ptr(resource_ptr<T>& ptr_);
         
         T* ptr();
-        smart_ptr<T>& sptr();
+        resource_ptr<T>& sptr();
         AllType* allptr();
         int refs_count();
-        smart_ptr<AllType>& allsptr();
+        resource_ptr<AllType>& allsptr();
     private:
-        smart_ptr<T> _ptr;
+        resource_ptr<T> _ptr;
     };
     
     //typedef std::multimap<std::string, ResBase*> ResourcesList;
@@ -190,15 +191,15 @@ bool Resources::hasResourceType()
 }
 
 template<class T>
-smart_ptr<T> Resources::get()//create
+resource_ptr<T> Resources::get()//create
 {
     ResTypeItems::iterator restype_it = _getResTypeIt<T>();
-    if(restype_it == _restypeitems.end()) return smart_ptr<T>(NULL);
+    if(restype_it == _restypeitems.end()) return resource_ptr<T>(NULL);
     
     ResTypeItem* restypeitem = (*restype_it).second;
     ResourcesList* resourceslist = restypeitem->getResources();
     
-    smart_ptr<T> res_sptr(new T());
+    resource_ptr<T> res_sptr(new T());
     resourceslist->insert(
             std::make_pair(std::string(), new ResContainer<T>(res_sptr))
             );
@@ -206,10 +207,10 @@ smart_ptr<T> Resources::get()//create
 }
 
 template<class T>
-smart_ptr<T> Resources::get(const std::string& filename_)//read
+resource_ptr<T> Resources::get(const std::string& filename_)//read
 {
     ResTypeItems::iterator restype_it = _resTypeIt<T>();
-    if(restype_it == _restypeitems.end()) return smart_ptr<T>(NULL);
+    if(restype_it == _restypeitems.end()) return resource_ptr<T>(NULL);
     
     ResTypeItem* restypeitem = (*restype_it).second;
     
@@ -224,7 +225,7 @@ smart_ptr<T> Resources::get(const std::string& filename_)//read
     }
     
     ReadersList* readerslist = restypeitem->readers();
-    if(readerslist == NULL) return smart_ptr<T>(NULL);
+    if(readerslist == NULL) return resource_ptr<T>(NULL);
     
     T* res = NULL;
     
@@ -233,7 +234,7 @@ smart_ptr<T> Resources::get(const std::string& filename_)//read
         res = reinterpret_cast<Reader<T>*>((*it))->read(filename_);
         if(res != NULL){
             if(resourceslist == NULL) resourceslist = restypeitem->getResources();
-            smart_ptr<T> res_sptr(res);
+            resource_ptr<T> res_sptr(res);
             resourceslist->insert(
                     std::make_pair(filename_, new ResContainer<T>(res_sptr))
                     );
@@ -241,11 +242,11 @@ smart_ptr<T> Resources::get(const std::string& filename_)//read
         }
     }
     
-    return smart_ptr<T>(NULL);
+    return resource_ptr<T>(NULL);
 }
 
 template<class T>
-bool Resources::release(smart_ptr<T>& resource_)
+bool Resources::release(resource_ptr<T>& resource_)
 {
     ResTypeItems::iterator restype_it = _resTypeIt<T>();
     if(restype_it == _restypeitems.end()) return false;
@@ -383,7 +384,7 @@ Resources::ReadersList* Resources::_readersList()
 
 
 template<class T>
-Resources::ResContainer<T>::ResContainer(smart_ptr<T>& ptr_)
+Resources::ResContainer<T>::ResContainer(resource_ptr<T>& ptr_)
 {
     set_ptr(ptr_);
 }
@@ -395,7 +396,7 @@ Resources::ResContainer<T>::~ResContainer()
 }
 
 template<class T>
-void Resources::ResContainer<T>::set_ptr(smart_ptr<T>& ptr_)
+void Resources::ResContainer<T>::set_ptr(resource_ptr<T>& ptr_)
 {
     _ptr = ptr_;
 }
@@ -407,7 +408,7 @@ T* Resources::ResContainer<T>::ptr()
 }
 
 template<class T>
-smart_ptr<T>& Resources::ResContainer<T>::sptr()
+resource_ptr<T>& Resources::ResContainer<T>::sptr()
 {
     return _ptr;
 }
@@ -425,7 +426,7 @@ int Resources::ResContainer<T>::refs_count()
 }
 
 template<class T>
-smart_ptr<Resources::AllType>& Resources::ResContainer<T>::allsptr()
+resource_ptr<Resources::AllType>& Resources::ResContainer<T>::allsptr()
 {
     return smart_ptr_cast<AllType>(_ptr);
 }
@@ -500,13 +501,13 @@ bool Resources::iterator<T>::operator!=(const iterator<T>& it_) const
 }
 
 template<class T>
-smart_ptr<T>& Resources::iterator<T>::operator*()
+resource_ptr<T>& Resources::iterator<T>::operator*()
 {
     return static_cast<ResContainer<T>*>((*_it).second)->sptr();
 }
 
 template<class T>
-smart_ptr<T>& Resources::iterator<T>::operator->()
+resource_ptr<T>& Resources::iterator<T>::operator->()
 {
     return static_cast<ResContainer<T>*>((*_it).second)->sptr();
 }
@@ -518,7 +519,7 @@ const std::string& Resources::iterator<T>::filename() const
 }
 
 template<class T>
-smart_ptr<T>& Resources::iterator<T>::sptr()
+resource_ptr<T>& Resources::iterator<T>::sptr()
 {
     return static_cast<ResContainer<T>*>((*_it).second)->sptr();
 }
