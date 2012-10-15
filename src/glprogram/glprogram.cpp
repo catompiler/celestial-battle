@@ -21,6 +21,13 @@ Program::Program(GLuint id_)
 {
 }
 
+Program::Program(GLenum type_, const std::string& source_)
+        :Resource()
+{
+    const char* src = source_.c_str();
+    _id = GL::glCreateShaderProgramv(type_, 1, &src);
+}
+
 Program::~Program()
 {
     GL::glDeleteProgram(_id);
@@ -95,6 +102,21 @@ GLint Program::getParameteri(GLenum pname_) const
     GLint res;
     GL::glGetProgramiv(_id, pname_, &res);
     return res;
+}
+
+void Program::setParameteri(GLenum pname_, GLint value_)
+{
+    GL::glProgramParameteri(_id, pname_, value_);
+}
+
+void Program::bindFragDataLocation(size_t color_number_, const std::string& name_)
+{
+    GL::glBindFragDataLocation(_id, static_cast<GLuint>(color_number_), name_.c_str());
+}
+
+GLint Program::fragDataLocation(const std::string& name_) const
+{
+    return GL::glGetFragDataLocation(_id, name_.c_str());
 }
 
 bool Program::hasUniform(const std::string& name_)

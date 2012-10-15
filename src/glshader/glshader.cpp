@@ -82,6 +82,11 @@ GLint Shader::getParameteri(GLenum pname_) const
     return res;
 }
 
+void Shader::releaseCompiler()
+{
+    GL::glReleaseShaderCompiler();
+}
+
 
 
 VertexShader::VertexShader()
@@ -113,6 +118,74 @@ FragmentShader::FragmentShader(GLuint id_)
 FragmentShader::~FragmentShader()
 {
 }
+
+
+
+GeometryShader::GeometryShader()
+        :Shader(GL_GEOMETRY_SHADER)
+{
+}
+
+GeometryShader::GeometryShader(GLuint id_)
+        :Shader(id_, 0)
+{
+}
+
+GeometryShader::~GeometryShader()
+{
+}
+
+
+
+TessControlShader::TessControlShader()
+        :Shader(GL_TESS_CONTROL_SHADER)
+{
+}
+
+TessControlShader::TessControlShader(GLuint id_)
+        :Shader(id_, 0)
+{
+}
+
+TessControlShader::~TessControlShader()
+{
+}
+
+
+
+TessEvaluationShader::TessEvaluationShader()
+        :Shader(GL_TESS_EVALUATION_SHADER)
+{
+}
+
+TessEvaluationShader::TessEvaluationShader(GLuint id_)
+        :Shader(id_, 0)
+{
+}
+
+TessEvaluationShader::~TessEvaluationShader()
+{
+}
+
+
+
+ComputeShader::ComputeShader()
+        :Shader(GL_COMPUTE_SHADER)
+{
+}
+
+ComputeShader::ComputeShader(GLuint id_)
+        :Shader(id_, 0)
+{
+}
+
+ComputeShader::~ComputeShader()
+{
+}
+
+
+
+
 
 
 

@@ -80,6 +80,10 @@
       <logicalFolder name="global" displayName="global" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/global/constants.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="glpatch" displayName="glpatch" projectFiles="true">
+        <itemPath>../src/glpatch/glpatch.cpp</itemPath>
+        <itemPath>../src/glpatch/glpatch.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="glprogram" displayName="glprogram" projectFiles="true">
         <itemPath>../src/glprogram/glprogram.cpp</itemPath>
         <itemPath>../src/glprogram/glprogram.h</itemPath>
@@ -93,6 +97,10 @@
       <logicalFolder name="glresource" displayName="glresource" projectFiles="true">
         <itemPath>../src/glresource/glresource.cpp</itemPath>
         <itemPath>../src/glresource/glresource.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glsampler" displayName="glsampler" projectFiles="true">
+        <itemPath>../src/glsampler/glsampler.cpp</itemPath>
+        <itemPath>../src/glsampler/glsampler.h</itemPath>
       </logicalFolder>
       <logicalFolder name="glshader" displayName="glshader" projectFiles="true">
         <itemPath>../src/glshader/glshader.cpp</itemPath>

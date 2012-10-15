@@ -21,6 +21,7 @@ class Program
 public:
     Program();
     Program(GLuint id_);
+    Program(GLenum type_, const std::string& source_);
     ~Program();
     
     void use();
@@ -40,7 +41,10 @@ public:
     std::string infoLog() const;
     
     GLint getParameteri(GLenum pname_) const;
+    void setParameteri(GLenum pname_, GLint value_);
     
+    void bindFragDataLocation(size_t color_number_, const std::string& name_);
+    GLint fragDataLocation(const std::string& name_) const;
     
     class Uniform;
     typedef std::vector<Uniform*> Uniforms;

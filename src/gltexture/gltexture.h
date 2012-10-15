@@ -32,6 +32,36 @@ public:
     void setParameteri(GLenum pname_, GLint param_);
     void setParameterf(GLenum pname_, GLfloat param_);
     
+    GLint minFilter() const;
+    void setMinFilter(GLint filter_);
+    
+    GLint magFilter() const;
+    void setMagFilter(GLint filter_);
+    
+    GLint minLod() const;
+    void setMinLod(GLint lod_);
+    
+    GLint maxLod() const;
+    void setMaxLod(GLint lod_);
+    
+    GLint wrapS() const;
+    void setWrapS(GLint wrap_);
+    
+    GLint wrapT() const;
+    void setWrapT(GLint wrap_);
+    
+    GLint wrapR() const;
+    void setWrapR(GLint wrap_);
+    
+    void setWrap(GLint wrap_);
+    void setWrap(GLint wraps_, GLint wrapt_, GLint wrapr_);
+    
+    GLint compareMode() const;
+    void setCompareMode(GLint mode_);
+    
+    GLint compareFunc() const;
+    void setCompareFunc(GLint func_);
+    
 protected:
     GLenum _target;
 };

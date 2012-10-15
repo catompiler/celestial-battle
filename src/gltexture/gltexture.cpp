@@ -76,6 +76,108 @@ void Texture::setParameterf(GLenum pname_, GLfloat param_)
     GL::glTexParameterf(_target, pname_, param_);
 }
 
+GLint Texture::minFilter() const
+{
+    return getParameteri(GL_TEXTURE_MIN_FILTER);
+}
+
+void Texture::setMinFilter(GLint filter_)
+{
+    setParameteri(GL_TEXTURE_MIN_FILTER, filter_);
+}
+
+GLint Texture::magFilter() const
+{
+    return getParameteri(GL_TEXTURE_MAG_FILTER);
+}
+
+void Texture::setMagFilter(GLint filter_)
+{
+    setParameteri(GL_TEXTURE_MAG_FILTER, filter_);
+}
+
+GLint Texture::minLod() const
+{
+    return getParameteri(GL_TEXTURE_MIN_LOD);
+}
+
+void Texture::setMinLod(GLint lod_)
+{
+    setParameteri(GL_TEXTURE_MIN_LOD, lod_);
+}
+
+GLint Texture::maxLod() const
+{
+    return getParameteri(GL_TEXTURE_MAX_LOD);
+}
+
+void Texture::setMaxLod(GLint lod_)
+{
+    setParameteri(GL_TEXTURE_MAX_LOD, lod_);
+}
+
+GLint Texture::wrapS() const
+{
+    return getParameteri(GL_TEXTURE_WRAP_S);
+}
+
+void Texture::setWrapS(GLint wrap_)
+{
+    setParameteri(GL_TEXTURE_WRAP_S, wrap_);
+}
+
+GLint Texture::wrapT() const
+{
+    return getParameteri(GL_TEXTURE_WRAP_T);
+}
+
+void Texture::setWrapT(GLint wrap_)
+{
+    setParameteri(GL_TEXTURE_WRAP_T, wrap_);
+}
+
+GLint Texture::wrapR() const
+{
+    return getParameteri(GL_TEXTURE_WRAP_R);
+}
+
+void Texture::setWrapR(GLint wrap_)
+{
+    setParameteri(GL_TEXTURE_WRAP_R, wrap_);
+}
+
+void Texture::setWrap(GLint wrap_)
+{
+    setWrap(wrap_, wrap_, wrap_);
+}
+
+void Texture::setWrap(GLint wraps_, GLint wrapt_, GLint wrapr_)
+{
+    setWrapS(wraps_);
+    setWrapT(wrapt_);
+    setWrapR(wrapr_);
+}
+
+GLint Texture::compareMode() const
+{
+    return getParameteri(GL_TEXTURE_COMPARE_MODE);
+}
+
+void Texture::setCompareMode(GLint mode_)
+{
+    setParameteri(GL_TEXTURE_COMPARE_MODE, mode_);
+}
+
+GLint Texture::compareFunc() const
+{
+    return getParameteri(GL_TEXTURE_COMPARE_FUNC);
+}
+
+void Texture::setCompareFunc(GLint func_)
+{
+    setParameteri(GL_TEXTURE_COMPARE_FUNC, func_);
+}
+
 
 
 Texture1D::Texture1D()

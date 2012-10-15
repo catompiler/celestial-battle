@@ -30,6 +30,8 @@ public:
     std::string infoLog() const;
     
     GLint getParameteri(GLenum pname_) const;
+    
+    static void releaseCompiler();
 };
 
 
@@ -51,6 +53,46 @@ public:
     FragmentShader();
     FragmentShader(GLuint id_);
     ~FragmentShader();
+};
+
+
+class GeometryShader
+        :public Shader
+{
+public:
+    GeometryShader();
+    GeometryShader(GLuint id_);
+    ~GeometryShader();
+};
+
+
+class TessControlShader
+        :public Shader
+{
+public:
+    TessControlShader();
+    TessControlShader(GLuint id_);
+    ~TessControlShader();
+};
+
+
+class TessEvaluationShader
+        :public Shader
+{
+public:
+    TessEvaluationShader();
+    TessEvaluationShader(GLuint id_);
+    ~TessEvaluationShader();
+};
+
+
+class ComputeShader
+        :public Shader
+{
+public:
+    ComputeShader();
+    ComputeShader(GLuint id_);
+    ~ComputeShader();
 };
 
 

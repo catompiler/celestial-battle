@@ -81,10 +81,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/907685599/transformstree.o \
 	${OBJECTDIR}/_ext/49809687/opengl.o \
 	${OBJECTDIR}/_ext/662815568/glcontext.o \
+	${OBJECTDIR}/_ext/158927991/glpatch.o \
 	${OBJECTDIR}/_ext/659861322/log.o \
 	${OBJECTDIR}/_ext/1521210933/nanosleep.o \
 	${OBJECTDIR}/_ext/1029917654/main.o \
 	${OBJECTDIR}/_ext/1358156373/resources.o \
+	${OBJECTDIR}/_ext/250496777/glsampler.o \
 	${OBJECTDIR}/_ext/767039133/token.o \
 	${OBJECTDIR}/_ext/774992765/component.o \
 	${OBJECTDIR}/_ext/540013372/glshader.o \
@@ -351,6 +353,11 @@ ${OBJECTDIR}/_ext/662815568/glcontext.o: ../src/glcontext/glcontext.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/662815568/glcontext.o ../src/glcontext/glcontext.cpp
 
+${OBJECTDIR}/_ext/158927991/glpatch.o: ../src/glpatch/glpatch.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/158927991
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/158927991/glpatch.o ../src/glpatch/glpatch.cpp
+
 ${OBJECTDIR}/_ext/659861322/log.o: ../src/log/log.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/659861322
 	${RM} $@.d
@@ -370,6 +377,11 @@ ${OBJECTDIR}/_ext/1358156373/resources.o: ../src/resources/resources.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1358156373
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1358156373/resources.o ../src/resources/resources.cpp
+
+${OBJECTDIR}/_ext/250496777/glsampler.o: ../src/glsampler/glsampler.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/250496777
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/250496777/glsampler.o ../src/glsampler/glsampler.cpp
 
 ${OBJECTDIR}/_ext/767039133/token.o: ../src/tokenizer/token.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/767039133
