@@ -4,7 +4,7 @@
 
 #ifdef __linux
 #define OS_LINUX 1
-#elif defined WIN32
+#elif defined (WIN32) || defined (_WIN32)
 #define OS_WINDOWS 1
 #else
 #error Unknown OS
