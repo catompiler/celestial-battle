@@ -17,24 +17,24 @@ static wglCreateContextAttribsARBProc wglCreateContextAttribsARB = NULL;
 
 GLContext::GLContext()
 {
-    _id = 0;
-    _not_destroy = false;
+    _shared_id = new SharedId();
 }
 
 
 GLContext::~GLContext()
 {
-    if(_id != 0 && _not_destroy == false) wglDeleteContext(_id);
+    destroy();
+    delete _shared_id;
 }
 
 
-GLContext* GLContext::create(const Window* window_, const Version& version_)
+bool GLContext::create(const Window* window_, const Version& version_)
 {
     return create(window_, version_, NULL);
 }
 
 
-GLContext* GLContext::create(const Window* window_, const Version& version_,
+bool GLContext::create(const Window* window_, const Version& version_,
                               const GLContext* glcxt_)//not copy - share!
 {
     HDC window_dc = 0;
@@ -54,7 +54,7 @@ GLContext* GLContext::create(const Window* window_, const Version& version_,
     
     window_dc = GetDC(window_->id());
     
-    if(glcxt_ != NULL) shared = static_cast<glcontext_t>(glcxt_->id());
+    if(glcxt_ != nullptr) shared = static_cast<glcontext_t>(glcxt_->id());
 
 
     //if need CreateContextAttribs
@@ -64,20 +64,20 @@ GLContext* GLContext::create(const Window* window_, const Version& version_,
             //create context
             tmpglcxt = wglCreateContext(window_dc);
             if(tmpglcxt == 0){
-                return NULL;
+                return false;
             }
             if(!wglMakeCurrent(window_dc, tmpglcxt)){
-                return NULL;
+                return false;
             }
         }
 
 
-        if(wglCreateContextAttribsARB == NULL){
+        if(wglCreateContextAttribsARB == nullptr){
             //get proc address
-            if(NULL == (wglCreateContextAttribsARB = reinterpret_cast<wglCreateContextAttribsARBProc>(wglGetProcAddress("wglCreateContextAttribsARB")))){
+            if(nullptr == (wglCreateContextAttribsARB = reinterpret_cast<wglCreateContextAttribsARBProc>(wglGetProcAddress("wglCreateContextAttribsARB")))){
                 //OpenGL 3.0 is not supported
                 wglMakeCurrent(origDc, origcxt);
-                return NULL;
+                return false;
             }
         }
         
@@ -90,7 +90,7 @@ GLContext* GLContext::create(const Window* window_, const Version& version_,
 
 
         //if tmpglcxt created
-        if(tmpglcxt != NULL){
+        if(tmpglcxt != 0){
             //destroy tmp context
             wglMakeCurrent(0, 0);
             wglDeleteContext(tmpglcxt);
@@ -103,49 +103,60 @@ GLContext* GLContext::create(const Window* window_, const Version& version_,
                     );
         if(res_glcxt == 0){
             wglMakeCurrent(origDc, origcxt);
-            return NULL;
+            return false;
         }
         //
     }else{
         //create context
         res_glcxt = wglCreateContext(window_dc);
-        if(res_glcxt == NULL){
-            return NULL;
+        if(res_glcxt == 0){
+            return false;
         }
         if(shared && !wglShareLists(res_glcxt, shared)){
             wglDeleteContext(res_glcxt);
-            return NULL;
+            return false;
         }
     }
 
 
     wglMakeCurrent(origDc, origcxt);
     
-    GLContext* res = new GLContext();
-    res->_id = res_glcxt;
+    _shared_id->data = res_glcxt;
+    _contexts[_shared_id->data] = this;
 
-
-    return res;
+    return true;
 }
 
 
-GLContext* GLContext::current()
+GLContext GLContext::current()
 {
     glcontext_t cur_glcxt = wglGetCurrentContext();
-    if(cur_glcxt == 0) return NULL;
+    if(cur_glcxt == 0) return GLContext();
     
-    GLContext* res = new GLContext();
+    GLContext* res_cxt = nullptr;
     
-    res->_id = cur_glcxt;
-    res->_not_destroy = true;
+    Contexts::iterator it = _contexts.find(cur_glcxt);
+    if(it != _contexts.end()){
+        res_cxt = (*it).second;
+        res_cxt->_shared_id->acquire();
+    }else{
+        res_cxt = new GLContext();
+        res_cxt->_shared_id->data = cur_glcxt;
+        _contexts[res_cxt->_shared_id->data] = res_cxt;
+    }
     
-    return res;
+    return *res_cxt;
 }
 
 
-void GLContext::destroy(GLContext* glcxt_)
+void GLContext::destroy()
 {
-    delete glcxt_;
+    if(_shared_id->release()){
+        _contexts.erase(_shared_id->data);
+        wglDestroyContext(_shared_id->data);
+        delete _shared_id;
+    }
+    _shared_id = new SharedId();
 }
 
 

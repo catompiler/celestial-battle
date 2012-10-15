@@ -1,6 +1,7 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
+#include <stddef.h>
 #include <algorithm>
 #include <iterator>
 #include <utility>
@@ -12,12 +13,12 @@ namespace functors{
 
 //! delete single object
 struct delete_single{
-    template<class T>
+    template <class T>
     void operator()(T* obj) const{
         delete obj;
     }
     
-    template<class T, class U>
+    template <class T, class U>
     void operator()(std::pair<T, U>& pair_) const{
         delete pair_.second;
     }
@@ -25,19 +26,19 @@ struct delete_single{
 
 //! delete array of objects
 struct delete_array{
-    template<class T>
+    template <class T>
     void operator()(T* arr) const{
         delete[] arr;
     }
     
-    template<class T, class U>
+    template <class T, class U>
     void operator()(std::pair<T, U>& pair_) const{
         delete[] pair_.second;
     }
 };
 
 //! map's/pair's value/second comp(equal)
-template<class T>
+template <class T>
 struct value_equal
 {
     T value;
@@ -53,7 +54,7 @@ struct value_equal
         return value == p.second;
     }
 };
-template<class T>
+template <class T>
 value_equal<T> make_value_equal(T v){ return value_equal<T>(v); }
 
 }//functors
@@ -88,7 +89,7 @@ void delete_all(Container* c, const Deleter& d)
 
 namespace iterators{
 
-template<class Map, class Item = typename Map::mapped_type>
+template <class Map, class Item = typename Map::mapped_type>
 class MapValueIterator
     :public std::iterator<std::bidirectional_iterator_tag, typename Map::mapped_type>
 {
@@ -118,12 +119,30 @@ private:
 }//iterators
 
 
-template<class T>
+template <class T>
 struct DirtyValue
 {
     DirtyValue() :value(T()), dirty(true){}
+    void set(const T& value_, bool dirty_ = true)
+        {value = value_; dirty = dirty_;}
+    
     T value;
     bool dirty;
+};
+
+template <typename DataT>
+struct SharedData
+{
+    SharedData() :data(DataT()), refs_count(1){}
+    
+    void acquire()
+        {refs_count ++;}
+    bool release()
+        {if(refs_count > 0) refs_count --; return refs_count == 0;}
+    
+    DataT data;
+    
+    size_t refs_count;
 };
 
 

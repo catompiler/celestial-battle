@@ -7,15 +7,15 @@
 #include "input/input.h"
 #include "iconv/iconv.h"
 #include "opengl/opengl.h"
-//#include <locale>
+#include <locale>
 #include "glbuffer/glbuffer.h"
 #include "display/display.h"
 #include "resources/resources.h"
 #include "readers/tgareader.h"
 #include "tokenizer/parseexception.h"
 
-Window* w = NULL;
-GLContext* cxt = NULL;
+static Window* w = NULL;
+static GLContext cxt;
 
 class WindowedApp{
 public:
@@ -99,7 +99,7 @@ std::ostream& operator<<(std::ostream& ost, const Rage::Transform& t)
 
 int main(int /*argc*/, char** /*argv*/)
 {
-    //std::locale::global(std::locale(""));
+    std::locale::global(std::locale(""));
     
     log(Log::Information) << "Hello, Log!" << std::endl;
     
@@ -152,14 +152,13 @@ int main(int /*argc*/, char** /*argv*/)
         return 1;
     }
     
-    cxt = GLContext::create(w, GLContext::Version(4, 2));
-    if(cxt == NULL){
+    if(cxt.create(w, GLContext::Version(4, 2)) == false){
         log(Log::Error) << "Error creating context" << std::endl;
         Window::destroy(w);
         return 1;
     }
     
-    w->makeCurrent(cxt);
+    w->makeCurrent(&cxt);
     
     w->onClose().addHandler(make_delegate(&wapp, &WindowedApp::onClose));
     w->onCreate().addHandler(make_delegate(&wapp, &WindowedApp::onCreate));
@@ -175,7 +174,7 @@ int main(int /*argc*/, char** /*argv*/)
     
     std::cout << "Init gl functions..." << std::endl;
     GL::initFunctions();
-    std::cout << "GL_EXT_gpu_shader4 == " << GL::GL_EXT_gpu_shader4_supported << std::endl;
+    std::cout << "GL_ARB_tessellation_shader == " << GL::GL_ARB_tessellation_shader_supported << std::endl;
     
     std::cout << "glBindBuffer == " << (void*)GL::glBindBuffer << std::endl;
     std::cout << "glBindBufferARB == " << (void*)GL::glBindBufferARB << std::endl;
@@ -225,7 +224,7 @@ int main(int /*argc*/, char** /*argv*/)
     
     w->makeCurrent(NULL);
     
-    GLContext::destroy(cxt);
+    cxt.destroy();
     
     w->onClose().removeHandler(&wapp);
     w->onCreate().removeHandler(&wapp);

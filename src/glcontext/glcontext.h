@@ -1,7 +1,9 @@
 #ifndef GLCONTEXT_H
 #define	GLCONTEXT_H
 
+#include <unordered_map>
 #include "glcontext_types.h"
+#include "utils/utils.h"
 
 class Window;
 
@@ -15,23 +17,28 @@ public:
         int major;
         int minor;
     };
+    
+    GLContext();
+    ~GLContext();
 
     glcontext_t id() const;
+    
+    bool valid() const;
 
-    static GLContext* create(const Window* window_, const Version& version_);
-    static GLContext* create(const Window* window_, const Version& version_,
+    bool create(const Window* window_, const Version& version_);
+    bool create(const Window* window_, const Version& version_,
                              const GLContext* glcxt_);//not copy - share!
-    static GLContext* current();
-    static void destroy(GLContext* glcxt_);
+    static GLContext current();
+    void destroy();
     
     static void (*getProcAddress(const char* procname_))();
 
 protected:
-    GLContext();
-    ~GLContext();
 
-    bool _not_destroy; //GLContext* current();
-    glcontext_t _id;
+    typedef SharedData<glcontext_t> SharedId;
+    SharedId* _shared_id;
+    typedef std::unordered_map<glcontext_t, GLContext*> Contexts;
+    static Contexts _contexts;
 };
 
 #endif	/* GLCONTEXT_H */
