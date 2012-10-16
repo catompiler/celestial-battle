@@ -4,5 +4,14 @@
 #define ENGINE_NAMESPACE_BEGIN namespace Rage{
 #define ENGINE_NAMESPACE_END }
 
+#include "object/object.h"
+
+class Engine
+    :public Object
+{
+public:
+    //
+};
+
 
 #endif  //_ENGINE_H_
