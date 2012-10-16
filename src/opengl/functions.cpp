@@ -1,5 +1,9 @@
 #include "functions.h"
+#include "osal/osdef.h"
 
+#ifdef OS_WINDOWS
+#include <GL/gl.h>
+#endif
 
 
 OPENGL_NAMESPACE_BEGIN
@@ -2717,6 +2721,80 @@ bool initFunctions()
     if(init == true) return true;
     init = true;
     
+    #ifdef OS_WINDOWS
+    
+    GL_VERSION_1_0_supported = true;
+    {
+        glCullFace = ::glCullFace;
+        glFrontFace = ::glFrontFace;
+        glHint = ::glHint;
+        glLineWidth = ::glLineWidth;
+        glPointSize = ::glPointSize;
+        glPolygonMode = ::glPolygonMode;
+        glScissor = ::glScissor;
+        glTexParameterf = ::glTexParameterf;
+        glTexParameterfv = ::glTexParameterfv;
+        glTexParameteri = ::glTexParameteri;
+        glTexParameteriv = ::glTexParameteriv;
+        glTexImage1D = ::glTexImage1D;
+        glTexImage2D = ::glTexImage2D;
+        glDrawBuffer = ::glDrawBuffer;
+        glClear = ::glClear;
+        glClearColor = ::glClearColor;
+        glClearStencil = ::glClearStencil;
+        glClearDepth = ::glClearDepth;
+        glStencilMask = ::glStencilMask;
+        glColorMask = ::glColorMask;
+        glDepthMask = ::glDepthMask;
+        glDisable = ::glDisable;
+        glEnable = ::glEnable;
+        glFinish = ::glFinish;
+        glFlush = ::glFlush;
+        glBlendFunc = ::glBlendFunc;
+        glLogicOp = ::glLogicOp;
+        glStencilFunc = ::glStencilFunc;
+        glStencilOp = ::glStencilOp;
+        glDepthFunc = ::glDepthFunc;
+        glPixelStoref = ::glPixelStoref;
+        glPixelStorei = ::glPixelStorei;
+        glReadBuffer = ::glReadBuffer;
+        glReadPixels = ::glReadPixels;
+        glGetBooleanv = ::glGetBooleanv;
+        glGetDoublev = ::glGetDoublev;
+        glGetError = ::glGetError;
+        glGetFloatv = ::glGetFloatv;
+        glGetIntegerv = ::glGetIntegerv;
+        glGetString = ::glGetString;
+        glGetTexImage = ::glGetTexImage;
+        glGetTexParameterfv = ::glGetTexParameterfv;
+        glGetTexParameteriv = ::glGetTexParameteriv;
+        glGetTexLevelParameterfv = ::glGetTexLevelParameterfv;
+        glGetTexLevelParameteriv = ::glGetTexLevelParameteriv;
+        glIsEnabled = ::glIsEnabled;
+        glDepthRange = ::glDepthRange;
+        glViewport = ::glViewport;
+    }
+    
+    GL_VERSION_1_1_supported = true;
+    {
+        glDrawArrays = ::glDrawArrays;
+        glDrawElements = ::glDrawElements;
+        glGetPointerv = ::glGetPointerv;
+        glPolygonOffset = ::glPolygonOffset;
+        glCopyTexImage1D = ::glCopyTexImage1D;
+        glCopyTexImage2D = ::glCopyTexImage2D;
+        glCopyTexSubImage1D = ::glCopyTexSubImage1D;
+        glCopyTexSubImage2D = ::glCopyTexSubImage2D;
+        glTexSubImage1D = ::glTexSubImage1D;
+        glTexSubImage2D = ::glTexSubImage2D;
+        glBindTexture = ::glBindTexture;
+        glDeleteTextures = ::glDeleteTextures;
+        glGenTextures = ::glGenTextures;
+        glIsTexture = ::glIsTexture;
+    }
+    
+    #else
+    
     GL_VERSION_1_0_supported = false;
     {
         if(getProcAddress("glCullFace", glCullFace, false) == true
@@ -2792,6 +2870,8 @@ bool initFunctions()
             GL_VERSION_1_1_supported = true;
         }
     }
+    
+    #endif
 
     GL_VERSION_1_2_supported = false;
     {
