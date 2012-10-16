@@ -7,81 +7,69 @@
 #include <utility>
 
 
-template<class HandlerDelegate>
+//#if defined(__GXX_EXPERIMENTAL_CXX0X__) || __cplusplus >= 201103L
+
+
+template <typename... Args>
 class BaseEvent
 {
 public:
     
-    typedef HandlerDelegate delegate_t;
+    typedef Delegate<void, Args...> delegate_t;
     
     BaseEvent();
     virtual ~BaseEvent();
     
-    bool addHandler(const HandlerDelegate& delegate_);
-    bool removeHandler(const HandlerDelegate& delegate_);
+    bool addHandler(const delegate_t& delegate_);
+    bool removeHandler(const delegate_t& delegate_);
     template<class Handler>
         bool removeHandler(const Handler* handler_);
     template<class Handler, class Function>
         bool removeHandler(const Handler* handler_, Function func_);
+    
 protected:
-    typedef std::list<HandlerDelegate> DelegateList;
+    typedef std::list<delegate_t> DelegateList;
     DelegateList _delegate_list;
 };
 
+
+
+template <typename... Args>
 class Event
-    :public BaseEvent<Delegate<void> >
+    :public BaseEvent<Args...>
 {
 public:
     
-    typedef BaseEvent<Delegate<void> > Base;
+    typedef BaseEvent<Args...> Base;
     
     Event();
     ~Event();
     
-    void operator()();
-};
-
-template<class Arg>
-class UnaryEvent
-    :public BaseEvent<UnaryDelegate<void, Arg> >
-{
-public:
-    
-    typedef BaseEvent<UnaryDelegate<void, Arg> > Base;
-    
-    UnaryEvent();
-    ~UnaryEvent();
-    
-    void operator()(Arg&& arg_);
-};
-
-template<class Arg1, class Arg2>
-class BinaryEvent
-    :public BaseEvent<BinaryDelegate<void, Arg1, Arg2> >
-{
-public:
-    
-    typedef BaseEvent<BinaryDelegate<void, Arg1, Arg2> > Base;
-    
-    BinaryEvent();
-    ~BinaryEvent();
-    
-    void operator()(Arg1&& arg1_, Arg2&& arg2_);
+    void operator()(Args... args_);
 };
 
 
-template<class HandlerDelegate>
-BaseEvent<HandlerDelegate>::BaseEvent()
+
+template <typename Arg0>
+using UnaryEvent = Event<Arg0>;
+
+template <typename Arg0, typename Arg1>
+using BinaryEvent = Event<Arg0, Arg1>;
+
+
+
+template <typename... Args>
+BaseEvent<Args...>::BaseEvent()
 {
 }
 
-template<class HandlerDelegate>
-BaseEvent<HandlerDelegate>::~BaseEvent()
+template <typename... Args>
+BaseEvent<Args...>::~BaseEvent()
 {
 }
 
-template<class HandlerDelegate>
-bool BaseEvent<HandlerDelegate>::addHandler(const HandlerDelegate& delegate_)
+template <typename... Args>
+bool BaseEvent<Args...>::addHandler(const delegate_t& delegate_)
 {
     if(std::find(_delegate_list.begin(), _delegate_list.end(), delegate_)
             != _delegate_list.end()){
@@ -91,8 +79,8 @@ bool BaseEvent<HandlerDelegate>::addHandler(const HandlerDelegate& delegate_)
     return true;
 }
 
-template<class HandlerDelegate>
-bool BaseEvent<HandlerDelegate>::removeHandler(const HandlerDelegate& delegate_)
+template <typename... Args>
+bool BaseEvent<Args...>::removeHandler(const delegate_t& delegate_)
 {
     typename DelegateList::iterator it = std::find(_delegate_list.begin(),
                                             _delegate_list.end(), delegate_);
@@ -103,9 +91,9 @@ bool BaseEvent<HandlerDelegate>::removeHandler(const HandlerDelegate& delegate_)
     return true;
 }
 
-template<class HandlerDelegate>
-template<class Handler>
-bool BaseEvent<HandlerDelegate>::removeHandler(const Handler* handler_)
+template <typename... Args>
+template <typename Handler>
+bool BaseEvent<Args...>::removeHandler(const Handler* handler_)
 {
     bool found = false;
     for(typename DelegateList::iterator it = _delegate_list.begin();
@@ -121,9 +109,9 @@ bool BaseEvent<HandlerDelegate>::removeHandler(const Handler* handler_)
     return found;
 }
 
-template<class HandlerDelegate>
-template<class Handler, class Function>
-bool BaseEvent<HandlerDelegate>::removeHandler(const Handler* handler_, Function func_)
+template <typename... Args>
+template <typename Handler, typename Function>
+bool BaseEvent<Args...>::removeHandler(const Handler* handler_, Function func_)
 {
     for(typename DelegateList::iterator it = _delegate_list.begin();
             it != _delegate_list.end(); ++it){
@@ -137,43 +125,26 @@ bool BaseEvent<HandlerDelegate>::removeHandler(const Handler* handler_, Function
 }
 
 
-template<class Arg>
-UnaryEvent<Arg>::UnaryEvent()
+
+template <typename... Args>
+Event<Args...>::Event()
 {
 }
 
-template<class Arg>
-UnaryEvent<Arg>::~UnaryEvent()
+template <typename... Args>
+Event<Args...>::~Event()
 {
 }
 
-template<class Arg>
-void UnaryEvent<Arg>::operator()(Arg&& arg_)
-{
-    for(typename Base::DelegateList::iterator it = Base::_delegate_list.begin();
-            it != Base::_delegate_list.end(); ++it){
-        (*it)(std::forward<Arg>(arg_));
-    }
-}
-
-
-template<class Arg1, class Arg2>
-BinaryEvent<Arg1, Arg2>::BinaryEvent()
-{
-}
-
-template<class Arg1, class Arg2>
-BinaryEvent<Arg1, Arg2>::~BinaryEvent()
-{
-}
-
-template<class Arg1, class Arg2>
-void BinaryEvent<Arg1, Arg2>::operator()(Arg1&& arg1_, Arg2&& arg2_)
+template <typename... Args>
+void Event<Args...>::operator()(Args... args_)
 {
     for(typename Base::DelegateList::iterator it = Base::_delegate_list.begin();
             it != Base::_delegate_list.end(); ++it){
-        (*it)(std::forward<Arg1>(arg1_), std::forward<Arg2>(arg2_));
+        //(*it)(std::forward<Arg>(arg_));
+        (*it)(args_...);
     }
 }
+
 
 #endif  //_EVENT_H

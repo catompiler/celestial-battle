@@ -39,7 +39,6 @@
         <itemPath>../src/engine/engine.h</itemPath>
       </logicalFolder>
       <logicalFolder name="event" displayName="event" projectFiles="true">
-        <itemPath>../src/event/event.cpp</itemPath>
         <itemPath>../src/event/event.h</itemPath>
       </logicalFolder>
       <logicalFolder name="exception" displayName="exception" projectFiles="true">

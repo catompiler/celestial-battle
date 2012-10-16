@@ -10,7 +10,7 @@
 class Timer{
 public:
     
-    typedef Event OnTimerEvent;
+    typedef Event<> OnTimerEvent;
     
     Timer();
     ~Timer();
