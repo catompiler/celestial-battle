@@ -1,0 +1,10 @@
+#ifndef _MOUSE_BUTTONS_H_
+#define _MOUSE_BUTTONS_H_
+
+#define MOUSE_LEFT 1
+#define MOUSE_RIGHT 2
+#define MOUSE_MIDDLE 4
+#define MOUSE_SCROLL_UP 8
+#define MOUSE_SCROLL_DOWN 16
+
+#endif  //_MOUSE_BUTTONS_H_

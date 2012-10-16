@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="84">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="src" displayName="src" projectFiles="true">
+      <logicalFolder name="component" displayName="component" projectFiles="true">
+        <itemPath>../src/component/component.cpp</itemPath>
+        <itemPath>../src/component/component.h</itemPath>
+        <itemPath>../src/component/componentfactory.cpp</itemPath>
+        <itemPath>../src/component/componentfactory.h</itemPath>
+        <itemPath>../src/component/locatedcomponent.cpp</itemPath>
+        <itemPath>../src/component/locatedcomponent.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="config" displayName="config" projectFiles="true">
+        <itemPath>../src/config/config.cpp</itemPath>
+        <itemPath>../src/config/config.h</itemPath>
+        <itemPath>../src/config/configexception.cpp</itemPath>
+        <itemPath>../src/config/configexception.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="delegate" displayName="delegate" projectFiles="true">
+        <itemPath>../src/delegate/delegate.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="display" displayName="display" projectFiles="true">
+        <itemPath>../src/display/display.cpp</itemPath>
+        <itemPath>../src/display/display.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="engine" displayName="engine" projectFiles="true">
+        <itemPath>../src/engine/engine.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="event" displayName="event" projectFiles="true">
+        <itemPath>../src/event/event.cpp</itemPath>
+        <itemPath>../src/event/event.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="exception" displayName="exception" projectFiles="true">
+        <itemPath>../src/exception/badindexexception.cpp</itemPath>
+        <itemPath>../src/exception/badindexexception.h</itemPath>
+        <itemPath>../src/exception/badtypeexception.cpp</itemPath>
+        <itemPath>../src/exception/badtypeexception.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glbuffer" displayName="glbuffer" projectFiles="true">
+        <itemPath>../src/glbuffer/glbuffer.cpp</itemPath>
+        <itemPath>../src/glbuffer/glbuffer.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glcontext" displayName="glcontext" projectFiles="true">
+        <itemPath>../src/glcontext/glcontext.cpp</itemPath>
+        <itemPath>../src/glcontext/glcontext.h</itemPath>
+        <itemPath>../src/glcontext/glcontext_types.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glframebuffer"
+                     displayName="glframebuffer"
+                     projectFiles="true">
+        <itemPath>../src/glframebuffer/glframebuffer.cpp</itemPath>
+        <itemPath>../src/glframebuffer/glframebuffer.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glmath" displayName="glmath" projectFiles="true">
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/functions.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/glmath.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/mat2.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/mat3.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/mat4.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/plane.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/quat.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/vec2.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/vec3.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/vec4.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="global" displayName="global" projectFiles="true">
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/global/constants.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glpatch" displayName="glpatch" projectFiles="true">
+        <itemPath>../src/glpatch/glpatch.cpp</itemPath>
+        <itemPath>../src/glpatch/glpatch.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glprogram" displayName="glprogram" projectFiles="true">
+        <itemPath>../src/glprogram/glprogram.cpp</itemPath>
+        <itemPath>../src/glprogram/glprogram.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glrenderbuffer"
+                     displayName="glrenderbuffer"
+                     projectFiles="true">
+        <itemPath>../src/glrenderbuffer/glrenderbuffer.cpp</itemPath>
+        <itemPath>../src/glrenderbuffer/glrenderbuffer.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glresource" displayName="glresource" projectFiles="true">
+        <itemPath>../src/glresource/glresource.cpp</itemPath>
+        <itemPath>../src/glresource/glresource.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glsampler" displayName="glsampler" projectFiles="true">
+        <itemPath>../src/glsampler/glsampler.cpp</itemPath>
+        <itemPath>../src/glsampler/glsampler.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="glshader" displayName="glshader" projectFiles="true">
+        <itemPath>../src/glshader/glshader.cpp</itemPath>
+        <itemPath>../src/glshader/glshader.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="gltexture" displayName="gltexture" projectFiles="true">
+        <itemPath>../src/gltexture/gltexture.cpp</itemPath>
+        <itemPath>../src/gltexture/gltexture.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="iconv" displayName="iconv" projectFiles="true">
+        <itemPath>../src/iconv/iconv.cpp</itemPath>
+        <itemPath>../src/iconv/iconv.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="input" displayName="input" projectFiles="true">
+        <itemPath>../src/input/input.cpp</itemPath>
+        <itemPath>../src/input/input.h</itemPath>
+        <itemPath>../src/input/keys.h</itemPath>
+        <itemPath>../src/input/mouse_buttons.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="log" displayName="log" projectFiles="true">
+        <itemPath>../src/log/log.cpp</itemPath>
+        <itemPath>../src/log/log.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="material" displayName="material" projectFiles="true">
+        <itemPath>../src/material/material.cpp</itemPath>
+        <itemPath>../src/material/material.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="mesh" displayName="mesh" projectFiles="true">
+        <itemPath>../src/mesh/mesh.cpp</itemPath>
+        <itemPath>../src/mesh/mesh.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="mutex" displayName="mutex" projectFiles="true">
+        <itemPath>../src/mutex/mutex.cpp</itemPath>
+        <itemPath>../src/mutex/mutex.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="object" displayName="object" projectFiles="true">
+        <itemPath>../src/object/object.cpp</itemPath>
+        <itemPath>../src/object/object.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="opengl" displayName="opengl" projectFiles="true">
+        <itemPath>../src/opengl/functions.cpp</itemPath>
+        <itemPath>../src/opengl/functions.h</itemPath>
+        <itemPath>../src/opengl/opengl.cpp</itemPath>
+        <itemPath>../src/opengl/opengl.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="osal" displayName="osal" projectFiles="true">
+        <itemPath>../src/osal/osal.cpp</itemPath>
+        <itemPath>../src/osal/osal.h</itemPath>
+        <itemPath>../src/osal/osdef.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="readers" displayName="readers" projectFiles="true">
+        <itemPath>../src/readers/tgareader.cpp</itemPath>
+        <itemPath>../src/readers/tgareader.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="render" displayName="render" projectFiles="true">
+        <itemPath>../src/render/render.cpp</itemPath>
+        <itemPath>../src/render/render.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="resources" displayName="resources" projectFiles="true">
+        <itemPath>../src/resources/reader.cpp</itemPath>
+        <itemPath>../src/resources/reader.h</itemPath>
+        <itemPath>../src/resources/resource_ptr.h</itemPath>
+        <itemPath>../src/resources/resources.cpp</itemPath>
+        <itemPath>../src/resources/resources.h</itemPath>
+        <itemPath>../src/resources/resptrs_types.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="scene" displayName="scene" projectFiles="true">
+        <itemPath>../src/scene/scene.cpp</itemPath>
+        <itemPath>../src/scene/scene.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="smart_ptr" displayName="smart_ptr" projectFiles="true">
+        <itemPath>../src/smart_ptr/smart_ptr.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="string" displayName="string" projectFiles="true">
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.cpp</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.h</itemPath>
+        <itemPath>../src/string/utf8char.cpp</itemPath>
+        <itemPath>../src/string/utf8char.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="tga" displayName="tga" projectFiles="true">
+        <itemPath>../src/tga/texture.cpp</itemPath>
+        <itemPath>../src/tga/texture.h</itemPath>
+        <itemPath>../src/tga/tga.cpp</itemPath>
+        <itemPath>../src/tga/tga.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="thread" displayName="thread" projectFiles="true">
+        <itemPath>../src/thread/thread.cpp</itemPath>
+        <itemPath>../src/thread/thread.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="timer" displayName="timer" projectFiles="true">
+        <itemPath>../src/timer/gettime.cpp</itemPath>
+        <itemPath>../src/timer/gettime.h</itemPath>
+        <itemPath>../src/timer/nanosleep.cpp</itemPath>
+        <itemPath>../src/timer/nanosleep.h</itemPath>
+        <itemPath>../src/timer/settimer.cpp</itemPath>
+        <itemPath>../src/timer/settimer.h</itemPath>
+        <itemPath>../src/timer/timer.cpp</itemPath>
+        <itemPath>../src/timer/timer.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="tlvariant" displayName="tlvariant" projectFiles="true">
+        <itemPath>../src/tlvariant/tlvariant.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="tokenizer" displayName="tokenizer" projectFiles="true">
+        <itemPath>../src/tokenizer/parseexception.cpp</itemPath>
+        <itemPath>../src/tokenizer/parseexception.h</itemPath>
+        <itemPath>../src/tokenizer/token.cpp</itemPath>
+        <itemPath>../src/tokenizer/token.h</itemPath>
+        <itemPath>../src/tokenizer/tokenizer.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokenizer.h</itemPath>
+        <itemPath>../src/tokenizer/tokenparser.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokenparser.h</itemPath>
+        <itemPath>../src/tokenizer/tokenparsers.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokenparsers.h</itemPath>
+        <itemPath>../src/tokenizer/tokenposition.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokenposition.h</itemPath>
+        <itemPath>../src/tokenizer/tokens.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokens.h</itemPath>
+        <itemPath>../src/tokenizer/tokenssequence.cpp</itemPath>
+        <itemPath>../src/tokenizer/tokenssequence.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="transform" displayName="transform" projectFiles="true">
+        <itemPath>../src/transform/transform.cpp</itemPath>
+        <itemPath>../src/transform/transform.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="transformstree"
+                     displayName="transformstree"
+                     projectFiles="true">
+        <itemPath>../src/transformstree/transformstree.cpp</itemPath>
+        <itemPath>../src/transformstree/transformstree.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="tree" displayName="tree" projectFiles="true">
+        <itemPath>../src/tree/tree_iterator.h</itemPath>
+        <itemPath>../src/tree/tree_node.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="typelist" displayName="typelist" projectFiles="true">
+        <itemPath>../src/typelist/typelist.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="utils" displayName="utils" projectFiles="true">
+        <itemPath>../src/utils/utils.cpp</itemPath>
+        <itemPath>../src/utils/utils.h</itemPath>
+        <itemPath>../src/utils/utils_tmpl.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="vfs" displayName="vfs" projectFiles="true">
+        <itemPath>../src/vfs/fsentrypoint.cpp</itemPath>
+        <itemPath>../src/vfs/fsentrypoint.h</itemPath>
+        <itemPath>../src/vfs/localfsentrypoint.cpp</itemPath>
+        <itemPath>../src/vfs/localfsentrypoint.h</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp</itemPath>
+        <itemPath>/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="window" displayName="window" projectFiles="true">
+        <itemPath>../src/window/pixelattribs.h</itemPath>
+        <itemPath>../src/window/window.cpp</itemPath>
+        <itemPath>../src/window/window.h</itemPath>
+        <itemPath>../src/window/window_events.cpp</itemPath>
+        <itemPath>../src/window/window_events.h</itemPath>
+        <itemPath>../src/window/window_types.h</itemPath>
+        <itemPath>../src/window/windowslist.cpp</itemPath>
+        <itemPath>../src/window/windowslist.h</itemPath>
+      </logicalFolder>
+      <itemPath>/home/artem/devel/opengl/celestial-battle/src/main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>../src</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <standard>8</standard>
+          <incDir>
+            <pElem>../src/</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>X11</linkerLibLibItem>
+            <linkerLibLibItem>GL</linkerLibLibItem>
+            <linkerLibLibItem>pthread</linkerLibLibItem>
+            <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>../src/</pElem>
+          </incDir>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>X11</linkerLibLibItem>
+            <linkerLibLibItem>GL</linkerLibLibItem>
+            <linkerLibLibItem>pthread</linkerLibLibItem>
+            <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Debug_cross" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU_cross|GNU</compilerSet>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../src/</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>gdi32</linkerLibLibItem>
+            <linkerLibLibItem>winmm</linkerLibLibItem>
+            <linkerLibLibItem>opengl32</linkerLibLibItem>
+            <linkerLibLibItem>iconv</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Release_cross" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>../src/</pElem>
+          </incDir>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>gdi32</linkerLibLibItem>
+            <linkerLibLibItem>winmm</linkerLibLibItem>
+            <linkerLibLibItem>opengl32</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+  </confs>
+</configurationDescriptor>
