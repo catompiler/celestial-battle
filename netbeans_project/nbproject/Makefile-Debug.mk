@@ -58,7 +58,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1522320622/scene.o \
 	${OBJECTDIR}/_ext/180677857/material.o \
 	${OBJECTDIR}/_ext/173017642/windowslist.o \
-	${OBJECTDIR}/_ext/1534683872/event.o \
 	${OBJECTDIR}/_ext/86326340/thread.o \
 	${OBJECTDIR}/_ext/173017642/window_events.o \
 	${OBJECTDIR}/_ext/2106539989/badindexexception.o \
@@ -237,11 +236,6 @@ ${OBJECTDIR}/_ext/173017642/windowslist.o: ../src/window/windowslist.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/173017642
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/173017642/windowslist.o ../src/window/windowslist.cpp
-
-${OBJECTDIR}/_ext/1534683872/event.o: ../src/event/event.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1534683872
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1534683872/event.o ../src/event/event.cpp
 
 ${OBJECTDIR}/_ext/86326340/thread.o: ../src/thread/thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/86326340
