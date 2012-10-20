@@ -1,7 +1,7 @@
 #ifndef _SMARTPTR_H
 #define _SMARTPTR_H
 
-#include <stddef.h>
+/*#include <stddef.h>
 #include <assert.h>
 
 template<class T>
@@ -43,6 +43,15 @@ public:
     bool operator!=(T* ptr_) const;
     
     template<class To, class From>
+    friend smart_ptr<To> smart_ptr_static_cast(smart_ptr<From>& sptr_);
+    
+    template<class To, class From>
+    friend smart_ptr<To> smart_ptr_reinterpret_cast(smart_ptr<From>& sptr_);
+    
+    template<class To, class From>
+    friend smart_ptr<To> smart_ptr_dynamic_cast(smart_ptr<From>& sptr_);
+    
+    template<class To, class From>
     friend smart_ptr<To>& smart_ptr_cast(smart_ptr<From>& sptr_);
     
 private:
@@ -76,6 +85,7 @@ private:
     
     inline void _set_ptr(T* ptr_);
     inline void _set_ptr(const smart_ptr<T>& sptr_);
+    inline void _set_ptr(ptr_rep* rep_);
     
     inline T* _get_ptr();
     inline const T* _get_ptr() const;
@@ -107,6 +117,13 @@ smart_ptr<T>::smart_ptr(const smart_ptr<T>& sptr_)
     _rep = NULL;
     _set_ptr(sptr_);
 }
+
+/*template<class T>
+smart_ptr<T>::smart_ptr(ptr_rep* rep_)
+{
+    _rep = NULL;
+    _set_ptr(rep_);
+}*/
 
 template<class T>
 smart_ptr<T>::~smart_ptr()
@@ -270,14 +287,28 @@ void smart_ptr<T>::_set_ptr(T* ptr_)//!!
 template<class T>
 void smart_ptr<T>::_set_ptr(const smart_ptr<T>& sptr_)
 {
-    if(sptr_._rep) sptr_._rep->acquire();
+    /*if(sptr_._rep) sptr_._rep->acquire();
     if(_rep){
         if(_rep->release()){
             delete _rep;
             _rep = NULL;
         }
     }
-    _rep = sptr_._rep;
+    _rep = sptr_._rep;*/
+    _set_ptr(sptr_._rep);
+}
+
+template<class T>
+void smart_ptr<T>::_set_ptr(ptr_rep* rep_)
+{
+    if(rep_) rep_->acquire();
+    if(_rep){
+        if(_rep->release()){
+            delete _rep;
+            _rep = NULL;
+        }
+    }
+    _rep = rep_;
 }
 
 template<class T>
@@ -442,6 +473,6 @@ template<class To, class From>
 smart_ptr<To>& smart_ptr_cast(smart_ptr<From>& sptr_)
 {
     return *reinterpret_cast<smart_ptr<To>*>(&sptr_);
-}
+}*/
 
 #endif //_SMARTPTR_H

@@ -19,7 +19,7 @@ public:
     typedef TypeList typelist;
     
     TLVariant();
-    template <class T> TLVariant(const T& v_);
+    template <class T> TLVariant(const T& v_) throw(BadTypeException&);;
     TLVariant(const TLVariant<TypeList>& v_);
     ~TLVariant();
     
@@ -96,7 +96,7 @@ TLVariant<TypeList>::TLVariant()
 
 template <class TypeList>
 template <class T>
-TLVariant<TypeList>::TLVariant(const T& v_)
+TLVariant<TypeList>::TLVariant(const T& v_) throw(BadTypeException&)
 {
     _value = NULL;
     operator=(v_);

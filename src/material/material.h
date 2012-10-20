@@ -2,7 +2,7 @@
 #define _MATERIAL_H_
 
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <utility>
 #include <stddef.h>
 #include "engine/engine.h"
@@ -30,7 +30,9 @@ public:
                                mat2_t, mat3_t, mat4_t>::value ParameterValueTypes;
     typedef TLVariant<ParameterValueTypes> ParameterValue;
     typedef std::string parameterid_t;
-    typedef std::map<parameterid_t, ParameterValue> ParametersList;
+    typedef std::unordered_map<parameterid_t, ParameterValue> ParametersList;
+    
+    typedef std::string textureid_t;
 
     Material();
     Material(const ParametersList& parameters_);
@@ -41,12 +43,12 @@ public:
     const ParameterValue& value(const parameterid_t& parameterid_) const throw(Exception&);
     void setValue(const parameterid_t& parameterid_, const ParameterValue& value_);
 
-    typedef ParametersList::iterator iterator;
-    typedef ParametersList::const_iterator const_iterator;
-    iterator parametersBegin();
-    iterator parametersEnd();
-    const_iterator parametersBegin() const;
-    const_iterator parametersEnd() const;
+    typedef ParametersList::iterator parameters_iterator;
+    typedef ParametersList::const_iterator parameters_const_iterator;
+    parameters_iterator parametersBegin();
+    parameters_iterator parametersEnd();
+    parameters_const_iterator parametersBegin() const;
+    parameters_const_iterator parametersEnd() const;
 
 private:
     ParametersList _parameters;

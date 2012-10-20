@@ -50,7 +50,7 @@ public:
     const Transform& parentTransform() const;
     void setParentTransform(const Transform& transform_);
     
-    enum TransformType{LOCAL=0, WORLD};
+    enum TransformType{Local=0, World};
     
     void addTransform(TransformType type_, const Transform& transform_);
     
