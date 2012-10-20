@@ -187,7 +187,7 @@ int main(int /*argc*/, char** /*argv*/)
     }
     
     GL::glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    
+
     
     {
         Rage::Resources resources;
@@ -195,14 +195,15 @@ int main(int /*argc*/, char** /*argv*/)
 
         resources.addReader(&tgareader);
         {
-            texture2d_ptr ptex = resources.get<GL::Texture2D>("/tmp/wall.tga");
+            texture2d_ptr ptex1 = resources.get<GL::Texture2D>("/tmp/wall.tga");
             texture2d_ptr ptex2 = resources.get<GL::Texture2D>("/tmp/wall.tga");
+            texture_ptr ptex = std::static_pointer_cast<GL::Texture>(ptex2);
 
-            std::cout << "ptex refs count: " << ptex.refs_count() << std::endl;
+            std::cout << "ptex refs count: " << ptex.use_count() << std::endl;
             
-            resources.release(ptex2);
+            resources.release(ptex1);
             
-            std::cout << "ptex refs count: " << ptex.refs_count() << std::endl;
+            std::cout << "ptex refs count: " << ptex.use_count() << std::endl;
             
             for(Rage::Resources::iterator<GL::Texture2D> it =
                     resources.begin<GL::Texture2D>();

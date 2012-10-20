@@ -13,118 +13,30 @@ Resources::Resources() {
 }
 
 Resources::~Resources() {
-    //for each resource type
-    /*for(ResTypeItems::iterator rti_it = _restypeitems.begin();
-            rti_it != _restypeitems.end(); ++ rti_it){
-        //get resources list
-        ResourcesList* resourceslist = (*rti_it).second->resources();
-        //if has resources
-        if(resourceslist != NULL){
-            //for each resource
-            for(ResourcesList::iterator res_it = resourceslist->begin();
-                    res_it != resourceslist->end(); ++ res_it){
-                //delete
-                delete (*res_it).second;
-            }
-        }
-        delete (*rti_it).second;
-    }*/
-    std::for_each(_restypeitems.begin(), _restypeitems.end(), functors::delete_single());
+    std::for_each(_resourcetypeitems.begin(), _resourcetypeitems.end(), functors::delete_single());
 }
 
 void Resources::gc()
 {
     //for each resource type
-    for(ResTypeItems::iterator rti_it = _restypeitems.begin();
-            rti_it != _restypeitems.end(); ++ rti_it){
-        //get resources list
-        ResourcesList* resourceslist = (*rti_it).second->resources();
-        //if has resources
-        if(resourceslist != NULL){
-            //for each resource
-            for(ResourcesList::iterator res_it = resourceslist->begin();
-                    res_it != resourceslist->end();){
-                //if no one use the resource
-                assert((*res_it).second->refs_count() != 0);
-                if((*res_it).second->refs_count() == 1){
-                    //delete
-                    delete (*res_it).second;
-                    //erase
-                    ResourcesList::iterator erase_it = res_it ++;
-                    resourceslist->erase(erase_it);
-                }else{
-                    ++ res_it;
-                }
-            }
-        }
+    for(ResourceTypeItems::iterator rti_it = _resourcetypeitems.begin();
+            rti_it != _resourcetypeitems.end(); ++ rti_it){
+        (*rti_it).second->gc();
     }
 }
 
 
-Resources::ResTypeItem::ResTypeItem()
+
+Resources::ResourceTypeItemBase::ResourceTypeItemBase()
 {
-    _readers = NULL;
-    _resources = NULL;
 }
 
-Resources::ResTypeItem::ResTypeItem(const ResTypeItem& restypeitem_)
+Resources::ResourceTypeItemBase::ResourceTypeItemBase(const ResourceTypeItemBase& rtib_)
 {
-    if(restypeitem_._readers){
-        _readers = new ReadersList(*restypeitem_._readers);
-    }else{
-        _readers = NULL;
-    }
-    
-    if(restypeitem_._resources){
-        _resources = new ResourcesList(*restypeitem_._resources);
-    }else{
-        _resources = NULL;
-    }
 }
 
-Resources::ResTypeItem::~ResTypeItem()
+Resources::ResourceTypeItemBase::~ResourceTypeItemBase()
 {
-    if(_readers) delete _readers;
-    if(_resources){
-        std::for_each(_resources->begin(), _resources->end(), functors::delete_single());
-        delete _resources;
-    }
-}
-
-bool Resources::ResTypeItem::hasReaders() const
-{
-    return _readers != NULL && !_readers->empty();
-}
-
-Resources::ReadersList* Resources::ResTypeItem::readers()
-{
-    return _readers;
-}
-
-Resources::ReadersList* Resources::ResTypeItem::getReaders()
-{
-    if(_readers == NULL){
-        _readers = new ReadersList();
-    }
-    return _readers;
-}
-
-bool Resources::ResTypeItem::hasResources() const
-{
-    return _resources != NULL && !_resources->empty();
-}
-
-Resources::ResourcesList* Resources::ResTypeItem::resources()
-{
-    return _resources;
-}
-
-Resources::ResourcesList* Resources::ResTypeItem::getResources()
-{
-    if(_resources == NULL){
-        _resources = new ResourcesList();
-    }
-    return _resources;
 }
 
 

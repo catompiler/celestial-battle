@@ -145,7 +145,7 @@ void Transformation::update()
     Transform parent_transform = parentTransform();
     
     for(Transforms::iterator it = _transforms->begin(); it != _transforms->end(); ++ it){
-        if((*it).first == LOCAL){
+        if((*it).first == Local){
             _local_transform += (*it).second;
             _world_transform = parent_transform + _local_transform;
         }else{

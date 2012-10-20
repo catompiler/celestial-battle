@@ -1,26 +1,24 @@
 #ifndef _RESPTRS_TYPES_H_
 #define _RESPTRS_TYPES_H_
 
-#include "smart_ptr/smart_ptr.h"
-
-template <typename T>
-using resource_ptr = smart_ptr<T>;
+#include "resource_ptr.h"
 
 #include "glbuffer/glbuffer.h"
 typedef resource_ptr<GL::Buffer> buffer_ptr;
 
 #include "glshader/glshader.h"
-typedef resource_ptr<GL::VertexShader> vshader_ptr;
-typedef resource_ptr<GL::FragmentShader> fshader_ptr;
-typedef resource_ptr<GL::GeometryShader> gshader_ptr;
-typedef resource_ptr<GL::TessControlShader> tcshader_ptr;
-typedef resource_ptr<GL::TessEvaluationShader> teshader_ptr;
-typedef resource_ptr<GL::ComputeShader> cshader_ptr;
+typedef resource_ptr<GL::VertexShader> vertex_shader_ptr;
+typedef resource_ptr<GL::FragmentShader> fragment_shader_ptr;
+typedef resource_ptr<GL::GeometryShader> geometry_shader_ptr;
+typedef resource_ptr<GL::TessControlShader> tess_control_shader_ptr;
+typedef resource_ptr<GL::TessEvaluationShader> tess_eval_shader_ptr;
+typedef resource_ptr<GL::ComputeShader> compute_shader_ptr;
 
 #include "glprogram/glprogram.h"
 typedef resource_ptr<GL::Program> program_ptr;
 
 #include "gltexture/gltexture.h"
+typedef resource_ptr<GL::Texture> texture_ptr;
 typedef resource_ptr<GL::Texture1D> texture1d_ptr;
 typedef resource_ptr<GL::Texture2D> texture2d_ptr;
 typedef resource_ptr<GL::Texture3D> texture3d_ptr;

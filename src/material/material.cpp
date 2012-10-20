@@ -44,22 +44,22 @@ void Material::setValue(const parameterid_t& parameterid_, const ParameterValue&
     _parameters[parameterid_] = value_;
 }
 
-Material::iterator Material::parametersBegin()
+Material::parameters_iterator Material::parametersBegin()
 {
     return _parameters.begin();
 }
 
-Material::iterator Material::parametersEnd()
+Material::parameters_iterator Material::parametersEnd()
 {
     return _parameters.end();
 }
 
-Material::const_iterator Material::parametersBegin() const
+Material::parameters_const_iterator Material::parametersBegin() const
 {
     return _parameters.begin();
 }
 
-Material::const_iterator Material::parametersEnd() const
+Material::parameters_const_iterator Material::parametersEnd() const
 {
     return _parameters.end();
 }

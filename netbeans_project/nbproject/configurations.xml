@@ -170,9 +170,6 @@
         <itemPath>../src/scene/scene.cpp</itemPath>
         <itemPath>../src/scene/scene.h</itemPath>
       </logicalFolder>
-      <logicalFolder name="smart_ptr" displayName="smart_ptr" projectFiles="true">
-        <itemPath>../src/smart_ptr/smart_ptr.h</itemPath>
-      </logicalFolder>
       <logicalFolder name="string" displayName="string" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.cpp</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.h</itemPath>

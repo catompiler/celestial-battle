@@ -16,10 +16,6 @@ ENGINE_NAMESPACE_BEGIN
 
 
 class Resources {
-//private:
-    class ResBase;
-    typedef std::multimap<std::string, ResBase*> ResourcesList;
-    
 public:
     
     typedef tl::makeTypeList<GL::Buffer,
@@ -27,6 +23,25 @@ public:
             GL::TessControlShader, GL::TessEvaluationShader, GL::ComputeShader, GL::Program,
             GL::Texture1D, GL::Texture2D, GL::Texture3D, GL::TextureCube, GL::TextureRect,
             Mesh, Material>::value ResourceTypes;
+    
+    template <typename T>
+    class ResourceContainer{
+    public:
+        ResourceContainer();
+        ResourceContainer(const resource_ptr<T>& sptr_);
+        ~ResourceContainer();
+        
+        resource_ptr<T>& get();
+        void set(const resource_ptr<T>& sptr_);
+    private:
+        resource_ptr<T> _sptr;
+    };
+    
+    template <typename T>
+    using ResourcesList = std::unordered_multimap<std::string, ResourceContainer<T>*>;
+    
+    template <typename T>
+    using ReadersList = std::list<Reader<T>*>;
     
     
     Resources();
@@ -59,7 +74,7 @@ public:
     {
     public:
         iterator();
-        iterator(ResourcesList::iterator it_);
+        iterator(typename ResourcesList<T>::iterator it_);
         iterator(const iterator<T>& it_);
         ~iterator();
         
@@ -80,7 +95,7 @@ public:
         resource_ptr<T>& sptr();
         
     private:
-        ResourcesList::iterator _it;
+        typename ResourcesList<T>::iterator _it;
     };
     
     
@@ -92,93 +107,55 @@ public:
     
     
 private:
-    struct AllType{};
-    typedef Reader<AllType*> AllReader;
-    typedef std::list<AllReader*> ReadersList;
     
-    class ResBase{
+    class ResourceTypeItemBase{
     public:
-        ResBase(){};
-        virtual ~ResBase(){};
-        virtual AllType* allptr() = 0;
-        virtual int refs_count() = 0;
-        virtual resource_ptr<AllType>& allsptr() = 0;
+        ResourceTypeItemBase();
+        ResourceTypeItemBase(const ResourceTypeItemBase& rtib_);
+        virtual ~ResourceTypeItemBase();
+        virtual bool hasReaders() const = 0;
+        virtual bool hasResources() const = 0;
+        virtual void gc() = 0;
     };
     
-    template<class T>
-    class ResContainer
-        :public ResBase
+    template <typename T>
+    class ResourceTypeItem
+        :public ResourceTypeItemBase
     {
     public:
-        ResContainer(resource_ptr<T>& ptr_);
-        ~ResContainer();
-        
-        void set_ptr(resource_ptr<T>& ptr_);
-        
-        T* ptr();
-        resource_ptr<T>& sptr();
-        AllType* allptr();
-        int refs_count();
-        resource_ptr<AllType>& allsptr();
-    private:
-        resource_ptr<T> _ptr;
-    };
-    
-    //typedef std::multimap<std::string, ResBase*> ResourcesList;
-    
-    
-    class ResBasePtrCmp{
-    public:
-        template<class T>
-        ResBasePtrCmp(T* ptr_){
-            _ptr = reinterpret_cast<AllType*>(ptr_);
-        }
-        template <class Pair>
-        bool operator()(Pair& respair_){
-            return respair_.second->allptr() == _ptr;
-        }
-    private:
-        ResBasePtrCmp(){_ptr = NULL;}
-        
-        AllType* _ptr;
-    };
-    
-    
-    
-    class ResTypeItem{
-    public:
-        ResTypeItem();
-        ResTypeItem(const ResTypeItem& restypeitem_);
-        ~ResTypeItem();
+        ResourceTypeItem();
+        ResourceTypeItem(const ResourceTypeItem& restypeitem_);
+        ~ResourceTypeItem();
         
         bool hasReaders() const;
-        ReadersList* readers();
-        ReadersList* getReaders();
+        ReadersList<T>* readers();
+        ReadersList<T>* getReaders();
         bool hasResources() const;
-        ResourcesList* resources();
-        ResourcesList* getResources();
+        ResourcesList<T>* resources();
+        ResourcesList<T>* getResources();
+        void gc();
         
     private:
-        ReadersList* _readers;
-        ResourcesList* _resources;
+        ReadersList<T>* _readers;
+        ResourcesList<T>* _resources;
     };
     
     
-    typedef std::map<int, ResTypeItem*> ResTypeItems;
+    typedef std::unordered_map<int, ResourceTypeItemBase*> ResourceTypeItems;
     
-    ResTypeItems _restypeitems;
+    ResourceTypeItems _resourcetypeitems;
     
     template<class T>
     int _getResourceTypeIndex();
     
     template<class T>
-    ResTypeItems::iterator _getResTypeIt();
+    ResourceTypeItems::iterator _getResourceTypeIt();
     
     template<class T>
-    ResTypeItems::iterator _resTypeIt();
+    ResourceTypeItems::iterator _resourceTypeIt();
     
     template<class T>
-    ReadersList* _readersList();
+    ReadersList<T>* _readersList();
 };
 
 
@@ -193,15 +170,15 @@ bool Resources::hasResourceType()
 template<class T>
 resource_ptr<T> Resources::get()//create
 {
-    ResTypeItems::iterator restype_it = _getResTypeIt<T>();
-    if(restype_it == _restypeitems.end()) return resource_ptr<T>(NULL);
+    ResourceTypeItems::iterator restype_it = _getResourceTypeIt<T>();
+    if(restype_it == _resourcetypeitems.end()) return resource_ptr<T>(NULL);
     
-    ResTypeItem* restypeitem = (*restype_it).second;
-    ResourcesList* resourceslist = restypeitem->getResources();
+    ResourceTypeItem<T>* restypeitem = static_cast<ResourceTypeItem<T>*>((*restype_it).second);
+    ResourcesList<T>* resourceslist = restypeitem->getResources();
     
     resource_ptr<T> res_sptr(new T());
     resourceslist->insert(
-            std::make_pair(std::string(), new ResContainer<T>(res_sptr))
+            std::make_pair(std::string(), new ResourceContainer<T>(res_sptr))
             );
     return res_sptr;
 }
@@ -209,34 +186,33 @@ resource_ptr<T> Resources::get()//create
 template<class T>
 resource_ptr<T> Resources::get(const std::string& filename_)//read
 {
-    ResTypeItems::iterator restype_it = _resTypeIt<T>();
-    if(restype_it == _restypeitems.end()) return resource_ptr<T>(NULL);
+    ResourceTypeItems::iterator restype_it = _resourceTypeIt<T>();
+    if(restype_it == _resourcetypeitems.end()) return resource_ptr<T>(NULL);
     
-    ResTypeItem* restypeitem = (*restype_it).second;
+    ResourceTypeItem<T>* restypeitem = static_cast<ResourceTypeItem<T>*>((*restype_it).second);
     
-    ResourcesList* resourceslist = restypeitem->resources();
+    ResourcesList<T>* resourceslist = restypeitem->resources();
     if(resourceslist != NULL){
-        ResourcesList::iterator res_it = resourceslist->find(filename_);
+        typename ResourcesList<T>::iterator res_it = resourceslist->find(filename_);
         if(res_it != resourceslist->end()){
-            ResContainer<T>* rescontainer = static_cast<ResContainer<T>*>(
-                                                    (*res_it).second);
-            return rescontainer->sptr();
+            ResourceContainer<T>* rescontainer = static_cast<ResourceContainer<T>*>((*res_it).second);
+            return rescontainer->get();
         }
     }
     
-    ReadersList* readerslist = restypeitem->readers();
+    ReadersList<T>* readerslist = restypeitem->readers();
     if(readerslist == NULL) return resource_ptr<T>(NULL);
     
     T* res = NULL;
     
-    for(ReadersList::iterator it = readerslist->begin();
+    for(typename ReadersList<T>::iterator it = readerslist->begin();
             it != readerslist->end(); ++ it){
-        res = reinterpret_cast<Reader<T>*>((*it))->read(filename_);
+        res = static_cast<Reader<T>*>((*it))->read(filename_);
         if(res != NULL){
             if(resourceslist == NULL) resourceslist = restypeitem->getResources();
             resource_ptr<T> res_sptr(res);
             resourceslist->insert(
-                    std::make_pair(filename_, new ResContainer<T>(res_sptr))
+                    std::make_pair(filename_, new ResourceContainer<T>(res_sptr))
                     );
             return res_sptr;
         }
@@ -248,25 +224,28 @@ resource_ptr<T> Resources::get(const std::string& filename_)//read
 template<class T>
 bool Resources::release(resource_ptr<T>& resource_)
 {
-    ResTypeItems::iterator restype_it = _resTypeIt<T>();
-    if(restype_it == _restypeitems.end()) return false;
+    ResourceTypeItems::iterator restype_it = _resourceTypeIt<T>();
+    if(restype_it == _resourcetypeitems.end()) return false;
     
-    ResTypeItem* restypeitem = (*restype_it).second;
-    ResourcesList* resourceslist = restypeitem->resources();
+    ResourceTypeItem<T>* restypeitem = static_cast<ResourceTypeItem<T>*>((*restype_it).second);
+    ResourcesList<T>* resourceslist = restypeitem->resources();
     if(resourceslist == NULL) return false;
     
-    ResourcesList::iterator res_it = std::find_if(resourceslist->begin(),
-                        resourceslist->end(), ResBasePtrCmp(resource_.get()));
+    typename ResourcesList<T>::iterator res_it =
+    std::find_if(resourceslist->begin(), resourceslist->end(), [&resource_](typename ResourcesList<T>::value_type& item_){
+        return item_.second->get() == resource_;
+    });
     
     if(res_it == resourceslist->end()) return false;
     
     //if(!resource_.release()) resource_.reset();
     resource_ = NULL;
     
-    ResContainer<T>* rescontainer = static_cast<ResContainer<T>*>((*res_it).second);
+    ResourceContainer<T>* rescontainer = (*res_it).second;
     
-    assert(rescontainer->sptr().refs_count() != 0);
-    if(rescontainer->sptr().refs_count() == 1){
+    assert(rescontainer->get().use_count() != 0);
+    
+    if(rescontainer->get().use_count() == 1){
         delete rescontainer;
         resourceslist->erase(res_it);
         return true;
@@ -277,19 +256,21 @@ bool Resources::release(resource_ptr<T>& resource_)
 template<class _Reader>
 bool Resources::addReader(_Reader* reader_)
 {
-    ResTypeItems::iterator restypeitem_it = 
-            _getResTypeIt<typename _Reader::ResourceType>();
-    if(restypeitem_it == _restypeitems.end()) return false;
+    ResourceTypeItems::iterator restypeitem_it = 
+            _getResourceTypeIt<typename _Reader::ResourceType>();
+    if(restypeitem_it == _resourcetypeitems.end()) return false;
     
-    AllReader* allreader = reinterpret_cast<AllReader*>(reader_);
-    ReadersList* readerslist = (*restypeitem_it).second->getReaders();
+    ResourceTypeItem<typename _Reader::ResourceType>* resourcetypeitem = 
+                static_cast<ResourceTypeItem<typename _Reader::ResourceType>*>((*restypeitem_it).second);
     
-    ReadersList::iterator it = std::find(readerslist->begin(),
-                                            readerslist->end(), allreader);
+    ReadersList<typename _Reader::ResourceType>* readerslist = resourcetypeitem->getReaders();
+    
+    typename ReadersList<typename _Reader::ResourceType>::iterator it = std::find(readerslist->begin(),
+                                            readerslist->end(), reader_);
     
     if(it != readerslist->end()) return false;
     
-    readerslist->insert(readerslist->end(), allreader);
+    readerslist->insert(readerslist->end(), reader_);
     
     return true;
 }
@@ -297,15 +278,19 @@ bool Resources::addReader(_Reader* reader_)
 template<class _Reader>
 bool Resources::removeReader(_Reader* reader_)
 {
-    ResTypeItems::iterator restypeitem_it = 
-            _getResTypeIt<typename _Reader::ResourceType>();
-    if(restypeitem_it == _restypeitems.end()) return false;
+    ResourceTypeItems::iterator restypeitem_it = 
+            _getResourceTypeIt<typename _Reader::ResourceType>();
+    if(restypeitem_it == _resourcetypeitems.end()) return false;
     
-    AllReader* allreader = reinterpret_cast<AllReader*>(reader_);
-    ReadersList* readerslist = (*restypeitem_it).second->getReaders();
+    ResourceTypeItem<typename _Reader::ResourceType>* resourcetypeitem = 
+                static_cast<ResourceTypeItem<typename _Reader::ResourceType>*>((*restypeitem_it).second);
     
-    ReadersList::iterator it = std::find(readerslist->begin(),
-                                            readerslist->end(), allreader);
+    ReadersList<typename _Reader::ResourceType>* readerslist = resourcetypeitem->readers();
+    
+    if(readerslist == NULL) return false;
+    
+    typename ReadersList<typename _Reader::ResourceType>::iterator it = std::find(readerslist->begin(),
+                                            readerslist->end(), reader_);
     
     if(it == readerslist->end()) return false;
     
@@ -317,11 +302,11 @@ bool Resources::removeReader(_Reader* reader_)
 template<class T>
 Resources::iterator<T> Resources::begin()
 {
-    ResTypeItems::iterator restype_it = _resTypeIt<T>();
-    if(restype_it == _restypeitems.end()) return iterator<T>();
+    ResourceTypeItems::iterator restype_it = _resourceTypeIt<T>();
+    if(restype_it == _resourcetypeitems.end()) return iterator<T>();
     
-    ResTypeItem* restypeitem = (*restype_it).second;
-    ResourcesList* resourceslist = restypeitem->resources();
+    ResourceTypeItem<T>* restypeitem = static_cast<ResourceTypeItem<T>*>((*restype_it).second);
+    ResourcesList<T>* resourceslist = restypeitem->resources();
     
     if(resourceslist == NULL) return iterator<T>();
     
@@ -331,16 +316,121 @@ Resources::iterator<T> Resources::begin()
 template<class T>
 Resources::iterator<T> Resources::end()
 {
-    ResTypeItems::iterator restype_it = _resTypeIt<T>();
-    if(restype_it == _restypeitems.end()) return iterator<T>();
+    ResourceTypeItems::iterator restype_it = _resourceTypeIt<T>();
+    if(restype_it == _resourcetypeitems.end()) return iterator<T>();
     
-    ResTypeItem* restypeitem = (*restype_it).second;
-    ResourcesList* resourceslist = restypeitem->resources();
+    ResourceTypeItem<T>* restypeitem = static_cast<ResourceTypeItem<T>*>((*restype_it).second);
+    ResourcesList<T>* resourceslist = restypeitem->resources();
     
     if(resourceslist == NULL) return iterator<T>();
     
     return iterator<T>(resourceslist->end());
 }
+
+
+
+template <typename T>
+Resources::ResourceTypeItem<T>::ResourceTypeItem()
+    :ResourceTypeItemBase()
+{
+    _readers = NULL;
+    _resources = NULL;
+}
+
+template <typename T>
+Resources::ResourceTypeItem<T>::ResourceTypeItem(const ResourceTypeItem& restypeitem_)
+    :ResourceTypeItemBase(restypeitem_)
+{
+    if(restypeitem_._readers){
+        _readers = new ReadersList<T>(*restypeitem_._readers);
+    }else{
+        _readers = NULL;
+    }
+    
+    if(restypeitem_._resources){
+        _resources = new ResourcesList<T>(*restypeitem_._resources);
+    }else{
+        _resources = NULL;
+    }
+}
+
+template <typename T>
+Resources::ResourceTypeItem<T>::~ResourceTypeItem()
+{
+    if(_readers) delete _readers;
+    if(_resources){
+        std::for_each(_resources->begin(), _resources->end(), functors::delete_single());
+        delete _resources;
+    }
+}
+
+template <typename T>
+bool Resources::ResourceTypeItem<T>::hasReaders() const
+{
+    return _readers != NULL && !_readers->empty();
+}
+
+template <typename T>
+Resources::ReadersList<T>* Resources::ResourceTypeItem<T>::readers()
+{
+    return _readers;
+}
+
+template <typename T>
+Resources::ReadersList<T>* Resources::ResourceTypeItem<T>::getReaders()
+{
+    if(_readers == NULL){
+        _readers = new ReadersList<T>();
+    }
+    return _readers;
+}
+
+template <typename T>
+bool Resources::ResourceTypeItem<T>::hasResources() const
+{
+    return _resources != NULL && !_resources->empty();
+}
+
+template <typename T>
+Resources::ResourcesList<T>* Resources::ResourceTypeItem<T>::resources()
+{
+    return _resources;
+}
+
+template <typename T>
+Resources::ResourcesList<T>* Resources::ResourceTypeItem<T>::getResources()
+{
+    if(_resources == NULL){
+        _resources = new ResourcesList<T>();
+    }
+    return _resources;
+}
+
+template <typename T>
+void Resources::ResourceTypeItem<T>::gc()
+{
+    //if has resources
+    if(_resources != NULL){
+        //for each resource
+        for(typename ResourcesList<T>::iterator res_it = _resources->begin();
+                res_it != _resources->end();){
+            ResourceContainer<T>* resource_container = (*res_it).second;
+            //if no one use the resource
+            assert(resource_container->get().use_count() != 0);
+            if(resource_container->get().use_count() == 1){
+                //delete
+                delete resource_container;
+                //erase
+                typename ResourcesList<T>::iterator erase_it = res_it ++;
+                _resources->erase(erase_it);
+            }else{
+                ++ res_it;
+            }
+        }
+    }
+}
+
+
 
 template<class T>
 int Resources::_getResourceTypeIndex()
@@ -349,88 +439,70 @@ int Resources::_getResourceTypeIndex()
 }
 
 template<class T>
-Resources::ResTypeItems::iterator Resources::_getResTypeIt()
+Resources::ResourceTypeItems::iterator Resources::_getResourceTypeIt()
 {
     int type_index = _getResourceTypeIndex<T>();
-    if(type_index == -1) return _restypeitems.end();
+    if(type_index == -1) return _resourcetypeitems.end();
     
-    ResTypeItems::iterator it = _restypeitems.find(type_index);
-    if(it == _restypeitems.end()){
-        it = _restypeitems.insert(std::make_pair(type_index, new ResTypeItem())).first;
+    ResourceTypeItems::iterator it = _resourcetypeitems.find(type_index);
+    if(it == _resourcetypeitems.end()){
+        it = _resourcetypeitems.insert(std::make_pair(type_index, new ResourceTypeItem<T>())).first;
     }
     return it;
 }
 
 template<class T>
-Resources::ResTypeItems::iterator Resources::_resTypeIt()
+Resources::ResourceTypeItems::iterator Resources::_resourceTypeIt()
 {
     int type_index = _getResourceTypeIndex<T>();
-    if(type_index == -1) return _restypeitems.end();
+    if(type_index == -1) return _resourcetypeitems.end();
     
-    return _restypeitems.find(type_index);
+    return _resourcetypeitems.find(type_index);
 }
 
 template<class T>
-Resources::ReadersList* Resources::_readersList()
+Resources::ReadersList<T>* Resources::_readersList()
 {
-    ResTypeItems::iterator restypeitem_it = _getResTypeIt<T>();
-    if(restypeitem_it == _restypeitems.end()) return NULL;
+    ResourceTypeItems::iterator restypeitem_it = _getResourceTypeIt<T>();
+    if(restypeitem_it == _resourcetypeitems.end()) return NULL;
 
-    ReadersList* readerslist = (*restypeitem_it).second->readers();
+    ResourceTypeItem<T>* resourceTypeItem = static_cast<ResourceTypeItem<T>*>((*restypeitem_it).second);
+    
+    if(resourceTypeItem == NULL) return NULL;
+    
+    ReadersList<T>* readerslist = resourceTypeItem->readers();
     
     return readerslist;
 }
 
 
-
-template<class T>
-Resources::ResContainer<T>::ResContainer(resource_ptr<T>& ptr_)
+template <typename T>
+Resources::ResourceContainer<T>::ResourceContainer()
 {
-    set_ptr(ptr_);
 }
 
-template<class T>
-Resources::ResContainer<T>::~ResContainer()
+template <typename T>
+Resources::ResourceContainer<T>::ResourceContainer(const resource_ptr<T>& sptr_)
 {
-    _ptr = NULL;
+    _sptr = sptr_;
 }
 
-template<class T>
-void Resources::ResContainer<T>::set_ptr(resource_ptr<T>& ptr_)
+template <typename T>
+Resources::ResourceContainer<T>::~ResourceContainer()
 {
-    _ptr = ptr_;
 }
 
-template<class T>
-T* Resources::ResContainer<T>::ptr()
+template <typename T>
+resource_ptr<T>& Resources::ResourceContainer<T>::get()
 {
-    return _ptr.get();
+    return _sptr;
 }
 
-template<class T>
-resource_ptr<T>& Resources::ResContainer<T>::sptr()
+template <typename T>
+void Resources::ResourceContainer<T>::set(const resource_ptr<T>& sptr_)
 {
-    return _ptr;
+    _sptr = sptr_;
 }
-
-template<class T>
-Resources::AllType* Resources::ResContainer<T>::allptr()
-{
-    return reinterpret_cast<AllType*>(_ptr.get());
-}
-
-template<class T>
-int Resources::ResContainer<T>::refs_count()
-{
-    return _ptr.refs_count();
-}
-
-template<class T>
-resource_ptr<Resources::AllType>& Resources::ResContainer<T>::allsptr()
-{
-    return smart_ptr_cast<AllType>(_ptr);
-}
-
 
 
 
@@ -440,7 +512,7 @@ Resources::iterator<T>::iterator()
 }
 
 template<class T>
-Resources::iterator<T>::iterator(ResourcesList::iterator it_)
+Resources::iterator<T>::iterator(typename ResourcesList<T>::iterator it_)
 {
     _it = it_;
 }
@@ -503,13 +575,13 @@ bool Resources::iterator<T>::operator!=(const iterator<T>& it_) const
 template<class T>
 resource_ptr<T>& Resources::iterator<T>::operator*()
 {
-    return static_cast<ResContainer<T>*>((*_it).second)->sptr();
+    return sptr();
 }
 
 template<class T>
 resource_ptr<T>& Resources::iterator<T>::operator->()
 {
-    return static_cast<ResContainer<T>*>((*_it).second)->sptr();
+    return sptr();
 }
 
 template<class T>
@@ -521,7 +593,7 @@ const std::string& Resources::iterator<T>::filename() const
 template<class T>
 resource_ptr<T>& Resources::iterator<T>::sptr()
 {
-    return static_cast<ResContainer<T>*>((*_it).second)->sptr();
+    return (*_it).second->get();
 }
 
 
