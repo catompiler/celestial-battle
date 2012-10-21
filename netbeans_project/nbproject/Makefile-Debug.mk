@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1019114841/mesh.o \
 	${OBJECTDIR}/_ext/49809687/functions.o \
 	${OBJECTDIR}/_ext/1358156373/reader.o \
+	${OBJECTDIR}/_ext/2106539989/notfoundexception.o \
 	${OBJECTDIR}/_ext/1390850504/display.o \
 	${OBJECTDIR}/_ext/1521210933/gettime.o \
 	${OBJECTDIR}/_ext/767039133/parseexception.o \
@@ -146,6 +147,11 @@ ${OBJECTDIR}/_ext/1358156373/reader.o: ../src/resources/reader.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1358156373
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1358156373/reader.o ../src/resources/reader.cpp
+
+${OBJECTDIR}/_ext/2106539989/notfoundexception.o: ../src/exception/notfoundexception.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/2106539989
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/2106539989/notfoundexception.o ../src/exception/notfoundexception.cpp
 
 ${OBJECTDIR}/_ext/1390850504/display.o: ../src/display/display.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1390850504

@@ -8,10 +8,11 @@ class Exception:
     public std::exception
 {
 public:
+    Exception();
     Exception(const char* what_);
-    virtual ~Exception() throw();
+    virtual ~Exception() noexcept;
 
-    virtual const char* what() const throw();
+    virtual const char* what() const noexcept;
 
 protected:
     std::string _what;

@@ -3,7 +3,7 @@
 
 
 ParseException::ParseException(const TokenPosition& pos_)
-    :Exception("")
+    :Exception()
 {
     _pos = pos_;
 }
@@ -14,11 +14,11 @@ ParseException::ParseException(const TokenPosition& pos_, const char* what_)
     _pos = pos_;
 }
 
-ParseException::~ParseException() throw()
+ParseException::~ParseException() noexcept
 {
 }
 
-const TokenPosition& ParseException::position() const throw()
+const TokenPosition& ParseException::position() const noexcept
 {
     return _pos;
 }
@@ -28,7 +28,7 @@ UnknownTokenParseException::UnknownTokenParseException(const TokenPosition& pos_
 {
 }
 
-UnknownTokenParseException::~UnknownTokenParseException() throw()
+UnknownTokenParseException::~UnknownTokenParseException() noexcept
 {
 }
 
@@ -37,7 +37,7 @@ NoSquenceEndParseException::NoSquenceEndParseException(const TokenPosition& pos_
 {
 }
 
-NoSquenceEndParseException::~NoSquenceEndParseException() throw()
+NoSquenceEndParseException::~NoSquenceEndParseException() noexcept
 {
 }
 
@@ -46,7 +46,7 @@ TooManyDecPointsParseException::TooManyDecPointsParseException(const TokenPositi
 {
 }
 
-TooManyDecPointsParseException::~TooManyDecPointsParseException() throw()
+TooManyDecPointsParseException::~TooManyDecPointsParseException() noexcept
 {
 }
 
@@ -56,7 +56,7 @@ NoDigitsInExpParseException::NoDigitsInExpParseException(const TokenPosition& po
 {
 }
 
-NoDigitsInExpParseException::~NoDigitsInExpParseException() throw()
+NoDigitsInExpParseException::~NoDigitsInExpParseException() noexcept
 {
 }
 
@@ -66,7 +66,7 @@ InvalitOctDigitParseException::InvalitOctDigitParseException(const TokenPosition
 {
 }
 
-InvalitOctDigitParseException::~InvalitOctDigitParseException() throw()
+InvalitOctDigitParseException::~InvalitOctDigitParseException() noexcept
 {
 }
 
@@ -76,7 +76,7 @@ NoStringEndParseException::NoStringEndParseException(const TokenPosition& pos_)
 {
 }
 
-NoStringEndParseException::~NoStringEndParseException() throw()
+NoStringEndParseException::~NoStringEndParseException() noexcept
 {
 }
 
@@ -86,6 +86,6 @@ NoHexDigitsParseException::NoHexDigitsParseException(const TokenPosition& pos_)
 {
 }
 
-NoHexDigitsParseException::~NoHexDigitsParseException() throw()
+NoHexDigitsParseException::~NoHexDigitsParseException() noexcept
 {
 }

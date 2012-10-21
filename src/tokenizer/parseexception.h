@@ -10,9 +10,9 @@ class ParseException
 public:
     ParseException(const TokenPosition& pos_);
     ParseException(const TokenPosition& pos_, const char* what_);
-    ~ParseException() throw();
+    ~ParseException() noexcept;
     
-    const TokenPosition& position() const throw();
+    const TokenPosition& position() const noexcept;
 protected:
     TokenPosition _pos;
 };
@@ -23,7 +23,7 @@ class UnknownTokenParseException
 {
 public:
     UnknownTokenParseException(const TokenPosition& pos_);
-    ~UnknownTokenParseException() throw();
+    ~UnknownTokenParseException() noexcept;
 };
 
 //SequenceTokenParser
@@ -32,7 +32,7 @@ class NoSquenceEndParseException
 {
 public:
     NoSquenceEndParseException(const TokenPosition& pos_);
-    ~NoSquenceEndParseException() throw();
+    ~NoSquenceEndParseException() noexcept;
 };
 
 //NumberTokenParser
@@ -41,7 +41,7 @@ class TooManyDecPointsParseException
 {
 public:
     TooManyDecPointsParseException(const TokenPosition& pos_);
-    ~TooManyDecPointsParseException() throw();
+    ~TooManyDecPointsParseException() noexcept;
 };
 
 class NoDigitsInExpParseException
@@ -49,7 +49,7 @@ class NoDigitsInExpParseException
 {
 public:
     NoDigitsInExpParseException(const TokenPosition& pos_);
-    ~NoDigitsInExpParseException() throw();
+    ~NoDigitsInExpParseException() noexcept;
 };
 
 class InvalitOctDigitParseException
@@ -57,7 +57,7 @@ class InvalitOctDigitParseException
 {
 public:
     InvalitOctDigitParseException(const TokenPosition& pos_);
-    ~InvalitOctDigitParseException() throw();
+    ~InvalitOctDigitParseException() noexcept;
 };
 
 //CStringTokenParser
@@ -66,7 +66,7 @@ class NoStringEndParseException
 {
 public:
     NoStringEndParseException(const TokenPosition& pos_);
-    ~NoStringEndParseException() throw();
+    ~NoStringEndParseException() noexcept;
 };
 
 class NoHexDigitsParseException
@@ -74,7 +74,7 @@ class NoHexDigitsParseException
 {
 public:
     NoHexDigitsParseException(const TokenPosition& pos_);
-    ~NoHexDigitsParseException() throw();
+    ~NoHexDigitsParseException() noexcept;
 };
 
 #endif	/* PARSEEXCEPTION_H */
