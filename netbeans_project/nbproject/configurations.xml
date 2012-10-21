@@ -48,6 +48,8 @@
         <itemPath>../src/exception/badtypeexception.h</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/exception/exception.h</itemPath>
+        <itemPath>../src/exception/notfoundexception.cpp</itemPath>
+        <itemPath>../src/exception/notfoundexception.h</itemPath>
       </logicalFolder>
       <logicalFolder name="glbuffer" displayName="glbuffer" projectFiles="true">
         <itemPath>../src/glbuffer/glbuffer.cpp</itemPath>

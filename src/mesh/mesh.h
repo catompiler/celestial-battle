@@ -3,7 +3,7 @@
 
 #include "engine/engine.h"
 #include <string>
-#include <vector>
+#include <unordered_map>
 #include <utility>
 #include <stddef.h>
 
@@ -21,56 +21,42 @@ ENGINE_NAMESPACE_BEGIN
 class Mesh
 {
 public:
+    
+    typedef std::string attribid_t;
 
-    static const std::string attrib_index_name;
-    static const std::string attrib_vertex_name;
-    static const std::string attrib_normal_name;
-    static const std::string attrib_texuv_name;
-    static const std::string attrib_tangent_name;
+    static const attribid_t attrib_index_id;
+    static const attribid_t attrib_vertex_id;
+    static const attribid_t attrib_normal_id;
+    static const attribid_t attrib_texuv_id;
+    static const attribid_t attrib_tangent_id;
 
     Mesh();
     ~Mesh();
 
     buffer_ptr indices();
+    void setIndices(buffer_ptr indices_);
+    
     buffer_ptr vertives();
+    void setVertices(buffer_ptr vertices_);
+    
     buffer_ptr normals();
+    void setNormals(buffer_ptr normals_);
+    
     buffer_ptr texuvs();
+    void setTexuvs(buffer_ptr texuvs_);
+    
     buffer_ptr tangents();
+    void setTangents(buffer_ptr tangents_);
 
-    bool hasAttrib(const std::string& attrib_name);
-    buffer_ptr attrib(const std::string& attrib_name);
+    bool hasAttrib(const attribid_t& attribid_);
+    buffer_ptr attrib(const attribid_t& attribid_);
+    void setAttrib(const attribid_t& attribid_, buffer_ptr attrib_);
 
 private:
 
-    int _indices_index;
-    int _vertices_index;
-    int _normals_index;
-    int _texuvs_index;
-    int _tangents_index;
-
-    typedef std::vector<std::pair<std::string, buffer_ptr> > Attribs;
+    typedef std::unordered_map<attribid_t, buffer_ptr> Attribs;
     Attribs _attribs;
     typedef Attribs::iterator AttribsIt;
-
-    struct PairFirstCmp{
-        template<class Pair>
-        bool operator()(const Pair& left_, const Pair& right_){
-            return left_.first < right_.first;
-        }
-        template<class Pair>
-        bool operator()(const std::string& left_, const Pair& right_){
-            return left_ < right_.first;
-        }
-        template<class Pair>
-        bool operator()(const Pair& left_, const std::string& right_){
-            return left_.first < right_;
-        }
-    };
-    
-    void _resortAttribs();
-    
-    int _getAttribIndexSorted(const std::string& attrib_name_);
-
 };
 
 

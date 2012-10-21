@@ -1,106 +1,94 @@
 #include "mesh.h"
-#include <algorithm>
+#include "exception/notfoundexception.h"
 
 
 ENGINE_NAMESPACE_BEGIN
 
 
-#define INVALID_INDEX (-1)
-
-const std::string Mesh::attrib_index_name = "in_index";
-const std::string Mesh::attrib_vertex_name = "in_vertex";
-const std::string Mesh::attrib_normal_name = "in_normal";
-const std::string Mesh::attrib_texuv_name = "in_texuv";
-const std::string Mesh::attrib_tangent_name = "in_tangent";
+const Mesh::attribid_t Mesh::attrib_index_id = "in_index";
+const Mesh::attribid_t Mesh::attrib_vertex_id = "in_vertex";
+const Mesh::attribid_t Mesh::attrib_normal_id = "in_normal";
+const Mesh::attribid_t Mesh::attrib_texuv_id = "in_texuv";
+const Mesh::attribid_t Mesh::attrib_tangent_id = "in_tangent";
 
 
 
 Mesh::Mesh()
 {
-    _indices_index = INVALID_INDEX;
-    _vertices_index = INVALID_INDEX;
-    _normals_index = INVALID_INDEX;
-    _texuvs_index = INVALID_INDEX;
-    _tangents_index = INVALID_INDEX;
 }
 
 Mesh::~Mesh()
 {
-    
 }
 
 buffer_ptr Mesh::indices()
 {
-    if(_indices_index != INVALID_INDEX){
-        return _attribs.at(_indices_index).second;
-    }
-    return buffer_ptr(NULL);
+    return attrib(attrib_index_id);
+}
+
+void Mesh::setIndices(buffer_ptr indices_)
+{
+    setAttrib(attrib_index_id, indices_);
 }
 
 buffer_ptr Mesh::vertives()
 {
-    if(_vertices_index != INVALID_INDEX){
-        return _attribs.at(_vertices_index).second;
-    }
-    return buffer_ptr(NULL);
+    return attrib(attrib_vertex_id);
+}
+
+void Mesh::setVertices(buffer_ptr vertices_)
+{
+    setAttrib(attrib_vertex_id, vertices_);
 }
 
 buffer_ptr Mesh::normals()
 {
-    if(_normals_index != INVALID_INDEX){
-        return _attribs.at(_normals_index).second;
-    }
-    return buffer_ptr(NULL);
+    return attrib(attrib_normal_id);
+}
+
+void Mesh::setNormals(buffer_ptr normals_)
+{
+    setAttrib(attrib_normal_id, normals_);
 }
 
 buffer_ptr Mesh::texuvs()
 {
-    if(_texuvs_index != INVALID_INDEX){
-        return _attribs.at(_texuvs_index).second;
-    }
-    return buffer_ptr(NULL);
+    return attrib(attrib_texuv_id);
+}
+
+void Mesh::setTexuvs(buffer_ptr texuvs_)
+{
+    setAttrib(attrib_texuv_id, texuvs_);
 }
 
 buffer_ptr Mesh::tangents()
 {
-    if(_tangents_index != INVALID_INDEX){
-        return _attribs.at(_tangents_index).second;
+    return attrib(attrib_tangent_id);
+}
+
+void Mesh::setTangents(buffer_ptr tangents_)
+{
+    setAttrib(attrib_tangent_id, tangents_);
+}
+
+bool Mesh::hasAttrib(const attribid_t& attribid_)
+{
+    return _attribs.find(attribid_) != _attribs.end();
+}
+
+buffer_ptr Mesh::attrib(const attribid_t& attribid_)
+{
+    Attribs::iterator it = _attribs.find(attribid_);
+    if(it == _attribs.end()){
+        throw(NotFoundException("Attrib not found"));
     }
-    return buffer_ptr(NULL);
+    return buffer_ptr((*it).second);
 }
 
-bool Mesh::hasAttrib(const std::string& attrib_name_)
+void Mesh::setAttrib(const attribid_t& attribid_, buffer_ptr attrib_)
 {
-    return attrib(attrib_name_).get() != static_cast<GL::Buffer*>(NULL);
+    _attribs[attribid_] = attrib_;
 }
 
-buffer_ptr Mesh::attrib(const std::string& attrib_name_)
-{
-    int i = _getAttribIndexSorted(attrib_name_);
-    if(i != INVALID_INDEX){
-        return _attribs.at(i).second;
-    }
-    return buffer_ptr(NULL);
-}
-
-void Mesh::_resortAttribs()
-{
-    std::sort(_attribs.begin(), _attribs.end(), PairFirstCmp());
-    _vertices_index = _getAttribIndexSorted(attrib_vertex_name);
-    _normals_index = _getAttribIndexSorted(attrib_normal_name);
-    _texuvs_index = _getAttribIndexSorted(attrib_texuv_name);
-    _tangents_index = _getAttribIndexSorted(attrib_tangent_name);
-}
-
-int Mesh::_getAttribIndexSorted(const std::string& attrib_name_)
-{
-    std::pair<AttribsIt, AttribsIt> range = std::equal_range(_attribs.begin(), _attribs.end(),
-                                                             attrib_name_, PairFirstCmp());
-    AttribsIt::difference_type d = std::distance(range.first, range.second);
-    if(d == 1){
-        return std::distance(_attribs.begin(), range.first);//(*(range.first)).second;
-    }
-    return INVALID_INDEX;
-}
 
 ENGINE_NAMESPACE_END
