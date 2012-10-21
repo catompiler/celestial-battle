@@ -106,13 +106,28 @@ public:
         bool isRoot() const;
         void setRoot(bool is_root_);
         
+        Group* group(const std::string& name_);
+        Parameter* parameter(const std::string& name_);
+        
         void addParameter(Parameter* parameter_);
+        bool removeParameter(Parameter* parameter_);
         
         bool parse(TokensSequence* tokens_);
         
         std::ostream& write(std::ostream& ost_, const std::string& indent_, size_t depth_) const;
-    private:
+        
         typedef std::list<Parameter*> Parameters;
+        typedef Parameters::iterator parameters_iterator;
+        
+        parameters_iterator parametersBegin();
+        parameters_iterator parametersEnd();
+        
+        typedef childs_iterator groups_iterator;
+        
+        groups_iterator groupsBegin();
+        groups_iterator groupsEnd();
+        
+    private:
         Parameters* _parameters;
         
         bool _is_root;
@@ -147,6 +162,9 @@ public:
 
     template<class T> 
     bool setValue(const std::string& name_, const T& val_);
+    
+    Group* group(const std::string& name_);
+    Parameter* parameter(const std::string& name_);
     
 private:
     

@@ -153,6 +153,8 @@
         <itemPath>../src/osal/osdef.h</itemPath>
       </logicalFolder>
       <logicalFolder name="readers" displayName="readers" projectFiles="true">
+        <itemPath>../src/readers/shaderreader.cpp</itemPath>
+        <itemPath>../src/readers/shaderreader.h</itemPath>
         <itemPath>../src/readers/tgareader.cpp</itemPath>
         <itemPath>../src/readers/tgareader.h</itemPath>
       </logicalFolder>
@@ -173,8 +175,6 @@
         <itemPath>../src/scene/scene.h</itemPath>
       </logicalFolder>
       <logicalFolder name="string" displayName="string" projectFiles="true">
-        <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.cpp</itemPath>
-        <itemPath>/home/artem/devel/opengl/celestial-battle/src/string/string.h</itemPath>
         <itemPath>../src/string/utf8char.cpp</itemPath>
         <itemPath>../src/string/utf8char.h</itemPath>
       </logicalFolder>

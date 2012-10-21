@@ -153,17 +153,17 @@ TessControlShader::~TessControlShader()
 
 
 
-TessEvaluationShader::TessEvaluationShader()
+TessEvalShader::TessEvalShader()
         :Shader(GL_TESS_EVALUATION_SHADER)
 {
 }
 
-TessEvaluationShader::TessEvaluationShader(GLuint id_)
+TessEvalShader::TessEvalShader(GLuint id_)
         :Shader(id_, 0)
 {
 }
 
-TessEvaluationShader::~TessEvaluationShader()
+TessEvalShader::~TessEvalShader()
 {
 }
 
@@ -182,11 +182,6 @@ ComputeShader::ComputeShader(GLuint id_)
 ComputeShader::~ComputeShader()
 {
 }
-
-
-
-
-
 
 
 

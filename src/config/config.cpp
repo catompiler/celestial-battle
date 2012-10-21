@@ -417,9 +417,27 @@ void Config::Group::setRoot(bool is_root_)
     _is_root = is_root_;
 }
 
+Config::Group* Config::Group::group(const std::string& name_)
+{
+    return _getSubGroup(name_, false);
+}
+
+Config::Parameter* Config::Group::parameter(const std::string& name_)
+{
+    return _getSubParameter(name_, false);
+}
+
 void Config::Group::addParameter(Parameter* parameter_)
 {
     _parameters->push_back(parameter_);
+}
+
+bool Config::Group::removeParameter(Parameter* parameter_)
+{
+    Parameters::iterator it = std::find(_parameters->begin(), _parameters->end(), parameter_);
+    if(it == _parameters->end()) return false;
+    _parameters->erase(it);
+    return true;
 }
 
 bool Config::Group::parse(TokensSequence* tokens_)
@@ -479,6 +497,26 @@ bool Config::Group::parse(TokensSequence* tokens_)
     }
     
     return true;
+}     
+
+Config::Group::parameters_iterator Config::Group::parametersBegin()
+{
+    return _parameters->begin();
+}
+
+Config::Group::parameters_iterator Config::Group::parametersEnd()
+{
+    return _parameters->end();
+}
+
+Config::Group::groups_iterator Config::Group::groupsBegin()
+{
+    return childsBegin();
+}
+
+Config::Group::groups_iterator Config::Group::groupsEnd()
+{
+    return childsEnd();
 }
 
 Config::Group* Config::Group::_getGroup(const std::string& name_, bool add_)
@@ -571,6 +609,16 @@ bool Config::write(const std::string& filename_) const
     _root->write(fst, std::string("    "), 0);
     
     return true;
+}
+
+Config::Group* Config::group(const std::string& name_)
+{
+    return _root->group(name_);
+}
+
+Config::Parameter* Config::parameter(const std::string& name_)
+{
+    return _root->parameter(name_);
 }
 
 void Config::_createTokenParsers(TokenParsers* tps_)

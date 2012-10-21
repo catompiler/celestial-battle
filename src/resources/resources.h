@@ -20,7 +20,7 @@ public:
     
     typedef tl::makeTypeList<GL::Buffer,
             GL::VertexShader, GL::FragmentShader, GL::GeometryShader,
-            GL::TessControlShader, GL::TessEvaluationShader, GL::ComputeShader, GL::Program,
+            GL::TessControlShader, GL::TessEvalShader, GL::ComputeShader, GL::Program,
             GL::Texture1D, GL::Texture2D, GL::Texture3D, GL::TextureCube, GL::TextureRect,
             Mesh, Material>::value ResourceTypes;
     
