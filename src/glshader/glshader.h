@@ -76,13 +76,13 @@ public:
 };
 
 
-class TessEvaluationShader
+class TessEvalShader
         :public Shader
 {
 public:
-    TessEvaluationShader();
-    TessEvaluationShader(GLuint id_);
-    ~TessEvaluationShader();
+    TessEvalShader();
+    TessEvalShader(GLuint id_);
+    ~TessEvalShader();
 };
 
 

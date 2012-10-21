@@ -146,8 +146,8 @@ int main(int /*argc*/, char** /*argv*/)
     pa.samples = 0;
     pa.stencilSize = 0;
     
-    w = Window::create("X11 Window", 0, 0, width, height, fullscreen, pa);
-    if(w == NULL){
+    w = Window::create("GL Window", 0, 0, width, height, fullscreen, pa);
+    if(w == nullptr){
         log(Log::Error) << "Error creating window" << std::endl;
         return 1;
     }
@@ -182,7 +182,7 @@ int main(int /*argc*/, char** /*argv*/)
     if(GL::GL_VERSION_1_5_supported){
         GL::Buffer buf;
         buf.bind(GL_ARRAY_BUFFER);
-        GL::Buffer::setData(GL_ARRAY_BUFFER, 0x100, NULL, GL_STATIC_DRAW);
+        GL::Buffer::setData(GL_ARRAY_BUFFER, 0x100, nullptr, GL_STATIC_DRAW);
         GL::Buffer::unbind(GL_ARRAY_BUFFER);
     }
     
@@ -211,7 +211,7 @@ int main(int /*argc*/, char** /*argv*/)
                 std::cout << it.filename() << std::endl;
             }
             
-            ptex = NULL;
+            ptex = nullptr;
             //resources.release(ptex);
             resources.gc();
         }
@@ -223,7 +223,7 @@ int main(int /*argc*/, char** /*argv*/)
         Window::processEvents();
     }
     
-    w->makeCurrent(NULL);
+    w->makeCurrent(nullptr);
     
     cxt.destroy();
     

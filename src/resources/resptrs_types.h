@@ -11,7 +11,7 @@ typedef resource_ptr<GL::VertexShader> vertex_shader_ptr;
 typedef resource_ptr<GL::FragmentShader> fragment_shader_ptr;
 typedef resource_ptr<GL::GeometryShader> geometry_shader_ptr;
 typedef resource_ptr<GL::TessControlShader> tess_control_shader_ptr;
-typedef resource_ptr<GL::TessEvaluationShader> tess_eval_shader_ptr;
+typedef resource_ptr<GL::TessEvalShader> tess_eval_shader_ptr;
 typedef resource_ptr<GL::ComputeShader> compute_shader_ptr;
 
 #include "glprogram/glprogram.h"

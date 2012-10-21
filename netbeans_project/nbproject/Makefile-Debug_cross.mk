@@ -55,6 +55,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/767039133/tokenizer.o \
 	${OBJECTDIR}/_ext/1521210933/timer.o \
 	${OBJECTDIR}/_ext/1923734139/glprogram.o \
+	${OBJECTDIR}/_ext/799496470/shaderreader.o \
 	${OBJECTDIR}/_ext/774992765/componentfactory.o \
 	${OBJECTDIR}/_ext/1522320622/scene.o \
 	${OBJECTDIR}/_ext/180677857/material.o \
@@ -63,7 +64,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/173017642/window_events.o \
 	${OBJECTDIR}/_ext/2106539989/badindexexception.o \
 	${OBJECTDIR}/_ext/2106539989/badtypeexception.o \
-	${OBJECTDIR}/_ext/897345942/string.o \
 	${OBJECTDIR}/_ext/1014552289/glbuffer.o \
 	${OBJECTDIR}/_ext/1677581042/transform.o \
 	${OBJECTDIR}/_ext/1521210933/settimer.o \
@@ -223,6 +223,11 @@ ${OBJECTDIR}/_ext/1923734139/glprogram.o: ../src/glprogram/glprogram.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1923734139/glprogram.o ../src/glprogram/glprogram.cpp
 
+${OBJECTDIR}/_ext/799496470/shaderreader.o: ../src/readers/shaderreader.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/799496470
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/799496470/shaderreader.o ../src/readers/shaderreader.cpp
+
 ${OBJECTDIR}/_ext/774992765/componentfactory.o: ../src/component/componentfactory.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/774992765
 	${RM} $@.d
@@ -262,11 +267,6 @@ ${OBJECTDIR}/_ext/2106539989/badtypeexception.o: ../src/exception/badtypeexcepti
 	${MKDIR} -p ${OBJECTDIR}/_ext/2106539989
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/2106539989/badtypeexception.o ../src/exception/badtypeexception.cpp
-
-${OBJECTDIR}/_ext/897345942/string.o: /home/artem/devel/opengl/celestial-battle/src/string/string.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/897345942
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/897345942/string.o /home/artem/devel/opengl/celestial-battle/src/string/string.cpp
 
 ${OBJECTDIR}/_ext/1014552289/glbuffer.o: ../src/glbuffer/glbuffer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1014552289
