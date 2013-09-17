@@ -17,7 +17,7 @@ public:
     TgaReader();
     ~TgaReader();
     
-    GL::Texture2D* read(const std::string& filename_) const;
+    GL::Texture2D* read(Resources* resources_, const std::string& filename_) const;
 };
 
 

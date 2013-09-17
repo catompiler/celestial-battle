@@ -90,5 +90,14 @@ void Mesh::setAttrib(const attribid_t& attribid_, buffer_ptr attrib_)
     _attribs[attribid_] = attrib_;
 }
 
+Mesh::iterator Mesh::attribsBegin()
+{
+    return _attribs.begin();
+}
+
+Mesh::iterator Mesh::attribsEnd()
+{
+    return _attribs.end();
+}
 
 ENGINE_NAMESPACE_END

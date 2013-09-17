@@ -207,7 +207,7 @@ resource_ptr<T> Resources::get(const std::string& filename_)//read
     
     for(typename ReadersList<T>::iterator it = readerslist->begin();
             it != readerslist->end(); ++ it){
-        res = static_cast<Reader<T>*>((*it))->read(filename_);
+        res = static_cast<Reader<T>*>((*it))->read(this, filename_);
         if(res != NULL){
             if(resourceslist == NULL) resourceslist = restypeitem->getResources();
             resource_ptr<T> res_sptr(res);

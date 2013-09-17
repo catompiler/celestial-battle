@@ -15,7 +15,7 @@ TgaReader::~TgaReader()
 {
 }
     
-GL::Texture2D* TgaReader::read(const std::string& filename_) const
+GL::Texture2D* TgaReader::read(Resources* resources_, const std::string& filename_) const
 {
     return tga::texture(filename_);
 }

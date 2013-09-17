@@ -12,6 +12,7 @@
 #include "display/display.h"
 #include "resources/resources.h"
 #include "readers/tgareader.h"
+#include "readers/mesh3dreader.h"
 #include "tokenizer/parseexception.h"
 
 static Window* w = NULL;
@@ -122,16 +123,13 @@ int main(int /*argc*/, char** /*argv*/)
     int freq = config.value<int>("video.freq", 60);
     bool fullscreen = config.value<int>("video.fullscreen", 0);
     
-    if(fullscreen && !Display::setMode(Display::Mode(width, height, freq))){
-        std::cout << "Error set video mode" << std::endl;
-        fullscreen = false;
+    if(fullscreen){
+        log(Log::Information) << "Setting video mode" << std::endl;
+        if(!Display::setMode(Display::Mode(width, height, freq))){
+            log(Log::Warning) << "Error set video mode - continues in windowed mode" << std::endl;
+            fullscreen = false;
+        }
     }
-    
-    std::cout << "width: " << Display::width() << std::endl;
-    std::cout << "height: " << Display::height() << std::endl;
-    
-    std::cout << "width dpi: " << Display::wdpi() << std::endl;
-    std::cout << "height dpi: " << Display::hdpi() << std::endl;
     
     WindowedApp wapp;
     
@@ -146,20 +144,29 @@ int main(int /*argc*/, char** /*argv*/)
     pa.samples = 0;
     pa.stencilSize = 0;
     
+    log(Log::Information) << "Creating a window" << std::endl;
     w = Window::create("GL Window", 0, 0, width, height, fullscreen, pa);
     if(w == nullptr){
         log(Log::Error) << "Error creating window" << std::endl;
         return 1;
     }
     
+    log(Log::Information) << "Creating a OpenGL context" << std::endl;
     if(cxt.create(w, GLContext::Version(4, 2)) == false){
         log(Log::Error) << "Error creating context" << std::endl;
         Window::destroy(w);
         return 1;
     }
     
-    w->makeCurrent(&cxt);
+    log(Log::Information) << "Setting the current OpenGL context" << std::endl;
+    if(!w->makeCurrent(&cxt)){
+        log(Log::Error) << "Error setting current context" << std::endl;
+        cxt.destroy();
+        Window::destroy(w);
+        return 1;
+    }
     
+    log(Log::Information) << "Adding event handlers" << std::endl;
     w->onClose().addHandler(make_delegate(&wapp, &WindowedApp::onClose));
     w->onCreate().addHandler(make_delegate(&wapp, &WindowedApp::onCreate));
     w->onResize().addHandler(make_delegate(&wapp, &WindowedApp::onResize));
@@ -172,19 +179,8 @@ int main(int /*argc*/, char** /*argv*/)
     w->onFocusOut().addHandler(make_delegate(&wapp, &WindowedApp::onFocusChange));
     
     
-    std::cout << "Init gl functions..." << std::endl;
+    log(Log::Information) << "Initializing OpenGL functions..." << std::endl;
     GL::initFunctions();
-    std::cout << "GL_ARB_tessellation_shader == " << GL::GL_ARB_tessellation_shader_supported << std::endl;
-    
-    std::cout << "glBindBuffer == " << (void*)GL::glBindBuffer << std::endl;
-    std::cout << "glBindBufferARB == " << (void*)GL::glBindBufferARB << std::endl;
-    
-    if(GL::GL_VERSION_1_5_supported){
-        GL::Buffer buf;
-        buf.bind(GL_ARRAY_BUFFER);
-        GL::Buffer::setData(GL_ARRAY_BUFFER, 0x100, nullptr, GL_STATIC_DRAW);
-        GL::Buffer::unbind(GL_ARRAY_BUFFER);
-    }
     
     GL::glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -192,11 +188,20 @@ int main(int /*argc*/, char** /*argv*/)
     {
         Rage::Resources resources;
         Rage::TgaReader tgareader;
+        Rage::Mesh3dReader mesh3dreader;
 
-        resources.addReader(&tgareader);
+        if(resources.addReader(&tgareader)){
+            log(Log::Information) << "TGA reader registered" << std::endl;
+        }
+        if(resources.addReader(&mesh3dreader)){
+            log(Log::Information) << "Mesh3D reader registered" << std::endl;
+        }
         {
             texture2d_ptr ptex1 = resources.get<GL::Texture2D>("/tmp/wall.tga");
             texture2d_ptr ptex2 = resources.get<GL::Texture2D>("/tmp/wall.tga");
+            mesh_ptr pmesh = resources.get<Rage::Mesh>("/tmp/cube.msh3d");
+            std::cout << "pmesh refs count: " << pmesh.use_count() << std::endl;
+            
             texture_ptr ptex = std::static_pointer_cast<GL::Texture>(ptex2);
 
             std::cout << "ptex refs count: " << ptex.use_count() << std::endl;
@@ -215,6 +220,7 @@ int main(int /*argc*/, char** /*argv*/)
             //resources.release(ptex);
             resources.gc();
         }
+        resources.removeReader(&mesh3dreader);
         resources.removeReader(&tgareader);
     }//*/
     
