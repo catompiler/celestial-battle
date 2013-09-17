@@ -153,6 +153,8 @@
         <itemPath>../src/osal/osdef.h</itemPath>
       </logicalFolder>
       <logicalFolder name="readers" displayName="readers" projectFiles="true">
+        <itemPath>../src/readers/mesh3dreader.cpp</itemPath>
+        <itemPath>../src/readers/mesh3dreader.h</itemPath>
         <itemPath>../src/readers/shaderreader.cpp</itemPath>
         <itemPath>../src/readers/shaderreader.h</itemPath>
         <itemPath>../src/readers/tgareader.cpp</itemPath>

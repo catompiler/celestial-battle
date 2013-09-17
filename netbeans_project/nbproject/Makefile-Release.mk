@@ -94,6 +94,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/659868756/texture.o \
 	${OBJECTDIR}/_ext/1531217328/input.o \
 	${OBJECTDIR}/_ext/26177488/render.o \
+	${OBJECTDIR}/_ext/799496470/mesh3dreader.o \
 	${OBJECTDIR}/_ext/394022532/configexception.o \
 	${OBJECTDIR}/_ext/659870665/localfsentrypoint.o \
 	${OBJECTDIR}/_ext/394022532/config.o
@@ -417,6 +418,11 @@ ${OBJECTDIR}/_ext/26177488/render.o: ../src/render/render.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/26177488
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/26177488/render.o ../src/render/render.cpp
+
+${OBJECTDIR}/_ext/799496470/mesh3dreader.o: ../src/readers/mesh3dreader.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/799496470
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../src/ -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/799496470/mesh3dreader.o ../src/readers/mesh3dreader.cpp
 
 ${OBJECTDIR}/_ext/394022532/configexception.o: ../src/config/configexception.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/394022532

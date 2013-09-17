@@ -6,6 +6,8 @@
 
 ENGINE_NAMESPACE_BEGIN
 
+class Resources;
+
 template <class R>
 class Reader
 {
@@ -16,7 +18,7 @@ public:
     Reader();
     virtual ~Reader();
     
-    virtual R* read(const std::string& filename_) const = 0;
+    virtual R* read(Resources* resources_, const std::string& filename_) const = 0;
 };
 
 

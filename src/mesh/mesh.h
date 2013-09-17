@@ -51,10 +51,15 @@ public:
     bool hasAttrib(const attribid_t& attribid_);
     buffer_ptr attrib(const attribid_t& attribid_);
     void setAttrib(const attribid_t& attribid_, buffer_ptr attrib_);
+    
+    typedef std::unordered_map<attribid_t, buffer_ptr> Attribs;
+    typedef Attribs::iterator iterator;
+    
+    iterator attribsBegin();
+    iterator attribsEnd();
 
 private:
-
-    typedef std::unordered_map<attribid_t, buffer_ptr> Attribs;
+    
     Attribs _attribs;
     typedef Attribs::iterator AttribsIt;
 };

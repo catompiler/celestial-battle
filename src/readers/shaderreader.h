@@ -20,7 +20,7 @@ public:
     ShaderReader();
     ~ShaderReader();
     
-    R* read(const std::string& filename_) const;
+    R* read(Resources* resources_, const std::string& filename_) const;
 };
 
 
@@ -35,7 +35,7 @@ ShaderReader<R>::~ShaderReader()
 }
 
 template <typename R>
-R* ShaderReader<R>::read(const std::string& filename_) const
+R* ShaderReader<R>::read(Resources* resources_, const std::string& filename_) const
 {
     std::fstream ifs(filename_.c_str(), std::ios::in);
     if(!ifs) return nullptr;
