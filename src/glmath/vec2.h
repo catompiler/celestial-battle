@@ -11,6 +11,7 @@ template <class T>
 class vec2{
 public:
 
+    typedef T component_type;
     static const size_t components_count = 2;
 
     vec2();

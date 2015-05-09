@@ -14,6 +14,8 @@
 
 #include "quat.h"
 
+#include "line.h"
+
 #include "plane.h"
 
 #include "functions.h"
@@ -33,6 +35,8 @@ typedef mat3<float> mat3_t;
 typedef mat4<float> mat4_t;
 
 typedef quat<float> quat_t;
+
+typedef line<vec3_t> line_t;
 
 typedef plane<float> plane_t;
 

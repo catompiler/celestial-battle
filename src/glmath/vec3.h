@@ -13,6 +13,7 @@ template <class T>
 class vec3{
 public:
 
+    typedef T component_type;
     static const size_t components_count = 3;
 
     vec3();

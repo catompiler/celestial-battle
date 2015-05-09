@@ -59,6 +59,9 @@ public:
         template<class T>
         bool setValue(const T& val_);
         
+        const Value& variant() const;
+        void setVariant(const Value& variant_);
+        
         std::ostream& write(std::ostream& ost_, const std::string& indent_, size_t depth_) const;
         
     private:
@@ -102,6 +105,9 @@ public:
         
         template<class T> 
         bool setValue(const std::string& name_, const T& val_);
+        
+        Value variant(const std::string& name_) const;
+        void setVariant(const std::string& name_, const Value& variant_);
         
         bool isRoot() const;
         void setRoot(bool is_root_);
@@ -163,6 +169,10 @@ public:
     template<class T> 
     bool setValue(const std::string& name_, const T& val_);
     
+    Value variant(const std::string& name_) const;
+    void setVariant(const std::string& name_, const Value& variant_);
+    
+    Group* root();
     Group* group(const std::string& name_);
     Parameter* parameter(const std::string& name_);
     

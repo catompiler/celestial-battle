@@ -88,16 +88,27 @@ Config::Parameter::~Parameter()
 {
 }
 
+const Config::Value& Config::Parameter::variant() const
+{
+    return _value;
+}
+
+void Config::Parameter::setVariant(const Value& variant_)
+{
+    _value = variant_;
+}
+
 std::ostream& Config::Parameter::write(std::ostream& ost_, const std::string& indent_, size_t depth_) const
 {
     writeDepth(ost_, indent_, depth_);
     
     ost_ << _name << " = ";
-    
+    int v;
     try{
         switch(_value.typeIndex()){
             case tl::index_of<ValueTypes, int>::value:{
-                ost_ << _value.get<int>();
+                v = _value.get<int>();
+                ost_ << v;
             }break;
             case tl::index_of<ValueTypes, float>::value:{
                 ost_ << _value.get<float>();
@@ -407,6 +418,18 @@ std::ostream& Config::Group::write(std::ostream& ost_, const std::string& indent
     return ost_;
 }
 
+Config::Value Config::Group::variant(const std::string& name_) const
+{
+    Parameter* param = const_cast<Config::Group*>(this)->_getSubParameter(name_, false);
+    if(param) return param->variant();
+    return Config::Value();
+}
+
+void Config::Group::setVariant(const std::string& name_, const Value& variant_)
+{
+    _getSubParameter(name_, true)->setVariant(variant_);
+}
+
 bool Config::Group::isRoot() const
 {
     return _is_root;
@@ -588,9 +611,10 @@ Config::~Config()
 
 bool Config::read(const std::string& filename_)
 {
-    std::fstream fst(filename_, std::ios::in);
+    std::fstream fst(filename_, std::ios::in | std::ios::binary);
     if(!fst) return false;
     
+    fst.imbue(std::locale("C"));
     std::istreambuf_iterator<char> it_ist(fst), it_eos;
     
     return parse(std::string(it_ist, it_eos));
@@ -603,12 +627,28 @@ bool Config::parse(const std::string& source_)
 
 bool Config::write(const std::string& filename_) const
 {
-    std::fstream fst(filename_, std::ios::out);
+    std::fstream fst(filename_, std::ios::out | std::ios::binary);
     if(!fst) return false;
     
+    fst.imbue(std::locale("C"));
     _root->write(fst, std::string("    "), 0);
     
     return true;
+}
+
+Config::Value Config::variant(const std::string& name_) const
+{
+    return _root->variant(name_);
+}
+
+void Config::setVariant(const std::string& name_, const Value& variant_)
+{
+    _root->setVariant(name_, variant_);
+}
+
+Config::Group* Config::root()
+{
+    return _root;
 }
 
 Config::Group* Config::group(const std::string& name_)

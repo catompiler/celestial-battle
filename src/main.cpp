@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <iostream>
+#include "engine/engine.h"
 #include "log/log.h"
-#include "config/config.h"
+#include "settings/settings.h"
 #include "window/window.h"
 #include "glcontext/glcontext.h"
 #include "input/input.h"
@@ -9,14 +10,17 @@
 #include "opengl/opengl.h"
 #include <locale>
 #include "glbuffer/glbuffer.h"
-#include "display/display.h"
 #include "resources/resources.h"
 #include "readers/tgareader.h"
 #include "readers/mesh3dreader.h"
 #include "tokenizer/parseexception.h"
+/*#include <iostream>
+#include "glmath/glmath.h"*/
 
-static Window* w = NULL;
+static Window* w;
 static GLContext cxt;
+
+static const std::string config_filename = "config.cfg";
 
 class WindowedApp{
 public:
@@ -71,8 +75,8 @@ public:
 };
 
 
-/*
-std::ostream& operator<<(std::ostream& ost, const vec3_t& v)
+
+/*std::ostream& operator<<(std::ostream& ost, const vec3_t& v)
 {
     ost << "(" << v.x << ", " << v.y << ", " << v.z << ")";
     return ost;
@@ -86,73 +90,49 @@ std::ostream& operator<<(std::ostream& ost, const quat_t& q)
     }catch(...){}
     ost << "(" << axis << ", " << degrees(q.angle()) << ")";
     return ost;
-}
+}*/
 
-std::ostream& operator<<(std::ostream& ost, const Rage::Transform& t)
+/*std::ostream& operator<<(std::ostream& ost, const Rage::Transform& t)
 {
     ost << "posit: " << t.position << std::endl <<
            "rotat: " << t.rotation << std::endl <<
            "scale: " << t.scaling << std::endl;
     return ost;
-}
-*/
+}*/
+
+
+
+/*void test()
+{
+    vec3_t p1(-1, 1, 0), v1(0,1,0);
+    vec3_t p2(-1, 2, 0);
+    vec3_t p3(2, 1, 0);
+    line_t l(p1, v1);
+    float d = distance(l, p2);
+    std::cout << "dist == " << d << std::endl;
+    std::cout << cross(p1, p1) << std::endl;
+}*/
 
 
 int main(int /*argc*/, char** /*argv*/)
 {
     std::locale::global(std::locale(""));
     
+    /*test();
+    return 0;*/
+    
     log(Log::Information) << "Hello, Log!" << std::endl;
     
-    log(Log::Information) << "Reading config" << std::endl;
+    Rage::Engine engine;
+    engine.setConfigFile(config_filename);
+    engine.readSettings();
+    engine.initVideo("Rage is Another Game Engine");
     
-    const std::string config_filename = "config.cfg";
-    Config config;
-    
-    try{
-        config.read(config_filename);
-    }catch(ParseException& pe_){
-        log(Log::Error) << "Error: " << pe_.what()
-                        << "; line: " << pe_.position().line()
-                        << " col: " << pe_.position().col()
-                        << std::endl;
-    }
-    
-    int width = config.value<int>("video.width", 800);//1440;
-    int height = config.value<int>("video.height", 600);//900;
-    int freq = config.value<int>("video.freq", 60);
-    bool fullscreen = config.value<int>("video.fullscreen", 0);
-    
-    if(fullscreen){
-        log(Log::Information) << "Setting video mode" << std::endl;
-        if(!Display::setMode(Display::Mode(width, height, freq))){
-            log(Log::Warning) << "Error set video mode - continues in windowed mode" << std::endl;
-            fullscreen = false;
-        }
-    }
-    
+    w = engine.window();
     WindowedApp wapp;
     
-    PixelAttribs pa;
-    pa.alphaSize = 8;
-    pa.blueSize = 8;
-    pa.depthSize = 24;
-    pa.doubleBuffer = true;
-    pa.greenSize = 8;
-    pa.redSize = 8;
-    pa.sampleBuffers = 0;
-    pa.samples = 0;
-    pa.stencilSize = 0;
-    
-    log(Log::Information) << "Creating a window" << std::endl;
-    w = Window::create("GL Window", 0, 0, width, height, fullscreen, pa);
-    if(w == nullptr){
-        log(Log::Error) << "Error creating window" << std::endl;
-        return 1;
-    }
-    
     log(Log::Information) << "Creating a OpenGL context" << std::endl;
-    if(cxt.create(w, GLContext::Version(4, 2)) == false){
+    if(cxt.create(w, GLContext::Version(4, 3)) == false){
         log(Log::Error) << "Error creating context" << std::endl;
         Window::destroy(w);
         return 1;
@@ -197,9 +177,9 @@ int main(int /*argc*/, char** /*argv*/)
             log(Log::Information) << "Mesh3D reader registered" << std::endl;
         }
         {
-            texture2d_ptr ptex1 = resources.get<GL::Texture2D>("/tmp/wall.tga");
-            texture2d_ptr ptex2 = resources.get<GL::Texture2D>("/tmp/wall.tga");
-            mesh_ptr pmesh = resources.get<Rage::Mesh>("/tmp/cube.msh3d");
+            texture2d_ptr ptex1 = resources.get<GL::Texture2D>("/tmp/res/textures/wall.tga");
+            texture2d_ptr ptex2 = resources.get<GL::Texture2D>("/tmp/res/textures/wall.tga");
+            mesh_ptr pmesh = resources.get<Rage::Mesh>("/tmp/res/models/cube.msh3d");
             std::cout << "pmesh refs count: " << pmesh.use_count() << std::endl;
             
             texture_ptr ptex = std::static_pointer_cast<GL::Texture>(ptex2);
@@ -244,11 +224,8 @@ int main(int /*argc*/, char** /*argv*/)
     w->onFocusIn().removeHandler(&wapp);
     w->onFocusOut().removeHandler(&wapp);
     
-    Window::destroy(w);
-    
-    Display::restoreMode();
-    
-    config.write(config_filename);
+    engine.destroyVideo();
+    engine.writeSettings();
     
     return (EXIT_SUCCESS);
 }

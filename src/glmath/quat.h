@@ -21,6 +21,7 @@ template <class T>
 class quat{
 public:
 
+    typedef T component_type;
     static const size_t components_count = 4;
 
     quat();
