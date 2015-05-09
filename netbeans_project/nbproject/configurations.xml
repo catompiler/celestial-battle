@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="84">
+<configurationDescriptor version="90">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -36,6 +36,7 @@
         <itemPath>../src/display/display.h</itemPath>
       </logicalFolder>
       <logicalFolder name="engine" displayName="engine" projectFiles="true">
+        <itemPath>../src/engine/engine.cpp</itemPath>
         <itemPath>../src/engine/engine.h</itemPath>
       </logicalFolder>
       <logicalFolder name="event" displayName="event" projectFiles="true">
@@ -69,6 +70,7 @@
       <logicalFolder name="glmath" displayName="glmath" projectFiles="true">
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/functions.h</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/glmath.h</itemPath>
+        <itemPath>../src/glmath/line.h</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/mat2.h</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/mat3.h</itemPath>
         <itemPath>/home/artem/devel/opengl/celestial-battle/src/glmath/mat4.h</itemPath>
@@ -262,6 +264,8 @@
         <itemPath>../src/window/windowslist.h</itemPath>
       </logicalFolder>
       <itemPath>/home/artem/devel/opengl/celestial-battle/src/main.cpp</itemPath>
+      <itemPath>../src/settings/settings.cpp</itemPath>
+      <itemPath>../src/settings/settings.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -276,8 +280,9 @@
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
@@ -295,11 +300,426 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="../src/component/component.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/component/component.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/component/componentfactory.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/component/componentfactory.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/component/locatedcomponent.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/component/locatedcomponent.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/config/config.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/config/config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/config/configexception.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/config/configexception.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/delegate/delegate.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/display/display.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/display/display.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/engine/engine.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/engine/engine.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/event/event.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/exception/badindexexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badindexexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badtypeexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badtypeexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/notfoundexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/notfoundexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glbuffer/glbuffer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glbuffer/glbuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glframebuffer/glframebuffer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/glframebuffer/glframebuffer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glmath/line.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glpatch/glpatch.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glpatch/glpatch.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glprogram/glprogram.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glprogram/glprogram.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glrenderbuffer/glrenderbuffer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/glrenderbuffer/glrenderbuffer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glresource/glresource.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glresource/glresource.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glsampler/glsampler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glsampler/glsampler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glshader/glshader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glshader/glshader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/gltexture/gltexture.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/gltexture/gltexture.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/iconv/iconv.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/iconv/iconv.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/input.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/input/input.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/keys.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/mouse_buttons.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/log/log.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/log/log.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/material/material.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/material/material.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/mesh/mesh.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/mesh/mesh.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/mutex/mutex.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/mutex/mutex.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/object/object.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/object/object.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/opengl/functions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/opengl/functions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/opengl/opengl.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/opengl/opengl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/osal/osal.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/osal/osal.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/osal/osdef.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/mesh3dreader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/mesh3dreader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/shaderreader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/shaderreader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/tgareader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/tgareader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/render/render.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/render/render.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/reader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/resources/reader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resource_ptr.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resources.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/resources/resources.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resptrs_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/scene/scene.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/scene/scene.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/settings/settings.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/settings/settings.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/string/utf8char.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/string/utf8char.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tga/texture.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tga/texture.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tga/tga.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tga/tga.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/thread/thread.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/thread/thread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/gettime.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/gettime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/nanosleep.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/nanosleep.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/settimer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/settimer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/timer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tlvariant/tlvariant.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/parseexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/tokenizer/parseexception.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/token.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/token.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenizer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenizer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparser.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparser.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparsers.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparsers.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenposition.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenposition.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokens.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokens.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenssequence.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenssequence.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/transform/transform.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/transform/transform.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/transformstree/transformstree.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/transformstree/transformstree.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/tree/tree_iterator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tree/tree_node.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/typelist/typelist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/utils/utils.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/utils/utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/utils/utils_tmpl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/vfs/fsentrypoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/vfs/fsentrypoint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/vfs/localfsentrypoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/vfs/localfsentrypoint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/pixelattribs.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/window.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window_events.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/window_events.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/windowslist.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/windowslist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/exception/exception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/functions.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/glmath.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat2.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat3.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat4.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/plane.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/quat.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec2.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec3.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec4.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/global/constants.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/main.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <cTool>
@@ -323,11 +743,426 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="../src/component/component.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/component/component.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/component/componentfactory.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/component/componentfactory.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/component/locatedcomponent.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/component/locatedcomponent.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/config/config.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/config/config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/config/configexception.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/config/configexception.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/delegate/delegate.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/display/display.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/display/display.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/engine/engine.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/engine/engine.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/event/event.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/exception/badindexexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badindexexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badtypeexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badtypeexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/notfoundexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/notfoundexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glbuffer/glbuffer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glbuffer/glbuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glframebuffer/glframebuffer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/glframebuffer/glframebuffer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glmath/line.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glpatch/glpatch.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glpatch/glpatch.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glprogram/glprogram.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glprogram/glprogram.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glrenderbuffer/glrenderbuffer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/glrenderbuffer/glrenderbuffer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glresource/glresource.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glresource/glresource.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glsampler/glsampler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glsampler/glsampler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glshader/glshader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glshader/glshader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/gltexture/gltexture.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/gltexture/gltexture.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/iconv/iconv.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/iconv/iconv.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/input.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/input/input.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/keys.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/mouse_buttons.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/log/log.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/log/log.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/material/material.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/material/material.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/mesh/mesh.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/mesh/mesh.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/mutex/mutex.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/mutex/mutex.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/object/object.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/object/object.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/opengl/functions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/opengl/functions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/opengl/opengl.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/opengl/opengl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/osal/osal.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/osal/osal.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/osal/osdef.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/mesh3dreader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/mesh3dreader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/shaderreader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/shaderreader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/tgareader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/tgareader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/render/render.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/render/render.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/reader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/resources/reader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resource_ptr.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resources.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/resources/resources.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resptrs_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/scene/scene.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/scene/scene.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/settings/settings.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/settings/settings.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/string/utf8char.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/string/utf8char.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tga/texture.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tga/texture.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tga/tga.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tga/tga.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/thread/thread.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/thread/thread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/gettime.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/gettime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/nanosleep.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/nanosleep.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/settimer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/settimer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/timer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tlvariant/tlvariant.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/parseexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/tokenizer/parseexception.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/token.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/token.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenizer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenizer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparser.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparser.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparsers.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparsers.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenposition.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenposition.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokens.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokens.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenssequence.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenssequence.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/transform/transform.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/transform/transform.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/transformstree/transformstree.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/transformstree/transformstree.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/tree/tree_iterator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tree/tree_node.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/typelist/typelist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/utils/utils.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/utils/utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/utils/utils_tmpl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/vfs/fsentrypoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/vfs/fsentrypoint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/vfs/localfsentrypoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/vfs/localfsentrypoint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/pixelattribs.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/window.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window_events.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/window_events.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/windowslist.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/windowslist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/exception/exception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/functions.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/glmath.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat2.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat3.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat4.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/plane.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/quat.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec2.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec3.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec4.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/global/constants.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/main.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
     </conf>
     <conf name="Debug_cross" type="1">
       <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>GNU_cross|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
@@ -344,11 +1179,426 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="../src/component/component.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/component/component.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/component/componentfactory.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/component/componentfactory.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/component/locatedcomponent.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/component/locatedcomponent.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/config/config.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/config/config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/config/configexception.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/config/configexception.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/delegate/delegate.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/display/display.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/display/display.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/engine/engine.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/engine/engine.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/event/event.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/exception/badindexexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badindexexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badtypeexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badtypeexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/notfoundexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/notfoundexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glbuffer/glbuffer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glbuffer/glbuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glframebuffer/glframebuffer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/glframebuffer/glframebuffer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glmath/line.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glpatch/glpatch.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glpatch/glpatch.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glprogram/glprogram.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glprogram/glprogram.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glrenderbuffer/glrenderbuffer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/glrenderbuffer/glrenderbuffer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glresource/glresource.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glresource/glresource.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glsampler/glsampler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glsampler/glsampler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glshader/glshader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glshader/glshader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/gltexture/gltexture.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/gltexture/gltexture.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/iconv/iconv.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/iconv/iconv.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/input.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/input/input.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/keys.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/mouse_buttons.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/log/log.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/log/log.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/material/material.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/material/material.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/mesh/mesh.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/mesh/mesh.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/mutex/mutex.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/mutex/mutex.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/object/object.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/object/object.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/opengl/functions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/opengl/functions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/opengl/opengl.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/opengl/opengl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/osal/osal.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/osal/osal.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/osal/osdef.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/mesh3dreader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/mesh3dreader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/shaderreader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/shaderreader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/tgareader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/tgareader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/render/render.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/render/render.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/reader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/resources/reader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resource_ptr.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resources.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/resources/resources.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resptrs_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/scene/scene.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/scene/scene.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/settings/settings.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/settings/settings.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/string/utf8char.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/string/utf8char.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tga/texture.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tga/texture.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tga/tga.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tga/tga.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/thread/thread.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/thread/thread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/gettime.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/gettime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/nanosleep.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/nanosleep.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/settimer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/settimer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/timer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tlvariant/tlvariant.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/parseexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/tokenizer/parseexception.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/token.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/token.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenizer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenizer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparser.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparser.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparsers.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparsers.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenposition.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenposition.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokens.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokens.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenssequence.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenssequence.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/transform/transform.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/transform/transform.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/transformstree/transformstree.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/transformstree/transformstree.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/tree/tree_iterator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tree/tree_node.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/typelist/typelist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/utils/utils.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/utils/utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/utils/utils_tmpl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/vfs/fsentrypoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/vfs/fsentrypoint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/vfs/localfsentrypoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/vfs/localfsentrypoint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/pixelattribs.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/window.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window_events.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/window_events.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/windowslist.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/windowslist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/exception/exception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/functions.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/glmath.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat2.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat3.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat4.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/plane.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/quat.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec2.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec3.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec4.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/global/constants.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/main.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
     </conf>
     <conf name="Release_cross" type="1">
       <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <cTool>
@@ -371,6 +1621,420 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="../src/component/component.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/component/component.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/component/componentfactory.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/component/componentfactory.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/component/locatedcomponent.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/component/locatedcomponent.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/config/config.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/config/config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/config/configexception.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/config/configexception.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/delegate/delegate.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/display/display.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/display/display.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/engine/engine.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/engine/engine.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/event/event.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/exception/badindexexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badindexexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badtypeexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/badtypeexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/notfoundexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/exception/notfoundexception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glbuffer/glbuffer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glbuffer/glbuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glcontext/glcontext_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glframebuffer/glframebuffer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/glframebuffer/glframebuffer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glmath/line.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glpatch/glpatch.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glpatch/glpatch.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glprogram/glprogram.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glprogram/glprogram.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glrenderbuffer/glrenderbuffer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/glrenderbuffer/glrenderbuffer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/glresource/glresource.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glresource/glresource.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glsampler/glsampler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glsampler/glsampler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/glshader/glshader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/glshader/glshader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/gltexture/gltexture.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/gltexture/gltexture.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/iconv/iconv.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/iconv/iconv.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/input.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/input/input.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/keys.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/input/mouse_buttons.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/log/log.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/log/log.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/material/material.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/material/material.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/mesh/mesh.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/mesh/mesh.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/mutex/mutex.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/mutex/mutex.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/object/object.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/object/object.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/opengl/functions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/opengl/functions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/opengl/opengl.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/opengl/opengl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/osal/osal.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/osal/osal.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/osal/osdef.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/mesh3dreader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/mesh3dreader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/shaderreader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/shaderreader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/readers/tgareader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/readers/tgareader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/render/render.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/render/render.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/reader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/resources/reader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resource_ptr.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resources.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/resources/resources.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/resources/resptrs_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/scene/scene.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/scene/scene.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/settings/settings.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/settings/settings.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/string/utf8char.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/string/utf8char.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tga/texture.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tga/texture.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tga/tga.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tga/tga.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/thread/thread.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/thread/thread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/gettime.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/gettime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/nanosleep.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/nanosleep.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/settimer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/settimer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timer/timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/timer/timer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tlvariant/tlvariant.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/parseexception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/tokenizer/parseexception.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/token.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/token.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenizer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenizer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparser.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparser.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparsers.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenparsers.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenposition.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenposition.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokens.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokens.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenssequence.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/tokenizer/tokenssequence.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/transform/transform.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/transform/transform.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/transformstree/transformstree.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/transformstree/transformstree.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/tree/tree_iterator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/tree/tree_node.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/typelist/typelist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/utils/utils.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/utils/utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/utils/utils_tmpl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/vfs/fsentrypoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/vfs/fsentrypoint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/vfs/localfsentrypoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/vfs/localfsentrypoint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/pixelattribs.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/window.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window_events.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/window_events.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/window_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/window/windowslist.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/window/windowslist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/exception/exception.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/exception/exception.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/functions.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/glmath.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat2.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat3.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/mat4.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/plane.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/quat.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec2.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec3.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/glmath/vec4.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/global/constants.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/main.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/artem/devel/opengl/celestial-battle/src/vfs/vfs.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

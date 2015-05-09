@@ -12,6 +12,7 @@ template <class T>
 class plane{
 public:
 
+    typedef T component_type;
     static const size_t components_count = 4;
 
     plane();

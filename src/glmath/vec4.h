@@ -14,6 +14,7 @@ template <class T>
 class vec4{
 public:
 
+    typedef T component_type;
     static const size_t components_count = 4;
 
     vec4();

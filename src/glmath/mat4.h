@@ -15,6 +15,7 @@ template <class T>
 class mat4{
 public:
     
+    typedef T component_type;
     static const size_t components_count = 16;
     static const size_t columns_count = 4;
     static const size_t rows_count = 4;

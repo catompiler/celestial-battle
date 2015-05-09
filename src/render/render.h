@@ -9,6 +9,10 @@
 #include <string>
 
 
+class Window;
+class GLContext;
+
+
 ENGINE_NAMESPACE_BEGIN
 
 
@@ -36,9 +40,10 @@ class Render
         :public LocatedComponentFactoryTmpl<Graphics, Render>
 {
 public:
-    Render();
+    Render(Engine* engine_);
     ~Render();
 private:
+    Engine* _engine;
 };
 
 

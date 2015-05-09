@@ -66,10 +66,17 @@ public:
     textures_iterator texturesEnd();
     textures_const_iterator texturesBegin() const;
     textures_const_iterator texturesEnd() const;
-
+    
+    bool hasProgram() const;
+    program_ptr program();
+    const program_ptr program() const;
+    void setProgram(program_ptr program_);
+    
 private:
     ParametersList _parameters;
     TexturesList _textures;
+    
+    program_ptr _program;
 };
 
 

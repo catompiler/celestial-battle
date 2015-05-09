@@ -1,4 +1,10 @@
 #include "render.h"
+#include "log/log.h"
+#include "settings/settings.h"
+#include "window/window.h"
+#include "glcontext/glcontext.h"
+
+
 
 ENGINE_NAMESPACE_BEGIN
 
@@ -15,9 +21,10 @@ Graphics::~Graphics()
 }
 
 
-Render::Render()
+Render::Render(Engine* engine_)
         :LocatedComponentFactoryTmpl<Graphics, Render>()
 {
+    _engine = engine_;
 }
 
 Render::~Render()

@@ -135,6 +135,26 @@ Material::textures_const_iterator Material::texturesEnd() const
     return _textures.end();
 }
 
+bool Material::hasProgram() const
+{
+    return _program != nullptr;
+}
+
+program_ptr Material::program()
+{
+    return _program;
+}
+
+const program_ptr Material::program() const
+{
+    return _program;
+}
+
+void Material::setProgram(program_ptr program_)
+{
+    _program = program_;
+}
+
 
 ENGINE_NAMESPACE_END
 

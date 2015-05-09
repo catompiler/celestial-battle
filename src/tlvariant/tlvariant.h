@@ -19,7 +19,7 @@ public:
     typedef TypeList typelist;
     
     TLVariant();
-    template <class T> TLVariant(const T& v_) throw(BadTypeException&);;
+    template <class T> TLVariant(const T& v_) throw(BadTypeException&);
     TLVariant(const TLVariant<TypeList>& v_);
     ~TLVariant();
     
